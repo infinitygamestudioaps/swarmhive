@@ -473,6 +473,7 @@
         if (L.length > 1) { const i = await uiChoice({ title: 'Which teleport?', body: 'Several gatekeeper destinations land on this square:', buttons: L.map((l, k) => ({ label: `${k + 1}) ${l.desc}`, value: k })) }); if (!(i >= 0 && i < L.length)) return; best = { kind: 'gk', desc: L[i].desc }; }
       }
       snap(); M.travel = best; touch();
+      try { if (!$s('spedPanel').hidden) panel(); } catch (er) { }   // STARTSYNC-2026-10-28 (Vykaax: the ☰ "Start" box kept showing "none" after the ⚑ Start tool)
       toast('Start: ' + (best.kind === 'town' ? '.' + best.town.toLowerCase() : best.desc) + ' — now draw the waypoints');
       if (!M.waypoints.length) setTool('way');
       return;

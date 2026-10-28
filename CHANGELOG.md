@@ -2,6 +2,15 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.5 (2026-10-28)
+
+- Attack Aura (and other self-buffs) no longer spammed: a stronger buff of its kind (Greater Might, a buffer's Might) counts as on, and a buff cast twice without landing is left alone for 20 min (thanks Raltru, Dialis)
+- A resting character is never stood up to cast a self-buff (the sit / Attack Aura / sit loop)
+- Moving a character to another party is picked up at once by every running bot: it takes its new leader and leaves the old party, the old leader lets it go and stops inviting it (thanks Vykaax)
+- Town jobs: a member walking to any NPC in town (warehouse, quest NPC, gear-up, Pushkin ...) is no longer pulled back to a leader standing still - like selling and buying already were (thanks Raltru)
+- Spot editor: the Start box shows the start picked with the Start tool (it was saved, the panel just was not redrawn) (thanks Vykaax)
+- Every dashboard page now has a written requirement spec (docs/requirements/pages.md), checked before every deploy
+
 ## v1.12.4 (2026-10-28)
 
 - L2Swarm stays closed when you close it: MemWatch only restarts it after a real crash or a PC restart (before: every close was restarted within 2 min by a hidden task)

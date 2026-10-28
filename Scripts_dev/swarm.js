@@ -4364,7 +4364,7 @@ function myWeaponId() { try { const w = (myGear().eq.weapon || [])[0]; return w 
 //    target, HP / MP, monsters, big targets, board buff missing ...)
 //  - never / obsolete rows are never cast by any automatic path (castNow guard); toggles / self buffs / emergency skills from the rows
 //  - no file for my class = the old plan (buildSkillPlan) unchanged
-const CR = { cid: -1, txt: '', d: null, at: 0, mark: {}, last: [], lastId: 0, lastAt: 0, buffAt: {} };
+const CR = { cid: -1, txt: '', d: null, at: 0, mark: {}, last: [], lastId: 0, lastAt: 0, buffAt: {}, noLand: {} };
 const CR_BAND_START = [1, 20, 40, 76];
 const CR_OWNER_NEVER = /^(Defense Aura|Vanguard)$/i;                  // owner rules that beat the guide (Defense Aura 2026-10-02; Vanguard 2026-10-26: "remove Vanguard (811) is bad for Tank1")
 const CR_RANK = { debuff: 1, opener: 2, burst: 3, aoe: 4, 'aoe-self': 4, single: 5 };
@@ -4376,7 +4376,8 @@ function crData() {
   if (txt !== CR.txt) { CR.txt = txt; try { CR.d = txt ? JSON.parse(txt.replace(/^﻿/, '')) : null; } catch (e) { CR.d = null; logError('class rotation file', e); } skillPlan.key = ''; }   // a changed file rebuilds the plan
   return CR.d;
 }
-function crHasBuffNamed(name) { const n = String(name || '').toLowerCase(); let up = false; try { (hostSnap.buffs() || BuffsList).forEach(b => { if (!up && String(b.Name || '').toLowerCase() === n && !b.IsDebuff) up = true; }); } catch (e) { } return up; }
+// NOLAND-2026-10-28 (Raltru: "a new tank, lvl 13 spamming attack aura"): 'Might' also = Greater Might / any buff named ... Might (a stronger one blocks Attack Aura)
+function crHasBuffNamed(name) { const n = String(name || '').toLowerCase(); let up = false; try { (hostSnap.buffs() || BuffsList).forEach(b => { const bn = String(b.Name || '').toLowerCase(); if (!up && !b.IsDebuff && (bn === n || (n.length > 3 && (' ' + bn + ' ').includes(' ' + n + ' ')))) up = true; }); } catch (e) { } return up; }
 /** my weapon as guide weapon codes: Set, or null = no weapon / unknown weapon (then only weapon-free rows) */
 function crWeaponCodes() {
   try {
@@ -4554,16 +4555,22 @@ async function crEmergencyStep() {
 async function crBuffStep(town) {
   const p = skillPlan; if (!p || !p.cr || !p.cr.buffs.length || town) return false;
   const fight = !!(IsAttacking || Me.IsInCombat || now() - lastAttackerOnMe.at < 6000);
+  let sitting = false; try { sitting = !!Me.IsSitting; } catch (e) { }
+  if (sitting && !fight) return false;                                  // NOLAND (Raltru 20:12 "and about sitting all time?"): a resting character is never stood up for a buff (sit -> Attack Aura -> sit ...)
   const x = { T: null, tid: 0, dist: 0, worth: false, fight };
   for (const b of p.cr.buffs) {
     const w = b.when || {};
     if (now() - (CR.buffAt[b.id] || 0) < 60000 && b.a !== 'mp') continue;
-    if (b.a === 'mp' ? now() - (CR.buffAt[b.id] || 0) < 4000 : !BuffLow(b.id, 15)) continue;
+    if (b.a === 'mp' ? now() - (CR.buffAt[b.id] || 0) < 4000 : !BuffLow(b.id, 15)) { if (CR.noLand[b.id]) delete CR.noLand[b.id]; continue; }
+    // NOLAND: cast, 60 s later still not on me (a stronger buff of its kind blocks it) -> after 2 such casts leave it 20 min
+    const nl = b.a === 'mp' ? null : CR.noLand[b.id];
+    if (nl && nl.until > now()) continue;
+    if (nl && nl.cast && CR.buffAt[b.id]) { nl.n = (nl.n || 0) + 1; nl.cast = false; if (nl.n >= 2) { nl.until = now() + 20 * 60000; nl.n = 0; log(`${b.name}: cast twice, never landed (a stronger buff of its kind?) - not again for 20 min`); continue; } }
     const k = SkillsList.GetItemByID(b.id); if (!k || !k.IsReady || num(Me.MP) < num(k.MP)) continue;
     if (!crWhenOk(w, b, x)) continue;
     CR.buffAt[b.id] = now();
     const r = await castNow(b, { cr: 'buff' });
-    if (r && r.started) { crNoteCast(b, b.a + (crWhenText(w) ? ': ' + crWhenText(w) : ''), 0); return true; }
+    if (r && r.started) { if (b.a !== 'mp') { const o = CR.noLand[b.id] || (CR.noLand[b.id] = { n: 0, until: 0 }); o.cast = true; } crNoteCast(b, b.a + (crWhenText(w) ? ': ' + crWhenText(w) : ''), 0); return true; }
   }
   return false;
 }
@@ -6632,7 +6639,12 @@ async function openNpc(npc) {
   { const t0 = now(); while (state.bbsBusy && now() - t0 < 60000) await sleep(500); }   // Community Board i gang: vent
   const had = state.npcBusy;                        // en hel butiks-tur (fx !sell) holder låsen selv
   state.npcBusy = true;
-  try { return await openNpcInner(npc); } finally { if (!had) state.npcBusy = false; }
+  // TOWNERRAND-2026-10-28 (Raltru: "when they have things to do on city, they are trying and trying to move but the swarm makes them going closer
+  // to the leader ... when leader accompany them its ok, but much times leader is not moving in city"): a MEMBER's own walk to a town NPC is an
+  // errand like sell / buy (no follow, no back-to-the-middle / stuck follow / come-here pull) until the dialog is done; 10 min hard end
+  let ownErrand = false;
+  try { if (!isLeader() && !errandNow() && currentTownKey() && Distance(npc) > 300) { errandStart('npc', 600000); ownErrand = true; } } catch (e) { }
+  try { return await openNpcInner(npc); } finally { if (!had) state.npcBusy = false; if (ownErrand) errandEnd('npc'); }
 }
 /** the recorded Giran place ('start' or a route name) whose end is nearest (x, y) */
 function giranPlaceNear(x, y) {
@@ -35969,7 +35981,7 @@ function academyRosterSync() {
   let j = null; try { j = JSON.parse(String(File.ReadAllText(f)).replace(/^﻿/, '')); } catch (e) { return; }
   // TEAMOF-2026-10-22: EVERY account added while the scripts run (dashboard Add accounts), not only the academy pipeline -> roster + its party
   // (compared with the MAIN leader like the start-up read; CONFIG.leader is MY leader by now). Added only, never removed.
-  const main = CONFIG.mainLeader || (j && j.mainLeader) || (SWARM_CFG && SWARM_CFG.mainLeader) || 'Tank1', added = [];
+  const main = CONFIG.mainLeader || (j && j.mainLeader) || (SWARM_CFG && SWARM_CFG.mainLeader) || 'Tank1', added = [], moved = [];
   ((j && j.accounts) || []).forEach(a => {
     if (!a || !a.character || a.enabled === false || !a.role) return;
     const n = String(a.character);
@@ -35978,9 +35990,28 @@ function academyRosterSync() {
       CONFIG.roster[n] = String(a.role); if (a.academy) (CONFIG.academy = CONFIG.academy || {})[n] = true;
       const party = String(a.party || n); if (party !== main) CONFIG.teams[n] = party; else delete CONFIG.teams[n];
       added.push(`${n} (party ${party})`);
+    } else {
+      // PARTYMOVE-2026-10-28 (Vykaax: "while they are grouped as a party in Hive, in-game they are actually still being invited to vCollector's party"):
+      // a character MOVED to another party in swarm.config.json -> every running window takes the new party (before: only new names were read)
+      const party = String(a.party || n), was = CONFIG.teams[n] || main;
+      if (party !== was) { if (party !== main) CONFIG.teams[n] = party; else delete CONFIG.teams[n]; moved.push({ n, was, party }); }
     }
   });
   if (added.length) note(`roster: ${added.length} new character(s) from swarm.config.json — ${added.slice(0, 8).join(', ')}${added.length > 8 ? ' …' : ''}`);
+  if (moved.length) {
+    note(`roster: party changed for ${moved.map(m => `${m.n} (${m.was} -> ${m.party})`).slice(0, 8).join(', ')}`, true);
+    const inP = (x) => { let y = false; try { PartyList.forEach(p => { if (String(p.Name) === x) y = true; }); } catch (e) { } return y; };
+    let iLead = false; try { iLead = !!IsPartyLeader; } catch (e) { }
+    moved.forEach(m => {
+      if (m.n === Me.Name) {                                             // me: my new leader; leave the old party (the new leader invites me)
+        CONFIG.leader = m.party; inviteAt[m.party] = 0;
+        let size = 0; try { size = num(PartyList.Count); } catch (e) { }
+        if (size && !inP(m.party) && !(iLead && m.party === Me.Name)) { try { Send.RequestWithDrawalParty(); } catch (e) { } }
+      } else if (iLead && m.was === Me.Name && inP(m.n)) {               // the old leader: let it go to its new party
+        try { Send.RequestOustPartyMember(m.n); } catch (e) { logError('oust moved', e); }
+      }
+    });
+  }
 }
 setInterval(() => { try { academyRosterSync(); } catch (e) { } }, 60000);
 setTimeout(() => { try { academyRosterSync(); } catch (e) { } }, 5000);
