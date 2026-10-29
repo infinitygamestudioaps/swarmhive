@@ -544,6 +544,10 @@
         <label class="ps-chk"><input type="checkbox" data-pschk="tactics.destroyerDrain"${t.destroyerDrain ? ' checked' : ''}> Destroyers lower their HP for Frenzy / Zealot (they hit each other)</label>
         <div class="ps-what">${t.destroyerDrain ? 'On — before a raid pull (and when Frenzy is ready again) destroyers hit each other down below 30 % HP, then fire Frenzy, Zealot, Guts. Healers wait.' : 'Off — destroyers never hit teammates; they use Frenzy / Zealot only when the fight itself brings their HP low.'}</div>`;
       if (t.destroyerDrain) sum += ' · destroyer drain';
+      // SOLOESC-2026-10-28 (Hero): the solo escape is a choice (default ON)
+      body += `<label class="ps-chk"><input type="checkbox" data-pschk="tactics.soloEscape"${t.soloEscape !== false ? ' checked' : ''}> Solo: escape when a fight goes badly</label>
+        <div class="ps-what">${t.soloEscape !== false ? 'On — a character hunting alone below 50 % HP with 2+ monsters on it (or below 30 % still hit) uses crowd control, runs to a safe spot and goes to town.' : 'Off — a character hunting alone never runs away; it fights on with potions and heals.'}</div>`;
+      if (t.soloEscape === false) sum += ' · solo: no escape';
       // SPOTEMPTY-2026-10-28 (Hero): several chosen areas / rooms -> how long an empty one is kept
       body += `<div class="ps-sub"><b>Several chosen areas</b></div>
         ${sel('tactics.spotEmptySec', Number(t.spotEmptySec) || 0, [[0, 'After 150 s (default)'], [10, 'After 10 s'], [20, 'After 20 s'], [30, 'After 30 s'], [60, 'After 1 min'], [300, 'After 5 min']], 'Go to the next area when nothing is left')}

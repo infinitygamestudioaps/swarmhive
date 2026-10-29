@@ -181,6 +181,16 @@ function ConfigAccounts {
     } } catch { }
     $out
 }
+function ConfigOffNames {
+    # AUTOSTARTOFF-2026-10-29 (Raltru: "autostart is off in all my acc ... when i click dashboard run swarm it logs everything"): the config file
+    # names of swarm.config.json accounts with autoStart false / enabled false (lower case) - never logged in, from ANY list (L2Swarm's own
+    # AutoStart list in settings.xml, start_extra.txt)
+    $out = @()
+    try { foreach ($a in @(SwarmCfgValue $SwarmCfg 'accounts' @())) {
+        if ($a -and $a.config -and ($a.autoStart -eq $false -or $a.enabled -eq $false)) { $out += (Split-Path ([string]$a.config) -Leaf).ToLower() }
+    } } catch { }
+    $out
+}
 function Stop-L2 {
     # Hard stop on purpose: a polite close (CloseMainWindow) pops L2Swarm's "are you sure?" dialog at whoever
     # sits at the PC, and a clean close also re-saves settings.xml from memory (that once overwrote AutoStart).
@@ -229,6 +239,9 @@ function Start-L2 {
         foreach ($e in $extra) { if ($configs -notcontains $e) { $configs = @($configs) + $e } }
     }
     # Settings\start_hold.txt: config file names (one per line, e.g. Mylogin39.xml) that are NOT logged in (2026-10-07: isolating a memory explosion)
+    # AUTOSTARTOFF-2026-10-29: accounts switched off in swarm.config.json stay logged out, whichever list named them
+    $offNames = @(ConfigOffNames)
+    if ($offNames.Count) { $before = $configs.Count; $configs = @($configs | Where-Object { $offNames -notcontains (Split-Path $_ -Leaf).ToLower() }); if ($configs.Count -ne $before) { Log $ctlLog ("start: autoStart off in swarm.config.json - not logging in " + ($before - $configs.Count) + " account(s)") } }
     $holdFile = "$root\Settings\start_hold.txt"
     if (Test-Path $holdFile) {
         $hold = @(Get-Content $holdFile | ForEach-Object { $_.Trim() } | Where-Object { $_ })

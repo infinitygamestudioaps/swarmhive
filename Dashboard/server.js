@@ -3226,6 +3226,8 @@ http.createServer(async (req, res) => {
       // SPOTEMPTY-2026-10-28 (Hero: "if no new target in the current spot within 10 seconds, then change the spot to next in the list"): seconds
       // without a monster before the party moves to its next chosen area / room (0 or missing = the built-in 150 s)
       { const v = get('spotEmptySec'); if (v !== undefined && v !== null && v !== '' && Number(v) > 0) t.spotEmptySec = Math.round(clamp(v, 10, 600, 150)); }
+      // SOLOESC-2026-10-28 (Hero: "can we have escaping as an option?"): a solo character escapes from a fight that goes badly (default ON = the owner's 2026-10-08 rule)
+      if (get('soloEscape') === false) t.soloEscape = false;
       ['maxAdds', 'expRange', 'hpAvgMin', 'noDeathMin', 'cooldownMin', 'helpHp'].forEach(k => { if (cur[k] !== undefined) t[k] = cur[k]; });   // expert fields: file only
       all[party] = t; all._updated = new Date().toISOString();
       fs.writeFileSync(TFILE, JSON.stringify(all, null, 1));

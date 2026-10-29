@@ -6634,7 +6634,28 @@ function intentDone(action, ok, detail) {
 }
 
 /** Punktet foran NPC'en: npcFront distance ud i den retning NPC'en vender (Heading 0..65535), ellers mod os. */
+// NPCFRONT-2026-10-29 (Raltru's L2Swarm log: 235x "Script movement to 80518,148032,-3504 ... cancelled" + "PathFinder ... unsafe endpoint":
+// the spot along Helvetia's facing lies BEHIND her counter, members tried for hours): a spot a player really stands on comes first - the end of
+// the owner's recorded Giran route to this NPC, then the town street graph's checked front of it; the facing direction only when neither knows it
+function npcFrontKnown(npc) {
+  try {
+    const R = giranRoutes().routes || {};
+    for (const k of Object.keys(R)) { const r = R[k], a = r.npcAt, P = r.points || [], e = r.tradeSpot || P[P.length - 1];
+      if (a && e && Math.hypot(num(a[0]) - num(npc.X), num(a[1]) - num(npc.Y)) < 150) return { x: num(e[0]), y: num(e[1]), z: num(e[2] !== undefined ? e[2] : npc.Z) }; }
+  } catch (e) { }
+  try {
+    const t = currentTownKey(), TD = t ? townGraphD(t) : null;
+    if (TD && TD.npcs && TD.floors && TD.floors[0]) {
+      let best = null;
+      Object.keys(TD.npcs).forEach(k => { const m = /@(-?\d+),(-?\d+)$/.exec(k); if (!m) return; const d = Math.hypot(+m[1] - num(npc.X), +m[2] - num(npc.Y));
+        if (d < 150 && (!best || d < best.d)) { const v = TD.floors[0].graph.v[TD.npcs[k]]; if (v) best = { d, x: num(v[1]), y: num(v[2]), z: num(v[3]) }; } });
+      if (best) return { x: best.x, y: best.y, z: best.z };
+    }
+  } catch (e) { }
+  return null;
+}
 function npcFront(npc) {
+  { const k = npcFrontKnown(npc); if (k) return k; }
   const d = CONFIG.nav.npcFrontDist;
   let a = null;
   try { const h = npc.Heading; if (h !== undefined && h !== null && !isNaN(Number(h))) a = Number(h) * 2 * Math.PI / 65536; } catch (e) { }
@@ -8944,6 +8965,7 @@ setInterval(() => {
     note(`alone in a fight: ${ap.why} — escaping`);
   }
     aloneFight.lastAt = now();
+    try { if (soloChar() && partyTactics(CONFIG.leader).soloEscape === false) return; } catch (e) { }   // SOLOESC-2026-10-28: a solo character with "Solo: escape" OFF fights on
     escapeFight('alone in a fight').catch(e => logError('escape fight', e));
   } catch (e) { }
 }, 2000);
@@ -34521,6 +34543,7 @@ setInterval(() => {
 setInterval(() => {
   if (!soloChar() || !IsCharacterReady() || Me.IsDead || currentTownKey() || inRaid() || inst.on || state.escaping || ESC.on || state.gkBusy || tradeState) return;
   if (now() - SOLO.fleeAt < 3000 || now() - lastAttackerOnMe.at > SOLOSAFE.hitMs || Me.HpPercent >= SOLO.fleeBelow) return;
+  try { if (partyTactics(CONFIG.leader).soloEscape === false) return; } catch (e) { }   // SOLOESC-2026-10-28 (Hero): party setting, default ON
   let attackers = 0, near = 0;
   try { escAttackers().forEach(a => { if (a.cc) return; if (a.targetsMe || a.hitMe) attackers++; if (a.dist <= SOLOSAFE.nearR && (a.targetsMe || a.hitMe || (a.aggr > 0 && a.dist <= a.aggr + 150))) near++; }); } catch (e) { }   // SOLONEAR-2026-10-28
   const atk = mobById(lastAttackerOnMe.id);

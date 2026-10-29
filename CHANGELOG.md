@@ -2,6 +2,13 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.7 (2026-10-29)
+
+- Solo characters: new party switch 'Solo: escape when a fight goes badly' (default on
+- untick to keep fighting)
+- Town NPCs: walk to the recorded front of the NPC (Helvetia's counter) instead of behind it
+- Starting from Hive skips accounts with autoStart false or enabled false in swarm.config.json
+
 ## v1.12.6 (2026-10-28)
 
 - Self-buffs that cannot land (Attack Aura under a stronger Might from a buffer / NPC) are no longer recast every ~22 min: after the first block the pause grows 20 min -> 1 h -> 3 h and ends early only when the character loses most of its buffs (death, dispel) or the buff really lands (thanks Raltru)
