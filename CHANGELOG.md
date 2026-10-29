@@ -2,6 +2,16 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.9 (2026-10-29)
+
+- Party card: new 'Gear up' button - hand out spare jewelry between party members, take pieces from the collector (optionally unsealed at Pushkin), put them on, and give the replaced pieces back to the collector if you tick it
+- nothing starts until you press Order it
+- Hunting: 'Until I stop it' in the spot picker now really means no clock (was the 12 h long hunt)
+- Leveling never attacks a raid boss's minions, also at your own chosen spot
+- Cruma 2nd floor: Archon Suscepter's room now warns
+- Overview: tap any tile for the breakdown - who died (when, where, killer), adena per character, every bag's worth and what can be sold (only what is in the bag, not worn gear), loot per item with its shop price, costs
+- New engine: the dashboard only moves logged-in characters to the brain, and the startup message is clearer
+
 ## v1.12.8 (2026-10-29)
 
 - Tested on L2Swarm 3.10.10

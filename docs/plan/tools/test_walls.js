@@ -66,7 +66,8 @@ check(/GeoSight: \(ax, ay, az, bx, by, bz\) =>[^\n]*geopath\.js[^\n]*\.sight\(/.
 
 // ---- D) RAIDKEEP (hunting.md R6): auto-levelling never takes a raid boss's minion or a monster next to a living raid boss --------------
 check(/const RAIDKEEP_R = 3000;/.test(src) && /function huntTarget\([\s\S]{0,3000}const rkBosses = \[\]; if \(!inRaid\(\)\)[\s\S]{0,300}isRaidBossMob\(b\)/.test(src), 'D1 huntTarget knows the living raid bosses around (outside a raid)');
-check(/const rkNear = \(mb\) => rkBosses\.find\(b => [^\n]*b\.mins\.includes\(String\(mb\.Name\)\)/.test(src) && !/rkBosses\.find\([^\n]*\|\|[^\n]*b\.mins/.test(src) && /if \(rb\) \{ if \(!userSpot\) return no\(mb\);/.test(src), 'D2 only the boss\'s own minions are skipped, not every monster near it (owner); a user-chosen spot only warns');
+check(/const rkNear = \(mb\) => rkBosses\.find\(b => [^\n]*b\.mins\.includes\(String\(mb\.Name\)\)/.test(src) && !/rkBosses\.find\([^\n]*\|\|[^\n]*b\.mins/.test(src) && /if \(rb\) \{ if \(userSpot[^\n]*return no\(mb\); \}/.test(src) && /raidTitledOutsideRaid\(m\)\)\);/.test(src) && !/is a minion of the raid boss \$\{rb\.name\}; attacking it anyway/.test(src), 'D2 only the boss\'s own minions are skipped, not every monster near it (owner); NORAIDHUNT-2026-10-29: also at a chosen spot, and a "Raid" title counts');
+check(/const raidTitled = \(m\) => \{[^\n]*\/\\braid\\b\/i\.test/.test(src), 'D3 NORAIDHUNT: a monster titled "Raid" is a raid monster');
 check(/const ignoredMobHard = [^\n]*raidBossOutsideRaid\(m\)/.test(src), 'D3 the raid boss itself is never a target outside its raid');
 
 console.log(fails ? `\n${fails} FAILED` : '\nALL OK');

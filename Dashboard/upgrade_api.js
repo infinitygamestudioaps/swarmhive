@@ -58,7 +58,9 @@ async function planAll(ctx, b) {
     const res = [];
     for (const L of lines) {
       const p = await planLine(ctx, name, L, use, b.overSafeOk);
-      res.push(p.error ? { error: p.error, item: L.item } : { ok: p.ok, item: p.item, steps: p.steps.map(s => s.text), missing: p.missing.map(m => `${m.missing}× ${m.what}`), needs: p.needs,
+      const us = L.unseal && !p.error ? unsealRow(ctx, Number((L.item || {}).id)) : null;   // GEARUPCOL-2026-10-29: the owner ticked "unseal first" -> Pushkin before it goes on
+      if (us) { const wi = p.steps.findIndex(s => /puts it on/.test(s.text || '')); p.steps.splice(wi >= 0 ? wi : p.steps.length, 0, { k: 'unseal', text: `unseal it at Pushkin (${IL.kmb(us.aa)} ${us.pay === 57 ? 'adena' : 'Ancient Adena'})` }); if (us.pay === 57) p.adena = (Number(p.adena) || 0) + us.aa; else (p.warn = p.warn || []).push(`needs ${IL.kmb(us.aa)} Ancient Adena in ${name}'s bag for the S-grade seal`); }
+      res.push(p.error ? { error: p.error, item: L.item } : { unseal: us, ok: p.ok, item: p.item, steps: p.steps.map(s => s.text), missing: p.missing.map(m => `${m.missing}× ${m.what}`), needs: p.needs,
         adena: p.adena, warn: p.warn, overSafe: p.overSafe, saOptions: (p.saOptions || []).map(s => ({ saId: s.saId, sa: s.sa, color: s.color, stage: s.stage })), enchantTo: p.enchantTo, saId: p.saId, chance: p.chance, finalId: p.finalId, offer: p.offer, augment: p.augment || null });
     }
     const C = await IP.charInfo(ctx, name, false);
@@ -104,10 +106,10 @@ async function start(ctx, b) {
       item: { src: r.item.src, id: r.item.id, objId: r.item.objId, enchant: r.item.enchant, name: r.item.name, kind: r.item.kind, grade: r.item.grade, offer: r.offer || null, char: r.item.char || '' },
       enchant: r.enchantTo > r.item.enchant ? { to: r.enchantTo, scroll: IL.scrollFor(r.item.kind || 'armor', r.item.grade, false) } : null,
       sa: r.saId ? fullSa(ctx, r) : null,
-      finalId: r.finalId, wear: true, augment: r.augment || null,
+      finalId: r.finalId, wear: true, augment: r.augment || null, unseal: r.unseal || null,
       needs: (r.needs || []).map(n => ({ id: n.id, what: n.what, need: n.need, from: n.from, buy: n.buy || null, choice: n.choice || '' })) }));
     const solo = when === 'solo' && !isLeaderName(ctx, o.name);
-    const J = { id, doer: o.name, kind: 'upgrade', upgrade: { lines, collector: col && col !== o.name ? col : '' }, item: { name: `${lines.length} upgrade(s)`, id: 0 }, overSafeOk: !!b.overSafeOk,
+    const J = { id, doer: o.name, kind: 'upgrade', upgrade: { lines, collector: col && col !== o.name ? col : '', giveBack: !!b.giveBack && !!col && col !== o.name }, item: { name: `${lines.length} upgrade(s)`, id: 0 }, overSafeOk: !!b.overSafeOk,
       give: null, needs: [], clanLeader: cl, steps: [].concat(...o.lines.map(r => r.steps)), created: isoNow(), by: String(b.by || 'dashboard upgrade').slice(0, 40),
       solo, queued: when === 'town' ? { since: isoNow() } : null };
     fs.writeFileSync(path.join(dir, id + '.json'), JSON.stringify(J, null, 1));
@@ -315,6 +317,11 @@ function preset(ctx, namesRaw, gradeRaw) {
   const shopRows = [].concat(...IP.shops(ctx).shops.map(x => x.rows)).filter(r => !r.cost);
   const cs = rj(path.join(ctx.LOGS, 'clan_state.json'), {}) || {}, clanLeft = {};
   ((cs.warehouse && cs.warehouse.items) || []).forEach(r => { const k = Number(r.id); clanLeft[k] = (clanLeft[k] || 0) + (Number(r.count) || 1); });
+  // PARTYSPARE-2026-10-29 (owner: "hand out better accessories to party members"): spare jewelry in the bags of the characters in THIS order
+  const SPARE = [], SPARE_USED = new Set(), NAMES = new Set(names);
+  try { fs.readdirSync(ctx.LOGS).forEach(f => { const m = /^bag_(.+)\.json$/.exec(f); if (!m || !NAMES.has(m[1])) return; const j = rj(path.join(ctx.LOGS, f), null);
+    if (!j || !Array.isArray(j.items) || Date.now() - (Date.parse(j.at || '') || 0) > 6 * 3600000) return;
+    j.items.filter(r => !r.eq && !r.equipped && !r.q && !r.quest && (Number(r.enchant) || 0) < 10).forEach(r => { const F = IP.facts(ctx, Number(r.id)); if (F && F.kind === 'jewel' && Number(r.objId)) SPARE.push({ char: m[1], id: Number(r.id), objId: Number(r.objId), enchant: Number(r.enchant) || 0, F }); }); }); } catch (e) { }
   const out = [];
   for (const name of names) {
     const ch = all.find(c => c.name === name); if (!ch) { out.push({ name, error: 'unknown character' }); continue; }
@@ -332,8 +339,12 @@ function preset(ctx, namesRaw, gradeRaw) {
       if (slot === 'weapon') { const ww = items.find(x => (x.eq || x.equipped) && IP.facts(ctx, Number(x.id)).kind === 'weapon'); const WF = ww ? IP.facts(ctx, Number(ww.id)) : null;
         if (WF && WF.sa && 'NONE D C B A S S80 S84'.split(' ').indexOf(String(WF.grade)) >= 'NONE D C B A S S80 S84'.split(' ').indexOf(String(F.grade))) { have.push(`weapon: keeps ${WF.name} (Special Ability)`); continue; } }
       for (let k = wornN; k < pairs; k++) {
-      const b = inBag.find(x => ids.includes(Number(x.id)) && !usedBag.has(Number(x.objId)));
-      if (b) { usedBag.add(Number(b.objId)); lines.push(Object.assign({}, base, { id: Number(b.id), src: 'bag', objId: Number(b.objId) || 0, enchant: Number(b.enchant) || 0 })); continue; }
+      const b = inBag.find(x => ids.includes(Number(x.id)) && !usedBag.has(Number(x.objId)) && !SPARE_USED.has(Number(x.objId)));   // PARTYSPARE: not a piece a teammate already got
+      if (b) { usedBag.add(Number(b.objId)); SPARE_USED.add(Number(b.objId)); lines.push(Object.assign({}, base, { id: Number(b.id), src: 'bag', objId: Number(b.objId) || 0, enchant: Number(b.enchant) || 0 })); continue; }
+      // PARTYSPARE-2026-10-29: a better neck / earring / ring of this grade from a bag in this order (own bag first, then the best one) beats buying the plan piece
+      const wornMd = items.filter(x => (x.eq || x.equipped) && !ids.includes(Number(x.id)) && (IP.facts(ctx, Number(x.id)) || {}).slot === slot).map(x => Number(IP.facts(ctx, Number(x.id)).md) || 0).sort((p, q) => p - q)[k - wornN] || 0;
+      const sp = /^(neck|earring|ring)$/.test(slot) && IL.levelOk(grade, ch.level) ? SPARE.filter(s => !SPARE_USED.has(s.objId) && s.F.slot === slot && s.F.grade === grade && (Number(s.F.md) || 0) > wornMd).sort((p, q) => ((q.char === name) - (p.char === name)) || ((Number(q.F.md) || 0) - (Number(p.F.md) || 0)))[0] : null;
+      if (sp) { SPARE_USED.add(sp.objId); if (sp.char === name) usedBag.add(sp.objId); lines.push(Object.assign({}, base, { id: sp.id, name: sp.F.name, icon: sp.F.icon, grade: sp.F.grade, src: sp.char === name ? 'bag' : 'char', char: sp.char === name ? '' : sp.char, objId: sp.objId, enchant: sp.enchant })); continue; }
       const cid = ids.find(i => (clanLeft[i] || 0) > 0);
       if (cid) { clanLeft[cid]--; lines.push(Object.assign({}, base, { id: cid, src: 'clan', enchant: 0 })); continue; }
       const sr = shopRows.find(x => ids.includes(Number(x.id)) && !x.common);
@@ -429,6 +440,36 @@ async function slotCands(ctx, name, slot) {
   }).sort((a, b) => (b.typeOk - a.typeOk) || (b.levelOk - a.levelOk) || (b.recommended - a.recommended) || ((GRADE_RANK[b.grade] || 0) - (GRADE_RANK[a.grade] || 0)) || (b.stat - a.stat));
   return { ok: true, name, slot, level: C.level, cls: C.cls, worn: worn.map(r => ({ id: r.id, name: r.name, enchant: r.enchant || 0, stat: statOf(r) })), items: items.slice(0, 80), more: Math.max(0, items.length - 80) };
 }
+// GEARUPCOL-2026-10-29 (owner: "from the party tab ... select what items the group should go get from collector ... unseal to x and equip and give back
+// items to collector that is no longer used"): GET /api/upgrade/collector?names=a,b -> the collector's spare gear (its bag report < 6 h; + the clan
+// warehouse when the collector is the clan leader, it stores there), each piece with what unsealing makes of it, the named members it beats the
+// weakest worn piece of that slot for (level + weapon / armor type fit), `to` = who gains most (greedy, each piece once). Read only; never +10.
+function collectorStock(ctx, namesRaw) {
+  const col = collectorName(ctx); if (!col) return { ok: true, collector: '', rows: [], why: 'no collector is switched on (Storage page -> Collector)' };
+  const fresh = (j) => j && Array.isArray(j.items) && Date.now() - (Date.parse(j.at || '') || 0) <= 6 * 3600000, all = IP.chars(ctx).chars || [];
+  const names = String(namesRaw || '').split(',').filter(n => NAME_RE.test(n) && n !== col).slice(0, MAX_CHARS), rows = [];
+  const add = (src, r) => { const ench = Number(r.enchant) || 0, u = unsealRow(ctx, Number(r.id)), F0 = IP.facts(ctx, Number(r.id)), F = /^(weapon|armor|jewel)$/.test(F0.kind || '') || !u ? F0 : IP.facts(ctx, u.id);
+    if (!/^(weapon|armor|jewel)$/.test(F.kind || '') || ench >= 10) return;   // gear only, never +10
+    for (let k = 0; k < (src === 'clan' ? Math.min(10, Number(r.count) || 1) : 1); k++) rows.push({ src, char: src === 'char' ? col : '', objId: src === 'char' ? Number(r.objId) || 0 : 0, id: Number(r.id), name: F0.name,
+      icon: F.icon, grade: F.grade, slot: F.slot === 'fullarmor' ? 'chest' : F.slot, wtype: F.wtype || '', enchant: ench, stat: statOf(F), unseal: u ? { id: u.id, name: IP.facts(ctx, u.id).name, pay: u.pay, aa: u.aa } : null, gains: [], to: '' }); };
+  const cb = rj(path.join(ctx.LOGS, `bag_${col}.json`), null);
+  if (fresh(cb)) cb.items.filter(r => !r.eq && !r.equipped && !r.q && !r.quest).forEach(r => add('char', r));
+  if (col === IP.clanLeader(ctx)) ((((rj(path.join(ctx.LOGS, 'clan_state.json'), {}) || {}).warehouse) || {}).items || []).forEach(r => add('clan', r));
+  const mem = names.map(n => { const b = rj(path.join(ctx.LOGS, `bag_${n}.json`), null), worn = {};
+    if (fresh(b)) b.items.filter(r => r.eq || r.equipped).forEach(r => { const F = IP.facts(ctx, Number(r.id)), s = F.slot === 'fullarmor' ? 'chest' : F.slot; (worn[s] = worn[s] || []).push({ stat: statOf(F), wtype: F.wtype || '' }); });
+    return { name: n, level: (all.find(c => c.name === n) || {}).level, worn }; });
+  const low = (m, s) => { const L = (m.worn[s] || []).slice().sort((a, b) => a.stat - b.stat); return (/^(earring|ring)$/.test(s) && L.length < 2) || !L.length ? null : L[0]; };
+  rows.sort((a, b) => b.stat - a.stat);
+  for (const r of rows) {
+    r.gains = mem.map(m => { const w = low(m, r.slot); return { name: m.name, gain: r.stat - (w ? w.stat : 0), ok: IL.levelOk(r.grade, m.level) && (!r.wtype || !w || !w.wtype || w.wtype === r.wtype) }; })
+      .filter(g => g.ok && g.gain > 0).map(g => ({ name: g.name, gain: g.gain })).sort((a, b) => b.gain - a.gain);
+    if (!r.gains.length) continue;
+    const m = mem.find(x => x.name === r.gains[0].name), w = low(m, r.slot), L = m.worn[r.slot] = m.worn[r.slot] || [];
+    r.to = m.name; if (w) L.splice(L.indexOf(w), 1); L.push({ stat: r.stat, wtype: r.wtype });   // the next piece sees this one as worn
+  }
+  const use = rows.filter(r => r.gains.length);
+  return { ok: true, collector: col, at: (cb && cb.at) || null, rows: use.slice(0, 60), more: Math.max(0, use.length - 60), idle: rows.length - use.length };
+}
 function status(ctx, ids) {
   return { ok: true, jobs: String(ids || '').split(',').filter(x => /^ij_[a-z0-9_]+$/i.test(x)).slice(0, 40).map(id => {
     const J = rj(path.join(ctx.LOGS, 'itemjobs', id + '.json'), null), st = rj(path.join(ctx.LOGS, 'itemjobs', id + '_status.json'), null) || {};
@@ -453,6 +494,7 @@ async function handle(req, res, url, ctx) {
     if (sub === 'unseal') { out(await unsealList(ctx, String(url.searchParams.get('name') || ''))); return true; }   // UNSEALPICK: the sealed pieces
     if (sub === 'unseal/plan' && req.method === 'POST') { out(await unsealPlan(ctx, b)); return true; }   // UNSEALPICK
     if (sub === 'unseal/start' && req.method === 'POST') { out(await unsealStart(ctx, b)); return true; }
+    if (sub === 'collector') { out(collectorStock(ctx, url.searchParams.get('names'))); return true; }   // GEARUPCOL-2026-10-29
     if (sub === 'preset') { out(preset(ctx, url.searchParams.get('names'), url.searchParams.get('grade'))); return true; }   // PRESET
     if (sub === 'doll') { out(await doll(ctx, String(url.searchParams.get('name') || ''))); return true; }   // PAPERDOLL
     if (sub === 'slot') { out(await slotCands(ctx, String(url.searchParams.get('name') || ''), String(url.searchParams.get('slot') || ''))); return true; }
@@ -464,4 +506,4 @@ async function handle(req, res, url, ctx) {
     out({ code: 404, error: 'unknown upgrade API' }); return true;
   } catch (e) { out({ code: 500, error: e.message }); return true; }
 }
-module.exports = { unsealList, unsealPlan, unsealStart, unsealRow, catalog, handle, planAll, start, status, collectorName, makePlan, makeStart, preset, doll, slotCands, sendNow, dispatchTick, dispatchStart, jobsFor, recommend, inGiran };
+module.exports = { collectorStock, unsealList, unsealPlan, unsealStart, unsealRow, catalog, handle, planAll, start, status, collectorName, makePlan, makeStart, preset, doll, slotCands, sendNow, dispatchTick, dispatchStart, jobsFor, recommend, inGiran };

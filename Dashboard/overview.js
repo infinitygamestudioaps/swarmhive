@@ -117,6 +117,51 @@
 @keyframes ovFlow { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 @keyframes ovConf { from { opacity: 1; transform: translate(0,0) rotate(0); } to { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(540deg); } }
 @media (prefers-reduced-motion: reduce) { .ovp *, .ovp *::after { animation: none !important; transition: none !important; } }
+.ov-k[data-ovk] { cursor: pointer; -webkit-tap-highlight-color: transparent; } .ov-k[data-ovk]:hover { border-color: var(--line2); }
+.ov-k[data-ovk]:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; } .ov-k[data-ovk]:active { transform: scale(.98); }
+.ov-k .more { position: absolute; right: 8px; top: 6px; color: var(--muted); font-size: 18px; line-height: 1; } .ov-k[data-ovk] .l { padding-right: 14px; }
+/* OVDRILL-2026-10-29: the detail sheet behind a tile (bottom sheet on a phone, centred card on a desktop) */
+.ovs-bg { position: fixed; inset: 0; z-index: 9000; background: rgba(0,0,0,.62); display: flex; align-items: flex-end; justify-content: center; }
+.ovs { background: linear-gradient(var(--box), var(--box)), #0c1214; width: min(680px, 100%); max-height: 90vh; max-height: 90dvh; display: flex; flex-direction: column; border: 1px solid var(--line2);
+  border-radius: 16px 16px 0 0; box-shadow: 0 -8px 30px rgba(0,0,0,.5); animation: ovsUp .22s ease-out; padding-bottom: env(safe-area-inset-bottom); min-width: 0; }
+@media (min-width: 761px) { .ovs-bg { align-items: center; padding: 16px; } .ovs { border-radius: 16px; max-height: 84vh; } }
+.ovs-h { display: flex; gap: 8px; align-items: center; padding: 10px 12px 6px; }
+.ovs-h h2 { margin: 0; font-size: var(--fs-section); color: var(--gold); flex: 1; min-width: 0; display: flex; gap: 6px; align-items: center; }
+.ovs-x { min-width: 44px; min-height: 44px; background: none; border: 1px solid var(--line2); border-radius: 10px; color: var(--ink); font-size: 20px; cursor: pointer; }
+.ovs-x:focus-visible, .ovs .ov-seg button:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.ovs-sub { padding: 0 12px 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; color: var(--muted); font-size: var(--fs-cap); }
+.ovs-b { overflow-y: auto; overflow-x: hidden; padding: 0 12px 14px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.ovs-tot { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; background: rgba(227,194,122,.1); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin: 4px 0 8px; }
+.ovs-tot b { font-size: 20px; color: var(--gold); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ovs-src { color: var(--muted); font-size: var(--fs-mini); margin: 0 0 8px; }
+.ovs b.bad, .ovs .bad { color: var(--bad); } .ovs .good { color: var(--ok); }
+.ovs h3 { margin: 12px 0 4px; font-size: var(--fs-cap); color: var(--gold); font-weight: bold; }
+.ovs-l { list-style: none; margin: 0; padding: 0; }
+.ovs-r { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 8px; align-items: center; padding: 6px 2px; border-bottom: 1px solid rgba(255,255,255,.05); }
+.ovs-r .ic { width: 28px; height: 28px; border-radius: 6px; } .ovs-r .ic.none { visibility: hidden; }
+.ovs-r .m { min-width: 0; } .ovs-r .n { font-size: var(--fs-cap); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.ovs-r .n a { color: inherit; text-decoration: none; } .ovs-r .n a:hover { text-decoration: underline; }
+.ovs-r .d { font-size: var(--fs-mini); color: var(--muted); overflow-wrap: anywhere; }
+.ovs-r .v { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-size: var(--fs-cap); } .ovs-r .v small { display: block; color: var(--muted); font-size: var(--fs-mini); }
+.ovs-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 6px; } .ovs-chips span { border: 1px solid var(--line2); border-radius: 999px; padding: 2px 9px; font-size: var(--fs-cap); }
+.ovs-chips span b { color: var(--bad); }
+.ovs-note { color: var(--muted); font-size: var(--fs-mini); margin-top: 10px; }
+/* OVBAG-2026-10-29: tappable character rows -> one bag (value per item, what can be sold) */
+.ovs-li { list-style: none; } .ovs-tap { width: 100%; box-sizing: border-box; min-width: 0; position: relative; overflow: hidden; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.05); color: inherit; font: inherit; text-align: left; cursor: pointer;
+  min-height: 44px; grid-template-columns: auto minmax(0, 1fr) auto auto; -webkit-tap-highlight-color: transparent; }
+.ovs-tap:hover { background: rgba(255,255,255,.04); } .ovs-tap:focus-visible, .ovs-bk:focus-visible, .ovs-cta a:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.ovs-go { color: var(--muted); font-size: 20px; line-height: 1; }
+.ovs .sr { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ovs-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin: 2px 0 8px; }
+.ovs-bk { min-height: 44px; background: none; border: 1px solid var(--line2); border-radius: 10px; color: var(--ink); font: inherit; font-size: var(--fs-cap); padding: 0 12px; cursor: pointer; }
+.ovs .ov-seg button { min-height: 44px; }
+.ovs-tg { display: inline-block; border: 1px solid var(--line2); border-radius: 999px; padding: 0 6px; margin: 2px 4px 0 0; font-size: var(--fs-mini); white-space: nowrap; color: var(--muted); }
+.ovs-tg.sell { color: var(--ok); border-color: currentColor; } .ovs-tg.mk { color: var(--gold); border-color: currentColor; } .ovs-tg.warn { color: var(--bad); }
+.ovs-tot b small { font-size: var(--fs-mini); color: var(--muted); font-weight: normal; }
+.ovs-cta { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin: 0 0 8px; font-size: var(--fs-cap); }
+.ovs-cta a { color: var(--gold); display: inline-block; min-height: 32px; line-height: 32px; }
+@keyframes ovsUp { from { transform: translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ovs { animation: none; } }
 </style>
 <div class="ov-top"><h2>${IC(ICO.party)} Overview <span class="ov-badge" id="ovRec"></span></h2>
   <div style="display:flex;gap:8px;flex-wrap:wrap"><div class="ov-seg" id="ovHours"></div><div class="ov-seg" id="ovView"></div></div></div>
@@ -128,6 +173,7 @@
 <div class="ov-note" id="ovNote"></div>`;
     (document.querySelector('main') || document.body).appendChild(s);
     s.addEventListener('click', onClick);
+    s.addEventListener('keydown', (e) => { const b = e.target.closest && e.target.closest('[data-ovk]'); if (b && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openSheet(b.dataset.ovk); } });   // OVDRILL
     $id('ovQ').addEventListener('input', (e) => { S.q = e.target.value.trim().toLowerCase(); renderBody(); });
     $id('ovSort').addEventListener('change', (e) => { S.sort = e.target.value; S.dir = S.sort === 'name' || S.sort === 'eta' ? 1 : -1; save(); renderBody(); });
     return s;
@@ -145,7 +191,7 @@
     clearInterval(S.poll); S.poll = setInterval(() => { if (S.open && !document.hidden) load(); }, 30000);
     clearInterval(S.tick); S.tick = setInterval(() => { if (S.open && !document.hidden) tickClocks(); }, 1000);
   }
-  function close() { if (!S.open) return; S.open = false; clearInterval(S.poll); clearInterval(S.tick); const s = $id(SEC); if (s) s.hidden = true; }
+  function close() { closeSheet(true); if (!S.open) return; S.open = false; clearInterval(S.poll); clearInterval(S.tick); const s = $id(SEC); if (s) s.hidden = true; }
   async function load() {
     const my = ++S.seq;
     // OVLOCK: exp locks from the Levels page data (/api/circuit members[].lc), refreshed every 5 min; /api/overview chars[].locked wins once the server has it
@@ -204,8 +250,10 @@
       ['online', 'Online', ICO.online, T.online, (v) => Math.round(v) + ' / ' + T.n, T.online === T.n ? 'good' : '', T.dead ? `${T.dead} dead right now` : 'all alive'],
     ];
     const box = $id('ovKpis');
-    if (box.children.length !== K.length) box.innerHTML = K.map(([k], i) => `<div class="ov-k" data-k="${k}" style="animation-delay:${i * 60}ms"><div class="l"></div><div class="v"></div><div class="s"></div></div>`).join('');
-    K.forEach(([k, l, ic, v, fmt, c, s], i) => { const el = box.children[i]; el.className = 'ov-k ' + c; el.querySelector('.l').innerHTML = IC(ic) + h(l); countUp(el.querySelector('.v'), Number(v) || 0, fmt); el.querySelector('.s').textContent = s; });
+    // OVDRILL-2026-10-29: every tile is a button that opens the rows behind it (openSheet)
+    if (box.children.length !== K.length) box.innerHTML = K.map(([k], i) => `<div class="ov-k" data-k="${k}" data-ovk="${k}" role="button" tabindex="0" aria-haspopup="dialog" style="animation-delay:${i * 60}ms"><span class="more" aria-hidden="true">›</span><div class="l"></div><div class="v"></div><div class="s"></div></div>`).join('');
+    K.forEach(([k, l, ic, v, fmt, c, s], i) => { const el = box.children[i]; el.className = 'ov-k ' + c; el.querySelector('.l').innerHTML = IC(ic) + h(l); countUp(el.querySelector('.v'), Number(v) || 0, fmt); el.querySelector('.s').textContent = s;
+      el.setAttribute('aria-label', `${l}: ${fmt(Number(v) || 0)}, ${s}. Show where it comes from`); });
     morph($id('ovSoon'), d.soon.length ? d.soon.map(c => `<div class="ov-chip" data-ovc="${h(c.name)}" title="${h(c.party)}">${cls(c)}<b>${h(c.name)}</b> → ${c.level + 1} <span class="t" data-at="${c.at}"></span></div>`).join('') : '<span class="ov-note">No estimate yet — needs a few minutes of hunting.</span>');
     morph($id('ovUps'), d.ups.length ? d.ups.map(c => `<div class="ov-chip ${d.at - c.at < 15 * 60000 ? 'up' : ''}" data-ovc="${h(c.name)}">${cls(c)}<b>${h(c.name)}</b> reached ${c.level} <span class="t">${ago(c.at)}</span></div>`).join('') : '<span class="ov-note">No level-up in the last 6 hours.</span>');
     // confetti for a level-up that appeared since the last refresh
@@ -294,8 +342,160 @@
         <div class="me">${m.eta && m.eta.status === 'ok' && m.eta.at ? '↑ <span data-at="' + m.eta.at + '"></span>' : m.dead ? 'dead' : !m.online ? 'offline' : m.locked ? 'exp locked ' + m.locked : m.activity === 'raidcircuit' || /raid/.test(m.activity) ? 'raid' : 'no exp now'}${m.pctH ? ' · ' + m.pctH + '%/h' : m.profitH ? ' · ' + sign(m.profitH) + '/h' : ''}</div></div></div>`).join('')}</div>
       <div class="ov-more">${IC(ICO.adena)} ${short(p.adena)} adena · wallet ${sign(p.adenaH)}/h${p.levels > 0 ? ` · <span style="color:var(--gold)">+${p.levels} level${p.levels > 1 ? 's' : ''}</span>` : ''}</div></div>`;
   }
+  // OVDRILL-2026-10-29 (owner: "19 deaths in the last hour. But I don't know who keeps dying I need a report ... click the gold button and SEE what
+  // all of these values comes from in the bags"): a tile opens a sheet with the rows behind it, for Last hour / 24 h; the numbers add up to the
+  // tile (rounding said). deaths / adena / loot / costs come from /api/overview?detail=<kind> (the same build as the tile); profit / exp / online
+  // from the overview payload. Own sheet (UIDialog renders text blocks only): role=dialog aria-modal, Esc / backdrop / ✕ close, focus trap,
+  // focus back to the tile. Read only (GET).
+  const SH = { el: null, kind: '', hours: 1, from: null, seq: 0, bag: '', all: false, bf: 'all' };   // OVBAG: bag = the character whose bag is open, all = "All bags", bf = all | sell
+  const full = (n) => Math.round(Number(n) || 0).toLocaleString('en-US');
+  const hm = (t) => { try { return new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
+  const TITLE = { profitH: ['Profit', ICO.profit], expH: ['Experience', ICO.exp], adena: ['Adena (all bags)', ICO.adena], lootH: ['Loot worth', ICO.loot], costH: ['Costs', ICO.cost], killsH: ['Kills & deaths', ICO.dead], online: ['Online', ICO.online] };
+  const rowIn = (ic, name, sub, val, valSub) => `${ic ? IC(ic, 'ic') : '<span class="ic none"></span>'}<div class="m"><div class="n">${name}</div>${sub ? `<div class="d">${sub}</div>` : ''}</div><div class="v">${val}${valSub ? `<small>${valSub}</small>` : ''}</div>`;
+  const row = (ic, name, sub, val, valSub) => `<li class="ovs-r">${rowIn(ic, name, sub, val, valSub)}</li>`;
+  const rowB = (nm, ic, name, sub, val, valSub) => `<li class="ovs-li"><button type="button" class="ovs-r ovs-tap" data-ovbag="${h(nm)}">${rowIn(ic, name + '<span class="sr">, show the bag</span>', sub, val, valSub)}<span class="ovs-go" aria-hidden="true">›</span></button></li>`;   // OVBAG
+  const who = (n) => `<a href="#/char/${encodeURIComponent(n)}" data-ovsgo="1">${h(n)}</a>`;
+  const tot = (label, v) => `<div class="ovs-tot"><span>${label}</span><b>${v}</b></div>`;
+  function openSheet(kind) {
+    if (!TITLE[kind]) return;
+    closeSheet(true);
+    SH.kind = kind; SH.hours = S.hours; SH.bag = ''; SH.all = false; SH.bf = 'all'; SH.from = document.activeElement && document.activeElement !== document.body ? document.activeElement : document.querySelector(`[data-ovk="${kind}"]`);
+    const bg = document.createElement('div'); bg.className = 'ovs-bg'; bg.id = 'ovSheet';
+    bg.innerHTML = `<div class="ovs" role="dialog" aria-modal="true" aria-labelledby="ovsT"><div class="ovs-h"><h2 id="ovsT"></h2><button type="button" class="ovs-x" data-ovsx="1" aria-label="Close">✕</button></div>
+      <div class="ovs-sub"><div class="ov-seg" id="ovsHours" role="group" aria-label="Time window"></div><span id="ovsAt" aria-live="polite"></span></div><div class="ovs-b" id="ovsBody" tabindex="-1"></div></div>`;
+    document.body.appendChild(bg); SH.el = bg; document.documentElement.style.overflow = 'hidden';
+    bg.addEventListener('click', (e) => {
+      if (e.target === bg || e.target.closest('[data-ovsx]')) { closeSheet(); return; }
+      const hb = e.target.closest('[data-ovsh]'); if (hb) { SH.hours = Number(hb.dataset.ovsh); fillSheet(); return; }
+      if (e.target.closest('[data-ovsgo]')) { closeSheet(true); return; }   // a character link: the page changes, focus is not given back
+      const bb = e.target.closest('[data-ovbag]'); if (bb) { SH.bag = bb.dataset.ovbag; SH.bf = 'all'; fillSheet(true); return; }   // OVBAG: a character row -> its bag
+      if (e.target.closest('[data-ovsback]')) { bagBack(); return; }
+      const keep = (sel) => fillSheet().then(() => { const x = SH.el && SH.el.querySelector(sel); if (x) x.focus(); });   // focus stays on the pressed toggle
+      const ab = e.target.closest('[data-ovsall]'); if (ab) { SH.all = ab.dataset.ovsall === '1'; keep(`[data-ovsall="${ab.dataset.ovsall}"]`); return; }
+      const fb = e.target.closest('[data-ovsbf]'); if (fb) { SH.bf = fb.dataset.ovsbf; keep(`[data-ovsbf="${fb.dataset.ovsbf}"]`); return; }
+    });
+    bg.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); if (SH.bag) bagBack(); else closeSheet(); return; }   // OVBAG: Esc in a bag = back to the list
+      if (e.key !== 'Tab') return;
+      const f = [...bg.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])')].filter(x => x.offsetParent !== null); if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    });
+    fillSheet(); bg.querySelector('.ovs-x').focus();
+  }
+  function closeSheet(quiet) {
+    if (!SH.el) return; SH.el.remove(); SH.el = null; SH.seq++; document.documentElement.style.overflow = '';
+    if (!quiet && SH.from && document.contains(SH.from)) try { SH.from.focus(); } catch (e) { }
+  }
+  function bagBack() { const n = SH.bag; SH.bag = ''; fillSheet().then(() => { const b = SH.el && [...SH.el.querySelectorAll('[data-ovbag]')].find(x => x.dataset.ovbag === n); if (b) b.focus(); }); }
+  async function fillSheet(focusBody) {
+    const my = ++SH.seq, k = SH.kind, hrs = SH.hours, [title, ic] = TITLE[k], body = $id('ovsBody');
+    $id('ovsHours').hidden = !!SH.bag;   // OVBAG: a bag has no time window
+    if (SH.bag) {
+      $id('ovsT').innerHTML = IC(ICO.adena) + h(SH.bag) + '’s bag'; body.innerHTML = '<p class="ovs-note">Loading…</p>';
+      let d = null; try { d = await api('/api/overview?detail=bag&name=' + encodeURIComponent(SH.bag)); } catch (e) { }
+      if (my !== SH.seq || !SH.el) return;
+      $id('ovsAt').textContent = d && d.at ? 'bag read ' + ago(d.at) : '';
+      body.innerHTML = d && d.ok ? bagHtml(d) : `<div class="ovs-bar"><button type="button" class="ovs-bk" data-ovsback="1">‹ All characters</button></div><p class="ovs-note">Could not load the bag${d && d.error ? ': ' + h(d.error) : ''}.</p>`;
+      if (focusBody) { const b = body.querySelector('[data-ovsback]'); if (b) b.focus(); }
+      return;
+    }
+    $id('ovsT').innerHTML = IC(ic) + h(title) + ' · ' + (hrs === 1 ? 'last hour' : 'last 24 h');
+    $id('ovsHours').innerHTML = [[1, 'Last hour'], [24, '24 h']].map(([v, t]) => `<button type="button" data-ovsh="${v}" class="${hrs === v ? 'on' : ''}" aria-pressed="${hrs === v}">${t}</button>`).join('');
+    body.innerHTML = '<p class="ovs-note">Loading…</p>';
+    let d = null, P = null;
+    try {
+      if (['deaths', 'adena', 'loot', 'costs'].includes(DK[k])) d = await api(`/api/overview?hours=${hrs}&detail=${DK[k]}`);
+      P = hrs === S.hours && S.d ? S.d : await api('/api/overview?hours=' + hrs);
+    } catch (e) { }
+    if (my !== SH.seq || !SH.el) return;
+    if (!P || P.error || (DK[k] && (!d || d.ok === false))) { body.innerHTML = `<p class="ovs-note">Could not load the details${d && d.error ? ': ' + h(d.error) : ''}. Try again in a moment.</p>`; return; }
+    $id('ovsAt').textContent = 'as of ' + hm(P.at);
+    try { body.innerHTML = SHEET[k](d, P, hrs); } catch (e) { body.innerHTML = '<p class="ovs-note">Could not show the details.</p>'; }
+  }
+  // OVBAG-2026-10-29: one bag — every item with its shop value, marked worn / quest / adena / kept / no shop / can sell + where it is on the sell list
+  function bagHtml(d) {
+    const tg = (t, c) => `<span class="ovs-tg${c ? ' ' + c : ''}">${h(t)}</span>`, LIST = { all: 'marked to sell · all bots', char: 'marked to sell · this character', keep: 'on the keep list' };
+    const rs = SH.bf === 'sell' ? d.rows.filter(r => r.sell) : d.rows;
+    const tags = (r) => (r.sell ? tg('can sell', 'sell') + (r.enU ? tg('check +enchant first', 'warn') : '') : tg(r.why, '')) + (r.list ? tg(LIST[r.list], 'mk') : '');
+    const each = (r) => r.adena ? 'coins' : r.noShop ? `no shop buys it${r.each ? ' (list ' + full(r.each) + ')' : ''}` : `${full(r.count)} × ${full(r.each)}`;
+    return `<div class="ovs-bar"><button type="button" class="ovs-bk" data-ovsback="1">‹ All characters</button>
+        <div class="ov-seg" role="group" aria-label="Show">${[['all', 'Every item'], ['sell', 'Can sell']].map(([v, t]) => `<button type="button" data-ovsbf="${v}" class="${SH.bf === v ? 'on' : ''}" aria-pressed="${SH.bf === v}">${t}</button>`).join('')}</div></div>
+      <p class="ovs-src">${h(d.source)}</p>
+      ${tot('Bag worth (items + coins)', full(d.total))}${tot('Can sell', `<span class="good">${full(d.sellable)}</span> <small>${d.nSell} kinds</small>`)}${tot('Adena', full(d.adena))}
+      <p class="ovs-cta">To sell: mark items on the character page (Inventory → Mark junk). <a href="#/char/${encodeURIComponent(d.name)}" data-ovsgo="1">Open ${h(d.name)} ›</a>${d.marked ? ` · ${d.marked} kind${d.marked > 1 ? 's' : ''} here ${d.marked > 1 ? 'are' : 'is'} already marked.` : ''}</p>
+      ${rs.length ? `<ul class="ovs-l" aria-label="Items">${rs.map(r => row(r.icon || '', h(r.name) + (r.enchant ? ` <small>+${r.enchant}</small>` : ''), each(r) + '<br>' + tags(r), full(r.value))).join('')}</ul>` : '<p class="ovs-note">Nothing to sell in this bag.</p>'}
+      <p class="ovs-note">${h(d.rule)} The bag file has no enchant level: before marking a gear piece, check it shows no +N on the character page. Sum of the rows = ${full(d.rows.reduce((t, r) => t + r.value, 0))} = bag worth.</p>`;
+  }
+  const DK = { killsH: 'deaths', adena: 'adena', lootH: 'loot', costH: 'costs' };
+  const SHEET = {
+    killsH(d, P, hrs) {
+      const T = P.total, rows = d.rows || [];
+      const place = (r) => { const t = String(r.task || '').replace(/^(autolevel|hunting|raid|circuit|route to|travel|quest):\s*/i, '').split(' · ')[0]; return h(t || 'place not logged') + (r.x != null ? ` <span>(${r.x}, ${r.y})</span>` : ''); };
+      return `${tot(`Kills ${hrs === 1 ? 'per hour' : 'per hour (24 h avg)'}`, full(T.killsH))}
+        ${tot(`Deaths in the ${hrs === 1 ? 'last hour' : 'last 24 h'}`, `<span class="${rows.length ? 'bad' : ''}">${rows.length}</span>`)}
+        ${rows.length ? `<h3>Who died (most first)</h3><div class="ovs-chips">${d.byChar.map(c => `<span>${h(c.name)} <b>${c.n}</b> <small>${h(c.party)}</small></span>`).join('')}</div>
+        <h3>Every death (newest first)</h3><ul class="ovs-l">${rows.map(r => row(ICO.dead, `${who(r.name)} <small>lvl ${r.level || '?'} · ${h(r.party)}</small>`,
+          `${place(r)}${r.killer ? ` · killed by <b class="bad">${h(r.killer)}</b>` : ' · killer not logged'}${r.resBy ? ` · raised by ${h(r.resBy)}` : r.town ? ' · got up in town' : r.revivedAt ? '' : ' · not revived yet'}`,
+          (r.approx ? '~' : '') + hm(r.at), r.revivedAt ? 'up ' + hm(r.revivedAt) : '')).join('')}</ul>`
+        : '<p class="ovs-note">Nobody died in this window.</p>'}
+        <h3>Kills per hour by party</h3><ul class="ovs-l">${P.parties.slice().sort((a, b) => b.killsH - a.killsH).map(p => row(ICO.kills, h(p.leader), `${p.n} characters${p.deaths ? ` · <span class="bad">${p.deaths} deaths</span>` : ''}`, full(p.killsH))).join('')}</ul>
+        <p class="ovs-note">${h(d.note)} Place = what it was doing + x, y (a res = where it fell; a town respawn = the last place before).</p>`;
+    },
+    adena(d) {   // OVBAG-2026-10-29: Coins | All bags (sellable worth per character); every row opens that character's bag
+      const seg = `<div class="ovs-bar"><div class="ov-seg" role="group" aria-label="Show">${[['0', 'Coins'], ['1', 'All bags: can sell']].map(([v, t]) => `<button type="button" data-ovsall="${v}" class="${SH.all === (v === '1') ? 'on' : ''}" aria-pressed="${SH.all === (v === '1')}">${t}</button>`).join('')}</div></div>`;
+      const bagLine = (b) => b ? `bag worth ${short(b.value)} · can sell ${short(b.sell)}` : 'no bag read yet';
+      if (SH.all) {
+        const rs = d.rows.slice().sort((a, b) => ((b.bag || {}).sell || 0) - ((a.bag || {}).sell || 0) || a.name.localeCompare(b.name)), S_ = rs.reduce((t, r) => t + ((r.bag || {}).sell || 0), 0), V = rs.reduce((t, r) => t + ((r.bag || {}).value || 0), 0);
+        return `${seg}<p class="ovs-src">What an NPC shop would pay for the items each character could sell (not worn, not quest, not enchanted, not kept). Tap a character for its items.</p>
+          ${tot('Can sell, all bags', full(S_))}${tot('Bag worth, all bags (items + coins)', full(V))}
+          <ul class="ovs-l">${rs.map(r => rowB(r.name, ICO.loot, h(r.name) + ` <small>${h(r.party)}</small>`, r.bag ? `${r.bag.n} item kinds to sell · bag worth ${short(r.bag.value)} · coins ${short(r.adena)}${r.bag.at ? ' · read ' + ago(r.bag.at) : ''}` : 'no bag read yet', r.bag ? full(r.bag.sell) : '—')).join('')}</ul>
+          <p class="ovs-note">Sum of the rows = ${full(S_)}. Bags = the bots' last bag read (Logs/bag_&lt;name&gt;.json).</p>`;
+      }
+      return `${seg}<p class="ovs-src"><b>Coins only</b> — the adena in each character's bag right now. Items are not counted here; tap a character for its bag worth and what can be sold.</p>
+        ${tot('All bags', full(d.total))}
+        <ul class="ovs-l">${d.rows.map(r => rowB(r.name, ICO.adena, h(r.name) + ` <small>${h(r.party)}</small>`, (r.change != null ? `change in the window <span class="${r.change >= 0 ? 'good' : 'bad'}">${r.change >= 0 ? '+' : '−'}${full(Math.abs(r.change))}</span>` : 'no recorder samples yet') + ' · ' + bagLine(r.bag), full(r.adena))).join('')}</ul>
+        <p class="ovs-note">Sum of the rows = ${full(d.sum)} = the tile (exact). ${h(d.note)}</p>`;
+    },
+    lootH(d, P, hrs) {
+      return `<p class="ovs-src">${h(d.source)}</p>
+        ${tot('Worth looted in the window', full(d.worth))}${hrs === 24 ? tot('÷ 24 h = the tile', full(d.totalH) + ' / h') : ''}
+        ${d.rows.length ? `<ul class="ovs-l">${d.rows.map(r => row(r.icon || '', `${h(r.name)}${r.grade && r.grade !== 'NONE' ? ` <small>${h(r.grade)}</small>` : ''}`, `${full(r.count)} × ${r.each ? full(r.each) : '<span>no shop price</span>'}${r.spoiled ? ` · ${full(r.spoiled)} spoiled` : ''}`, full(r.value))).join('')}</ul>` : '<p class="ovs-note">Nothing looted in this window.</p>'}
+        ${d.others ? `<p class="ovs-note">− ${full(d.others)} of it was looted by characters not on this page (not in the tile).</p>` : ''}
+        <p class="ovs-note">Items count at this price until sold. ${h(d.round)}; the tile is the sum per character${hrs === 24 ? ' ÷ 24' : ''}.</p>`;
+    },
+    costH(d, P, hrs) {
+      const u = d.items.reduce((t, i) => t + i.value, 0), g = d.buys.reduce((t, b) => t + b.v, 0);
+      return `<p class="ovs-src">${h(d.source)}</p>
+        ${tot('Costs in the window', full(u + g))}${hrs === 24 ? tot('÷ 24 h = the tile', full(d.totalH) + ' / h') : ''}
+        <h3>Shots, potions, ore used · ${full(u)}</h3>${d.items.length ? `<ul class="ovs-l">${d.items.map(i => row(i.icon || '', h(i.name), `${full(i.count)} × ${full(i.each)}`, full(i.value))).join('')}</ul>` : '<p class="ovs-note">No use recorded.</p>'}
+        <h3>Gear & player-shop buys · ${full(g)}</h3>${d.buys.length ? `<ul class="ovs-l">${d.buys.map(b => row('', h(b.name), `${who(b.who)} · ${h(b.kind)} · ${hm(b.at)}`, full(b.v))).join('')}</ul>` : '<p class="ovs-note">Nothing bought.</p>'}
+        ${d.byChar.length ? `<h3>By character</h3><ul class="ovs-l">${d.byChar.map(c => row('', who(c.name) + ` <small>${h(c.party)}</small>`, `used ${full(c.use)} · bought ${full(c.gear)}`, full(c.use + c.gear))).join('')}</ul>` : ''}
+        <p class="ovs-note">Already paid from the wallets (inside the wallet change). Counts of a part-hour are pro-rated. ${h(d.round)}.</p>`;
+    },
+    profitH(d, P) {
+      const ps = P.parties.slice().sort((a, b) => b.profitH - a.profitH);
+      return `${tot('Profit per hour', `<span class="${P.total.profitH >= 0 ? 'good' : 'bad'}">${sign(P.total.profitH)}</span>`)}
+        <p class="ovs-src">Profit = wallet change + loot worth (items at shop price until sold).</p>
+        <ul class="ovs-l">${ps.map(p => row(ICO.party, h(p.leader), `wallet ${sign(p.adenaH)} + loot ${short(p.lootH)} · ${p.n} characters`, `<span class="${p.profitH >= 0 ? 'good' : 'bad'}">${full(p.profitH)}</span>`)).join('')}</ul>
+        <p class="ovs-note">Rows are per party per hour; their sum ${full(ps.reduce((t, p) => t + p.profitH, 0))} = the tile.</p>`;
+    },
+    expH(d, P) {
+      const cs = P.chars.slice().sort((a, b) => (b.expH || 0) - (a.expH || 0));
+      return `${tot('Experience per hour', full(P.total.expH))}
+        <ul class="ovs-l">${cs.map(c => row('', who(c.name) + ` <small>lvl ${c.level || '?'} · ${h(c.party)}</small>`, `${c.pctH != null ? c.pctH + '% / h' : c.locked ? 'exp locked ' + c.locked : 'no exp now'}${c.levels > 0 ? ` · <span class="good">+${c.levels} level</span>` : ''}`, c.expH != null ? full(c.expH) : '—')).join('')}</ul>
+        <p class="ovs-note">Sum of the rows = ${full(cs.reduce((t, c) => t + (Number(c.expH) || 0), 0))} = the tile.</p>`;
+    },
+    online(d, P) {
+      return `${tot('Online now', `${P.total.online} / ${P.total.n}`)}
+        <ul class="ovs-l">${P.parties.map(p => { const off = p.members.filter(m => !m.online).map(m => m.name), dead = p.members.filter(m => m.dead).map(m => m.name);
+          return row(ICO.online, h(p.leader), `${off.length ? 'offline: ' + off.map(h).join(', ') : 'all online'}${dead.length ? ` · <span class="bad">dead: ${dead.map(h).join(', ')}</span>` : ''}`, `<span class="${p.online === p.n ? 'good' : 'bad'}">${p.online} / ${p.n}</span>`); }).join('')}</ul>
+        <p class="ovs-note">Online = the bot wrote its state in the last 30 s.</p>`;
+    },
+  };
+
   function onClick(e) {
     const g = (s) => e.target.closest(s); let b;
+    if ((b = g('[data-ovk]'))) { openSheet(b.dataset.ovk); return; }   // OVDRILL-2026-10-29
     if ((b = g('[data-ovh]'))) { S.hours = Number(b.dataset.ovh); save(); renderSeg(); load(); return; }
     if ((b = g('[data-ovv]'))) { S.view = b.dataset.ovv; save(); renderSeg(); renderBody(); tickClocks(); return; }
     if ((b = g('[data-ovs]'))) { const k = b.dataset.ovs; if (S.sort === k) S.dir = -S.dir; else { S.sort = k; S.dir = k === 'name' || k === 'eta' ? 1 : -1; } save(); renderSeg(); renderBody(); tickClocks(); return; }

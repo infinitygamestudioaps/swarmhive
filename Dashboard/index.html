@@ -2472,7 +2472,7 @@ function renderPartyCards(parties, bar) {
     return `<div class="win pcard">
       <div class="whead phead"><h2>${GI(UI.clan, 'sm')} ${PARTY_ONE ? `Party ${esc(leader)}` : `<a class="plink" href="#/party/${encodeURIComponent(leader)}" title="Open this party's own page">Party ${esc(leader)}</a>`} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
-          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.PartyPlan ? PartyPlan.button(leader) : ''}<!-- PARTY PLAN 2026-10-13 -->${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}<button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
+          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.PartyPlan ? PartyPlan.button(leader) : ''}<!-- PARTY PLAN 2026-10-13 -->${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}${window.UpgradePage && UpgradePage.partyButton ? UpgradePage.partyButton(leader) : ''}<!-- GEARUPCOL-2026-10-29 --><button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
           <button data-quick="${tgt}|!level|Level (regroup in Giran, leader picks the spot)" title="Regroup in Giran, then the leader teleports the team to a hunting spot">Level</button>
           <button data-quick="${tgt}|!supply|Supplies (leader buys SoE/SoR/shots/spirit ore in Giran and hands them out)" title="Leader buys supplies for everyone in Giran">Supply</button>
@@ -4081,8 +4081,9 @@ async function loadEngine() {
   if (!$('pcEngine')) return;
   if (g.error) { $('pcEngine').textContent = g.error; return; }
   const who = g.allowAll ? `every character of swarm.config.json${g.except && g.except.length ? ' except ' + g.except.join(', ') : ''}` : 'the characters listed in "allow"';
-  const conn = g.connected == null ? 'brain pool not running' + (g.on ? ' (restart the dashboard if this stays)' : '') : `${g.connected} connected to the brain`;
-  const wait = g.waiting && g.waiting.length ? ` · not connected yet: ${g.waiting.slice(0, 12).join(', ')}${g.waiting.length > 12 ? ' …' : ''} (still on swarm.js? press Check)` : '';
+  // AGENTGUARD-ONLINE-2026-10-29 (Hero): calmer startup text - the pool's first report comes ~10 s after a dashboard start
+  const conn = g.connected == null ? (g.on && g.poolRunning ? 'brain pool starting (first report within ~10 s)' : 'brain pool not running' + (g.on ? ' (restart the dashboard if this stays)' : '')) : `${g.connected} connected to the brain`;
+  const wait = g.waiting && g.waiting.length ? ` · not connected yet: ${g.waiting.slice(0, 12).join(', ')}${g.waiting.length > 12 ? ' …' : ''} (not logged in yet, or still on swarm.js — the dashboard moves a logged-in one by itself within ~4 min)` : '';
   patch($('pcEngine'), g.on
     ? `<b class="st-alive">New engine ON</b> for ${esc(who)}: ${g.brain} of ${g.roster} characters · ${esc(conn)}${esc(wait)}`
     : `<b class="st-maybe">New engine OFF</b> (Scripts/data/brain_host.json "on": false) — every account runs swarm.js inside L2Swarm`);

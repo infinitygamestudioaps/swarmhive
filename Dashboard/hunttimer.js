@@ -93,7 +93,8 @@
   async function afterSave(party, choice, label, mode) {
     try {
       if (!D.data) await load(true);
-      if (mode !== 'manual' || !choice || choice.hours === null) { if (hasTimer(party)) await post({ party, act: 'clear' }); }
+      if (mode === 'manual' && choice && choice.hours === null) await post({ party, act: 'stop', spot: label });   // UNTILSTOP-2026-10-29: remembered, so no 12 h long hunt
+      else if (mode !== 'manual' || !choice || choice.hours === null) { if (hasTimer(party)) await post({ party, act: 'clear' }); }
       else await post({ party, act: 'set', hours: choice.hours, endAction: choice.endAction, spot: label });
     } catch (e) { if (typeof uiError === 'function') uiError(`The hunting spot is saved, but the timer is not: ${e.message}`, 'Hunting timer not saved'); }
     if (choice && choice.supplyFirst) {

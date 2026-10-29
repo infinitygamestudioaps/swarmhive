@@ -70,12 +70,21 @@ function writeHistory(now) {
   for (const n of ['Ironhelm', 'Emberwyn', 'Ashvale']) fs.writeFileSync(path.join(SB, 'Logs', `supply_use_${n}.json`), JSON.stringify({ v: 1, b: [{ h: Math.floor((now - 20 * 60000) / H) * H, ms: 1500000, u: { 1463: 900, 1061: 4 } }] }));
   fs.writeFileSync(path.join(SB, 'Logs', 'gear_upgrades.log'), `${iso(now - 15 * 60000)} [Sunleaf] lvl 46 mage (supply run): Karmian Tunic 336105: bought; Karmian Stockings 210325: bought | Karmian Tunic: equipped\n`);
 }
+// OVBAG-2026-10-29: one bag (Ironhelm) with a worn, a quest, an enchanted, a kept and sellable items; Stem is on the sell list (all bots)
+function writeBag(now) {
+  const it = (id, name, count, type, x) => Object.assign({ id, objId: 7000 + id, name, count, eq: false, q: false, type }, x || {});
+  fs.writeFileSync(path.join(SB, 'Logs', 'bag_Ironhelm.json'), JSON.stringify({ at: iso(now - 6 * 60000), name: 'Ironhelm', items: [it(57, 'Adena', 5000000, 'Etc'), it(1864, 'Stem', 200, 'Mats'),
+    it(1878, 'Braided Hemp', 40, 'Mats'), it(129, 'Sword of Revolution', 1, 'Weapon', { enchant: 4 }), it(121, 'Sword of Watershadow', 1, 'Weapon', { eq: true }),
+    it(687, "Darin's Letter", 1, 'Etc', { q: true }), it(1061, 'Greater Healing Potion', 30, 'Etc'), it(9, 'Cedar Staff', 1, 'Weapon')] }));
+  fs.writeFileSync(path.join(SB, 'Scripts', 'data', 'sell_list.json'), JSON.stringify({ all: [1864], keep: [] }));
+  fs.writeFileSync(path.join(SB, 'Scripts', 'data', 'trade_items.json'), JSON.stringify({ notrade: [], cat: { 1061: 'consumable' } }));
+}
 function writeFixtures() { const now = Date.now(); states(now).forEach(s => fs.writeFileSync(path.join(SB, 'Logs', `swarm_state_${s.name}.json`), JSON.stringify(s))); }
 
 // ===================================================================== browser test ===============================================
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
-  writeHistory(T0); writeFixtures(); const fx = setInterval(writeFixtures, 1000);
+  writeHistory(T0); writeBag(T0); writeFixtures(); const fx = setInterval(writeFixtures, 1000);
   const srv = cp.spawn(process.execPath, [path.join(__dirname, 'test_partystatus_ui.js'), '--server', SB], { stdio: ['ignore', 'pipe', 'pipe'] });
   let PORT = 0; const serr = [];
   srv.stdout.on('data', d => String(d).split('\n').forEach(l => { const m = l.match(/^PORT (\d+)/); if (m) PORT = +m[1]; }));
@@ -136,6 +145,56 @@ function writeFixtures() { const now = Date.now(); states(now).forEach(s => fs.w
       ok('party card: experience line drawn', await ev(`document.querySelectorAll('.ov-p svg.ov-spark polyline').length >= 3`));
       ok('death shown on its party', await ev(`[...document.querySelectorAll('.ov-p')].some(p => /Ashvale/.test(p.innerText) && /1 deaths/.test(p.innerText))`));
       ok('no horizontal scroll', await ev(`document.documentElement.scrollWidth <= innerWidth + 1`), await ev(`document.documentElement.scrollWidth + ' > ' + innerWidth`));
+      // OVDRILL-2026-10-29: every tile is a button that opens the rows behind it; the rows add up to the tile; Esc closes, focus goes back
+      ok('every tile is a button (role, tabindex, aria-label)', await ev(`[...document.querySelectorAll('.ov-k')].every(k => k.getAttribute('role') === 'button' && k.tabIndex === 0 && /Show where/.test(k.getAttribute('aria-label') || ''))`));
+      await ev(`document.querySelector('[data-ovk="adena"]').focus(); document.querySelector('[data-ovk="adena"]').dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))`);
+      ok('Adena: Enter opens a modal sheet', await waitFor(`(() => { const s = document.querySelector('#ovSheet [role=dialog][aria-modal=true]'); return s && /All bags/.test(s.innerText) && document.querySelectorAll('#ovsBody .ovs-r').length === 11; })()`));
+      { const r = await ev(`(() => { const t = document.querySelector('#ovsBody .ovs-tot b').innerText.replace(/,/g, ''); const rows = [...document.querySelectorAll('#ovsBody .ovs-r .v')].map(v => +v.firstChild.textContent.replace(/,/g, '')); return { t: +t, s: rows.reduce((a, b) => a + b, 0), coins: /Coins only/.test(document.getElementById('ovsBody').innerText) }; })()`);
+        ok('Adena: per-character rows add up to the total = the tile, "coins only" said', r.t === r.s && r.t === d.total.adena && r.coins, JSON.stringify(r) + ' tile ' + d.total.adena); }
+      ok('sheet: no horizontal scroll', await ev(`(() => { const b = document.getElementById('ovsBody'); return b.scrollWidth <= b.clientWidth + 1 && document.documentElement.scrollWidth <= innerWidth + 1; })()`),
+        await ev(`(() => { const b = document.getElementById('ovsBody'), r = b.getBoundingClientRect(); const w = [...b.querySelectorAll('*')].filter(e => e.getBoundingClientRect().right > r.right + 1).slice(0, 3).map(e => e.tagName + '.' + e.className + ' ' + Math.round(e.getBoundingClientRect().right)); return b.scrollWidth + '/' + b.clientWidth + ' ' + w.join(' | '); })()`));   // OVBAG: what sticks out
+      if (dev.mobile) { const c = await clipOf('.ovs', 0); if (c) await shot('overview_phone_sheet_adena.png', c); }
+      // OVBAG-2026-10-29: a character row opens its bag (value per item, can sell, sell-list state); Esc goes back to the list; "All bags" = sellable per character
+      ok('Adena rows are buttons and show the bag worth', await ev(`(() => { const b = document.querySelector('#ovsBody button.ovs-r[data-ovbag="Ironhelm"]'); return !!b && /bag worth/.test(b.innerText) && /show the bag/.test(b.textContent); })()`));
+      await ev(`document.querySelector('[data-ovbag="Ironhelm"]').click()`);
+      ok('Bag: opens with its items and "bag read N min ago"', await waitFor(`/Ironhelm.s bag/.test(document.getElementById('ovsT').innerText) && /bag read \\d+ min ago/.test(document.getElementById('ovsAt').innerText) && document.querySelectorAll('#ovsBody .ovs-r').length === 8`),
+        await ev(`(document.getElementById('ovsBody') || {}).innerText || ''`).then(t => t.replace(/\s+/g, ' ').slice(0, 200)));
+      { const r = await ev(`(() => { const t = +document.querySelector('#ovsBody .ovs-tot b').innerText.replace(/,/g, ''); const v = [...document.querySelectorAll('#ovsBody .ovs-r .v')].map(x => +x.firstChild.textContent.replace(/,/g, '')); const R = (n) => [...document.querySelectorAll('#ovsBody .ovs-r')].find(x => x.querySelector('.n').innerText.includes(n)); const cs = (n) => /can sell/.test(R(n).innerText);
+          return { t, s: v.reduce((a, b) => a + b, 0), sorted: v.every((x, i) => !i || v[i - 1] >= x), worn: cs('Watershadow'), quest: cs('Darin'), ench: cs('Revolution'), adena: cs('Adena'), kept: cs('Healing'), stem: cs('Stem') && /marked to sell/.test(R('Stem').innerText), staff: /check \\+enchant/.test(R('Cedar').innerText),
+            src: /NPC shop pays/.test(document.getElementById('ovsBody').innerText), link: !!document.querySelector('#ovsBody a[href="#/char/Ironhelm"]') && /Mark junk/.test(document.getElementById('ovsBody').innerText) }; })()`);
+        ok('Bag: rows add up to the bag worth, sorted by value, price source said', r.t === r.s && r.sorted && r.src, JSON.stringify(r));
+        ok('Bag: worn / quest / enchanted / adena / kept are never "can sell"; Stem can + already marked; gear says check +enchant', !r.worn && !r.quest && !r.ench && !r.adena && !r.kept && r.stem && r.staff, JSON.stringify(r));
+        ok('Bag: "To sell: Mark junk" line links to the character page', r.link); }
+      ok('Bag: no horizontal scroll', await ev(`(() => { const b = document.getElementById('ovsBody'); return b.scrollWidth <= b.clientWidth + 1 && document.documentElement.scrollWidth <= innerWidth + 1; })()`));
+      if (dev.mobile) { const c = await clipOf('.ovs', 0); if (c) await shot('overview_phone_sheet_bag.png', c); }
+      await ev(`document.querySelector('[data-ovsbf="sell"]').click()`);
+      ok('Bag: "Can sell" filter shows only sellable rows', await waitFor(`document.querySelectorAll('#ovsBody .ovs-r').length === 3 && [...document.querySelectorAll('#ovsBody .ovs-r')].every(x => /can sell/.test(x.innerText))`));
+      await ev(`document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))`);
+      ok('Bag: Esc goes back to the list, focus on that character', await waitFor(`!!document.getElementById('ovSheet') && document.activeElement && document.activeElement.dataset.ovbag === 'Ironhelm'`));
+      await ev(`document.querySelector('[data-ovsall="1"]').click()`);
+      ok('All bags: sellable worth per character, most first', await waitFor(`(() => { const r = document.querySelectorAll('#ovsBody .ovs-r'); return r.length === 11 && r[0].dataset.ovbag === 'Ironhelm' && /Can sell, all bags/.test(document.getElementById('ovsBody').innerText); })()`));
+      await ev(`document.querySelector('[data-ovsall="0"]').click()`); await waitFor(`/Coins only/.test(document.getElementById('ovsBody').innerText)`);
+      await ev(`document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))`);
+      ok('Esc closes the sheet, focus back on the tile', await waitFor(`!document.getElementById('ovSheet') && document.activeElement === document.querySelector('[data-ovk="adena"]')`));
+      await ev(`document.querySelector('[data-ovk="killsH"]').click()`);
+      ok('Kills tile: who died, with the time, level and party', await waitFor(`(() => { const b = document.getElementById('ovsBody'); return b && new RegExp('${DIED}').test(b.innerText) && /lvl 60/.test(b.innerText) && document.querySelectorAll('#ovsBody .ovs-chips span').length === 1; })()`),
+        await ev(`(document.getElementById('ovsBody') || {}).innerText || ''`).then(t => t.replace(/\s+/g, ' ').slice(0, 160)));
+      ok('Kills tile: death rows = the tile count', await ev(`document.querySelectorAll('#ovsBody .ovs-l')[0].querySelectorAll('.ovs-r').length === ${d.total.deaths}`));
+      if (dev.mobile) { const c = await clipOf('.ovs', 0); if (c) await shot('overview_phone_sheet_deaths.png', c); }
+      await ev(`document.querySelector('[data-ovsx]').click()`);
+      await ev(`document.querySelector('[data-ovk="lootH"]').click()`);
+      ok('Loot tile: every item with count x unit price and where the price comes from', await waitFor(`(() => { const b = document.getElementById('ovsBody'); return b && /Animal Bone/.test(b.innerText) && /Mithril Ore/.test(b.innerText) && /NPC shop pays/.test(b.innerText) && / × /.test(b.innerText); })()`));
+      { const r = await ev(`(() => { const t = +document.querySelector('#ovsBody .ovs-tot b').innerText.replace(/,/g, ''); const rows = [...document.querySelectorAll('#ovsBody .ovs-r .v')].map(v => +v.textContent.replace(/,/g, '')); return { t, s: rows.reduce((a, b) => a + b, 0) }; })()`);
+        ok('Loot: rows add up to the tile (1 h)', r.t === r.s && r.t === d.total.lootH, JSON.stringify(r) + ' tile ' + d.total.lootH); }
+      await ev(`document.querySelector('[data-ovsh="24"]').click()`);
+      ok('sheet: the 24 h switch inside the sheet', await waitFor(`/last 24 h/.test(document.getElementById('ovsT').innerText) && /÷ 24 h/.test(document.getElementById('ovsBody').innerText)`));
+      await ev(`document.getElementById('ovSheet').click()`);   // the backdrop
+      ok('backdrop closes the sheet', await waitFor(`!document.getElementById('ovSheet')`));
+      for (const k of ['costH', 'profitH', 'expH', 'online']) {
+        await ev(`document.querySelector('[data-ovk="${k}"]').click()`);
+        ok(`${k} sheet opens with rows`, await waitFor(`document.querySelectorAll('#ovsBody .ovs-r').length > 0 && !/Could not/.test(document.getElementById('ovsBody').innerText)`), await ev(`(document.getElementById('ovsBody') || {}).innerText || ''`).then(t => t.replace(/\s+/g, ' ').slice(0, 120)));
+        await ev(`document.querySelector('[data-ovsx]').click()`); await sleep(100);
+      }
       await ev(`document.getElementById('tab-overview').scrollIntoView()`); await sleep(400);
       if (dev.mobile) {
         await shot('overview_phone_top.png');
@@ -171,6 +230,8 @@ function writeFixtures() { const now = Date.now(); states(now).forEach(s => fs.w
     clearInterval(fx);
     try { sock && sock.close(); } catch (e) { }
     try { if (br) cp.execSync(`taskkill /T /F /PID ${br.pid}`, { stdio: 'ignore' }); } catch (e) { }
+    // OVDRILL-2026-10-29: taskkill /T missed the Chrome children (8 left on 2026-10-29) -> also kill every chrome.exe with this test's profile folder
+    try { if (prof) cp.execSync(`powershell -NoProfile -Command "Get-CimInstance Win32_Process -Filter \\"Name='chrome.exe'\\" | ? { $_.CommandLine -like '*${path.basename(prof)}*' } | % { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"`, { stdio: 'ignore' }); } catch (e) { }
     try { srv.kill(); } catch (e) { }
     await sleep(800);
     try { prof && fs.rmSync(prof, { recursive: true, force: true }); } catch (e) { }

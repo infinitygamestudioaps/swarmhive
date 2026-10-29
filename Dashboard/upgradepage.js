@@ -49,6 +49,7 @@
   // RECOMMEND-2026-10-25: #/upgrade/<name> (the character page's "Upgrade" button) opens that character's paperdoll + recommendations
   function route(kind, arg) { if (kind === 'upgrade') { open(arg ? decodeURIComponent(arg) : ''); return true; } close(); return false; }
   async function open(who) {
+    const party = /^party:/.test(who || '') ? who.slice(6) : ''; S.party = party; if (party) who = party;   // GEARUPCOL-2026-10-29: the party card's "Gear up ›"
     if (who && who !== S.cur) { S.cur = who; S.sel = new Set([who]); S.pickOpen = false; S.slot = null; S.cand = null; S.presetNote = ''; S.doll = null; save(); }
     const s = section();
     try { stopChar(); } catch (e) { }
@@ -56,6 +57,7 @@
     document.querySelectorAll('main > section').forEach(x => { if (x.id !== SEC) x.hidden = true; });
     s.hidden = false; S.open = true; window.scrollTo(0, 0);
     try { const r = await call('/api/items/chars'); S.chars = (r && r.chars) || []; } catch (e) { S.msg = e.message; }
+    if (party) { S.sel = new Set(S.chars.filter(c => (c.party || c.name) === party).map(c => c.name)); if (![...S.sel].some(n => (S.lines[n] || []).length)) presetFill('party'); loadCol(); }   // GEARUPCOL: fills the draft only; nothing starts
     render(); loadJobs(); if (S.cur && (!S.doll || S.doll.name !== S.cur)) loadDoll(); if (S.cur && (!S.rec || S.rec.name !== S.cur)) loadRec();
     clearInterval(S.poll); S.poll = setInterval(() => { if (S.open && !document.hidden && S.jobs.length) pollJobs(); }, 6000);
   }
@@ -141,6 +143,21 @@
       ${R.slots.map((x, k) => { const p = planned(x.slot); return `<div class="u-res"><b>${h(x.label)}</b> <span class="muted">now: ${x.worn ? h(x.worn.name) + (x.worn.enchant ? ' +' + x.worn.enchant : '') : 'nothing'}</span>${p ? ` <span class="u-ok">→ planned: ${h(p.name)}</span>` : ''}
         ${opt(x.have, k, 'have')}${opt(x.buy, k, 'buy')}${opt(x.craft, k, 'craft')}</div>`; }).join('')}</div>`;
   }
+  // GEARUPCOL-2026-10-29: the collector's spare gear for this party (GET /api/upgrade/collector): tick, receiver (auto = gains most, or pick), unseal first
+  async function loadCol() { const who = [...S.sel]; S.col = { loading: true }; render();
+    try { S.col = await call('/api/upgrade/collector?names=' + encodeURIComponent(who.join(','))); (S.col.rows || []).forEach(r => { r.pick = false; r.un = false; }); } catch (e) { S.col = { error: e.message }; } render(); }
+  function colHtml() {
+    const C = S.col; if (!S.party || !C) return '';
+    if (C.loading) return '<div class="box muted">looking at the collector\'s gear…</div>';
+    if (C.error || !C.collector) return `<div class="box"><h3>From the collector</h3><div class="muted">${h(C.error || C.why || 'no collector')}</div></div>`;
+    const n = (C.rows || []).filter(r => r.pick && r.to).length;
+    return `<div class="box" id="upCol"><h3>From the collector <span class="muted">${h(C.collector)} · ${(C.rows || []).length} piece(s) better than what someone here wears</span></h3>
+      ${(C.rows || []).map((r, k) => `<div class="u-row"><input type="checkbox" data-ucolt="${k}" ${r.pick ? 'checked' : ''} style="min-height:auto;width:22px;height:22px">
+        <span class="u-n">${icon(r.icon)} ${h(r.name)}${r.enchant ? ' <b>+' + r.enchant + '</b>' : ''} <span class="muted">${h(r.grade)} · ${r.src === 'clan' ? 'clan warehouse' : h(r.char) + "'s bag"}</span></span>
+        <select data-ucolto="${k}">${r.gains.map(g => `<option value="${h(g.name)}" ${g.name === r.to ? 'selected' : ''}>${h(g.name)} +${g.gain}</option>`).join('')}</select>
+        ${r.unseal ? `<label><input type="checkbox" data-ucolun="${k}" ${r.un ? 'checked' : ''} style="min-height:auto;width:20px;height:20px"> unseal first → ${h(r.unseal.name)} (${kmb(r.unseal.aa)} ${r.unseal.pay === 57 ? 'adena' : 'Ancient Adena'})</label>` : ''}</div>`).join('') || '<div class="muted">nothing the collector holds beats what they wear</div>'}
+      <div class="u-row"><button data-ucoladd="1" ${n ? '' : 'disabled'}>Add ${n} ticked piece(s) to the order</button></div></div>`;
+  }
   function addPick(i, s, slot, idx, label) {
     if (s.src === 'craft') {   // a crafted piece: the crafter makes it and hands it over (Make several, prefilled)
       S.mk = { doer: s.crafter, q: '', item: { id: i.id, name: i.name, icon: i.icon, src: 'craft', recipe: s.recipe }, count: 1, to: 0, give: true, giveTo: [S.cur], plan: null, found: null };
@@ -220,7 +237,8 @@
       <div class="u-row"><span class="u-n">Scrolls, soul crystals, gemstones may come from:</span>
         ${['wh', 'clan', 'buy'].map(k => `<button class="${S.use[k] ? 'on' : ''}" data-uuse="${k}">${{ wh: 'own warehouse', clan: 'clan warehouse', buy: 'buy in Giran' }[k]}</button>`).join('')}</div>
       ${S.plan && S.plan.orders && S.plan.orders.some(o => o.lines.some(l => (l.overSafe || []).length)) ? `<label style="display:flex;gap:8px;align-items:flex-start;padding:6px 0"><input type="checkbox" id="upSafe" ${S.overSafeOk ? 'checked' : ''} style="min-height:auto;width:22px;height:22px;flex:0 0 auto"> <span class="u-bad">I accept the warnings above (above +4 a failed scroll destroys the item; big costs)</span></label>` : ''}
-      <div class="muted">After putting everything on, the replaced pieces stay in this character's bag (never sold, never handed away).</div></div>`;
+      <label style="display:flex;gap:8px;align-items:center;padding:6px 0"><input type="checkbox" id="upBack" ${S.giveBack ? 'checked' : ''} style="min-height:auto;width:22px;height:22px;flex:0 0 auto"> <span>Give the replaced pieces back to the collector (never +10, never sold)</span></label>
+      <div class="muted">${S.giveBack ? 'After putting everything on, the replaced pieces go to the collector in Giran (a piece the hand-over misses stays in the bag).' : "After putting everything on, the replaced pieces stay in this character's bag (never sold, never handed away)."}</div></div>`;
   }
   // ---- augment picker (AUGMENT-2026-10-25: "let me select the life stone augmentation I want to aim for") ----
   const JEWEL = /earring|ring|necklace|neck/i;
@@ -336,12 +354,12 @@
     const b = $id('upBody'); if (!b) return;
     const has = Object.values(S.lines).some(L => L && L.length);
     const sy = window.scrollY;
-    b.innerHTML = (S.msg ? `<div class="box">${h(S.msg)}</div>` : '') + jobsHtml() + charPickHtml() + recHtml() + dollHtml() + candHtml() + orderHtml() + (S.cur ? `<details class="box"><summary>Other item (search any item by name)</summary>${findHtml()}</details>` : '') + makeHtml()
+    b.innerHTML = (S.msg ? `<div class="box">${h(S.msg)}</div>` : '') + jobsHtml() + charPickHtml() + recHtml() + colHtml() + dollHtml() + candHtml() + orderHtml() + (S.cur ? `<details class="box"><summary>Other item (search any item by name)</summary>${findHtml()}</details>` : '') + makeHtml()
       + (has ? `<div class="u-sticky"><button data-ucheck="1" ${S.busy ? 'disabled' : ''}>${S.busy ? 'Working…' : 'Check the plan'}</button><button data-ustart="1" ${S.busy || !S.plan ? 'disabled' : ''}>Order it${S.plan ? ' (' + S.plan.orders.filter(o => o.ok).length + ' ready)' : ''}…</button></div>` : '');
     window.scrollTo(0, sy);
     if (S.focusQ) { const i = $id('upQ'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } S.focusQ = false; }
   }
-  function body() { return { orders: Object.keys(S.lines).filter(n => (S.lines[n] || []).length).map(n => ({ name: n, lines: S.lines[n].map(L => ({ item: { src: L.src, id: L.id, objId: L.objId || 0, enchant: L.enchant || 0, char: L.char || '', offer: L.offer || null }, enchantTo: Number(L.enchantTo) || 0, saId: Number(L.saId) || 0, augment: L.augment ? { stone: L.augment.stone, wanted: L.augment.wanted, max: L.augment.max } : null })) })), use: S.use, overSafeOk: S.overSafeOk }; }
+  function body() { return { orders: Object.keys(S.lines).filter(n => (S.lines[n] || []).length).map(n => ({ name: n, lines: S.lines[n].map(L => ({ item: { src: L.src, id: L.id, objId: L.objId || 0, enchant: L.enchant || 0, char: L.char || '', offer: L.offer || null }, enchantTo: Number(L.enchantTo) || 0, saId: Number(L.saId) || 0, augment: L.augment ? { stone: L.augment.stone, wanted: L.augment.wanted, max: L.augment.max } : null, unseal: !!L.unseal })) })), use: S.use, overSafeOk: S.overSafeOk, giveBack: !!S.giveBack }; }
   async function check() {
     S.busy = true; render();
     try { S.plan = await call('/api/upgrade/plan', body()); if (S.plan && S.plan.error) { S.msg = S.plan.error; S.plan = null; } else { S.msg = '';
@@ -374,11 +392,10 @@
       S.found = await call('/api/items/find?q=' + encodeURIComponent(q)); } catch (e) { S.found = { error: e.message }; }
     S.pick = null; render();
   }
-  function onClick(e) {
-    const t = e.target.closest('button'); if (!t) return; const d = t.dataset;
-    if (d.upreset) { (async () => {
-      const g = ($id('upGrade') || {}).value || 'C'; S.grade = g;
-      const me = S.chars.find(c => c.name === S.cur) || {}, who = d.upreset === 'party' ? S.chars.filter(c => (c.party || c.name) === (me.party || S.cur)).map(c => c.name) : [S.cur];
+  // GEARUPCOL-2026-10-29: the gear plan's pieces (+ PARTYSPARE teammates' spare jewelry) for me / the whole party -> the draft order only
+  async function presetFill(mode) {
+      const g = ($id('upGrade') || {}).value || S.grade || 'C'; S.grade = g;
+      const me = S.chars.find(c => c.name === S.cur) || {}, who = mode === 'party' ? S.chars.filter(c => (c.party || c.name) === (me.party || S.cur)).map(c => c.name) : [S.cur];
       const r = await call(`/api/upgrade/preset?grade=${g}&names=${encodeURIComponent(who.join(','))}`);
       if (r.error) { S.msg = r.error; render(); return; }
       const notes = [];
@@ -390,7 +407,15 @@
           const i = cur.findIndex(x => x.slot === l.slot && (x.idx || 0) === l.idx); if (i >= 0) cur.splice(i, 1, l); else cur.push(l); });
         notes.push(`<b>${h(c.name)}</b>: ${c.lines.length} piece(s) added${(c.have || []).length ? ' · keeps ' + c.have.length : ''}${(c.missing || []).length ? ' · <span class="u-bad">not available: ' + c.missing.map(h).join('; ') + '</span>' : ''}`);
       });
-      S.presetNote = notes.join('<br>'); S.plan = null; save(); render(); })(); return; }
+      S.presetNote = notes.join('<br>'); S.plan = null; save(); render();
+  }
+  function onClick(e) {
+    const t = e.target.closest('button'); if (!t) return; const d = t.dataset;
+    if (d.upreset) { presetFill(d.upreset); return; }
+    if (d.ucoladd) { (S.col.rows || []).filter(r => r.pick && r.to).forEach(r => { const L = S.lines[r.to] = S.lines[r.to] || [], idx = /^(earring|ring)$/.test(r.slot) ? Math.min(1, L.filter(l => l.slot === r.slot && l.fromCol).length) : 0;
+        const line = { id: r.id, name: r.unseal && r.un ? r.unseal.name : r.name, icon: r.icon, grade: r.grade, slot: r.slot, idx, src: r.src, enchant: r.enchant, objId: r.objId, char: r.char, offer: null, enchantTo: 0, saId: 0, unseal: !!(r.unseal && r.un), fromCol: true };
+        const i = L.findIndex(l => l.slot === r.slot && (l.idx || 0) === idx); if (i >= 0) L.splice(i, 1, line); else L.push(line); });
+      S.col.rows = S.col.rows.filter(r => !(r.pick && r.to)); S.giveBack = true; S.plan = null; S.msg = 'Added. "Give the replaced pieces back" is ticked — Check the plan, then Order it.'; save(); render(); return; }   // GEARUPCOL-2026-10-29
     if (d.umkk) { S.mk.pk.kind = d.umkk; S.mk.pk.grade = ''; S.mk.pk.type = ''; render(); return; }   // MAKEPICK
     if (d.umkg !== undefined && t.hasAttribute('data-umkg')) { S.mk.pk.grade = d.umkg; S.mk.pk.type = ''; render(); return; }
     if (d.umkt !== undefined && t.hasAttribute('data-umkt')) { S.mk.pk.type = d.umkt; render(); return; }
@@ -434,6 +459,10 @@
     const t = e.target, d = t.dataset;
     if (d.uench) { const [n, i] = d.uench.split('|'); S.lines[n][Number(i)].enchantTo = Number(t.value); S.plan = null; save(); render(); return; }
     if (d.usa) { const [n, i] = d.usa.split('|'); S.lines[n][Number(i)].saId = Number(t.value); S.plan = null; save(); render(); return; }
+    if (d.ucolt) { S.col.rows[Number(d.ucolt)].pick = t.checked; render(); return; }   // GEARUPCOL-2026-10-29
+    if (d.ucolun) { S.col.rows[Number(d.ucolun)].un = t.checked; return; }
+    if (d.ucolto) { S.col.rows[Number(d.ucolto)].to = t.value; return; }
+    if (t.id === 'upBack') { S.giveBack = t.checked; render(); return; }
     if (t.id === 'upSafe') { S.overSafeOk = t.checked; }
     if (d.umkdoer) { S.mk.doer = t.value; S.mk.found = null; S.mk.item = null; S.mk.plan = null; render(); return; }
     if (d.umkto) { S.mk.to = Number(t.value) || 0; S.mk.plan = null; render(); return; }
@@ -450,5 +479,5 @@
     if (e.target.id === 'upAQ' && S.aug) { S.aug.q = e.target.value; render(); const i = $id('upAQ'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
   }
   document.addEventListener('keydown', (e) => { if (S.open && e.key === 'Enter' && e.target && e.target.id === 'upQ') find(); });
-  window.UpgradePage = { route, open, close };
+  window.UpgradePage = { route, open, close, partyButton: (leader) => `<a class="ccsheetbtn" href="#/upgrade/party:${encodeURIComponent(leader)}" title="Gear plan pieces + spare gear from teammates and the collector for this party (fills an order; nothing starts until you press Order it)">Gear up ›</a>` };   // GEARUPCOL-2026-10-29
 })();

@@ -17,17 +17,21 @@ const t = (ok, what, info) => { console.log((ok ? 'ok   ' : 'FAIL ') + what + (!
   { const g = SW.slice(SW.indexOf('async function ijToGiran('), SW.indexOf('async function ijToGiran(') + 4000);
     t(/if \(opt && opt\.solo && team && !isLeader\(\)\) \{\s*o\.solo = true; scoutAway\(true\)/.test(g) && g.indexOf('opt.solo') < g.indexOf("swarm.kitbuy.trip"), 'A10 a solo member goes away (scout flag) before any party hold is asked');
     t(/finally \{ if \(J\.solo\) \{ try \{ scoutAway\(false\)/.test(SW), 'A11 the away flag is cleared when the solo job ends (the rejoin takes it back)'); }
+  t(/if \(l\.unseal && num\(l\.unseal\.id\) && !l\.unsealed\)/.test(run) && run.indexOf('!l.unsealed)') < run.indexOf('equipPiece(objId'), 'A12 GEARUPCOL "unseal first": Pushkin before the piece goes on, once (resume keeps the unsealed piece)');
+  t(/enchLevelOf\(replaced\[k\]\.objId\) >= 10\) replaced\.splice/.test(run) && /giveBack: !!b\.giveBack && !!col/.test(API), 'A13 the replaced pieces go back only on the owner\'s tick, never a +10');
   t(/const trip = await ijToGiran\(seq, '!itemjob', \{ solo: !!J\.solo \}\);/.test(run) && (run.match(/ijToGiran\(/g) || []).length === 1, 'A2 ONE Giran trip for all lines');
   t(/if \(l\.result === 'done'\) \{ res\.push/.test(run) && /l\.result = 'done'; l\.worn = !!on; ijSaveJob\(J\);/.test(run), 'A3 every line result is saved; a resumed job skips finished lines');
   t(/const fail = \(why\) => \{ l\.result = 'failed';[^\n]*going on with the next piece/.test(run), 'A4 one failed line does not stop the others');
   t(/worn0\.has\(o\) && !nowWorn\.has\(o\) && !keep\.has\(o\)/.test(run), 'A5 only pieces worn before, taken off by the new ones (and not a new piece) go to the collector');
-  t(/const UPGRADE_GIVE_REPLACED = false;/.test(SW) && /col !== me && UPGRADE_GIVE_REPLACED/.test(run), 'A6 KEEPOLD (owner 2026-10-26): the replaced pieces stay in my bag (no hand-over, no sale)');
-  t(/it\.src === 'char'\) objId = ijFind\(it\.id, null, keep\)/.test(run) && /const nd = await ijNeeds\(l\.needs, id\)/.test(run), 'A7 another character\'s piece arrives through the needs step (CHARSRC hand-over) first');
+  t(/const UPGRADE_GIVE_REPLACED = false;/.test(SW) && /col !== me && \(UPGRADE_GIVE_REPLACED \|\| U\.giveBack === true\)/.test(run), 'A6 KEEPOLD (owner 2026-10-26): the replaced pieces stay in my bag (no hand-over, no sale)');
+  t(/it\.src === 'char'\) objId = ijFind\(it\.id, null, keep\)/.test(run) && /const nd = l\.unsealed \? \{ ok: true \} : await ijNeeds\(l\.needs, id\)/.test(run), 'A7 another character\'s piece arrives through the needs step (CHARSRC hand-over) first');
   t(/num\(it\.enchant\) > WH_SAFE_ENCH && !J\.overSafeOk/.test(run) && /ijEnchant\(objId, num\(l\.enchant\.to\), num\(l\.enchant\.scroll\), id, it\.name, !!J\.overSafeOk\)/.test(run), 'A8 the safe +4 rule holds (warehouse pieces and enchanting)');
   t(/if \(e\.gone\) \{ fail\(e\.why\); continue; \}/.test(run), 'A9 a destroyed item ends only that line');
   // ---- page + API wiring ----
   t(/\/api\/upgrade\/plan/.test(PAGE) && /\/api\/upgrade\/start/.test(PAGE) && /uiConfirm/.test(PAGE) && !/\bconfirm\(|alert\(|prompt\(/.test(PAGE.replace(/uiConfirm\(/g, '')), 'B1 the page plans, asks with the shared dialog, never a browser confirm');
   t(/the replaced pieces stay in this character's bag/.test(PAGE), 'B2 the page says the replaced pieces stay in the bag');
+  t(/data-ucoladd/.test(PAGE) && /\/api\/upgrade\/collector/.test(PAGE) && /id="upBack"/.test(PAGE) && /giveBack: !!S\.giveBack/.test(PAGE) && /unseal: !!L\.unseal/.test(PAGE), 'B4 GEARUPCOL From the collector: tick, receiver, unseal first, give back');
+  t(/UpgradePage\.partyButton\(leader\)/.test(fs.readFileSync(path.join(ROOT, 'Dashboard', 'index.html'), 'utf8')) && /#\/upgrade\/party:/.test(PAGE) && !/presetFill\('party'\)[^\n]*\/api\/upgrade\/start/.test(PAGE), 'B5 the party card opens #/upgrade/party:<leader>; it only fills the draft');
   t(/data-uuse=/.test(PAGE) && /use\.wh && Number\(o\.wh\)/.test(API), 'B3 materials only from the sources the owner ticked');
   // ---- server (live data, mocked orders) ----
   const A = require(path.join(ROOT, 'Dashboard', 'itemspage_api.js')), U = require(path.join(ROOT, 'Dashboard', 'upgrade_api.js'));
@@ -116,9 +120,13 @@ const t = (ok, what, info) => { console.log((ok ? 'ok   ' : 'FAIL ') + what + (!
     const cs = JSON.parse(fs.readFileSync(path.join(LOGS, 'clan_state.json'), 'utf8') || '{}'), clanHave = {};
     ((cs.warehouse && cs.warehouse.items) || []).forEach(r => { clanHave[r.id] = (clanHave[r.id] || 0) + (Number(r.count) || 1); });
     t(Object.keys(clanUse).every(id => clanUse[id] <= (clanHave[id] || 0)), 'E5 a clan warehouse piece is planned for one character only', clanUse);
+    const chl = lines.filter(l => l.src === 'char'); t(new Set(chl.map(l => l.char + ':' + l.objId)).size === chl.length && chl.every(l => (l.enchant || 0) < 10), 'E6 PARTYSPARE a teammate\'s spare piece is planned once, never +10');
   }
   // ---- PAPERDOLL-2026-10-25: the character's slots + every candidate for one slot ----
   if (rich.length) {
+    const s0 = sent.length, CS = U.collectorStock(ctx, rich.map(c => c.name).join(',')), cr = (CS.rows || []).filter(r => r.src === 'char');
+    t(CS.ok && CS.rows.every(r => r.enchant < 10 && r.gains.every(g => g.gain > 0) && (!r.to || r.to === r.gains[0].name || r.gains.some(g => g.name === r.to))) && sent.length === s0, 'I1 GEARUPCOL collector stock: never +10, every receiver gains, nothing sent', CS.rows && CS.rows.slice(0, 3));
+    t(new Set(cr.map(r => r.objId)).size === cr.length && !CS.rows.some(r => r.to === CS.collector), 'I2 each collector piece once; the collector never gets its own piece');
     const D = await U.doll(ctx, rich[0].name);
     t(D.ok && D.slots.length === 12 && D.slots.filter(s => s.slot === 'ring').length === 2 && D.slots.filter(s => s.slot === 'earring').length === 2, 'F1 the doll has 12 slots (2 earrings, 2 rings)', D.slots && D.slots.map(s => s.label));
     const C = await U.slotCands(ctx, rich[0].name, 'chest');

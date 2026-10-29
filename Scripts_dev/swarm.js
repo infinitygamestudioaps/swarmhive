@@ -13631,9 +13631,10 @@ async function upgradeRun(J, id, seq) {
     if (orderState.seq !== seq && orderReplaced(seq)) { ijStatus(id, { state: 'failed', result: 'replaced by a newer order' }, 'stopped: a newer order came in'); return trip; }
     const fail = (why) => { l.result = 'failed'; l.why = String(why || '?'); ijSaveJob(J); res.push(`${l.item.name}: ${l.why}`); ijStatus(id, null, `✗ ${l.item.name}: ${l.why} — going on with the next piece`); };
     ijStatus(id, null, `— ${l.item.name}${l.enchant ? ' → +' + l.enchant.to : ''}${l.sa ? ' + ' + l.sa.sa : ''}`);
-    const nd = await ijNeeds(l.needs, id); if (!nd.ok) { fail(nd.why); continue; }
+    const nd = l.unsealed ? { ok: true } : await ijNeeds(l.needs, id); if (!nd.ok) { fail(nd.why); continue; }   // GEARUPCOL-2026-10-29: an unsealed piece is not asked for again
     let objId = 0; const it = l.item;
-    if (it.src === 'shop') { const b = it.offer ? await ijBuyAt(it.offer, num(it.id), 1, id) : await ijBuy(num(it.id), id); if (!b.ok) { fail(`buying failed: ${b.why}`); continue; } objId = num(b.objId) || ijFind(it.id, 0, keep); }
+    if (l.unsealed && enchLevelOf(num(l.objId)) >= 0) objId = num(l.objId);   // GEARUPCOL: resumed after Pushkin
+    else if (it.src === 'shop') { const b = it.offer ? await ijBuyAt(it.offer, num(it.id), 1, id) : await ijBuy(num(it.id), id); if (!b.ok) { fail(`buying failed: ${b.why}`); continue; } objId = num(b.objId) || ijFind(it.id, 0, keep); }
     else if (it.src === 'bag') { objId = num(it.objId); if (enchLevelOf(objId) < 0) objId = ijFind(it.id, num(it.enchant), keep); }
     else if (it.src === 'char') objId = ijFind(it.id, null, keep);       // the other character handed it over in the needs step (CHARSRC)
     else {
@@ -13644,6 +13645,14 @@ async function upgradeRun(J, id, seq) {
       try { Inventory.forEach(i => { if (num(i.Id) === num(it.id) && !before.has(num(i.objId))) objId = num(i.objId); }); } catch (e) { }
     }
     if (!objId || enchLevelOf(objId) < 0) { fail('it is not in my bag'); continue; }
+    if (l.unseal && num(l.unseal.id) && !l.unsealed) {   // GEARUPCOL-2026-10-29: the owner ticked "unseal first" -> Pushkin (exactly like unsealRun), then the unsealed piece goes on
+      const b0 = new Set(); try { Inventory.forEach(i => { if (num(i.Id) === num(l.unseal.id)) b0.add(num(i.objId)); }); } catch (e) { }
+      ijStatus(id, null, `unsealing ${it.name} at Pushkin (${l.unseal.aa} ${num(l.unseal.pay) === 57 ? 'adena' : 'Ancient Adena'})`);
+      let u = { ok: false, why: '?' }; try { u = await ijBuyAt({ npc: 'Pushkin', x: 77458, y: 148169, path: [l.unseal.label], kind: 'exchange' }, num(l.unseal.id), 1, id); } catch (e) { u = { ok: false, why: String(e.message || e) }; }
+      let o = 0; try { Inventory.forEach(i => { if (num(i.Id) === num(l.unseal.id) && !b0.has(num(i.objId))) o = num(i.objId); }); } catch (e) { }
+      if (!u.ok || !o) { fail(`unsealing failed (${u.why || 'no unsealed piece'}) — the sealed piece stays in my bag`); continue; }
+      objId = o; l.objId = o; l.unsealed = true; ijSaveJob(J);
+    }
     if (ijWornNow().has(objId) && (l.enchant || l.sa)) { Send.UseItem(objId); await sleep(1200); }
     if (l.enchant && num(l.enchant.to) > enchLevelOf(objId)) {
       const e = await ijEnchant(objId, num(l.enchant.to), num(l.enchant.scroll), id, it.name, !!J.overSafeOk);
@@ -13667,7 +13676,8 @@ async function upgradeRun(J, id, seq) {
   const col = String(U.collector || '');
   // KEEPOLD 2026-10-26 (owner: "IF you buy a new weapon, armor or accesory you ALWAYS store your other stuff in inventory"): the replaced pieces
   // stay in MY bag - never handed to the collector, never sold (UPGRADE_GIVE_REPLACED stays false)
-  if (replaced.length && col && col !== me && UPGRADE_GIVE_REPLACED) {
+  if (U.giveBack === true) for (let k = replaced.length - 1; k >= 0; k--) if (enchLevelOf(replaced[k].objId) >= 10) replaced.splice(k, 1);   // GEARUPCOL-2026-10-29: never a +10 piece to the collector (it stays in my bag)
+  if (replaced.length && col && col !== me && (UPGRADE_GIVE_REPLACED || U.giveBack === true)) {   // GEARUPCOL-2026-10-29: the owner ticked "give the replaced pieces back to the collector"
     const hid = 'ijr_' + String(col).toLowerCase() + '_' + Date.now().toString(36);
     try { File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: col, batch: HOV_CFG.batch, givers: { [me]: { items: replaced, adena: 0 } }, by: me, why: 'upgrade ' + id + ': replaced pieces', created: new Date().toISOString() }, null, 1)); } catch (e) { logError('upgrade collector', e); }
     ijStatus(id, null, `handing the ${replaced.length} replaced piece(s) to the collector ${col}: ${replaced.map(r => r.name).join(', ').slice(0, 200)}`);
@@ -21752,7 +21762,10 @@ function huntTarget(cx, cy, radius) {
     if (autoLvl.spot && autoLvl.spot.poly && autoLvl.spot.poly.length >= 3 && !((autoLvl.spot.room || autoLvl.spot.area) ? nearPolygon(mb.X, mb.Y, autoLvl.spot.poly, 100) : inPolygon(mb.X, mb.Y, autoLvl.spot.poly))) return;   // outside the drawn area / the room (ROOM POLYS PATCH: +100 for rooms)
     if (foreignTagged(mb)) return no(mb);                                   // another player's monster: never ours (ROOM POLYS PATCH 2026-10-08)
     { const rb = rkBosses.length ? rkNear(mb) : null;                       // RAIDKEEP-2026-10-24
-      if (rb) { if (!userSpot) return no(mb); if (now() - (soloSafe.raidKeepNoteAt || 0) > 300000) { soloSafe.raidKeepNoteAt = now(); note(`hunt: WARNING — ${mb.Name} is a minion of the raid boss ${rb.name}; attacking it anyway because you chose this spot`, true); } } }
+      // NORAIDHUNT-2026-10-29 (owner: "Just DONT attack boss and minions"; Spoiler10 / Spoiler6 died 25 + 11 times pulling Ketra Commander Atis / Archon
+      // Suscepter at their chosen spots): leveling never picks a raid boss or its minion, chosen spot or not (raids / raidhunt / circuit do not use this pick)
+      // ("Raid" titled monsters never get here: ignoredMob -> raidTitledOutsideRaid, RAID-TITLED 2026-10-09)
+      if (rb) { if (userSpot && now() - (soloSafe.raidKeepNoteAt || 0) > 300000) { soloSafe.raidKeepNoteAt = now(); note(`hunt: ${mb.Name} is a minion of the raid boss ${rb.name} — never attacked while leveling, the other monsters here are`, true); } return no(mb); } }
     if (geoBlockedAt(mb.X, mb.Y, mb.Z, 150)) return no(mb);                 // stands in a learned BLOCKED spot (we got stuck there, 2026-10-09)
     if (autoLvl.spot && autoLvl.spot.floor && isFinite(mb.Z) && (mb.Z < autoLvl.spot.floor.zMin - 150 || mb.Z > autoLvl.spot.floor.zMax + 150)) return;   // another floor (spot editor)
     if (solo) {   // 2026-10-10: every solo monster is checked (was: only ones nearer than the best so far) so huntSkip knows them all
@@ -40726,6 +40739,9 @@ function lhWant(want, perHour, hours, cap) {
   const need = Math.ceil(r * h * LONGHUNT.margin / 100) * 100;
   return Math.max(w, Math.min(Number(cap) > 0 ? Number(cap) : need, need));
 }
+/** UNTILSTOP-2026-10-29 (Vykaax: "never selected anything but 'until I stop it', but it treats it as 12h"; owner: "Yes, no clock"): the picker's
+ *  "Until I stop it" = { untilStop: true } -> no long-hunt clock for that party */
+function htUntilStop(j, key) { const e = htNorm(j).parties[key]; return !!(e && typeof e === 'object' && e.untilStop === true); }
 // HUNTTIMER-PURE-END
 var HT = { j: null, chk: 0, stamp: '', st: {}, stChk: {}, said: {}, held: [], busy: false, splitSeen: {} };
 const HT_FILE = () => `${__DIR__}\\Scripts\\data\\hunt_timers.json`;
@@ -40755,6 +40771,7 @@ var LH = { first: {} };
 /** LONGHUNT: the dashboard timer of my party, else the long hunt at the spot we hunt at (null = none) */
 function htEntryMine(key) {
   const e = htEntry(htData(), key); if (e) return e;
+  if (htUntilStop(htData(), key)) return null;                              // UNTILSTOP-2026-10-29: "Until I stop it" = no 12 h session either
   try {
     if (!autoLvl.spot || currentTownKey()) return null;
     const k = spotKeyOf(autoLvl.spot); if (!k) return null;

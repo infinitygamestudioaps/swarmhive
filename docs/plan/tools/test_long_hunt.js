@@ -6,11 +6,13 @@ const SW = fs.readFileSync(path.join(R, fs.existsSync(path.join(R, 'Scripts_dev'
 let ok = 0, bad = 0;
 const t = (name, cond) => { if (cond) ok++; else { bad++; console.log('FAIL', name); } };
 const blk = (a, b) => { const i = SW.indexOf(a), j = SW.indexOf(b, i); if (i < 0 || j < 0) throw new Error('block ' + a); return SW.slice(i, j); };
-const HT = new Function(blk('// HUNTTIMER-PURE-BEGIN', '// HUNTTIMER-PURE-END') + '\nreturn { lhHours, lhEntry, lhWant, htClock, htHold, htEndDecide, LONGHUNT };')();
+const HT = new Function(blk('// HUNTTIMER-PURE-BEGIN', '// HUNTTIMER-PURE-END') + '\nreturn { lhHours, lhEntry, lhWant, htUntilStop, htClock, htHold, htEndDecide, LONGHUNT };')();
 const PS = new Function(blk('// PSHOP-PURE-BEGIN', '// PSHOP-PURE-END') + '\nreturn { shotBuyable, lowDropShots, pshopCfg };')();
 
 // hours: built-in 12, party > default, 0 = off, capped 48
 t('built-in 12 h', HT.lhHours({}, 'Tank1') === 12);
+// UNTILSTOP-2026-10-29 (owner "Yes, no clock"): the picker's "Until I stop it" = no 12 h long hunt for that party
+t('until I stop it = no 12 h long hunt', HT.htUntilStop({ parties: { Tank1: { untilStop: true } } }, 'Tank1') && !HT.htUntilStop({ parties: { Tank1: { id: 'a', hours: 2 } } }, 'Tank1') && !HT.htUntilStop({}, 'Tank1') && /htUntilStop\(htData\(\), key\)\) return null/.test(SW));
 t('all parties', HT.lhHours({ default: { longHunt: { hours: 20 } } }, 'Tank1') === 20);
 t('party wins', HT.lhHours({ default: { longHunt: { hours: 20 } }, parties: { Tank1: { longHunt: { hours: 6 } } } }, 'Tank1') === 6);
 t('0 = off', HT.lhHours({ parties: { Tank1: { longHunt: { hours: 0 } } } }, 'Tank1') === 0 && HT.lhEntry(0, 'room:1', 'x', 1, true) === null);

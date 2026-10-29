@@ -44,6 +44,8 @@ function applyChange(data, b, nowMs, idFn) {
   if (!NAME_RE.test(party)) return { ok: false, error: 'party (leader name) required' };
   const cur = J.parties[party];
   if (act === 'clear') { delete J.parties[party]; return { ok: true, data: J, entry: null }; }
+  // UNTILSTOP-2026-10-29 (Vykaax: "Until I stop it" was treated as 12 h): the picker's choice is remembered -> swarm.js skips the long-hunt clock
+  if (act === 'stop') { J.parties[party] = { untilStop: true, at: iso, spot: String(b.spot || '').slice(0, 120), by: String(b.by || 'dashboard').slice(0, 40) }; return { ok: true, data: J, entry: J.parties[party] }; }
   if (act === 'set') {
     const h = Number(b.hours);
     if (!isFinite(h) || h < 0.25 || h > 48) return { ok: false, error: 'hours: 0.25 to 48 (no timer = act clear)' };
@@ -53,7 +55,7 @@ function applyChange(data, b, nowMs, idFn) {
     if (b.repeat === true) J.parties[party].repeat = true;             // HTREPEAT-2026-10-15: after the end action, the next arrival starts a new run
     return { ok: true, data: J, entry: J.parties[party] };
   }
-  if (!cur || typeof cur !== 'object') return { ok: false, error: 'this party has no hunting timer' };
+  if (!cur || typeof cur !== 'object' || cur.untilStop) return { ok: false, error: 'this party has no hunting timer' };
   if (act === 'extend') {
     const m = Number(b.addMin);
     if (!isFinite(m) || m < 15 || m > 720) return { ok: false, error: 'addMin: 15 to 720' };
@@ -64,7 +66,7 @@ function applyChange(data, b, nowMs, idFn) {
     return { ok: true, data: J, entry: J.parties[party] };
   }
   if (act === 'end') { J.parties[party] = Object.assign({}, cur, { endNow: iso }); return { ok: true, data: J, entry: J.parties[party] }; }
-  return { ok: false, error: 'act must be set, extend, end or clear' };
+  return { ok: false, error: 'act must be set, stop, extend, end or clear' };
 }
 function post(ctx, b) {
   if (!b || typeof b !== 'object') return { code: 400, error: 'bad body' };

@@ -112,7 +112,8 @@ const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'opt1026-'));
       ok(!r.given.length && r.kept.length === 3 && !W.hov.length && W.said.some(m => new RegExp(why).test(m)), `F2 collector ${why}: kept in the bag, said why`);
     }
     // the call sites
-    ok(/const UPGRADE_GIVE_REPLACED = false;/.test(src) && /if \(replaced\.length && col && col !== me && UPGRADE_GIVE_REPLACED\) \{/.test(src), 'F2 KEEPOLD owner rule untouched (UPGRADE_GIVE_REPLACED false)');
+    // GEARUPCOL-2026-10-29 (owner: "give back items to collector that is no longer used"): the default stays keep; only the owner's own tick in the order gives them back
+    ok(/const UPGRADE_GIVE_REPLACED = false;/.test(src) && /if \(replaced\.length && col && col !== me && \(UPGRADE_GIVE_REPLACED \|\| U\.giveBack === true\)\) \{/.test(src), 'F2 KEEPOLD owner rule untouched (UPGRADE_GIVE_REPLACED false; give back only on the owner\'s tick)');
     const up = fnSrc('async function upgradeRun(');
     ok(/oldGearGive\(replaced, 'upgrade ' \+ id/.test(up) && /\$\{stayR\.length\} replaced piece\(s\) stay in my bag: \$\{stayR\.map\(r => r\.name\)/.test(up), 'F2 upgradeRun: the old-gear choice, else the same "stay in my bag" line as before');
     const gu = fnSrc('async function gearUpgrade(');

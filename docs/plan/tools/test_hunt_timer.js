@@ -137,6 +137,8 @@ check(a.ok && a.data.parties.Tank1.id === 'id1' && a.data.parties.Tank1.hours ==
 check(!API.applyChange({}, { party: 'Tank1', act: 'set', hours: 0 }, T0).ok && !API.applyChange({}, { party: 'Tank1', act: 'set', hours: 60 }, T0).ok, 'api set: hours 0.25-48 only');
 check(!API.applyChange({}, { party: '../x', act: 'set', hours: 2 }, T0).ok, 'api: a party must be a character name');
 check(!API.applyChange({}, { party: 'Tank1', act: 'extend', addMin: 60 }, T0).ok, 'api extend: no timer -> refused with a reason');
+{ const us = API.applyChange({}, { party: 'Tank1', act: 'stop', spot: 'Forgotten Temple - EWD 1' }, T0);   // UNTILSTOP-2026-10-29
+  check(us.ok && us.data.parties.Tank1.untilStop === true && !API.applyChange(us.data, { party: 'Tank1', act: 'extend', addMin: 60 }, T0).ok, 'api stop: "Until I stop it" is remembered (no 12 h long hunt), and is no timer to extend'); }
 let b2 = API.applyChange(a.data, { party: 'Tank1', act: 'extend', addMin: 60 }, T0 + 10 * M);
 check(b2.ok && b2.data.parties.Tank1.hours === 3 && b2.data.parties.Tank1.id === 'id1', 'api extend: +1 h on a running timer (same id: the clock keeps its start)');
 let b3 = API.applyChange(a.data, Object.assign({ party: 'Tank1', act: 'extend', addMin: 30 }, { _status: { id: 'id1', startedAt: iso(T0), endedFor: 'id1' } }), T0 + 3 * H, () => 'id2');

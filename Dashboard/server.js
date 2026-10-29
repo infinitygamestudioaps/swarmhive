@@ -1892,12 +1892,20 @@ function agentGuardPick(stats, nowMs) {
   }
   return out;
 }
-setInterval(() => {
+// AGENTGUARD-ONLINE-2026-10-29 (tester Hero: "I have to connect to the brain every time I launch dashboard"): only a character L2Swarm has
+// logged in can run swarm.js; MCP down (L2Swarm not up yet) = nothing tried (was: ECONNREFUSED + a false "running swarm.js" + a 20 min block)
+function agentGuardOnline(list) { return new Set((Array.isArray(list) ? list : []).filter(a => a && a.is_logged_in && a.character && a.character.name).map(a => String(a.character.name))); }
+setInterval(async () => {
   try {
     if (engineJob.running || ALTJOB.running || !bhProc) return;   // ALTS: an account switched to an alt is no agent problem
     const stats = readJson(path.join(LOGS, 'brain_host_stats.json'), null);
     if (!stats || Date.now() - Date.parse(stats.at || 0) > 60000) return;               // pool not reporting: nothing to compare with
-    const names = agentGuardPick(stats, Date.now());
+    let names = agentGuardPick(stats, Date.now());
+    if (!names.length) return;
+    let online; try { const all = JSON.parse(await mcpCallT('get_accounts_status', {})); online = agentGuardOnline(Array.isArray(all) ? all : (all.accounts || [])); } catch (e) { return; }
+    if (engineJob.running) return;
+    names.filter(n => !online.has(n)).forEach(n => { agentGuard.seen[n] = 0; });   // not logged in: not on swarm.js either
+    names = names.filter(n => online.has(n));
     if (!names.length) return;
     names.forEach(n => { agentGuard.tried[n] = Date.now(); agentGuard.seen[n] = 0; });
     const log = path.join(LOGS, 'engine_switch.log');
