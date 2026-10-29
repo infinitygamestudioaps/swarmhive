@@ -31,8 +31,8 @@
     try { const r = await call('/api/quests'); if (r && Array.isArray(r.rows)) { CACHE.quests = r.rows; CACHE.qmap = {}; r.rows.forEach(x => { CACHE.qmap[x.id] = x; }); CACHE.qAt = Date.now(); } } catch (e) { }
   }
   async function loadOpts() {
-    if (CACHE.opts) return;
-    try { const r = await call('/api/partyplans/options'); if (r && r.ok) { CACHE.opts = r; CACHE.raids = {}; (r.raids || []).forEach(b => { CACHE.raids[b.id] = b; }); } } catch (e) { }
+    if (CACHE.opts && Date.now() - (CACHE.oAt || 0) < 10000) return;   // PLANSPOTS-2026-10-29 (Hero: a new spot never showed in the plan): re-read after 10 s
+    try { const r = await call('/api/partyplans/options'); if (r && r.ok) { CACHE.opts = r; CACHE.oAt = Date.now(); CACHE.raids = {}; (r.raids || []).forEach(b => { CACHE.raids[b.id] = b; }); } } catch (e) { }
   }
   async function loadInfo() {
     const r = await call('/api/partyplans');
@@ -139,19 +139,19 @@
     const o = CACHE.opts; if (!o) return '<div class="pp-hint">Loading the hunting places…</div>';
     const at = Number(s.to) || startLevel(), q = PP.spotQ.trim().toLowerCase();
     const rows = [];
-    (o.zones || []).filter(z => z.enabled && ((z.teams || ['all']).includes('all') || (z.teams || []).includes(PP.leader))).forEach(z => rows.push({ kind: 'zone', label: 'Route place', name: z.name, lmin: z.levelMin, lmax: z.levelMax, via: z.via, own: (z.teams || []).includes(PP.leader), spot: { mode: 'manual', kind: 'zone', spot: z.name, levelMin: z.levelMin, levelMax: z.levelMax } }));
+    (o.zones || []).filter(z => z.enabled && ((z.teams || ['all']).includes('all') || (z.teams || []).includes(PP.leader))).forEach(z => rows.push({ kind: 'zone', label: 'Route place', name: z.name, lmin: z.levelMin, lmax: z.levelMax, via: z.via, own: (z.teams || []).includes(PP.leader), noRoute: z.route === false, spot: { mode: 'manual', kind: 'zone', spot: z.name, levelMin: z.levelMin, levelMax: z.levelMax } }));
     (o.regions || []).forEach(R => rows.push({ kind: 'field', label: 'Hunting ground', name: R.name, lmin: R.levelRange && R.levelRange[0], lmax: R.levelRange && R.levelRange[1], via: R.landing, spot: { mode: 'manual', kind: 'field', spot: R.name, region: R.id, areaIds: R.areaIds, order: 'nearest', levelMin: R.levelRange && R.levelRange[0], levelMax: R.levelRange && R.levelRange[1] } }));
     (o.dungeons || []).forEach(d => rows.push({ kind: 'rooms', label: window.openSpotPickerFor ? 'Dungeon · tap to choose rooms on the map' : 'Dungeon (any free room)', dungeon: d.name, name: d.name, lmin: d.levelRange && d.levelRange[0], lmax: d.levelRange && d.levelRange[1], spot: { mode: 'manual', kind: 'rooms', spot: d.name, dungeon: d.name, roomId: 'any', levelMin: d.levelRange && d.levelRange[0], levelMax: d.levelRange && d.levelRange[1] } }));
     (o.datapack || []).filter(d => !/^Area @/.test(d.name)).forEach(d => rows.push({ kind: 'datapack', label: 'Place', name: d.name, lmin: d.levelMin, lmax: d.levelMax, via: d.via, spot: { mode: 'manual', kind: 'datapack', spot: d.name, levelMin: d.levelMin, levelMax: d.levelMax } }));
-    const fits = (r) => r.lmin == null || (r.lmin <= at && (r.lmax == null || r.lmax >= at - 6));
+    const fits = (r) => r.kind === 'zone' || r.lmin == null || (r.lmin <= at && (r.lmax == null || r.lmax >= at - 6));   // PLANSPOTS: your own spots are always listed
     const list = rows.filter(r => q ? (r.name + ' ' + (r.via || '')).toLowerCase().includes(q) : fits(r))
-      .sort((a, b) => (b.own ? 1 : 0) - (a.own ? 1 : 0) || Math.abs(((a.lmin || 0) + (a.lmax || 0)) / 2 - at) - Math.abs(((b.lmin || 0) + (b.lmax || 0)) / 2 - at)).slice(0, 40);
+      .sort((a, b) => (b.own ? 1 : 0) - (a.own ? 1 : 0) || (b.kind === 'zone' ? 1 : 0) - (a.kind === 'zone' ? 1 : 0) || Math.abs(((a.lmin || 0) + (a.lmax || 0)) / 2 - at) - Math.abs(((b.lmin || 0) + (b.lmax || 0)) / 2 - at)).slice(0, 40);
     { const seen = {}; for (let i = list.length - 1; i >= 0; i--) { const k = list[i].kind + '|' + list[i].name + '|' + list[i].lmin + '|' + list[i].lmax; if (seen[k]) list.splice(i, 1); else seen[k] = 1; } }   // PLANPICK: no duplicate rows
     PP.spotRows = list;
     const cur = s.spot || {};
     return `<div class="pp-list" role="listbox" aria-label="Hunting places">${list.map((r, i) => {
       const on = cur.mode === 'manual' && cur.kind === r.spot.kind && cur.spot === r.spot.spot;
-      return `<button type="button" role="option" aria-selected="${on}" class="pp-opt${on ? ' sel' : ''}" data-ppspot="${i}"><b>${E(r.name)}</b><span>${E(r.label)}${r.lmin != null ? ` · levels ${E(r.lmin)}–${E(r.lmax)}` : ''}${r.own ? ' · your route' : ''}${r.via ? ` · ${E(r.via)}` : ''}</span></button>`;
+      return `<button type="button" role="option" aria-selected="${on}" class="pp-opt${on ? ' sel' : ''}" data-ppspot="${i}"><b>${E(r.name)}</b><span>${E(r.label)}${r.lmin != null ? ` · levels ${E(r.lmin)}–${E(r.lmax)}` : ''}${r.own ? ' · your route' : ''}${r.noRoute ? ' · ⚠ no ⚑ Start set yet (spot editor)' : ''}${r.via ? ` · ${E(r.via)}` : ''}</span></button>`;
     }).join('') || '<div class="pp-hint">No place fits — type a name to search all.</div>'}</div>`;
   }
   function questList(s) {

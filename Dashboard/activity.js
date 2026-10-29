@@ -181,7 +181,8 @@
       if (ts.done) return { ic: UI.yes, cls: ts.ok === false ? 'bad' : '', h: `${ts.ok === false ? 'step failed' : 'ready'} — waiting for the others (${esc(stepLabel(ts.a))})`, step: ts };
     }
     const ie = newest(c), ieAge = ie ? now - T(ie.at) : 1e9;
-    const notes = (c.notes || []).join(' | ');
+    // SELLLABEL-2026-10-29 (Hero: "selling" shown with nothing marked): "skipped - automatic selling is off" / "selling is switched off" is not selling
+    const notes = (c.notes || []).join(' | ').replace(/[^|]*selling is (?:switched )?off[^|]*/gi, '');
     if (/\bsell/i.test(t) || (ie && !ie.result && ieAge < 120000 && /sell/i.test(ie.detail || '')) || /\bselling\b/i.test(notes.slice(-200))) {
       const npc = ie && ie.action === 'npc' ? String(ie.detail || '').replace(/^talking to /, '').replace(/^walking in front of (.*) before clicking.*/, '$1') : '';
       const nm = (t + ' ' + (ie ? ie.detail : '')).match(/\((\d+)\s*\/\s*(\d+)\)/);

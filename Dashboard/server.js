@@ -444,6 +444,9 @@ function readStatesFresh() {
     if (!s || !s.name) continue;
     if (f !== `swarm_state_${s.name}.json`) continue;   // e.g. swarm_state_null.json written during a disconnect (a ghost character)
     s.ageSec = Math.round((Date.now() - Date.parse(s.updated)) / 1000);
+    // GONECHARS-2 (Vykaax 2026-10-29: removed mages stayed yellow in a party): a character in no team / account whose state is
+    // older than 2 h is a removed one -> not listed. Known characters stay however old (a PC that was off all night).
+    if (!teams[s.name] && Object.keys(teams).length && s.ageSec > 7200) continue;
     s.party = teams[s.name] || MAIN_LEADER;
     try { splitNpcTarget(s); } catch (e) { }
     const dup = out.findIndex(o => o.name === s.name);  // one entry per character: the newest

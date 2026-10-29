@@ -2,6 +2,16 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.8 (2026-10-29)
+
+- Tested on L2Swarm 3.10.10
+- Escape: after an escape the walk back out of town now fights back when attacked
+- Standing still: Hive no longer waits on L2Swarm combat that does not hit the monster attacking you, and a monster hitting you up close is never treated as behind a wall (Cruma floors)
+- Gear-up: A-grade armor from the Giran luxury shop (Alexandria) is now bought (a worn B one-piece no longer blocks the A pieces)
+- Giran: characters no longer walk the Symbol Maker route for other NPCs (e.g. the Gift of Vitality priest) when symbols are off
+- Quests: Deliver Goods knows its three delivery NPCs (no more 'manual step: no NPC'), Head for the Hills goes to the Hills of Gold via Stronghold I
+- Dashboard: removed characters disappear after 2 h, no 'selling' label when selling is off, new spots show up in the plan's place list (with a hint when no Start is set), the spot editor asks before drawing a new hunt area over an old one
+
 ## v1.12.7 (2026-10-29)
 
 - Solo characters: new party switch 'Solo: escape when a fight goes badly' (default on

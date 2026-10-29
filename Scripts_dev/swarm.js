@@ -2514,6 +2514,8 @@ function canSee(c) {
     const x = num(c.X !== undefined ? c.X : c.x), y = num(c.Y !== undefined ? c.Y : c.y), zr = c.Z !== undefined ? c.Z : c.z, z = (zr === undefined || zr === null || !isFinite(Number(zr))) ? Me.Z : num(zr);
     const d = Math.hypot(x - Me.X, y - Me.Y);
     if (d <= 100 && Math.abs(z - Me.Z) < 250) return true;
+    // SEEHIT-2026-10-29 (Vykaax, Cruma: the duo stood still while a monster hit them): a monster hitting me within reach is never behind a wall
+    try { if (d <= 300 && Math.abs(z - Me.Z) < 250 && c.objId !== undefined && num(c.objId) === num(lastAttackerOnMe.id) && !lastAttackerOnMe.for && now() - lastAttackerOnMe.at < 5000) return true; } catch (e) { }
     if (typeof GeoSight !== 'function' || d > SEE_FAR) return true;
     const key = `${Math.round(Me.X / 128)},${Math.round(Me.Y / 128)},${Math.round(Me.Z / 128)}>${Math.round(x / 128)},${Math.round(y / 128)},${Math.round(z / 128)}`;
     const hit = SEE.c[key]; if (hit && now() - hit.at < 2000) return hit.v;
@@ -6688,7 +6690,7 @@ async function openNpcInner(npc) {
   const g = CONFIG.gatekeeper;
   // GIRAN NPC WALK (owner 2026-10-17: "Spoiler2 keeps running out of town" - after selling at Helvetia the direct walk to Clarissa went out
   // through the south-west of Giran): in Giran an NPC is reached along the recorded routes first (the user's rule), then the last steps
-  if (currentTownKey() === 'Giran' && Distance(npc) > 600) { const pl = giranPlaceNear(npc.X, npc.Y); if (pl && pl.d < 1500) { note(`npc: ${npc.Name} via the Giran route '${pl.pl}'`); await giranGo(pl.pl); } }
+  if (currentTownKey() === 'Giran' && Distance(npc) > 600) { const pl = giranPlaceNear(npc.X, npc.Y); if (pl && pl.d < 1500) { note(`npc: ${npc.Name} via the Giran route '${pl.pl}'`); await giranGo(pl.pl === CONFIG.gear.dyes.route && npc.Name !== CONFIG.gear.dyes.npc ? 'start' : pl.pl); } }   // SYMBOLWALK-2026-10-29 (Vykaax: "they all check the symbol maker even if it's turned off"): the symbol route is only for the Symbol Maker
   if (Distance(npc) > g.reachDist) await walkTo(npc.X, npc.Y, npc.Z, g.reachDist - 20, g.walkTimeoutMs * 2);
   // WALLSIGHT-2026-10-24 (owner: no interaction through a wall): close but behind a wall/counter wall -> walk round to it over the wall-aware path first
   // (> 250: a shop counter right in front of the NPC is a wall cell in the geodata, and talking over it is what the game does)
@@ -12412,7 +12414,7 @@ function planUpgrades(budget) {
       if (fromRec && wearing < want) {
         const jinfo = kwant && info.t !== kwant && info.cw ? items[info.cw] : info, jid = jinfo === info ? num(ids[0]) : num(info.cw);
         // TESTERS2-2026-10-13: an EMPTY slot is never kept
-        if (jinfo && (g.eq[slot] || []).length && !(sgIsStarter(((g.eq[slot] || [])[0] || {}).info) && ggGrade(jinfo.g) > 0) && !roleBroken(slot) && upgradeGain(jid, jinfo, g, ownOk(slot, jinfo)) < U.minGain) { locked[slot] = 'kept'; row.status = 'kept'; row.detail = 'what I wear is as good as the recommended ' + info.n; done = true; break; }   // STARTERGEAR: a graded pick beats a starter piece
+        if (jinfo && (g.eq[slot] || []).length && !(sgIsStarter(((g.eq[slot] || [])[0] || {}).info) && ggGrade(jinfo.g) > 0) && !roleBroken(slot) && upgradeGain(jid, jinfo, g, ownOk(slot, jinfo)) < U.minGain) { locked[slot] = 'kept'; recGuard = recGuard || 'what I wear is as good as the recommended ' + info.n; continue; }   // STARTERGEAR: a graded pick beats a starter piece; LUXARMOR-2026-10-29 (Vykaax: A armor never bought): try the row's other pieces (a two-piece A chest vs a worn B one-piece)
       }
       locked[slot] = 'preferred';
       if (slot === 'chest' && info.full) locked.legs = 'covered (full armor)';   // GEARPREF D3
@@ -31537,8 +31539,12 @@ async function autoLevelLoop(solo) {
       // back"): with "Hive picks my skills" OFF, L2Swarm's own combat fights; while it is on a monster Hive never picks another one or walks to the centre /
       // a random point (those walks pulled him off L2Swarm's target and L2Swarm dragged him back)
       if (!sfMode && hiveOwnCombat() && IsInCombat && ((Me.IsAttacking || Me.IsCasting) || now() - lastAttackerOnMe.at < 5000 || !!(Target && Target.objId && mobById(Target.objId) && !Target.IsDead))) {
-        lastTarget = 0; autoLvl.mobSeenAt = now(); await sleep(1000); continue;
-      }
+        // OWNSTALL-2026-10-29 (Hero / Vykaax stood still, the leader ignored a monster on him / the healer): wait for L2Swarm's combat only while
+        // its target IS the monster hitting us (or nothing hits us) and it swings within STOPCALM.stallMs; else ATTACKFIRST / the pick below act
+        const tg = Target && Target.objId ? num(Target.objId) : 0, hitFresh = now() - lastAttackerOnMe.at < 5000 && num(lastAttackerOnMe.id) > 0;
+        if (Me.IsAttacking || Me.IsCasting) autoLvl.ownIdleAt = 0; else if (!autoLvl.ownIdleAt) autoLvl.ownIdleAt = now();
+        if ((!hitFresh || tg === num(lastAttackerOnMe.id)) && !(autoLvl.ownIdleAt && now() - autoLvl.ownIdleAt >= STOPCALM.stallMs)) { lastTarget = 0; autoLvl.mobSeenAt = now(); await sleep(1000); continue; }
+      } else autoLvl.ownIdleAt = 0;
       // ATTACKFIRST-2026-10-23: a monster hitting one of us (healer first) beats the chosen target when that one hits nobody
       if (!sfMode) { const af = attackFirstNow(lastTarget); if (af && num(af.objId) !== num(lastTarget)) { lastTarget = af.objId; autoLvl.mobSeenAt = now(); await engage(af); await sleep(200); continue; } }   // ORDERFLOOD: a pause even when engage returns at once
       const cur = !sfMode && lastTarget && mobById(lastTarget);
@@ -35092,7 +35098,11 @@ setInterval(() => {
   note(`self-defence: ${mob.Name} is hitting me — fighting it with skills${stalled ? ' (my combat did not swing at it: attacking it myself)' : ''}`);
   try { if (!Target || Target.objId !== mob.objId) Send.Action(mob.objId); } catch (e) { }
   if (recHold()) { memberScriptFight(mob); enableShots(); return; }   // RECORDING HOLD: fight THIS monster with script attacks, no L2Swarm combat (it hunted the whole square)
-  const hunting = inRaid() || state.mode === 'autolevel' || state.mode === 'raidclear';
+  // DEFENDWALK-2026-10-29 (Hero: the autolevel walk back out of town after an escape never fought back): on a walk that pauses for fights
+  // the hunt's combat is NOT running (stopped in town) - defend here (tight square / script hit); the walk waits meanwhile
+  const walkDef = walkFightWalking() && !inRaid();
+  const hunting = !walkDef && (inRaid() || state.mode === 'autolevel' || state.mode === 'raidclear');
+  selfDef.walk = walkDef;
   if (hunting) { if (stalled) { srvAttack(mob.objId); selfDef.idleSince = 0; } }   // the hunt's combat owns the fight; only a stalled one gets a hit
   else if (!memberScriptFight(mob)) {
     // STOPCALM-2026-10-23: no hunt runs = fight back ONLY this monster (L2Swarm combat in a 1200 square picked every other monster too and a
@@ -35115,9 +35125,9 @@ setInterval(() => {
   enableShots();
 }, 1500);
 // end a self-defence fight 8 s after the last hit: stop combat and stand still (only a fight that self-defence started)
-const selfDef = { started: 0, idleSince: 0 };   // idleSince: STOPCALM stall watch
+const selfDef = { started: 0, idleSince: 0, walk: false };   // idleSince: STOPCALM stall watch; walk: DEFENDWALK fight on a walk
 setInterval(() => {
-  if (!selfDef.started || inRaid() || state.mode === 'autolevel' || state.mode === 'raidclear') { selfDef.started = 0; return; }
+  if (!selfDef.started || inRaid() || ((state.mode === 'autolevel' || state.mode === 'raidclear') && !selfDef.walk)) { selfDef.started = 0; return; }
   if (now() - lastAttackerOnMe.at > 8000 && now() - selfDef.started > 5000) { try { if (IsInCombat) stopCombatG(); } catch (e) { } selfDef.started = 0; const wk = walkFightWalking(); try { if (!wk) Send.StopMove(); } catch (e) { } note(wk ? 'self-defence: nothing hits me any more — the walk goes on' : 'self-defence: nothing hits me any more — standing still'); }   // WALKFIGHT: never stop the walk that resumed after the fight
 }, 2000);
 

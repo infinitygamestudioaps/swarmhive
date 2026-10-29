@@ -2,7 +2,7 @@
  "id": 153,
  "name": "Deliver Goods",
  "version": 1,
- "generated": "2026-10-27T18:18:48.739Z",
+ "generated": "2026-10-29T13:48:34.881Z",
  "tool": "docs/plan/tools/quest_plan_build.js",
  "level": {
   "min": 2,
@@ -12,26 +12,9 @@
  "region": "Talking Island",
  "requirements": {},
  "restrictions": [],
- "status": "fixable",
- "reasons": [
-  {
-   "code": "dryrun-fail",
-   "text": "dry run: talk-no-npc, no-dialog, npc-no-spawn"
-  },
-  {
-   "code": "dryrun:talk-no-npc",
-   "text": "cond 1: the engine must talk but the data names no NPC (qeDoTalk = fatal \"no NPC for this step\")"
-  },
-  {
-   "code": "dryrun:no-dialog",
-   "text": "cond 1: no dialogue chain for the talk to  (Scripts/data/quest_dialogs/153.json)"
-  },
-  {
-   "code": "dryrun:npc-no-spawn",
-   "text": "cond 1: engine talks to  — no spawn"
-  }
- ],
- "expectedMin": 6,
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 9,
  "refLevel": 2,
  "steps": [
   {
@@ -300,6 +283,566 @@
   },
   {
    "i": 1,
+   "key": "c1:talk:30002",
+   "cond": 1,
+   "kind": "talk",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30002,
+    "name": "Jackson",
+    "title": "Armor Merchant",
+    "town": "Talking Island",
+    "at": [
+     -86733,
+     242918,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jackson",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30002@-86733,242918",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4056,
+    "sec": 79,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4056,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85160,
+      243656,
+      -3728
+     ],
+     [
+      -85128,
+      243384,
+      -3728
+     ],
+     [
+      -85304,
+      243176,
+      -3728
+     ],
+     [
+      -85512,
+      243000,
+      -3728
+     ],
+     [
+      -85768,
+      242904,
+      -3728
+     ],
+     [
+      -85960,
+      242712,
+      -3728
+     ],
+     [
+      -86136,
+      242504,
+      -3728
+     ],
+     [
+      -86200,
+      242440,
+      -3728
+     ],
+     [
+      -86312,
+      242504,
+      -3728
+     ],
+     [
+      -86504,
+      242696,
+      -3720
+     ],
+     [
+      -86536,
+      242776,
+      -3720
+     ],
+     [
+      -86680,
+      242920,
+      -3720
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 104,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30003",
+   "cond": 1,
+   "kind": "talk",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30003,
+    "name": "Silvia",
+    "title": "Accessory Merchant",
+    "town": "Talking Island",
+    "at": [
+     -83789,
+     240799,
+     -3717
+    ],
+    "alt": []
+   },
+   "text": "Talk to Silvia",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30003@-83789,240799",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6184,
+    "sec": 97,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6184,
+      "how": "town-graph",
+      "danger": 4
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85224,
+      243736,
+      -3728
+     ],
+     [
+      -85048,
+      243528,
+      -3728
+     ],
+     [
+      -84856,
+      243336,
+      -3728
+     ],
+     [
+      -84616,
+      243192,
+      -3728
+     ],
+     [
+      -84680,
+      243016,
+      -3728
+     ],
+     [
+      -84664,
+      242744,
+      -3728
+     ],
+     [
+      -84664,
+      242472,
+      -3728
+     ],
+     [
+      -84824,
+      242264,
+      -3728
+     ],
+     [
+      -84936,
+      242104,
+      -3728
+     ],
+     [
+      -84920,
+      242088,
+      -3728
+     ],
+     [
+      -84776,
+      241864,
+      -3728
+     ],
+     [
+      -84632,
+      241640,
+      -3728
+     ],
+     [
+      -84472,
+      241432,
+      -3728
+     ],
+     [
+      -84520,
+      241176,
+      -3728
+     ],
+     [
+      -84632,
+      241032,
+      -3728
+     ],
+     [
+      -84808,
+      240840,
+      -3728
+     ],
+     [
+      -84664,
+      240920,
+      -3728
+     ],
+     [
+      -84488,
+      240824,
+      -3720
+     ],
+     [
+      -84296,
+      240648,
+      -3720
+     ],
+     [
+      -84088,
+      240648,
+      -3720
+     ],
+     [
+      -83832,
+      240760,
+      -3720
+     ]
+    ],
+    "maxDanger": 4,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 4,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 122,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30054",
+   "cond": 1,
+   "kind": "talk",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30054,
+    "name": "Rant",
+    "title": "Warehouse Keeper",
+    "town": "Talking Island",
+    "at": [
+     -81895,
+     243917,
+     -3712
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rant",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30054@-81895,243917",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 3476,
+    "sec": 74,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3476,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84104,
+      244600,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83704,
+      244776,
+      -3728
+     ],
+     [
+      -83480,
+      244728,
+      -3728
+     ],
+     [
+      -83240,
+      244584,
+      -3728
+     ],
+     [
+      -83096,
+      244440,
+      -3728
+     ],
+     [
+      -83096,
+      244344,
+      -3728
+     ],
+     [
+      -83096,
+      244072,
+      -3728
+     ],
+     [
+      -82952,
+      243864,
+      -3728
+     ],
+     [
+      -82728,
+      243704,
+      -3728
+     ],
+     [
+      -82488,
+      243560,
+      -3720
+     ],
+     [
+      -82296,
+      243544,
+      -3720
+     ],
+     [
+      -82072,
+      243672,
+      -3712
+     ],
+     [
+      -81896,
+      243880,
+      -3712
+     ],
+     [
+      -81896,
+      243912,
+      -3712
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 99,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
    "key": "c2:talk:30041",
    "cond": 2,
    "kind": "talk",
@@ -563,253 +1106,16 @@
    "conds": [
     2
    ]
-  },
-  {
-   "i": 2,
-   "key": "c1:turnin:30003",
-   "cond": 1,
-   "kind": "deliver",
-   "to": 1,
-   "links": [],
-   "npc": {
-    "id": 30003,
-    "name": "Silvia",
-    "title": "Accessory Merchant",
-    "town": "Talking Island",
-    "at": [
-     -83789,
-     240799,
-     -3717
-    ],
-    "alt": []
-   },
-   "text": "Hand in Cloth Bundle at Silvia (repeatable: then hunt again)",
-   "needs": [
-    {
-     "id": 1014,
-     "name": "Cloth Bundle",
-     "n": 20
-    }
-   ],
-   "reasons": [],
-   "travel": {
-    "src": "atlas",
-    "key": "npc:30003@-83789,240799",
-    "status": "ok",
-    "flags": [],
-    "from": ".gludin",
-    "length": 6184,
-    "sec": 97,
-    "via": ".gludin > Gludin -> TI Village",
-    "steps": [
-     {
-      "do": "town",
-      "town": "Gludin",
-      "cmd": ".gludin"
-     },
-     {
-      "do": "gk",
-      "from": "Gludin",
-      "desc": "Gludin -> TI Village",
-      "link": "talking island village",
-      "price": 9400,
-      "live": true
-     },
-     {
-      "do": "walk",
-      "len": 6184,
-      "how": "town-graph",
-      "danger": 4
-     }
-    ],
-    "start": {
-     "kind": "gk",
-     "from": "Gludin",
-     "desc": "Gludin -> TI Village"
-    },
-    "simple": true,
-    "pv": [
-     [
-      -84141,
-      244623,
-      -3728
-     ],
-     [
-      -84312,
-      244584,
-      -3728
-     ],
-     [
-      -84504,
-      244392,
-      -3728
-     ],
-     [
-      -84744,
-      244248,
-      -3728
-     ],
-     [
-      -85000,
-      244152,
-      -3728
-     ],
-     [
-      -85208,
-      243992,
-      -3728
-     ],
-     [
-      -85256,
-      243768,
-      -3728
-     ],
-     [
-      -85224,
-      243736,
-      -3728
-     ],
-     [
-      -85048,
-      243528,
-      -3728
-     ],
-     [
-      -84856,
-      243336,
-      -3728
-     ],
-     [
-      -84616,
-      243192,
-      -3728
-     ],
-     [
-      -84680,
-      243016,
-      -3728
-     ],
-     [
-      -84664,
-      242744,
-      -3728
-     ],
-     [
-      -84664,
-      242472,
-      -3728
-     ],
-     [
-      -84824,
-      242264,
-      -3728
-     ],
-     [
-      -84936,
-      242104,
-      -3728
-     ],
-     [
-      -84920,
-      242088,
-      -3728
-     ],
-     [
-      -84776,
-      241864,
-      -3728
-     ],
-     [
-      -84632,
-      241640,
-      -3728
-     ],
-     [
-      -84472,
-      241432,
-      -3728
-     ],
-     [
-      -84520,
-      241176,
-      -3728
-     ],
-     [
-      -84632,
-      241032,
-      -3728
-     ],
-     [
-      -84808,
-      240840,
-      -3728
-     ],
-     [
-      -84664,
-      240920,
-      -3728
-     ],
-     [
-      -84488,
-      240824,
-      -3720
-     ],
-     [
-      -84296,
-      240648,
-      -3720
-     ],
-     [
-      -84088,
-      240648,
-      -3720
-     ],
-     [
-      -83832,
-      240760,
-      -3720
-     ]
-    ],
-    "maxDanger": 4,
-    "needs": [],
-    "why": [],
-    "checks": {
-     "reachable": true,
-     "walls": "geodata / saved / graph walks (walls block)",
-     "water": false,
-     "danger": 4,
-     "dangerVsLevel": 2,
-     "aggro": []
-    }
-   },
-   "expectedSec": 122,
-   "turnin": true,
-   "conds": [
-    1
-   ]
   }
  ],
  "override": {
   "steps": {}
  },
  "dryrun": {
-  "at": "2026-10-27T18:18:48.815Z",
-  "pass": false,
+  "at": "2026-10-29T13:48:35.210Z",
+  "pass": true,
   "geo": true,
-  "fails": [
-   {
-    "code": "talk-no-npc",
-    "t": "cond 1: the engine must talk but the data names no NPC (qeDoTalk = fatal \"no NPC for this step\")"
-   },
-   {
-    "code": "no-dialog",
-    "t": "cond 1: no dialogue chain for the talk to  (Scripts/data/quest_dialogs/153.json)"
-   },
-   {
-    "code": "npc-no-spawn",
-    "t": "cond 1: engine talks to  — no spawn"
-   }
-  ],
+  "fails": [],
   "warns": [
    "route-detour"
   ]

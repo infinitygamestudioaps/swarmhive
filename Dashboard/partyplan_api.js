@@ -66,7 +66,7 @@ function options(ctx) {
   if (OPT.v && OPT.key === key) return Object.assign({ raids: raids(ctx) }, OPT.v);
   const rd = (f, d) => (ctx.readJson ? ctx.readJson(f, d) : rj(f, d));
   const zones = (rd(F[0], []) || []).filter(z => z && z.name).map(z => ({ name: z.name, levelMin: z.levelMin, levelMax: z.levelMax, enabled: z.enabled !== false,
-    teams: Array.isArray(z.teams) ? z.teams : (z.team ? [z.team] : ['all']), via: z.gkDesc || (z.travel && z.travel.town ? z.travel.town : ''), kind: z.rooms ? 'rooms' : z.dungeon ? 'dungeon' : 'outdoor' }));
+    teams: Array.isArray(z.teams) ? z.teams : (z.team ? [z.team] : ['all']), via: z.gkDesc || (z.travel && z.travel.town ? z.travel.town : ''), kind: z.rooms ? 'rooms' : z.dungeon ? 'dungeon' : 'outdoor', route: !!(z.travel || z.gkDesc || z.rooms || z.dungeon) }));   // PLANSPOTS-2026-10-29: hint when no ⚑ Start is set
   const datapack = (rd(F[1], []) || []).filter(s => s && s.name && s.gk && String(s.gk.desc || '').includes('->'))
     .map(s => ({ name: s.name, levelMin: s.levelMin, levelMax: s.levelMax, via: s.gk.desc, mobs: (s.mobs || []).reduce((n, m) => n + (m.count || 0), 0) }));
   const dungeons = (rd(F[2], []) || []).map(d => ({ name: d.name, levelRange: d.levelRange || null, catacomb: !!d.catacomb, rooms: (d.floors || []).reduce((n, Fl) => n + (Fl.rooms || []).length, 0) }));

@@ -47,7 +47,7 @@ check(u2.length === 6 && Math.abs(u2[u2.length - 1].y - 2500) < 2, 'B4 navAtlasP
 check(mtCut([P(0, 0, 0), P(5000, 0, 0)], { x: 5000, y: 0, dist: 1000 }).slice(-1)[0].x === 4000, 'B5 mtCut on a straight line: unchanged result (4000)');
 
 // ---- C) every action path checks the sight -----------------------------------------------------------------------------------
-check(/function canSee\(c\)[\s\S]{0,1200}GeoSight\(Me\.X, Me\.Y, Me\.Z, x, y, z\)/.test(src), 'C1 canSee asks the geodata (GeoSight)');
+check(/function canSee\(c\)[\s\S]{0,1800}GeoSight\(Me\.X, Me\.Y, Me\.Z, x, y, z\)/.test(src), 'C1 canSee asks the geodata (GeoSight)');
 check(/function srvAttack\(id\) \{[^\n]*canSee\(m\)\) \{ wallRefused\('attacking', m\); wallApproach\(o, m\); return; \}/.test(src) && /function wallApproach\(o, m\)[^\n]*Send\.MoveBackwardToLocation/.test(src), 'C2 srvAttack refuses a monster behind a wall and walks to it instead (WALLWALK: members no longer stand still)');
 check(/async function engage\(t\)[\s\S]{0,700}if \(!canSee\(t\)\)/.test(src), 'C3 engage refuses it');
 check(/function huntTarget\([\s\S]{0,8000}for \(const c of cands\) \{ if \(!canSee\(c\.mb\)\)/.test(src), 'C4 huntTarget skips it (nearest first, only until one is in sight)');
@@ -59,7 +59,7 @@ check(!/function assistView\(m\)[^\n]*\n[^\n]*\n[^\n]*canSee\(m\)/.test(src) && 
 check(/bossMinions\(boss, 2500\)\.filter\(m => canSee\(m\)\)/.test(src), 'C7 the raid tank only goes for minions in sight');
 check(/async function raidDealer\([\s\S]{0,7000}if \(!canSee\(tgt\)\) \{/.test(src), 'C8 raid dealers never attack the focus through a wall');   // 4500 -> 7000: LEADPULL-2026-10-25 added the leader's Frenzy wait above it
 check(/function healTargets\(\)[\s\S]{0,1600}canSee\(\{ x: t\.x, y: t\.y/.test(src), 'C9 healers never heal through a wall');
-check(/async function openNpcInner\([\s\S]{0,1200}Distance\(npc\) > 250 && !canSee\(npc\)/.test(src), 'C10 NPC talk: behind a wall -> walk round first');
+check(/async function openNpcInner\([\s\S]{0,1600}Distance\(npc\) > 250 && !canSee\(npc\)/.test(src), 'C10 NPC talk: behind a wall -> walk round first');
 check(/function mtHelpTarget\([\s\S]{0,600}!canSee\(m\)/.test(src) && /function mtLeashFight\([\s\S]{0,700}canSee\(m\)\)/.test(src), 'C11 the team walk\'s fights only take monsters in sight');
 const host = fs.readFileSync(path.join(ROOT, 'Dashboard', 'brain_host', 'host.js'), 'utf8');
 check(/GeoSight: \(ax, ay, az, bx, by, bz\) =>[^\n]*geopath\.js[^\n]*\.sight\(/.test(host), 'C12 the brain host gives the scripts GeoSight (geopath.js sight)');

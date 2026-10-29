@@ -27,8 +27,9 @@ ok(src.includes("globalThis.__spotTripAt = now();") && src.includes("pstEnd('tra
 ok((src.match(/if \(supStopped\('/g) || []).length === 3, 'STOPTRIP: the supply run stops after the Giran regroup, before the grocer, before the hand-out');
 
 // OWNFIGHT
-ok(/OWNFIGHT-2026-10-26[\s\S]{0,600}if \(!sfMode && hiveOwnCombat\(\) && IsInCombat && [^\n]*\{\n\s*lastTarget = 0; autoLvl\.mobSeenAt = now\(\); await sleep\(1000\); continue;/.test(src), 'OWNFIGHT: Hive steps aside while L2Swarm\'s own combat fights');
-{ const i = src.indexOf('OWNFIGHT-2026-10-26'), j = src.indexOf('ATTACKFIRST-2026-10-23: a monster hitting', i); ok(i > 0 && j > i && j - i < 1200, 'OWNFIGHT: placed before the hive target pick'); }
+// OWNSTALL-2026-10-29: the step-aside now also checks that L2Swarm's target is the attacker and that it swings (window 600 -> 600 + the OWNSTALL block)
+ok(/OWNFIGHT-2026-10-26[\s\S]{0,600}if \(!sfMode && hiveOwnCombat\(\) && IsInCombat && [^\n]*\{\n[\s\S]{0,1200}\{ lastTarget = 0; autoLvl\.mobSeenAt = now\(\); await sleep\(1000\); continue; \}/.test(src), 'OWNFIGHT: Hive steps aside while L2Swarm\'s own combat fights');
+{ const i = src.indexOf('OWNFIGHT-2026-10-26'), j = src.indexOf('ATTACKFIRST-2026-10-23: a monster hitting', i); ok(i > 0 && j > i && j - i < 2400, 'OWNFIGHT: placed before the hive target pick'); }
 
 // AOEFIGHT
 const cf = new Function('snapMobs', 'num', 'aggroRange', src.slice(src.indexOf('function countFightMobsNear('), src.indexOf('function countMobsNear(')) + '\nreturn countFightMobsNear;');

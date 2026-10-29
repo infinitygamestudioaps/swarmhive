@@ -444,7 +444,7 @@
   function redo() { if (!S.redo.length) return; S.undo.push(JSON.stringify(S.M)); S.M = JSON.parse(S.redo.pop()); S.sel = null; S.dirty = true; checkLegs(); render(); }
   function touch() { S.dirty = true; render(); checkLegs(); }
   function setTool(t) {
-    S.tool = t; S.sel = null;
+    S.tool = t; S.sel = null; S.areaAsk = t === 'area';
     if (t === 'hole' && S.M && S.holeI < 0) S.holeI = S.M.holes.length ? S.M.holes.length - 1 : -1;
     render();
   }
@@ -500,6 +500,10 @@
       M.safeWaypoints.push(w); S.sel = 's:' + (M.safeWaypoints.length - 1);
       fillZ(w, hintZ(M.safeWaypoints.length > 1 ? M.safeWaypoints.slice(0, -1) : (M.poly.length ? M.poly : M.waypoints)));
     } else if (S.tool === 'area') {
+      if (S.areaAsk && M.poly.length >= 3 && selAt('a') < 0 && !M.poly.some((p, i) => segDist(w, p, M.poly[(i + 1) % M.poly.length]) <= 12 * px)) {
+        S.areaAsk = false;   // EDITREDRAW-2026-10-29 (Hero: "i modified a spot but it draws new and old at the same time"): new corners chained onto the old outline
+        if (await ask({ title: 'Draw a new hunt area?', body: 'This spot has a hunt area already. Start a new one (the old one goes; Undo brings it back) or add this corner to the old outline?', confirmText: 'Start a new area', cancelText: 'Add to the old one' })) M.poly = [];
+      }
       if (!M.poly.length && !M.floor && S.floor) { M.floor = { ...S.floor }; toast(`Hunting floor set to "${S.floor.name}" (the floor the map shows) — change it in ☰`); }
       const at = insertPoly(M.poly, w, selAt('a')); S.sel = 'a:' + at; fillZ(w, hintZ(M.poly));
     } else if (S.tool === 'hole') {
