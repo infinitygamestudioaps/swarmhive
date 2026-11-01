@@ -77,7 +77,9 @@ const FIGHTER = ["Squire's Sword", "Squire's Shirt", "Squire's Pants"], MYSTIC =
   check(slotBuy(paid, 'chest').info.n === 'Tunic of Devotion' && slotBuy(paid, 'legs').info.n === 'Stockings of Devotion', 'R1 holds: the Devotion set for a level-10 healer');
   // a short budget: the set (whole) + the cheap pieces, the 217k staff skipped (not "the whole plan skipped")
   const { r: part } = plan({ label: 'healer 120k', classId: 25, level: 10, role: 'healer', worn: MYSTIC, budget: 120000 });
-  check(!slotBuy(part, 'weapon') && slotBuy(part, 'chest') && slotBuy(part, 'legs') && part.buys.length >= 6, `120k: buys what it can afford (${part.buys.map(p => p.info.n).join(', ')}), skips the staff`);
+  // GEARGROUP-2026-10-30 (owner "Skip a group that doesn't fit"): the WHOLE armor group, never a few loose jewels next to it (was: >= 6 pieces)
+  const jw = part.buys.filter(p => ['neck', 'earring', 'ring'].includes(p.slot)).length;
+  check(!slotBuy(part, 'weapon') && ['chest', 'legs', 'head', 'gloves', 'feet'].every(s => slotBuy(part, s)) && (jw === 0 || jw === paid.buys.filter(p => ['neck', 'earring', 'ring'].includes(p.slot)).length), `120k: buys the whole armor group it can afford (${part.buys.map(p => p.info.n).join(', ')}), skips the staff, jewelry whole or not at all`);
 }
 // ---- 2) "new bots (lvl 1-19) still don't get rid of squire armor" ----
 for (const m of [{ c: 53, n: 'Dwarven Fighter (spoiler)', role: 'spoiler', worn: DWARF }, { c: 0, n: 'Human Fighter', role: 'melee', worn: FIGHTER }, { c: 18, n: 'Elven Fighter (dagger)', role: 'dagger', worn: FIGHTER }]) {

@@ -110,6 +110,8 @@ ok(A.spark.length === 24 && A.spark[23] > A.spark[0], 'E5 exp line rises');
   ok(by('Stem').each === 20 && by('Stem').value === 600 && by('Old Sword').each === 500, 'H3 unit value = half the shop price (same as the loot tile)');
   ok(by('Stem').sell && by('Old Sword').sell && by('Plain Junk').sell && by('Old Sword').enU, 'H4 plain items can be sold (gear without an enchant level flagged "check")');
   ok(!bg.rows.some(r => r.name === 'Worn Helm'), 'H5 OVBAG-INBAG: worn gear is not in the bag view (owner: only what is inside the bag)');
+  { const OSRC = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'Dashboard', 'overview.js'), 'utf8'), ASRC = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'Dashboard', 'overview_api.js'), 'utf8');
+    ok(/total\.bagItems \+= g\.items; total\.bagSell \+= g\.sellable/.test(ASRC) && /'Adena coins \(all bags\)'[^\n]*coins only · items in bags worth[^\n]*worn gear not counted/.test(OSRC), 'H5b BAGWORTH: the adena tile says coins only + the bag item worth without worn gear'); }
   ok(!by('Quest Thing').sell && by('Quest Thing').why === 'quest item' && !by('Quest Flagged').sell && by('Quest Flagged').why === 'quest item', 'H6 quest items (flag or questitems.json) never "can sell"');
   ok(!by('Lucky Blade').sell && by('Lucky Blade').why === 'enchanted +3', 'H7 enchanted gear never "can sell"');
   ok(!by('Adena').sell && by('Adena').adena, 'H8 adena itself is not "can sell"');

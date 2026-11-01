@@ -92,6 +92,7 @@ else {
 eq(d.clanSkillRanks.skills['376 Clan Might'].retailMinRank, 'Heir', 'Clan Might retail rank Heir');
 if (d.live) ok(d.levels.every(l => !l.live || l.live.matchesDatapack === true), 'LIVE village master page = datapack numbers');
 else console.log('note: no LIVE level-up page saved — LIVE check skipped');
+{ const l7 = d.levels.find(l => l.level === 7); ok(l7 && l7.serverVerified && l7.serverVerified.members === 40 && l7.requirements.members === 40, 'level 7: the server accepted 40 members (serverVerified) and that is the number used'); }
 const real = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'clan_ranks.json'), 'utf8'));
 eq(Object.keys(real).sort(), Object.keys(d).sort(), 'Scripts/data/clan_ranks.json has the builder keys');
 eq(real.byClanLevel, d.byClanLevel, 'Scripts/data/clan_ranks.json ladder is current');

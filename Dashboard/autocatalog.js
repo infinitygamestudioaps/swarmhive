@@ -63,6 +63,9 @@
     { key: 'swarmFight', group: 'fight', title: 'Fight with L2Swarm', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['swarmFight'],   // SWARMFIGHT-2026-10-16
       what: 'At the hunting spot your L2Swarm profiles do the fighting (combat zone, Follow and Follow Attack) while Hive only travels, restocks and gears up.',
       switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
+    { key: 'rest', group: 'fight', title: 'Sit down to rest when low', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['rest'],   // RESTOPT-2026-10-30
+      what: 'When on, a character sits down to rest when its HP or MP drops below the party’s numbers and stands up again at the "until" numbers; off (the default) nobody sits down and the party keeps hunting.',
+      switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
     { key: 'recommend', group: 'fight', title: 'Recommend each other', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['recommend'],   // RECOMMEND-2026-10-23
       what: 'Once a minute, out of combat, each character recommends the teammate near it with the fewest recommendations, up to 255.',
       switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },

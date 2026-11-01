@@ -304,3 +304,35 @@ details.stc-party > summary b { color: var(--gold, #e3c27a); }
 .cp-igrid.junkmode .cp-it { outline: 1px dashed rgba(233, 185, 73, .55); outline-offset: -3px; cursor: pointer; }
 .cp-junkbtn.on { border-color: #e9b949; color: #f5d68a; }
 .cp-junkhint { font-size: 12px; margin: 4px 0; }
+/* EQUIPVIEW-2026-10-30: armor set status + item details (stats, set pieces) */
+.cp-sets { display: grid; gap: 4px; margin-bottom: 8px; font-size: var(--fs-cap); }
+.cp-set { padding: 4px 8px; border-left: 3px solid #6b6250; background: rgba(0, 0, 0, .25); }
+.cp-set.on { border-left-color: #5fd35f; } .cp-set.off { border-left-color: #d9a441; }
+.cp-set b { color: #f1e7cb; } .cp-setn { float: right; font: 700 var(--fs-cap) Consolas, monospace; }
+.cp-set.on .cp-setn { color: #5fd35f; } .cp-set.off .cp-setn { color: #d9a441; }
+.cp-setb { color: #b8ad92; font-size: var(--fs-mini); margin-top: 2px; }
+.cp-setwarn { color: #ff8a7a; font-size: var(--fs-cap); padding: 2px 8px; }
+.cp-stats { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 8px; font-size: var(--fs-cap); }
+.cp-stats span { white-space: nowrap; } .cp-stats i { font-style: normal; color: #9b9078; margin-right: 3px; }
+.cp-pset { margin-top: 8px; padding: 6px 8px; background: rgba(0, 0, 0, .3); border: 1px solid var(--line); font-size: var(--fs-cap); }
+.cp-pset ul { list-style: none; margin: 4px 0; padding: 0; display: grid; gap: 2px; }
+.cp-pset li span { display: inline-block; min-width: 52px; color: #9b9078; }
+.cp-pset li em { font-style: normal; float: right; font-size: var(--fs-mini); }
+.cp-pset li.ok em { color: #5fd35f; } .cp-pset li.bag em { color: #9fd4ff; } .cp-pset li.miss em { color: #8a8070; }
+.cp-pset .ok { color: #5fd35f; }
+.cp-warn { color: #d9a441; }
+.cp-doll { grid-template-columns: repeat(3, 46px); }
+/* APPROVE-2026-10-30: "A grade and up waits for your OK" (gear rule R7) */
+.cp-apr { border: 1px solid #8a6d12; border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; background: rgba(58,46,8,.35); font-size: var(--fs-cap); display: grid; gap: 6px; }
+.cp-apr-h b { color: #ffd76a; }
+.cp-apr-sub { font-weight: 700; margin-top: 2px; }
+.cp-apr-row, .cp-apr-set { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cp-apr-row > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.cp-apr-row .uk-btn, .cp-apr-set .uk-btn { margin-left: auto; min-height: 32px; }
+.cp-apr-set { padding: 4px 6px; border-radius: 4px; background: rgba(255,255,255,.04); }
+.cp-apr-set.ok { outline: 1px solid #3c8a3c; }
+.cp-apr-slots { display: inline-flex; flex-wrap: wrap; gap: 3px; }
+.cp-apr-slots i { font-style: normal; font-size: 11px; padding: 1px 5px; border-radius: 3px; background: #333; color: #aaa; }
+.cp-apr-slots i.w { background: #24452a; color: #9fe39f; }
+.cp-apr-slots i.a { background: #1f3a55; color: #9fd0ff; }
+.cp-apr-slots i.q { background: #4a3a0c; color: #ffd76a; }

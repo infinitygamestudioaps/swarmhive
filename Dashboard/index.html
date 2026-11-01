@@ -681,6 +681,8 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="parties"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Clan.png" alt=""> Parties</button>
       <button data-tab="auto" title="What runs by itself: every automation per party, on or off and why"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_SystemMenu.png" alt=""> Automations</button><!-- AUTOMATIONS 2026-10-15 -->
       <button data-tab="map"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Map</button>
+      <button data-tab="aoe" title="AOE grounds + teams: where everyone stands, the pullers' route, which team goes there (AOETEAM-2026-10-30; owner: 'Why cant i see AOE setup')"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Clan.png" alt=""> AOE teams</button>
+      <button data-tab="l2day" title="L2Day event letters: stock, exchange at Louie the Cat (Giran square) x1/x5/x10 by queue, rewards (L2DAY-2026-10-31)"><img class="gi" src="/icons/icon/etc_alphabet_l_i00.png" alt=""> L2Day letters</button>
       <button data-tab="logs"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Action.png" alt=""> What they do</button>
       <button data-tab="tp"><img class="gi" src="/icons/icon/etc_scroll_of_return_i00.png" alt=""> Teleports</button>
       <button data-tab="raids"><img class="gi" src="/icons/icon/accessory_raid_master_i00.png" alt=""> Raid bosses</button>
@@ -702,6 +704,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="augments" title="Every Life Stone (level and grade), everything each can give with its chance, and how many we have"><img class="gi" src="/icons/icon/etc_mineral_unique_i00.png" alt=""> Life Stones</button>
       <button data-tab="loot" title="What every character picked up or spoiled: grade, type, who, when"><img class="gi" src="/icons/icon/etc_treasure_box_i00.png" alt=""> Loot</button>
       <button data-tab="crafting" title="Crafters: what they can make with the materials in bag, warehouse and clan warehouse"><img class="gi" src="/icons/icon/etc_recipe_blue_i00.png" alt=""> Crafting</button>
+      <button data-tab="crafter" title="Clan crafter: shot stock targets, what is short, the ore and crystals it needs, and the clan bank"><img class="gi" src="/icons/icon/etc_spirit_bullet_silver_i00.png" alt=""> Crafter</button>
       <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
       <button data-tab="adena"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Adena</button>
       <button data-tab="spoil" title="Which monsters the Bounty Hunters spoil, by their spoil drops"><img class="gi" src="/icons/icon/skill0254.png" alt=""> Spoil</button>
@@ -1241,6 +1244,8 @@ function route() {
   if (window.FundPage && FundPage.route(kind, arg)) return;     // ADENA 2026-10-12: #/adena cross-party adena rules (Dashboard/fundpage.js); closes itself on other pages
   if (window.MarketPage && MarketPage.route(kind, arg)) return;   // MARKET 2026-10-14: #/market player shops (Dashboard/marketpage.js)
   if (window.StoragePage && StoragePage.route(kind, arg)) return;
+  if (window.AoePage && AoePage.route(kind, arg)) return;   // AOETEAM-2026-10-30: #/aoe[/<leader>] the AOE team page (Dashboard/aoepage.js)
+  if (window.L2DayPage && L2DayPage.route(kind, arg)) return;   // L2DAY-2026-10-31: #/l2day the event letters + Louie the Cat exchange (Dashboard/l2daypage.js)
   if (window.SpoilPage && SpoilPage.route(kind, arg)) return;   // SPOIL 2026-10-19: #/spoil[/<leader>] which monsters the Bounty Hunters spoil (Dashboard/spoilpage.js); closes itself on other pages   // STORAGE 2026-10-13: #/storage warehouse settings + event letters (Dashboard/storagepage.js); closes itself on other pages
   if (window.AutoPage && AutoPage.route(kind, arg)) return;   // AUTOMATIONS 2026-10-15: #/auto[/<leader>] what runs by itself, per party (Dashboard/autooverview.js); closes itself on other pages
   if (window.SevenSignsPage && SevenSignsPage.route(kind, arg)) return;   // 7 SIGNS 2026-10-12: #/sevensigns opt-in + registration (Dashboard/sevensigns.js); closes itself on other pages
@@ -1249,6 +1254,7 @@ function route() {
   if (window.LootPage && LootPage.route(kind, arg)) return;   // LOOTLOG 2026-10-23: #/loot what every character picked up / spoiled (Dashboard/lootpage.js)
   if (window.DispatchPage && DispatchPage.route(kind, arg)) return;   // DISPATCH 2026-10-17: #/dispatch send a party / a character to any place, tours, learned routes (Dashboard/dispatchpage.js)
   if (window.ItemsPage && ItemsPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/items[/<name>] any character: bag / warehouse / clan warehouse / Giran shops -> buy, enchant, SA, give (Dashboard/itemspage.js)
+  if (window.CrafterPage && CrafterPage.route(kind, arg)) return;   // CRAFTERPAGE 2026-11-01: #/crafter the clan crafter: stock targets + needs + the clan bank (Dashboard/crafterpage.js)
   if (window.CraftPage && CraftPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/crafting[/<name>] crafters: recipes + materials from bag / warehouse / clan (Dashboard/craftpage.js)
   if (window.CombatClassPage && CombatClassPage.route(kind, arg)) return;   // CLASSROT 2026-10-26: #/combat + #/combat/line/<Line> the class guide (Dashboard/combatclass.js)
   if (window.CombatProfilePage && CombatProfilePage.route(kind, arg)) return;   // COMBATPROFILE 2026-10-17: #/combat/<name> the character's L2Swarm combat profile (Dashboard/combatprofile.js)
@@ -1293,9 +1299,29 @@ async function setClientMode(name, mode) {
   if (!await uiConfirm(mode === 'ingame'
     ? { title: `Switch ${name} to IN-GAME?`, body: [`L2Swarm logs ${name} out, starts l2.exe and logs in through the client (within ~2 min).`, uiNote('The client uses 1-2 GB RAM.')], confirmText: 'Switch to in-game' }
     : { title: `Switch ${name} back to OUT OF GAME?`, body: 'Its l2.exe is closed and it logs in without a client.', confirmText: 'Switch to out of game' })) return;
-  try { const d = await api('/api/clientmode', { method: 'POST', body: JSON.stringify({ name, mode }) }); if (d.error) { $('msg').textContent = `${name}: ${d.error}`; return; } $('msg').textContent = `${name}: ${mode} — ${d.applied === false ? 'saved, NOT applied yet' : 'applied within ~2 min'}` + (d.warning ? ` (${d.warning})` : ''); const el = $('cmode'); if (el) el.textContent = 'wanted: ' + d.modes[name]; }
+  try { const d = await api('/api/clientmode', { method: 'POST', body: JSON.stringify({ name, mode }) }); if (d.error) { $('msg').textContent = `${name}: ${d.error}`; uiError(d.error, `${name}: not switched`); return; } $('msg').textContent = `${name}: ${mode} — ${d.applied === false ? 'saved, NOT applied yet' : 'applied within ~2 min'}` + (d.warning ? ` (${d.warning})` : ''); const el = $('cmode'); if (el) el.textContent = 'wanted: ' + d.modes[name];
+    if (d.warning && window.UIKit) UIKit.toast(`${name}: ${d.warning}`, { kind: 'warn' });
+    cmStatusShow(name, d.status); cmStatusWatch(name); }
   catch (e) { $('msg').textContent = e.message; }
 }
+// CMSTATUS-2026-10-30 (owner: "why is it not saying that we are waiting for l2 to open"): every [data-cmstat="<name>"] (character page Client row) shows
+// what the switch is doing now — waiting for the logins / l2.exe starting / in game — refreshed every 5 s until it is in game or out of game
+const CMW = {};
+function cmStatusShow(name, all) {
+  const s = all && all[name]; const ic = !s ? '' : s.state === 'ingame' ? UI.yes : s.state === 'braked' ? UI.warn : UI.time || UI.warn;
+  document.querySelectorAll(`[data-cmstat="${CSS.escape(name)}"]`).forEach(el => { el.innerHTML = s && s.state !== 'oog' ? (ic ? GI(ic, 'sm') + ' ' : '') + esc(s.why) : ''; el.title = s && s.last ? 'last: ' + s.last : ''; el.className = 'muted cm-stat ' + (s ? 'cm-' + s.state : ''); });
+  return s;
+}
+function cmStatusWatch(name) {
+  if (CMW[name]) return;
+  const tick = async () => {
+    let s = null; try { const d = await api('/api/clientmode'); s = cmStatusShow(name, d.status); } catch (e) { }
+    const live = document.querySelector(`[data-cmstat="${CSS.escape(name)}"]`);
+    if (!s || !live || s.state === 'ingame' || s.state === 'oog') { clearInterval(CMW[name]); delete CMW[name]; }
+  };
+  CMW[name] = setInterval(tick, 5000); tick();
+}
+window.cmStatusWatch = cmStatusWatch;
 
 // --- RELOGIN (user 2026-10-12: "a clear button to log the character in again") ------------------------------------------
 async function relogin(name) {
@@ -2102,12 +2128,37 @@ function heldBy(name, key) {
 function openSpotPicker(party, opt) {
   const lv = partyLevels(party);
   const cur0 = (opt && opt.cur) || ((PSPOT.data || {}).spots || {})[party] || {};
-  SPK = { forPlan: (opt && opt.forPlan) || null, cur: (opt && opt.cur) || null, party, lvl: lv, filter: '', all: false, stay: !!cur0.stay, moveOn: !!cur0.moveOn, dungeon: null, floor: 0, room: null, region: null, focus: null, sel: [], order: cur0.order === 'rotate' ? 'rotate' : 'nearest', pv: window.L && window.SpotMap ? 'map' : 'list' };   /* pv = picker view (SPK.view belongs to the dungeon map) */   // SPOTMAP-2026-10-22: the full-screen map first
+  SPK = { forAoe: (opt && opt.forAoe) || null, forPlan: (opt && opt.forPlan) || null, cur: (opt && opt.cur) || null, party, lvl: lv, filter: '', all: false, stay: !!cur0.stay, moveOn: !!cur0.moveOn, dungeon: null, floor: 0, room: null, region: null, focus: null, sel: [], order: cur0.order === 'rotate' ? 'rotate' : 'nearest', pv: window.L && window.SpotMap ? 'map' : 'list' };   /* pv = picker view (SPK.view belongs to the dungeon map) */   // SPOTMAP-2026-10-22: the full-screen map first
   if (window.SpotMap) { SpotMap.destroy(); SpotMap._state.selFor = ''; }
   document.documentElement.classList.add('spm-lock');   // SPOTMAP: full screen, no page scrollbar behind it
   loadPartySpots(true); loadSevenSigns(true); renderSpotPicker();
 }
 // PLANPICK-2026-10-17 (owner: "I should be able to change the plan" / "I dont see the room under plan"): the plan step editor opens this same picker; the choice goes back to the step, nothing is saved here
+// AOEMAP-2026-10-30 (owner: "I wanna see the rooms under AOE just like hunting so i can click off inside a Dungeon or where Ever I wanna create a AOE team" /
+// "Should be easy, Compact and Nice to use"): the hunting spot map in AOE mode - browse any dungeon / floor / room as usual, pick a tool in the bottom
+// bar (camp / healers / damage dealers / + route point) and tap; Done hands the points back to the AOE page (cb), which saves them
+window.openSpotPickerAoe = (party, cfg, cb) => {
+  // AOEROLES-2026-10-30: several pullers' routes (w.routes[{ id, name, points }], the old w.route = Route 1); cfg.cur = the route to add points to
+  const w = JSON.parse(JSON.stringify(cfg || {}));
+  if (!Array.isArray(w.routes) || !w.routes.length) w.routes = [{ id: 'r1', name: 'Route 1', points: Array.isArray(w.route) ? w.route : [] }];
+  // AOEROOMS-2026-10-30 (owner: "Should also be able to edit the already created AOE hunting spot. AND it should be possible to select more rooms"):
+  // the ground's rooms / field areas are the picker's current choice (numbered like the hunting spot's several rooms); the map opens ON them
+  const R = Array.isArray(w.rooms) ? w.rooms.filter(r => r && r.roomId) : [], cur = R.length ? { mode: 'manual', kind: 'rooms', dungeon: R[0].dungeon, roomId: R[0].roomId, roomIds: R.filter(r => r.dungeon === R[0].dungeon).map(r => r.roomId) }
+    : Array.isArray(w.areaIds) && w.areaIds.length ? { mode: 'manual', kind: 'field', areaIds: w.areaIds.slice() } : { mode: 'auto' };
+  if (window.SpotMap && SpotMap._state) SpotMap._state.selFor = '';
+  try { SPM.selFor = ''; } catch (e) { }
+  openSpotPicker(party, { cur, forAoe: { w, tool: '', cur: Math.min(Math.max(0, Number(cfg && cfg.cur) || 0), w.routes.length - 1), cb } });
+  // open the ground's own dungeon (its floor comes from the first chosen room), else centre on its camp
+  setTimeout(() => { try { if (!SPK || !SPK.forAoe) return; if (R.length && R[0].dungeon && typeof spmOpenDungeon === 'function') spmOpenDungeon(R[0].dungeon); else if (w.camp && SPM.map) SPM.map.setView(spmLL(w.camp.x, w.camp.y), Math.max(SPM.map.getZoom(), 3)); } catch (e) { } }, 400);
+};
+/** AOEROOMS: the rooms / field areas chosen in the picker -> { rooms: [{ dungeon, roomId, name }], areaIds: [] } */
+function spmAoeRoomsOut() {
+  const s = SPM.sel, out = { rooms: [], areaIds: [] }; if (!s) return out;
+  if (s.kind === 'rooms') { const D = SPM.dun && SPM.dun.m && SPM.dun.m.name === s.dungeon ? SPM.dun.m : null, nm = {}; if (D) (D.floors || []).forEach(F => (F.rooms || []).forEach(r => { nm[r.id] = r.name || r.id; })); out.rooms = s.ids.map(id => ({ dungeon: s.dungeon, roomId: id, name: nm[id] || id })); }
+  if (s.kind === 'field') out.areaIds = s.ids.slice();
+  return out;
+}
+const SPM_AOE_COLS = ['#5aa9ff', '#c77dff', '#ff9f43', '#2ee6a6', '#ff6bcb', '#ffd166'];
 window.openSpotPickerFor = (party, cur, cb, dungeon) => { openSpotPicker(party, { forPlan: cb, cur: cur || {} }); if (dungeon) openDungeonPick(dungeon); };
 function closeSpotPicker() { SPK = null; document.documentElement.classList.remove('spm-lock'); if (window.SpotMap) SpotMap.destroy(); const o = $('spotov'); if (o) o.remove(); }   // SPOTMAP: the Leaflet map is freed too
 function renderSpotPicker() {
@@ -2187,6 +2238,7 @@ async function saveSpot(body, label) {
 }
 async function openDungeonPick(name) {
   try { const m = await api('/api/dungeonmap?name=' + encodeURIComponent(name)); if (!m || m.error) throw new Error((m && m.error) || 'not found');
+    if (!SPK) return;   // TOIOPEN-2026-10-30: the picker was closed while the floors were loading
     const L = SPK.lvl.min; let fi = 0, bd = 1e9;
     m.floors.forEach((F, i) => (F.rooms || []).forEach(r => { const s = r.suits || r.levelRange || [0, 99]; const off = L < s[0] ? s[0] - L : L > s[1] ? L - s[1] : 0; if (off < bd) { bd = off; fi = i; } }));
     const cur = SPK.cur || ((PSPOT.data || {}).spots || {})[SPK.party] || {};
@@ -2472,7 +2524,7 @@ function renderPartyCards(parties, bar) {
     return `<div class="win pcard">
       <div class="whead phead"><h2>${GI(UI.clan, 'sm')} ${PARTY_ONE ? `Party ${esc(leader)}` : `<a class="plink" href="#/party/${encodeURIComponent(leader)}" title="Open this party's own page">Party ${esc(leader)}</a>`} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
-          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.PartyPlan ? PartyPlan.button(leader) : ''}<!-- PARTY PLAN 2026-10-13 -->${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}${window.UpgradePage && UpgradePage.partyButton ? UpgradePage.partyButton(leader) : ''}<!-- GEARUPCOL-2026-10-29 --><button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
+          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.PartyPlan ? PartyPlan.button(leader) : ''}<!-- PARTY PLAN 2026-10-13 -->${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}${window.UpgradePage && UpgradePage.partyButton ? UpgradePage.partyButton(leader) : ''}<!-- GEARUPCOL-2026-10-29 -->${window.FrenzyReady ? FrenzyReady.partyButton(leader, list) : ''}<!-- FRENZYREADY-2026-10-29 --><button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
           <button data-quick="${tgt}|!level|Level (regroup in Giran, leader picks the spot)" title="Regroup in Giran, then the leader teleports the team to a hunting spot">Level</button>
           <button data-quick="${tgt}|!supply|Supplies (leader buys SoE/SoR/shots/spirit ore in Giran and hands them out)" title="Leader buys supplies for everyone in Giran">Supply</button>
@@ -4713,16 +4765,37 @@ function clanHtml(d) {
       <div><b>Clan level needed:</b> ${esc(A.clanLevel ?? '?')}${A.create ? ' — ' + esc(A.create) : ''}</div><div style="margin-top:4px"><b>Who may join:</b> ${esc(A.joinRules || '?')}</div>
       <div style="margin-top:4px"><b>Graduation:</b> ${esc(A.graduation || '?')}</div>${A.notes ? `<div style="margin-top:4px">${esc(A.notes)}</div>` : ''}</div></div></div>`;
   // CLANAUTO 2026-10-12 ("too many manual tasks"): the overview (Needs you + Runs by itself) on top, everything else folded (Dashboard/clanauto.js)
-  const S = (k, t, x, b) => window.ClanAuto ? ClanAuto.sec(k, t, x, b) : x;
+  const S = (k, t, x, b, o) => window.ClanAuto ? ClanAuto.sec(k, t, x, b, o) : x;
+  // CLANTABS-2026-10-30 (owner: "extremely mobile friendly and pc friendly and make it with tabs that makes sense"): Overview · Squads · Skills ·
+  // Academy · Members & ranks · Invites · Quests & events (Dashboard/clanplus.js tabs; #/clan/<tab>, remembered per viewer)
+  if (window.ClanPlus && ClanPlus.tabs) {
+    const k0 = d.squads && (d.squads.clans || [])[0], sel = clanSelected(d);
+    const P = {
+      overview: (window.ClanAuto ? ClanAuto.html() : '') + `<div class="cpx-2col"><div><div class="cgrid" style="margin-top:0">${card}${clan}${cl ? clanNextBox(d, clvl, name) : ''}${whBox}</div></div>
+        <div>${S('rep', 'Clan reputation', ClanPlus.rep(d), ClanPlus.badgeRep(d), true)}${S('levels', 'Clan level requirements', ClanPlus.levels(d), ClanPlus.badgeLevels(d), true)}</div></div>`,
+      squads: (window.ClanSquads && d.squads ? ClanPlus.tree(d) + ClanSquads.html(d.squads, { noRanks: true, noSquads: true }) : rosterH),
+      skills: ClanPlus.skills(d),
+      academy: ClanPlus.academy(d) + S('acad', 'New accounts & academy rules', acadH, ''),
+      members: ClanPlus.perms(d) + (window.ClanRanks ? S('ranks', 'Nobility ranks', ClanRanks.html(), ClanRanks.badge()) : ''),
+      invites: (window.ClanSquads && d.squads ? '' : rosterH) + inviteH,
+      more: (cl ? S('lq', 'Clan level quests (levels 3–5)', clanLevelQuestsHtml(d, name, clvl), 'step by step, manual steps marked') : '')
+        + S('rq', 'Clan raid quests & helping the clan leader', questsH + bossH + `<div class="cgrid">${help}</div>`, `${act.length} active`)
+        + S('ss', 'Seven Signs', sevenSignsHtml(d), 'opt-in · 7 Signs tab') + S('event', 'Clan event: several parties on an epic boss', clanEventHtml(d, sel), '') + S('tpl', 'Raid team templates', raidTplHtml(), ''),
+      badge: { squads: k0 && !k0.unknown ? `${k0.total.members}/${k0.total.limit}` : '', invites: allow.size ? String(allow.size) : '' },
+    };
+    return ClanPlus.tabs(P);
+  }
   return (window.ClanAuto ? ClanAuto.html() : '')
     + S('leader', 'Clan leader, level & warehouse', `<div class="cgrid" style="margin-top:0">${card}${clan}${cl ? clanNextBox(d, clvl, name) : ''}${whBox}</div>`, cl ? `${cl.name} · level ${clvl}` : 'no clan yet')
     // CLANSQUADS 2026-10-25: squads (main / academy / royal guards / knights) with limits, ranks + permissions, academy progress, who left
-    + (window.ClanSquads && d.squads ? S('squads', 'Members, squads & ranks', ClanSquads.html(d.squads), (() => { const k = (d.squads.clans || [])[0]; return k && !k.unknown ? `${k.total.members} / ${k.total.limit} members · ${k.squads.filter(s => s.created && s.members.length).length} squads${k.left.length ? ' · ' + k.left.length + ' left' : ''}` : 'no server list yet'; })()) : '')
+    + (window.ClanSquads && d.squads ? S('squads', 'Members, squads & ranks', (window.ClanPlus ? ClanPlus.tree(d) : '') + ClanSquads.html(d.squads, { noRanks: !!window.ClanPlus, noSquads: !!window.ClanPlus }), (() => { const k = (d.squads.clans || [])[0]; return k && !k.unknown ? `${k.total.members} / ${k.total.limit} members · ${k.squads.filter(s => s.created && s.members.length).length} squads${k.left.length ? ' · ' + k.left.length + ' left' : ''}` : 'no server list yet'; })()) : '')
     + S('invite', window.ClanSquads && d.squads ? 'Invites' : 'Members & invites', (window.ClanSquads && d.squads ? '' : rosterH) + inviteH, `${roster.length}${lim != null ? ' / ' + lim : ''} members · ${allow.size} ticked${ptick.size ? ' · ' + ptick.size + ' parties' : ''}`)
     + (cl ? S('lq', 'Clan level quests (levels 3–5)', clanLevelQuestsHtml(d, name, clvl), 'step by step, manual steps marked') : '')
     + S('rq', 'Clan raid quests & helping the clan leader', questsH + bossH + `<div class="cgrid">${help}</div>`, `${act.length} active`)
-    + S('skills', 'Clan skills', skillsH, fs ? `saving for ${fs.name} ${fs.level}` : 'auto-pick')
-    + S('levels', 'Clan level table', levelsH, '')
+    // CLANPLUS-2026-10-30: skills you pick (Learn this), reputation, permissions per rank (Dashboard/clanplus.js); the old table is the fallback
+    + (window.ClanPlus ? S('skills', 'Clan skills', ClanPlus.skills(d), ClanPlus.badgeSkills(d)) + S('rep', 'Clan reputation', ClanPlus.rep(d), ClanPlus.badgeRep(d)) + S('perm', 'Permissions per rank', ClanPlus.perms(d), ClanPlus.badgePerms(d))
+      : S('skills', 'Clan skills', skillsH, fs ? `saving for ${fs.name} ${fs.level}` : 'auto-pick'))
+    + (window.ClanPlus ? S('levels', 'Clan level requirements', ClanPlus.levels(d), ClanPlus.badgeLevels(d)) : S('levels', 'Clan level table', levelsH, ''))   // CLANPLUS: owner's table + datapack, what we have ticked
     + (window.ClanRanks ? S('ranks', 'Nobility ranks', ClanRanks.html(), ClanRanks.badge()) : '')
     + S('acad', 'New accounts (Academy)', acadH, '');
 }
@@ -4820,6 +4893,7 @@ function clanTabsHtml(d) {
   const bar = `<div class="scbar" style="flex-wrap:wrap;gap:6px;margin-bottom:8px">${L.map(c => `<button data-clsel="${esc(c.name)}" class="${sel && sel.name === c.name ? 'on' : ''}" title="${esc(c.planned ? 'the configured clan (not founded yet)' : 'leader ' + (c.leader || 'not known yet'))}">${GI(UI.clan, 'sm')} ${esc(c.name)}${c.planned ? ' <span class="muted">(planned)</span>' : c.level ? ' <span class="muted">lvl ' + c.level + '</span>' : ''}${c.leader ? ' <span class="muted">· ' + esc(c.leader) + (c.leaderOurs ? '' : ' (not ours)') + '</span>' : ''}</button>`).join('')}</div>`;
   const body = !sel || sel.configured ? clanHtml(d) : otherClanHtml(d, sel);
   const S = (k, t, x, b) => window.ClanAuto ? ClanAuto.sec(k, t, x, b) : x;   // CLANAUTO 2026-10-12: folded sections
+  if (window.ClanPlus && ClanPlus.tabs && (!sel || sel.configured)) return bar + body;   // CLANTABS: the rest is in the tabs
   return bar + body + S('ss', 'Seven Signs', sevenSignsHtml(d), 'opt-in · 7 Signs tab') + S('event', 'Clan event: several parties on an epic boss', clanEventHtml(d, sel), '') + S('tpl', 'Raid team templates', raidTplHtml(), '');
 }
 // SEVEN SIGNS on the Clan tab (user 2026-10-08; MOVED 2026-10-12 to the 7 Signs tab #/sevensigns, Dashboard/sevensigns.js): a short summary
@@ -5139,7 +5213,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/commands.js"></script>
 <script src="/cmdcenter.js"></script>
 <script src="/orders.js"></script>
-<link rel="stylesheet" href="/charfind.css"><script src="/charfind.js"></script><!-- CHARACTER FINDER 2026-10-14 --><link rel="stylesheet" href="/runswitch.css"><script src="/runswitch.js"></script><!-- RUN SWITCH 2026-10-13: manual Start / Stop per party / character (Dashboard/runswitch.js, /api/runstate) --><!-- ORDERS VIEW 2026-10-13: the durable order queue (pending / running / done / failed + why), party banner, re-send / cancel -->
+<link rel="stylesheet" href="/charfind.css"><script src="/charfind.js"></script><!-- CHARACTER FINDER 2026-10-14 --><script src="/partymove.js"></script><!-- PARTYMOVE 2026-11-01: "Move to party…" on the character page (Dashboard/partymove.js, /api/partymove) --><link rel="stylesheet" href="/runswitch.css"><script src="/runswitch.js"></script><!-- RUN SWITCH 2026-10-13: manual Start / Stop per party / character (Dashboard/runswitch.js, /api/runstate) --><!-- ORDERS VIEW 2026-10-13: the durable order queue (pending / running / done / failed + why), party banner, re-send / cancel -->
 
 <!-- RAIDLIVE HUD 2026-10-09: live raid / Kamaloka view for every device (served by server.js once restarted; without it the old view stays) -->
 <link rel="stylesheet" href="/raidlive.css">
@@ -5274,6 +5348,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <link rel="stylesheet" href="/marketpage.css"><script src="/marketpage.js"></script><!-- MARKET 2026-10-14 -->
 <link rel="stylesheet" href="/storagepage.css">
 <script src="/storagepage.js"></script>
+<link rel="stylesheet" href="/l2daypage.css"><script src="/l2daypage.js"></script><!-- L2DAY-2026-10-31: #/l2day (Dashboard/l2daypage.js, served by l2day_api.js) -->
+<link rel="stylesheet" href="/aoepage.css"><script src="/aoepage.js"></script><!-- AOETEAM-2026-10-30: #/aoe (Dashboard/aoepage.js, served by aoeteam_api.js) -->
 <link rel="stylesheet" href="/spoilpage.css"><script src="/spoilpage.js"></script><!-- SPOIL 2026-10-19: #/spoil (Dashboard/spoilpage.js, served by spoilpage_api.js) -->
 <link rel="stylesheet" href="/crafterpanel.css"><script src="/crafterpanel.js"></script><!-- OUR CRAFTER 2026-10-15: Storage box "Our crafter" + party settings line (Dashboard/crafterpanel.js, served by crafter_api.js) -->
 <!-- PARTY SETTINGS 2026-10-13 (owner: "a popup with settings per party, you set up the different things yourself"): "⚙ Settings" on every party card +
@@ -5307,6 +5383,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/augmentpage.js"></script>
 <script src="/upgradepage.js"></script>
 <script src="/craftpage.js"></script>
+<script src="/crafterpage.js"></script><!-- CRAFTERPAGE 2026-11-01 -->
+
 <script src="/dispatchpage.js"></script>
 <script src="/lootpage.js"></script>
 <script src="/overview.js"></script>
@@ -5342,6 +5420,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/clanranks_logic.js"></script>
 <script src="/clanranks.js"></script>
 <script src="/clansquads.js"></script>
+<link rel="stylesheet" href="/clanplus.css">
+<script src="/clanplus.js"></script>
 <!-- QUESTS 2026-10-12: #/quests (every H5 quest: search + filters, steps, NPCs, monsters + drop chances, quest spawns, hunting areas, map, rewards,
      requirements, per character eligible / in progress / done, start / stop buttons) + the quest farm section. Data: /api/quests* (Dashboard/questpage_api.js). -->
 <link rel="stylesheet" href="/questpage.css">
@@ -5484,7 +5564,7 @@ function spmShell() {
     <div class="spm-head"><h2>${spmIc('map')} ${SPK.forPlan ? 'Plan step place' : 'Hunting spot'} · party ${esc(SPK.party)} <span class="muted">(lvl ${SPK.lvl.min}–${SPK.lvl.max})</span></h2>
       <span class="spm-now" id="spmNow"></span>
       <div class="spm-search"><input type="search" id="spmq" placeholder="find a place (hunting ground, dungeon, zone)…" autocomplete="off" aria-label="find a place"><div class="spm-res" id="spmRes"></div></div>
-      <button data-spmview="list" title="the old list of every place">List</button><button data-spkauto>Auto (the leader picks)</button><button data-spkclose>Close</button></div>
+      <button data-spmview="list" title="the old list of every place">List</button><button data-spkauto>Auto (the leader picks)</button><button data-spmaoe title="pullers gather the monsters, the team stands still and blasts them (camp, healers, damage dealers, the pullers' route)">AOE team…</button><button data-spkclose>Close</button></div>
     <div class="spm-dunbar" id="spmDun"></div>
     <div class="spm-main"><div id="spmMap"></div>
       <div class="spm-tools"><button class="spm-zb" data-spmzoom="1" title="zoom in" aria-label="zoom in">+</button><button class="spm-zb" data-spmzoom="-1" title="zoom out" aria-label="zoom out">−</button>
@@ -5511,7 +5591,8 @@ function spmInit(ov) {
   SPM.groups = { floor: L.layerGroup().addTo(map), regions: L.layerGroup().addTo(map), zones: L.layerGroup().addTo(map), areas: L.layerGroup().addTo(map), rooms: L.layerGroup().addTo(map), holes: L.layerGroup().addTo(map), dp: L.layerGroup().addTo(map), dun: L.layerGroup().addTo(map), mobs: L.layerGroup().addTo(map), party: L.layerGroup().addTo(map), edit: L.layerGroup().addTo(map), labels: L.layerGroup().addTo(map) };
   let t = 0; const later = () => { clearTimeout(t); t = setTimeout(() => { spmLayers(); spmMobs(); }, 140); };
   map.on('moveend zoomend', later);
-  map.on('click', (e) => { if (spmEditTap(e)) return; spmHitRun(e); });
+  map.on('click', (e) => { if (spmAoeTap(e)) return; if (spmEditTap(e)) return; spmHitRun(e); });
+  try { SPM.groups.aoe = L.layerGroup().addTo(map); setTimeout(() => { try { spmAoeDraw(); } catch (e) { } }, 60); } catch (e) { }   // AOEMAP
   setTimeout(() => { try { map.invalidateSize(); spmStartView(); spmLayers(); spmMobs(); } catch (e) { } }, 30);
   if (!SPM._mf) { SPM._mf = true; window.addEventListener('mapfloors:ready', () => { if (SPM.map) spmLayers(); }); }
 }
@@ -5574,6 +5655,25 @@ function spmHitRun(e) {
 function spmLabel(x, y, html, cls) { return L.marker(spmLL(x, y), { interactive: false, keyboard: false, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<span class="spm-lbl ${cls || ''}">${html}</span>` }) }); }
 function spmNum(x, y, n) { return L.marker(spmLL(x, y), { interactive: false, icon: L.divIcon({ className: 'spm-lblw', iconSize: [0, 0], html: `<span class="spm-num" style="margin-top:-22px">${n}</span>` }) }); }
 /** while drawing: a tap anywhere (on a shape too) = a corner. true = it was a drawing tap */
+/** AOEMAP: z for a tapped point = the open dungeon floor's band (its middle), else the party leader's / the camp's height */
+function spmAoeZ() { try { const b = spmDunBand(); if (Array.isArray(b)) return Math.round((Number(b[0]) + Number(b[1])) / 2); } catch (e) { } const A = SPK && SPK.forAoe; if (A && A.w && A.w.camp && isFinite(A.w.camp.z)) return A.w.camp.z; const P = spmPartyChars(); const l = P.find(c => c.name === SPK.party) || P[0]; return l && isFinite(l.z) ? Math.round(l.z) : null; }
+function spmAoeTap(e) {
+  const A = SPK && SPK.forAoe; if (!A || !A.tool || !e || !e.latlng) return false;
+  const p = { x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat) }, z = spmAoeZ(); if (z !== null) p.z = z;
+  if (A.tool === 'route') { const r = A.w.routes[A.cur] || A.w.routes[0]; r.points = (r.points || []).concat([p]); A.w.route = A.w.routes[0].points; } else A.w[A.tool] = p;
+  spmAoeDraw(); spmBar(); return true;
+}
+const SPM_AOE = [['camp', 'We all stand', '#f2c94c'], ['healers', 'Healers', '#5fd35f'], ['dealers', 'Damage dealers', '#ff6b5e'], ['route', '+ Route point', '#5aa9ff']];
+function spmAoeDraw() {
+  const A = SPK && SPK.forAoe, G = SPM.groups && SPM.groups.aoe; if (!G) return; G.clearLayers(); if (!A) return;
+  (A.w.routes || []).forEach((r, ri) => {   // AOEROLES: every route in its own colour, the one being edited thicker
+    const R = r.points || [], col = SPM_AOE_COLS[ri % SPM_AOE_COLS.length];
+    if (!R.length) return;
+    L.polyline(R.concat(A.w.camp ? [A.w.camp] : []).map(p => spmLL(p.x, p.y)), { color: col, weight: ri === A.cur ? 4 : 2, dashArray: '8 6', interactive: false }).addTo(G);
+    R.forEach((p, i) => L.marker(spmLL(p.x, p.y), { interactive: false, icon: L.divIcon({ className: 'spm-aoe-pt', html: `<span style="background:${col}">${i + 1}</span>`, iconSize: [20, 20] }) }).addTo(G));
+  });
+  SPM_AOE.slice(0, 3).forEach(([k, label, col]) => { const p = A.w[k]; if (p) L.marker(spmLL(p.x, p.y), { interactive: false, icon: L.divIcon({ className: 'spm-aoe-pt', html: `<span style="background:${col}">${label[0]}</span><b>${esc(label)}</b>`, iconSize: [20, 20] }) }).addTo(G); });
+}
 function spmEditTap(e) {
   if (!SPM.edit) return false; try { L.DomEvent.stop(e); } catch (er) { }
   SPM.edit.pts.push([Math.round(e.latlng.lng), Math.round(e.latlng.lat)]); SPM.edit.sel = -1; spmEditShape(); spmInfoEdit(); return true;
@@ -5581,7 +5681,7 @@ function spmEditTap(e) {
 // =========================================================================================== layers
 function spmLayers() {
   const map = SPM.map; if (!map || !SPK || !SPM.groups) return;
-  const G = SPM.groups; Object.keys(G).forEach(k => { if (k !== 'edit' && k !== 'mobs') G[k].clearLayers(); });
+  const G = SPM.groups; Object.keys(G).forEach(k => { if (k !== 'edit' && k !== 'mobs' && k !== 'aoe') G[k].clearLayers(); });   // AOEMAP: the AOE points stay
   const HIT = []; SPM.hit = HIT;
   if (SPM.dun) { spmDunLayers(HIT); return; }
   SPM.tiles.forEach(t => { if (!map.hasLayer(t)) t.addTo(map); });
@@ -5786,6 +5886,17 @@ function spmInfoHtml(html) { const el = $('spmInfo'); if (!el) return; SPM.info 
 // =========================================================================================== the bottom bar
 function spmBar() {
   const el = $('spmBar'); if (!el || !SPK) return;
+  if (SPK.forAoe) {   // AOEMAP: the compact AOE tool bar instead of the spot choice
+    const A = SPK.forAoe, tool = (k, label, col) => `<button data-spmaoetool="${k}" class="${A.tool === k ? 'on' : ''}" title="tap the map to set it"><i class="spm-aoe-dot" style="background:${col}"></i>${label}</button>`;
+    const RR = A.w.routes || [], cr = RR[A.cur] || RR[0] || { name: 'Route 1', points: [] };
+    // AOEROLES: the route the points go to (one button per route in its colour) + a new route
+    const rsel = RR.map((r, i) => `<button data-spmaoeroute="${i}" class="${i === A.cur ? 'on' : ''}" title="add points to ${esc(r.name)}"><i class="spm-aoe-dot" style="background:${SPM_AOE_COLS[i % SPM_AOE_COLS.length]}"></i>${esc(r.name)} <small>${(r.points || []).length}</small></button>`).join('') + (RR.length < 6 ? '<button data-spmaoenewroute title="another pullers\' route">+ route</button>' : '');
+    const RO = spmAoeRoomsOut(), nSel = RO.rooms.length || RO.areaIds.length;
+    el.innerHTML = `<span class="spm-what">AOE team · party <b>${esc(SPK.party)}</b> — ${A.tool ? (A.tool === 'route' ? `tap to add point ${(cr.points || []).length + 1} to ${esc(cr.name)}` : 'tap to set it') : 'Browse: tap rooms / areas to choose them (several, numbered); a tool places points'} · <b>${nSel}</b> ${RO.areaIds.length ? 'area' : 'room'}${nSel === 1 ? '' : 's'} chosen</span>`
+      + SPM_AOE.slice(0, 3).map(([k, l, c]) => tool(k, l, c)).join('') + `<button data-spmaoetool="route" class="${A.tool === 'route' ? 'on' : ''}" title="tap the map to add points to the chosen route"><i class="spm-aoe-dot" style="background:${SPM_AOE_COLS[A.cur % SPM_AOE_COLS.length]}"></i>+ Route point</button>`
+      + `<span class="spm-aoe-routes">${rsel}</span><button data-spmaoetool="" class="${A.tool ? '' : 'on'}">Browse</button><button data-spmaoeundo title="remove the last point of ${esc(cr.name)}">↶</button><button class="go" data-spmaoedone>✓ Done</button>`;
+    return;
+  }
   const s = SPM.sel, d = PSPOT.data || {};
   let what = '<span class="spm-what">Tap areas (from any hunting ground), a dungeon, your own zone or a datapack spot. Everything can be chosen — places above your level get a warning.</span>', go = '', chips = '';
   if (s && s.kind === 'field') {
@@ -5828,10 +5939,14 @@ function spmSave() {
 }
 // =========================================================================================== dungeons inside the map
 async function spmOpenDungeon(name) {
-  if (SPM.dunBusy) return; SPM.dunBusy = true;
+  if (SPM.dunBusy && SPM.dunBusy === SPM.map) return;
+  // TOIOPEN-2026-10-30 (Raltru: plan step + ToI dungeon -> "Cannot read properties of null (reading 'fitBounds')"): the plan editor opens the map AND the
+  // dungeon list view at once; the list view destroyed this map while the floors were loading -> a load for a map that is gone ends quietly
+  const map0 = SPM.map; if (!map0) return; SPM.dunBusy = map0;
   try {
     const m = await api('/api/dungeonmap?name=' + encodeURIComponent(name)); if (!m || m.error) throw new Error((m && m.error) || 'not found');
     if (!SPM.fmIdx) { try { SPM.fmIdx = await (await fetch('/icons/floormaps/index.json?t=' + Date.now(), { cache: 'no-store' })).json(); } catch (e) { SPM.fmIdx = null; } }   // DUNMAPBG: not cached when missing (made in the background)
+    if (!SPK || SPM.map !== map0) return;   // TOIOPEN: the picker was closed / switched view meanwhile
     const L0 = SPK.lvl.min; let fi = 0, bd = 1e9;
     m.floors.forEach((F, i) => (F.rooms || []).forEach(r => { const s = r.suits || r.levelRange || [0, 99]; const off = L0 < s[0] ? s[0] - L0 : L0 > s[1] ? L0 - s[1] : 0; if (off < bd) { bd = off; fi = i; } }));
     const s = SPM.sel; if (s && s.kind === 'rooms' && s.dungeon === m.name && s.ids.length) m.floors.forEach((F, i) => { if ((F.rooms || []).some(r => r.id === s.ids[0])) fi = i; });
@@ -5840,8 +5955,8 @@ async function spmOpenDungeon(name) {
     spmDunBar(); spmDunFit(); spmLayers(); spmMobs(); spmBar();
     const cat = m.catacomb || ssDungeonName(m.name);
     spmInfoHtml(`<h3>${esc(m.name)}</h3><div>Tap the floors above, then rooms on any floor (several, also on different floors: the party moves on to the next room when one is empty).</div>${cat ? ssChipWhy(ssGateParty(SPK.party, m.name), true) + '<div class="muted">Way in: only the Gatekeeper Ziggurat; every member must be signed up with the Seven Signs (always Dawn).</div>' : ''}`);
-  } catch (er) { uiError(er.message, 'Could not open the dungeon'); }
-  finally { SPM.dunBusy = false; }
+  } catch (er) { if (SPK && SPM.map === map0) uiError(er.message, 'Could not open the dungeon'); }
+  finally { if (SPM.dunBusy === map0) SPM.dunBusy = false; }
 }
 function spmLeaveDungeon() {
   const b = SPM.dun && spmDunBox(SPM.dun.m.name);
@@ -5861,6 +5976,7 @@ function spmDunBar() {
   el.innerHTML = `<button data-spmdunback>← Map</button><b>${esc(D.m.name)}</b>${btns}<button data-spmfitfloor title="show the whole floor">Fit floor</button>`;
 }
 function spmDunFit() {
+  if (!SPM.map || !SPM.dun) return;   // TOIOPEN-2026-10-30
   const D = SPM.dun, F = D.gap ? null : D.m.floors[D.fi], pts = [];
   if (F) (F.rooms || []).forEach(r => (r.poly && r.poly.length ? r.poly : r.center ? [[r.center[0], r.center[1]]] : []).forEach(p => pts.push(spmLL(p[0], p[1]))));
   const art = spmDunArt(); if (art) { pts.push(spmLL(art.x, art.y)); pts.push(spmLL(art.x + art.w, art.y + art.h)); }
@@ -6094,7 +6210,8 @@ function spmRender(ov) {
   ov.classList.add('spm-ov');
   if (!SPM.map || !ov.querySelector('#spmMap')) {
     spmDestroy(); SPM.dun = null;
-    if (SPM.selFor !== SPK.party + '|' + (SPK.forPlan ? 'plan' : '')) { SPM.sel = spmInitSel(); SPM.selFor = SPK.party + '|' + (SPK.forPlan ? 'plan' : ''); }
+    { const sk = SPK.party + '|' + (SPK.forPlan ? 'plan' : SPK.forAoe ? 'aoe' : '');   // AOEROOMS: the AOE ground's rooms never mix with the hunting spot's
+      if (SPM.selFor !== sk) { SPM.sel = spmInitSel(); SPM.selFor = sk; } }
     ov.innerHTML = spmShell(); spmInit(ov); spmZones(true);
     // a chosen field selection: load its hunting grounds (labels + "Select all fitting")
     if (SPM.sel && SPM.sel.kind === 'field') [...new Set(SPM.sel.ids.map(id => (spmRegionOfArea(id) || {}).id).filter(Boolean))].forEach(spmFm);
@@ -6127,6 +6244,12 @@ function spmBind(ov) {
     if (q('[data-spmzedit]')) { const nm = q('[data-spmzedit]').dataset.spmzedit; closeSpotPicker(); go('#/zones'); setTimeout(() => { try { const z = (ZONES || []).find(o => o.name === nm); if (z) { zeLoadList(); $('zeZone').value = nm; zeOpen(z); $('zeMap').scrollIntoView({ behavior: 'smooth', block: 'center' }); } } catch (er) { } }, 1200); return; }
     if (q('[data-spmdun]')) { spmOpenDungeon(q('[data-spmdun]').dataset.spmdun); return; }
     if (q('[data-spmdunback]')) { spmLeaveDungeon(); return; }
+    if (q('[data-spmaoetool]') && SPK && SPK.forAoe) { SPK.forAoe.tool = q('[data-spmaoetool]').dataset.spmaoetool; spmBar(); return; }   // AOEMAP
+    if (q('[data-spmaoeroute]') && SPK && SPK.forAoe) { SPK.forAoe.cur = Number(q('[data-spmaoeroute]').dataset.spmaoeroute) || 0; SPK.forAoe.tool = 'route'; spmAoeDraw(); spmBar(); return; }   // AOEROLES
+    if (q('[data-spmaoenewroute]') && SPK && SPK.forAoe) { const A = SPK.forAoe, n = A.w.routes.length; let k = n + 1; while (A.w.routes.some(r => r.id === 'r' + k)) k++; A.w.routes.push({ id: 'r' + k, name: 'Route ' + (n + 1), points: [] }); A.cur = n; A.tool = 'route'; spmAoeDraw(); spmBar(); return; }
+    if (q('[data-spmaoeundo]') && SPK && SPK.forAoe) { const A = SPK.forAoe, r = A.w.routes[A.cur] || A.w.routes[0]; if (r) (r.points || []).pop(); A.w.route = A.w.routes[0] ? A.w.routes[0].points : []; spmAoeDraw(); spmBar(); return; }
+    if (q('[data-spmaoedone]') && SPK && SPK.forAoe) { const A = SPK.forAoe, L0 = SPK.party; Object.assign(A.w, spmAoeRoomsOut()); closeSpotPicker(); try { A.cb && A.cb(A.w); } catch (e) { } location.hash = '#/aoe/' + encodeURIComponent(L0); return; }   // AOEROOMS: the chosen rooms / areas go back too
+    if (q('[data-spmaoe]')) { const L = SPK && SPK.party; closeSpotPicker(); location.hash = '#/aoe/' + encodeURIComponent(L || ''); return; }   // AOETEAM-2026-10-30: the AOE team page for this party
     if (q('[data-spmfitfloor]')) { if (SPM.dun) spmDunFit(); return; }
     if (q('[data-spmfloor]')) { SPM.dun.fi = +q('[data-spmfloor]').dataset.spmfloor; SPM.dun.gap = null; spmDunBar(); spmDunFit(); spmLayers(); spmMobs(); return; }
     if (q('[data-spmgap]')) { const k = q('[data-spmgap]').dataset.spmgap, g = ((SPM.fmIdx || {})[SPM.dun.m.name] || {})[k]; if (g) { SPM.dun.gap = { key: k, z: g.z || null }; spmDunBar(); spmDunFit(); spmLayers(); spmMobs(); } return; }

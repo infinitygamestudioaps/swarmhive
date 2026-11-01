@@ -108,6 +108,14 @@ async function talk(q, a, server, cond) {
       ok(c(238).includes('no-dialog') || c(255).includes('no-dialog'), 'a known partial chain (238 / 255) = dryrun:no-dialog');
     }
   }
+  // QUESTMENU-2026-11-01: Varika (412) on L2Toggle shows only "Quest" first; the chain starts at "Want to obtain power"
+  { const chain = [{ click: 'Want to obtain power', kind: 'click' }, { click: 'Become a Dark Wizard', effect: true }];
+    const r1 = E.qeChainPick(chain, 0, [{ text: 'Quest' }], false);
+    ok(r1.link && r1.link.text === 'Quest' && r1.entry.implicit && r1.idx + 1 === 0, 'QUESTMENU: only "Quest" on the first page = click it once, the chain stays at its first entry');
+    const r2 = E.qeChainPick(chain, 0, [{ text: 'Quest' }], true);
+    ok(!!r2.miss, 'QUESTMENU: the "Quest" link is used at most once per talk (then the miss is reported)');
+    const r3 = E.qeChainPick(chain, 0, [{ text: 'Quest' }, { text: 'Want to obtain power' }], false);
+    ok(r3.link && r3.link.text === 'Want to obtain power' && !r3.entry.implicit, 'QUESTMENU: the chain\'s own link wins over "Quest"'); }
   console.log(`\n${fails ? 'FAILED' : 'ALL OK'}: ${oks} ok, ${fails} failed`);
   process.exit(fails ? 1 : 0);
 })().catch(e => { console.log('  FAIL error ' + (e && e.stack || e)); process.exit(1); });

@@ -76,7 +76,9 @@ const ctx = { DATA, LOGS, readStates: () => [Object.assign({}, idle, { updated: 
   await W.tick(ctx); t = await W.tick(ctx, true);
   check(cryOrders.length === 2 && cryOrders[1].crafter === 'Spoiler2', 'the chosen crafter is used', JSON.stringify(cryOrders[1]));
   fs.writeFileSync(path.join(DATA, 'stash_rules.json'), JSON.stringify({ collector: { on: true, name: 'Crafter1' } }));
-  t = await W.tick(ctx, true); check(!t.act && /not the clan leader/.test(t.why), 'a collector that is not the clan leader cannot take items out: nothing, and says why');
+  // CRAFTRUN-2026-11-01 (owner: Crafter1 takes over all selling + crystallizing): the collector setting no longer decides who takes out - the
+  // clan warehouse worker does (crafter.json crafter; none = the clan leader), so a collector that is not the clan leader blocks nothing any more
+  t = await W.tick(ctx, true); check(!/not the clan leader/.test(String(t.why || '')), 'CRAFTRUN: a collector that is not the clan leader no longer blocks: the worker takes out (crafter.json crafter, else the clan leader)', JSON.stringify(t).slice(0, 200));
   CA.info = realInfo; CA.cwhCryOrder = realCry;
 
   // ---- 5) source / wiring

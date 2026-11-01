@@ -134,7 +134,7 @@ function recentOrders(ctx, n) {
   let files = []; try { files = fs.readdirSync(DIR_OF(ctx)).filter(f => /^h[a-z0-9]+\.json$/i.test(f)); } catch (e) { return []; }
   return files.map(f => { const o = ctx.readJson(path.join(DIR_OF(ctx), f), null); return o && o.id ? o : null; }).filter(Boolean)
     .sort((a, b) => String(b.at).localeCompare(String(a.at))).slice(0, n || 8)
-    .map(o => { const s = status(ctx, o.id); return { id: o.id, at: o.at, receiver: o.receiver, givers: Object.keys(o.givers || {}), kinds: Object.values(o.givers || {}).reduce((a, g) => a + (g.items || []).length, 0), preset: o.preset || '', over: s.over, done: s.done, failed: s.failed, total: s.total }; });
+    .map(o => { const s = status(ctx, o.id); return { id: o.id, at: o.at, receiver: o.receiver, givers: Object.keys(o.givers || {}), kinds: Object.values(o.givers || {}).reduce((a, g) => a + (g.items || []).length, 0), preset: o.preset || '', sameTown: o.sameTown === true, over: s.over, done: s.done, failed: s.failed, total: s.total }; });
 }
 async function send(ctx, cmd, names) {
   if (!ctx.commandRun) return { ok: false, error: 'the server has no command center' };

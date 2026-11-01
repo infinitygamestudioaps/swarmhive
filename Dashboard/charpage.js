@@ -55,7 +55,7 @@
           <div class="cp-invbar"><div class="cp-seg" role="tablist">${[['all', 'All'], ['use', 'Use'], ['gear', 'Gear'], ['mats', 'Materials'], ['quest', 'Quest']].map(([k, t]) => `<button data-cpinvf="${k}" class="${k === 'all' ? 'on' : ''}">${t}</button>`).join('')}</div>
             <input id="cpInvQ" type="search" placeholder="find…" aria-label="find an item"><button type="button" id="cpJunkBtn" class="uk-btn cp-junkbtn" data-cpjunk="mode" aria-pressed="false" title="Tap items to mark or unmark them as junk to sell">Mark junk</button><button type="button" id="cpCryBtn" class="uk-btn cp-crybtn" data-cpcry="mode" hidden>Crystallize</button></div>
           <div class="cp-junkhint muted" id="cpJunkHint" hidden>Tap an item to mark it as junk (crossed out = sold at the next shop visit). Tap again to keep it. Press Done when finished.</div>
-          <div id="cp_inv"></div><div id="cp_cry"></div></div>
+          <div id="cp_inv"></div><div id="cp_cry"></div><div id="cp_crymk"></div></div>
         ${BOX('skills', 'Skills', UI.skill, '<span class="cp-cnt muted">tap = use now</span>')}
         ${BOX('hive', 'Combat — Hive or my L2Swarm profile', UI.sword)}
         ${BOX('buffs', 'Buffs', UI.buff)}
@@ -323,8 +323,12 @@
   }
 
   // ---------------------------------------------------------------- equipment (paper doll)
+  // EQUIPVIEW-2026-10-30 (owner: "Under 'Equipment' I wanna be able to see more stuff and be able to unequip items. I wanna be able to click items
+  // to see their stats and set items"): every slot (cloak, belt, both bracelets, both hair slots, talismans), the worn armor set(s) with the bonus,
+  // tap = stats + set pieces + Take off / Put on. Stats + sets: /api/items/info (Dashboard/itemspage_api.js, Dashboard/data/gear_catalog.json).
   const SLOTS = [['ear1', 'Earring'], ['head', 'Helmet'], ['wpn', 'Weapon'], ['neck', 'Necklace'], ['chest', 'Chest'], ['shield', 'Shield'], ['ear2', 'Earring'], ['legs', 'Legs'], ['hair', 'Hair'],
-    ['ring1', 'Ring'], ['gloves', 'Gloves'], ['under', 'Shirt'], ['ring2', 'Ring'], ['feet', 'Boots'], ['back', 'Cloak / belt']];
+    ['ring1', 'Ring'], ['gloves', 'Gloves'], ['hair2', 'Hair 2'], ['ring2', 'Ring'], ['feet', 'Boots'], ['under', 'Shirt'],
+    ['rbr', 'Bracelet R'], ['back', 'Cloak'], ['lbr', 'Bracelet L'], ['belt', 'Belt'], ['deco', 'Talisman'], ['deco2', 'Talisman']];
   function slotOf(i, used) {
     const b = String(i.slot || '').toUpperCase();
     const two = (a, z) => used[a] ? z : a;
@@ -332,7 +336,12 @@
     if (/FINGER/.test(b)) return two('ring1', 'ring2');
     if (/NECK/.test(b)) return 'neck';
     if (/HEAD/.test(b)) return 'head';
+    if (/HAIR2/.test(b)) return 'hair2';
     if (/HAIR/.test(b)) return 'hair';
+    if (/R_BRACELET/.test(b)) return 'rbr';
+    if (/BRACELET/.test(b)) return 'lbr';
+    if (/BELT/.test(b)) return 'belt';
+    if (/DECO|TALISMAN/.test(b)) return two('deco', 'deco2');
     if (/FULL_ARMOR|CHEST/.test(b)) return 'chest';
     if (/LEGS/.test(b)) return 'legs';
     if (/GLOVES/.test(b)) return 'gloves';
@@ -340,10 +349,82 @@
     if (/^L_HAND/.test(b)) return 'shield';
     if (/HAND/.test(b)) return 'wpn';
     if (/UNDER/.test(b)) return 'under';
-    if (/BACK|BELT|CLOAK/.test(b)) return 'back';
+    if (/BACK|CLOAK/.test(b)) return 'back';
     return null;
   }
   const grade = (g) => g && g !== 'None' && g !== 'NONE' ? `<em class="gr g-${esc(String(g).toLowerCase())}">${esc(g)}</em>` : '';
+  const IINFO = { key: '', data: null, busy: false };
+  function infoFor(items) {   // stats + sets of these item ids (one request per new id set; a server without the route = no stats, nothing breaks)
+    const ids = [...new Set(items.filter(i => i.type === 'Weapon' || i.type === 'Armor').map(i => Number(i.id)))].sort((a, b) => a - b), key = ids.join(',');
+    if (!ids.length || IINFO.key === key || IINFO.busy) return IINFO.data;
+    IINFO.busy = true;
+    api('/api/items/info?ids=' + key).then(d => { IINFO.key = key; IINFO.data = d && d.items ? d : { items: {}, sets: [], none: true }; IINFO.busy = false; renderGear(); })
+      .catch(() => { IINFO.key = key; IINFO.data = { items: {}, sets: [], none: true }; IINFO.busy = false; });
+    return IINFO.data;
+  }
+  const SET_SLOTS = ['chest', 'legs', 'head', 'gloves', 'feet'];
+  /** the armor sets the worn pieces belong to: [{ s, worn: {slot: item}, need, have, on, shield }] (full armor covers the legs piece) */
+  function setStatus(eq, info) {
+    if (!info || !info.sets) return [];
+    const fullWorn = eq.some(i => /FULL_ARMOR/.test(String(i.slot || '').toUpperCase()));
+    return info.sets.map(s => {
+      const P = s.pieces || {}, slots = SET_SLOTS.filter(k => P[k] && P[k].length);
+      const worn = {}; slots.forEach(k => { const hit = eq.find(i => P[k].includes(Number(i.id))); if (hit) worn[k] = hit; });
+      if (worn.chest && fullWorn && slots.includes('legs') && !worn.legs) worn.legs = worn.chest;   // one-piece armor = both slots
+      const have = Object.keys(worn).length, sh = P.shield && eq.find(i => P.shield.includes(Number(i.id)));
+      return { s, worn, need: slots.length, have, on: slots.length > 0 && have >= slots.length, shield: !!sh };
+    }).filter(x => x.have > 0).sort((a, b) => !!b.worn.chest - !!a.worn.chest || b.have - a.have);
+  }
+  /** the set the chest belongs to (a shared helmet is in several sets: the chest decides), else the one with the most pieces worn */
+  function mainSet(eq, info) { const L = setStatus(eq, info); return L.find(x => x.worn.chest) || L[0] || null; }
+  function setLine(x) {
+    const s = x.s, gt = s.g ? s.g + ' ' + String(s.t || '').toLowerCase() : '';
+    return `<div class="cp-set ${x.on ? 'on' : 'off'}"><b>${esc(s.name)}</b> <span class="muted">set${gt ? ' · ' + esc(gt) : ''}</span> <span class="cp-setn">${x.have}/${x.need}</span>
+      <div class="cp-setb">${x.on ? 'bonus ON: ' : 'bonus off (needs all ' + x.need + '): '}${esc(s.bonus || '—')}${s.shield ? ` · with its shield${x.shield ? ' (worn)' : ''}: ${esc(s.shield)}` : ''}</div></div>`;
+  }
+  // APPROVE-2026-10-30 (owner: "From A above a grade you need to manuelle approve! And it still needs to be able to get a full set." -> "Yes build
+  // that"): A grade and up waits for the owner. /api/gearapproval (Dashboard/gearapproval_api.js) -> Scripts/data/gear_approved.json, read live by
+  // swarm.js FULLSET. Per piece Approve / Revoke, per set "Approve the whole set"; a single armor piece only ever goes on with its full set.
+  const APR = { name: '', d: null, at: 0, busy: false };
+  function loadAppr(force) {
+    const name = CP.name; if (!name || APR.busy) return;
+    if (!force && APR.name === name && Date.now() - APR.at < 30000) return;
+    APR.busy = true;
+    api('/api/gearapproval?name=' + encodeURIComponent(name)).then(d => { APR.busy = false; if (CP.name !== name) return; APR.name = name; APR.d = d && !d.error ? d : null; APR.at = Date.now(); renderAppr(); })
+      .catch(() => { APR.busy = false; APR.name = name; APR.d = null; APR.at = Date.now(); });
+  }
+  function renderAppr() {
+    const el = $id('cp_appr'); if (!el) return;
+    el._last = null;   // the Equipment redraw (morphdom) empties this box but keeps its marker: always refill
+    loadAppr(false);
+    const d = APR.name === CP.name ? APR.d : null;
+    if (!d || (!d.waiting.length && !d.approved.length)) { patch(el, ''); return; }
+    const money = (n) => n ? (n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : Math.round(n / 1e3) + 'k') : '';
+    const armorSlot = (s) => ['chest', 'legs', 'head', 'gloves', 'feet'].includes(s);
+    const setBox = (s) => `<div class="cp-apr-set${s.fullWithApproved ? ' ok' : ''}"><b>${esc(s.name)}</b> <span class="muted">${esc(s.g)} set</span>
+        <span class="cp-apr-slots">${s.slots.map(z => `<i class="${z.worn ? 'w' : z.approved ? 'a' : z.waiting ? 'q' : 'n'}" title="${z.slot}: ${z.worn ? 'worn' : z.approved ? 'approved' : z.waiting ? 'waits for your OK' : 'not planned'}">${z.slot}</i>`).join('')}</span>
+        ${s.fullWithApproved ? '<span class="good">full set with what is approved ✓</span>' : `<button type="button" class="uk-btn" data-aprset="${esc(s.name)}" data-ids="${s.wholeIds.join(',')}">Approve the whole set</button>`}</div>`;
+    const row = (i, appr) => `<div class="cp-apr-row"><span>${esc(i.name)}</span> ${grade(i.g)}${i.price ? ` <span class="muted">~${money(i.price)}</span>` : ''}${i.set ? ` <span class="muted">· ${esc(i.set)}</span>` : ''}
+        ${appr ? `<button type="button" class="uk-btn ghost" data-aprrev="${i.id}">Revoke</button>` : `<button type="button" class="uk-btn" data-apr="${i.id}" data-arm="${armorSlot(i.slot) ? 1 : ''}" data-set="${esc(i.set || '')}">Approve</button>`}</div>`;
+    patch(el, `<div class="cp-apr"><div class="cp-apr-h"><b>A grade and up waits for your OK</b> <span class="muted">(gear rule R7: only full sets)</span></div>
+      ${d.sets.map(setBox).join('')}
+      ${d.waiting.length ? `<div class="cp-apr-sub">Waits for your OK</div>${d.waiting.map(i => row(i, false)).join('')}` : ''}
+      ${d.approved.length ? `<div class="cp-apr-sub">Approved</div>${d.approved.map(i => row(i, true)).join('')}` : ''}</div>`);
+  }
+  document.addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-apr], [data-aprset], [data-aprrev]'); if (!b || !b.closest('#cp_appr')) return;
+    const name = CP.name, d = APR.d || { waiting: [], approved: [] }, nameOf = (id) => { const r = d.waiting.concat(d.approved).find(x => x.id === Number(id)); return r ? r.name : 'item ' + id; };
+    let act = 'approve', ids = [], title = '', body = [];
+    if (b.dataset.aprrev) { act = 'revoke'; ids = [Number(b.dataset.aprrev)]; title = `${name}: revoke the OK for ${nameOf(ids[0])}?`; body = [uiP('The gear-up will not buy or put it on any more.')]; }
+    else if (b.dataset.aprset) { ids = b.dataset.ids.split(',').map(Number).filter(Boolean); title = `${name}: approve the whole ${b.dataset.aprset} set?`; body = [uiP(ids.map(nameOf).join(', ')), uiNote('The gear-up buys / unseals / puts on these pieces at the next Giran visit, all together - never a single piece.')]; }
+    else { ids = [Number(b.dataset.apr)]; title = `${name}: approve ${nameOf(ids[0])}?`; body = b.dataset.arm ? [uiNote(`It only goes on together with the rest of the ${b.dataset.set || 'its'} set (gear rule R7: only full sets). Approve the whole set to change the armor.`)] : [uiP('The gear-up may buy / put it on at the next Giran visit.')]; }
+    if (!ids.length) return;
+    const ok = await uiConfirm({ title, body, confirmText: act === 'revoke' ? 'Revoke' : 'Approve' }); if (!ok) return;
+    try { const r = await api('/api/gearapproval', { method: 'POST', body: JSON.stringify({ name, [act]: ids, by: 'dashboard (character page)' }) });
+      if (!r || r.error) { toast((r && r.error) || 'not saved', false); return; }
+      APR.d = r; APR.name = name; APR.at = Date.now(); renderAppr(); toast(`${name}: ${act === 'revoke' ? 'OK revoked' : 'approved'} - ${ids.map(nameOf).join(', ')}`, true);
+    } catch (er) { toast(er.message, false); }
+  });
   function renderGear() {
     const d = CP.char; if (!d) return;
     const eq = (d.items || []).filter(i => i.equipped), used = {}, extra = [];
@@ -355,12 +436,19 @@
       return `<span class="cp-slot has" data-cpitem="${esc(i.objId || i.id)}" title="${esc(i.name + (i.enchant ? ' +' + i.enchant : '') + ' · ' + (i.grade || '') + ' · ' + (i.slot || ''))}"><img src="${itemIcon(i.id)}" alt="">${i.enchant ? `<b class="en">+${i.enchant}</b>` : ''}${grade(i.grade)}</span>`;
     };
     const w = used.wpn, sc = me() || {};
+    const info = infoFor((d.items || []).filter(i => i.equipped)), ms = mainSet(eq, info), sets = ms ? [ms] : [], armorWorn = SET_SLOTS.filter(k => used[k] || (k === 'legs' && full)).length;
+    const inMain = (i) => ms && [].concat(...Object.values(ms.s.pieces || {})).includes(Number(i.id));
+    const odd = ms ? SET_SLOTS.map(k => used[k]).filter(i => i && !inMain(i)) : [];
+    const mixed = odd.length > 0;
+    const setHtml = sets.length ? `<div class="cp-sets">${sets.map(setLine).join('')}${mixed ? `<div class="cp-setwarn">Mixed armor: ${odd.map(i => esc(i.name)).join(', ')} ${odd.length > 1 ? 'are' : 'is'} not part of this set.</div>` : ''}</div>`
+      : (info && !info.none && armorWorn ? '<div class="cp-sets muted">No armor set worn.</div>' : '');
     const shots = bag().filter(i => i.type === 'Shot').sort((a, b) => b.count - a.count);
-    patch($id('cp_gear'), `<div class="cp-gearwrap"><div class="cp-doll">${SLOTS.map(cell).join('')}</div>
+    patch($id('cp_gear'), `${setHtml}<div id="cp_appr" class="cp-appr"></div><div class="cp-gearwrap"><div class="cp-doll">${SLOTS.map(cell).join('')}</div>
       <div class="cp-gearinfo">${w ? `<div class="cp-wpn"><b>${esc(w.name)}</b>${w.enchant ? ' <span class="en">+' + w.enchant + '</span>' : ''} ${grade(w.grade)}</div>` : '<div class="muted">no weapon</div>'}
         ${eq.filter(i => i !== w).map(i => `<div class="cp-eqrow" data-cpitem="${esc(i.objId || i.id)}"><img src="${itemIcon(i.id)}" alt=""><span>${esc(i.name)}${i.enchant ? ' <b class="en">+' + i.enchant + '</b>' : ''}</span>${grade(i.grade)}</div>`).join('')}
         ${shots.length ? `<div class="cp-shots">${shots.slice(0, 3).map(s => `<span class="chip" title="${esc(s.name)}"><img src="${itemIcon(s.id)}" alt="">${short(s.count)}</span>`).join('')}${sc.shots != null && sc.shots <= 100 ? '<span class="chip bad">low shots</span>' : ''}</div>` : ''}
-        <a class="cp-upg" href="#/upgrade/${encodeURIComponent(CP.name)}" title="Recommended upgrades for every slot from every bag, warehouse, the clan warehouse, other characters (trade), Giran shops (with the cost) and our crafters; the order waits for the next Giran visit, or Send now (alone / whole party)">Upgrade ›</a></div></div>`);   // UPGWPN-2026-10-23 (owner: weapon upgrades only when picked, from the character)
+        <a class="cp-upg" href="#/upgrade/${encodeURIComponent(CP.name)}" title="Recommended upgrades for every slot from every bag, warehouse, the clan warehouse, other characters (trade), Giran shops (with the cost) and our crafters; the order waits for the next Giran visit, or Send now (alone / whole party)">Upgrade ›</a></div></div>`);
+    renderAppr();   // APPROVE-2026-10-30: the 'waits for your OK' box (gear.md R7)   // UPGWPN-2026-10-23 (owner: weapon upgrades only when picked, from the character)
   }
 
   // ---------------------------------------------------------------- FRENZY KIT (owner 2026-10-14: "a full overview for a destroyer, showing what it
@@ -393,7 +481,7 @@
     const sum = !K.ready.swap ? `<b class="bad">The gear swap does nothing yet</b>: no high-HP piece in the bag, so it drains by ${K.partners.length ? 'hitting ' + esc(K.partners.join(' / ')) : 'nothing (no other destroyer in the party!)'} only.`
       : lowM || highM ? `<b class="warn">Gear swap partly possible</b>: ${lowM} low-HP and ${highM} high-HP piece(s) missing.` : '<b class="ok">Everything for the gear swap is there.</b>';
     const roleW = K.roleOk === false ? `<div class="fk-sum"><b class="bad">This character's role is "${esc(K.role || '?')}", not destroyer: the bots never drain or cast Frenzy with it.</b></div>` : '';
-    const buyBtn = (toGet.length ? `<div class="fk-act"><button type="button" class="fk-buybtn" data-fkget="1">Get ${toGet.length} piece${toGet.length === 1 ? '' : 's'} from the clan warehouse${toGet.some(x => x.have.sealed) ? ' + unseal' : ''}…</button><small>Next time ${esc(name)} is in Giran (or now): takes them out${toGet.some(x => x.have.sealed) ? ', unseals the sealed ones at Pushkin' : ''}, keeps them in the bag for the swap.</small></div>` : '')
+    const buyBtn = (toGet.length || lowM || highM ? `<div class="fk-act"><button type="button" class="fk-buybtn" data-fkget="1">Frenzy ready: get the kit from the clan warehouse / collector / bags…</button><small>You tick every piece and where it comes from; next time ${esc(name)} is in Giran (or now) it takes them${toGet.some(x => x.have.sealed) ? ', unseals the sealed ones at Pushkin' : ''} and keeps them in the bag for the swap.</small></div>` : '')   // FRENZYREADY-2026-10-29
       + (lowM || highM ? `<div class="fk-act"><button type="button" class="fk-buybtn" data-fkbuy="1">Buy what is missing…</button><small>Never automatic: the destroyer only goes shopping when you press this and confirm.</small></div>` : '');   // KITBUY 2026-10-15
     patch($id('cp_frenzy'), `${roleW}<div class="fk-sum">${sum}</div>${buyBtn}
       <div class="fk-sub">Skills ${skM ? '<small>(' + skM + ' not learned yet)</small>' : ''}</div><div class="fk-chips">${skills}</div>
@@ -494,7 +582,7 @@
     patch($id('cp_inv'), L.length ? `<div class="cp-igrid${CP.junk ? ' junkmode' : ''}">${L.map(i => `<button class="cp-it c-${cat(i)}${sel(i)}${cryCls(i)}" data-cpitem="${esc(i.objId || i.id)}" title="${esc(i.name + (i.enchant ? ' +' + i.enchant : '') + ' ×' + nf(i.count) + (i.grade && i.grade !== 'None' ? ' · ' + i.grade : ''))}">
       <img src="${itemIcon(i.id)}" alt="">${i.enchant ? `<b class="en">+${i.enchant}</b>` : ''}${Number(i.count) > 1 ? `<b class="n">${short(i.count)}</b>` : ''}${grade(i.grade)}</button>`).join('')}</div>`
       : `<div class="muted">${(d.items || []).length ? 'nothing matches' : d.error ? 'no game data' : 'loading…'}</div>`);
-    renderCry();
+    renderCry(); renderCryMarks();
   }
 
   // ---------------------------------------------------------------- crystallize from the inventory (CRYINV-2026-10-22)
@@ -517,6 +605,32 @@
     }).catch(() => { }).finally(() => { C.busy = false; });
   }
   function cryMap() { const m = {}; ((CP.cry.rep && CP.cry.rep.cryst) || []).forEach(j => { m[Number(j.objId)] = j; }); return m; }
+  // CRYMARK-2026-11-01 (owner: "if I'm on a Bounty Hunter that has the crystallize ability I can't select items from its inventory to auto crystallize"):
+  // per item KIND an "Auto-crystallize" mark (Scripts/data/crystallize_marks.json via /api/crymarks); the character's swarm.js crystallizes marked
+  // kinds from its own bag when idle (never worn / enchanted / special / quest pieces). Shown only for a character with Crystallize.
+  function cryMarksLoad(force) {
+    const C = CP.cry;
+    if (C.mkBusy || (!force && Date.now() - (C.mkAt || 0) < 60000)) return;
+    C.mkBusy = true; C.mkAt = Date.now();
+    api('/api/crymarks').then(j => { C.marks = j && !j.error ? j : null; renderInv(); }).catch(() => { }).finally(() => { C.mkBusy = false; });
+  }
+  function cryMarked(id) { const m = CP.cry.marks; if (!m) return ''; if (((m.chars || {})[CP.name] || []).includes(Number(id))) return 'char'; if ((m.all || []).includes(Number(id))) return 'all'; return ''; }
+  async function cryMarkSet(id, on) {
+    const d = await api('/api/crymarks', { method: 'POST', body: JSON.stringify({ name: CP.name, [on ? 'add' : 'remove']: [Number(id)] }) });
+    if (!d || d.error) throw new Error((d && d.error) || 'not saved');
+    CP.cry.marks = d; toast(on ? 'marked: crystallized automatically when idle' : 'auto-crystallize mark removed', true); renderInv();
+  }
+  function renderCryMarks() {
+    const box = $id('cp_crymk'), C = CP.cry; if (!box) return;
+    if (!C.rep) { patch(box, ''); return; }
+    cryMarksLoad(false);
+    const ids = ((C.marks && C.marks.chars && C.marks.chars[CP.name]) || []), all = (C.marks && C.marks.all) || [];
+    const nm = (id) => { const it = ((CP.char && CP.char.items) || []).find(i => Number(i.id) === Number(id)); return it ? it.name : '#' + id; };
+    patch(box, `<div class="cp-crybar"><div class="cp-cryhead">Auto-crystallize (${esc(CP.name)})${ids.length ? '' : ' — tap an item → <b>Auto-crystallize</b> to mark its kind'}</div>
+      ${ids.length ? `<div class="cp-crymk">${ids.map(id => `<span class="trd-chip" style="display:inline-flex;align-items:center;gap:4px"><img class="gi sm" src="${itemIcon(id)}" alt="">${esc(nm(id))}<button type="button" data-cpcrymk="${id}" data-on="0" aria-label="remove ${esc(nm(id))}" title="stop crystallizing this kind" style="min-width:32px;min-height:32px">✕</button></span>`).join(' ')}</div>` : ''}
+      ${all.length ? `<div class="muted cp-cryhint">Also for every crystallizer: ${all.map(id => esc(nm(id))).join(', ')}</div>` : ''}
+      <div class="muted cp-cryhint">Marked kinds are crystallized from the bag when it stands idle and out of combat — never worn, enchanted, special (S.A. / augmented / untradeable) or quest pieces.</div></div>`);
+  }
   /** = swarm.js cryBlock with the page's ticks: '' = may go, else why not */
   function cryBlockUi(j) {
     const C = CP.cry;
@@ -705,8 +819,9 @@
     patch($id('cp_orders'), `<div class="cp-orow"><button data-quick="char:${n}|!classchange|Class change">Class change</button><button data-quick="char:${n}|!buff|Rebuff">Rebuff</button>
         <button data-quick="char:${n}|!soe|Retreat (.townname)">Retreat to town</button><button class="ccsheetbtn" data-cmdsheet="char:${n}">${GI(UI.menuAction, 'sm')}All commands…</button></div>
       ${opts ? `<div class="cp-orow"><select id="cpsel" aria-label="task">${opts}</select><input id="cparg" placeholder="boss / town…" aria-label="argument"><button data-run="char:${n}" data-sel="cpsel" data-arg="cparg">Do</button></div>` : ''}
-      <div class="cp-orow"><span class="muted">Client:</span><button data-cpclient="ingame" title="L2Swarm Hook: logs out, starts l2.exe and logs in through the game client">In-game (l2.exe)</button><button data-cpclient="oog" title="Close the game client and play out of game again">Out of game</button></div>
+      <div class="cp-orow"><span class="muted">Client:</span><button data-cpclient="ingame" title="L2Swarm Hook: logs out, starts l2.exe and logs in through the game client">In-game (l2.exe)</button><button data-cpclient="oog" title="Close the game client and play out of game again">Out of game</button><span class="muted cm-stat" data-cmstat="${n}" role="status" aria-live="polite"></span></div>
       <div class="muted cp-ohelp">Direct orders (skills, potions, items) run once on ${n} only and then it carries on. Tap a skill or an item; potions and SoE are in “Right now”.</div>`);
+    if (window.cmStatusWatch && CP._cmFor !== CP.name) { CP._cmFor = CP.name; cmStatusWatch(CP.name); }   // CMSTATUS-2026-10-30: the client switch's live status
   }
 
   // =========================================================================================== DIRECT ORDERS
@@ -803,6 +918,28 @@
     toast(`${it.name}: ${on ? 'marked as junk — sold at the next shop visit' : 'kept (no longer sold)'}${on && noShopWhy(it.id) ? ' — but no shop buys it' : ''}`, true);
     renderInv();
   }
+  const STAT = [['pa', 'P.Atk'], ['ma', 'M.Atk'], ['pd', 'P.Def'], ['md', 'M.Def'], ['sd', 'Shield Def'], ['rs', 'Shield rate'], ['cr', 'Crit'], ['spd', 'Atk speed'], ['mp', 'MP +']];
+  function itemDetail(it) {
+    if (!(it.type === 'Weapon' || it.type === 'Armor')) return '';
+    const info = IINFO.data, r = info && info.items ? info.items[it.id] : null;
+    if (!r) { infoFor(((CP.char && CP.char.items) || []).filter(i => i.equipped).concat([it])); return info && info.none ? '' : '<div class="muted cp-pd">stats loading… (tap again)</div>'; }
+    const st = STAT.filter(([k]) => Number(r[k]) > 0).map(([k, l]) => `<span><i>${l}</i> ${nf(r[k])}</span>`).join('');
+    const sa = r.sa ? `<div class="cp-pd">Special ability: <b>${esc(r.sa)}</b></div>` : '';
+    const seal = /^Sealed /i.test(it.name) ? '<div class="cp-pd cp-warn">Sealed: unseal it at Pushkin (Giran blacksmith) first.</div>' : r.common ? '<div class="cp-pd muted">Common item: same stats, no set bonus, cannot be enchanted.</div>' : '';
+    const all = (CP.char && CP.char.items) || [], eq = all.filter(i => i.equipped);
+    const sets = (info.sets || []).filter(s => [].concat(...Object.values(s.pieces || {})).includes(Number(it.id)));
+    const setHtml = sets.map(s => {
+      const rows = Object.entries(s.pieces || {}).map(([slot, L]) => {
+        const w = eq.find(i => L.includes(Number(i.id))), b = !w && all.find(i => !i.equipped && L.includes(Number(i.id)));
+        const nm = (info.items[L[0]] || {}).n || (w || b || {}).name || slot;
+        return `<li class="${w ? 'ok' : b ? 'bag' : 'miss'}"><span>${esc(slot)}</span> ${esc(nm)} <em>${w ? '✓ worn' : b ? 'in the bag' : 'missing'}</em></li>`;
+      }).join('');
+      const x = setStatus(eq, { sets: [s] })[0], on = !!(x && x.on);
+      return `<div class="cp-pset"><b>${esc(s.name)} set</b> <span class="${on ? 'ok' : 'muted'}">${on ? 'bonus ON' : 'bonus off'}</span><ul>${rows}</ul>
+        <div class="muted">Bonus: ${esc(s.bonus || '—')}${s.shield ? ' · shield: ' + esc(s.shield) : ''}${s.e6 ? ' · all +6: ' + esc(s.e6) : ''}</div></div>`;
+    }).join('');
+    return `${st ? `<div class="cp-stats">${st}</div>` : ''}${sa}${seal}${setHtml}`;
+  }
   function itemPop(btn) {
     const key = btn.dataset.cpitem, it = ((CP.char && CP.char.items) || []).find(i => String(i.objId || i.id) === key); if (!it) return;
     const canDrop = !it.equipped && !it.quest && it.id !== 57;
@@ -821,11 +958,13 @@
     // CRYINV-2026-10-22 (owner: "I still dont see the crystallize option here" - he tapped an item): the item menu offers it too (dwarves with Crystallize)
     let cry = '';
     try { cryLoad(false); if (CP.cry.rep) { const j = cryMap()[Number(it.objId)], why = j ? cryBlockUi(j) : 'cannot be crystallized';
-      cry = !why ? `<button class="danger" data-cpcryone="${esc(it.objId)}">Crystallize… (${nf(j.crystals)} ${esc(j.grade)} crystals)</button>` : `<div class="muted cp-pd">Crystallize: ${esc(why)}</div>`; } } catch (e) { }
+      cry = !why ? `<button class="danger" data-cpcryone="${esc(it.objId)}">Crystallize… (${nf(j.crystals)} ${esc(j.grade)} crystals)</button>` : `<div class="muted cp-pd">Crystallize: ${esc(why)}</div>`;
+      // CRYMARK-2026-11-01: mark the KIND for automatic crystallizing (only a piece this character can crystallize at all: grade within its skill, not worn)
+      if (j && !j.hard) { const mk = cryMarked(it.id); cry += mk === 'all' ? `<div class="muted cp-pd">Auto-crystallize: on for every crystallizer</div>` : `<button type="button" class="${mk ? 'on' : ''}" data-cpcrymk="${it.id}" data-on="${mk ? 0 : 1}" title="crystallize every ${esc(it.name)} in this bag automatically when idle (never worn / enchanted / special pieces)">${mk ? '✓ Auto-crystallize: ON (tap = off)' : 'Auto-crystallize this kind'}</button>`; } } } catch (e) { }
     showPop(btn, `<div class="cp-ph"><img src="${itemIcon(it.id)}" alt=""><div><b>${esc(it.name)}</b>${it.enchant ? ' <b class="en">+' + it.enchant + '</b>' : ''} ${grade(it.grade)}<div class="muted">×${nf(it.count)} · ${esc(it.type || '')}${it.slot && it.slot !== 'NONE' ? ' · ' + esc(it.slot) : ''}${it.equipped ? ' · <span class="ok">worn</span>' : ''}${it.quest ? ' · quest item' : ''}</div></div></div>
-      <div class="cp-pb">${!it.equipped && jewelKind(it) ? jewelBtns(it) : !it.equipped ? `<button class="pri" data-cpgo="use" data-id="${it.id}">${it.type === 'Weapon' || it.type === 'Armor' ? 'Equip now' : 'Use now'}</button>` : ''}
+      <div class="cp-pb">${!it.equipped && jewelKind(it) ? jewelBtns(it) : !it.equipped ? (it.objId && (it.type === 'Weapon' || it.type === 'Armor') ? `<button class="pri" data-cpgo="puton" data-obj="${esc(it.objId)}" data-id="${it.id}">Put on</button>` : `<button class="pri" data-cpgo="use" data-id="${it.id}">${it.type === 'Weapon' || it.type === 'Armor' ? 'Equip now' : 'Use now'}</button>`) : it.objId ? `<button data-cpgo="unequip" data-obj="${esc(it.objId)}" data-id="${it.id}" title="it goes back to the bag">Take off</button>` : ''}
         ${canDrop ? `<button class="danger" data-cpdrop="${esc(it.objId || it.id)}" data-id="${it.id}" data-n="${it.count}">Drop…</button>` : ''}${cry.startsWith('<button') ? cry : ''}</div>${cry.startsWith('<div') ? cry : ''}
-      ${sell}${!canDrop ? `<div class="muted cp-pd">${it.equipped ? 'Worn items cannot be dropped from here.' : it.quest ? 'Quest items cannot be dropped from here.' : ''}</div>` : ''}`);
+      ${itemDetail(it)}${sell}${!canDrop ? `<div class="muted cp-pd">${it.equipped ? 'Worn items cannot be dropped from here.' : it.quest ? 'Quest items cannot be dropped from here.' : ''}</div>` : ''}`);
   }
 
   // =========================================================================================== animation (cast ring, cooldowns, buffs)
@@ -1066,10 +1205,11 @@
       const q = t.closest('[data-cpq]'); if (q && !q.disabled) { e.stopPropagation(); quick(q.dataset.cpq); return; }
       const sk = t.closest('.cp-sk'); if (sk) { e.stopPropagation(); skillPop(sk); return; }
       const cb = t.closest('[data-cpcry]'); if (cb) { e.stopPropagation(); cryClick(cb).catch(er => toast(er.message, false)); return; }   // CRYINV-2026-10-22
+      const mk = t.closest('#cp_crymk [data-cpcrymk]'); if (mk) { e.stopPropagation(); cryMarkSet(mk.dataset.cpcrymk, mk.dataset.on === '1').catch(er => toast(er.message, false)); return; }   // CRYMARK-2026-11-01
       const jb = t.closest('[data-cpjunk]'); if (jb) { e.stopPropagation(); CP.junk = !CP.junk; if (CP.junk && CP.cry && CP.cry.on) { CP.cry.on = false; CP.cry.sel.clear(); } jb.textContent = CP.junk ? 'Done' : 'Mark junk'; jb.classList.toggle('on', CP.junk); jb.setAttribute('aria-pressed', String(!!CP.junk)); const hn = $id('cpJunkHint'); if (hn) hn.hidden = !CP.junk; renderInv(); return; }   // JUNKMARK-2026-10-23
       const it = t.closest('[data-cpitem]'); if (it) { e.stopPropagation(); if (CP.junk && it.classList.contains('cp-it')) { junkPick(it).catch(er => toast(er.message, false)); return; } if (CP.cry.on) { cryPick(it); return; } itemPop(it); return; }
       const fb = t.closest('[data-fkbuy]'); if (fb) { e.stopPropagation(); frenzyBuy().catch(er => toast(er.message, false)); return; }   // KITBUY 2026-10-15
-      const fg = t.closest('[data-fkget]'); if (fg) { e.stopPropagation(); frenzyGet().catch(er => toast(er.message, false)); return; }   // KITGET 2026-10-25
+      const fg = t.closest('[data-fkget]'); if (fg) { e.stopPropagation(); (window.FrenzyReady ? FrenzyReady.open([CP.name]) : frenzyGet()).catch(er => toast(er.message, false)); return; }   // KITGET 2026-10-25
       const cm = t.closest('[data-cpclient]'); if (cm) { e.stopPropagation(); try { setClientMode(CP.name, cm.dataset.cpclient); } catch (er) { toast(er.message, false); } return; }
       const ov = t.closest('[data-cpovmenu]'); if (ov && window.Override) { e.stopPropagation(); Override.open(CP.name, ov, { context: 'char', title: CP.name }); return; }
     });
@@ -1077,6 +1217,8 @@
       const p = CP.pop; if (!p) return;
       const t = e.target;
       if (!t.closest('#cpPop')) { if (!t.closest('.cp-sk, [data-cpitem]')) closePop(); return; }
+      const cm2 = t.closest('[data-cpcrymk]');   // CRYMARK-2026-11-01: auto-crystallize mark from the item menu
+      if (cm2) { closePop(); cryMarkSet(cm2.dataset.cpcrymk, cm2.dataset.on === '1').catch(er => toast(er.message, false)); return; }
       const co = t.closest('[data-cpcryone]');   // CRYINV-2026-10-22: one piece from the item menu -> the same red confirm as the inventory mode
       if (co) { closePop(); CP.cry.sel = new Set([Number(co.dataset.cpcryone)]); try { await cryClick({ dataset: { cpcry: 'go' } }); } catch (er) { toast(er.message, false); } CP.cry.sel.clear(); return; }
       const g = t.closest('[data-cpgo]');
@@ -1084,6 +1226,13 @@
         const id = g.dataset.id;
         if (g.dataset.cpgo === 'cast') { const on = g.dataset.on || ''; sendOv(`cast ${id}${on ? ' ' + on : ''}`, `${skName(id)}${on ? ' on ' + on : ''}`); }
         if (g.dataset.cpgo === 'use') { const it = ((CP.char && CP.char.items) || []).find(i => String(i.id) === id); sendOv('use ' + id, 'use ' + (it ? it.name : 'item ' + id)); }
+        if (g.dataset.cpgo === 'puton' || g.dataset.cpgo === 'unequip') {   // EQUIPVIEW-2026-10-30: the exact piece by its object id, after a confirm
+          const it = ((CP.char && CP.char.items) || []).find(i => String(i.objId) === String(g.dataset.obj)), nm = it ? it.name + (it.enchant ? ' +' + it.enchant : '') : 'the piece', on = g.dataset.cpgo === 'puton';
+          closePop();
+          const ok = await uiConfirm({ title: `${CP.name}: ${on ? 'put on' : 'take off'} ${nm}?`, body: on ? 'What is worn in that slot now goes back to the bag.' : 'It goes back to the bag. A gear-up may put a piece on again on its next run.', confirmText: on ? 'Put on' : 'Take off' });
+          if (ok) post(`!ov ${CP.name} ${on ? 'use' : 'unequip'} ${g.dataset.obj}`, `${on ? 'put on' : 'take off'} ${nm}`);
+          return;
+        }
         if (g.dataset.cpgo === 'useslot') { const it = ((CP.char && CP.char.items) || []).find(i => String(i.objId) === String(g.dataset.obj)); const sl = g.dataset.slot, lab = { ring1: 'ring slot 1', ring2: 'ring slot 2', ear1: 'earring slot 1', ear2: 'earring slot 2' }[sl] || sl;   // EQUIPSLOT-2026-10-22
           sendOv('use ' + g.dataset.obj + ' ' + sl, `put ${it ? it.name : 'the piece'} into ${lab}`); }
         closePop(); return;
@@ -1200,4 +1349,58 @@ window.StateCtl = (() => {
   document.addEventListener('toggle', (e) => { const d = e.target; if (d && d.matches && d.matches('details.stc-party')) OPEN[d.dataset.stcparty] = d.open; }, true);
   document.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('[data-stctl]'); if (!b) return; e.preventDefault(); e.stopPropagation(); onClick(b).catch(er => say(er.message, false)); }, true);
   return { listHtml, partyHtml, itemsOf, version: '2026-10-22' };
+})();
+
+// FRENZYREADY-2026-10-29 (owner: "I want a way to ask destroyer or titan to get the gears from clan warehouse or collector to become 'Frenzy
+// ready'"): one dialog for one destroyer (character page Frenzy box) or every destroyer / titan of a party (party card "Frenzy ready" button):
+// per missing kit piece every place it lies (clan warehouse, the collector's bag, another character's bag; sealed copies are unsealed at
+// Pushkin), one pick per piece (or "don't take"), then POST /api/frenzykit/get { name, now, picks } per character. Nothing goes without the confirm.
+window.FrenzyReady = (() => {
+  const nfmt = (p) => p >= 1e6 ? (Math.round(p / 1e5) / 10) + 'M' : p >= 1e3 ? Math.round(p / 1e3) + 'k' : String(p || 0);
+  const where = (f) => f.src === 'clan' ? 'clan warehouse' : f.src === 'bag' ? 'own bag' : (f.collector ? 'collector ' : '') + f.char + '\'s bag';
+  const optLabel = (f) => `${f.name}${f.enchant ? ' +' + f.enchant : ''} — ${where(f)}${f.sealed ? ` · sealed: unsealed at Pushkin into ${f.toName} (${nfmt(f.price)} ${f.pay === 57 ? 'adena' : 'Ancient Adena'})` : ''}`;
+  async function open(names, leader) {
+    let L;
+    try { L = leader ? await api('/api/frenzykit/party?leader=' + encodeURIComponent(leader)) : { chars: await Promise.all(names.map(n => api('/api/frenzykit/sources?name=' + encodeURIComponent(n)))) }; }
+    catch (e) { return uiError('Could not read the Frenzy kits: ' + e.message, 'Frenzy ready'); }
+    if (!L || L.error) return uiError((L && L.error) || 'no answer (the dashboard server may need a restart)', 'Frenzy ready');
+    const chars = (L.chars || []).filter(c => c && c.ok);
+    if (!chars.length) return uiAlert({ title: 'Frenzy ready', body: leader ? 'No destroyer or titan in party ' + leader + '.' : 'No answer for this character.', kind: 'info' });
+    const fields = [], missing = [], done = [];
+    const taken = {}, keyOf = (f) => f.src === 'char' ? 'c:' + f.char + ':' + f.objId : f.src + ':' + f.id, free = (f) => (taken[keyOf(f)] || 0) < (f.src === 'clan' ? f.count || 1 : 1);   // a single piece is preselected for ONE destroyer only
+    chars.forEach(c => {
+      const need = c.slots || []; if (!need.length) { done.push(c.name); return; }
+      need.forEach(s => {
+        if (!s.from.length) { missing.push(c.name + ' · ' + s.label); return; }
+        const di = s.from.findIndex(free); if (di >= 0) { const k = keyOf(s.from[di]); taken[k] = (taken[k] || 0) + 1; }
+        fields.push({ id: c.name + '|' + s.key, label: c.name + ' · ' + s.label + (s.set === 'low' ? ' (low-HP set)' : ' (high-HP set)'), column: true, value: di >= 0 ? String(di) : '',
+          options: s.from.map((f, i) => ({ value: String(i), label: optLabel(f) })).concat([{ value: '', label: 'Don\'t take this one' }]) });
+      });
+    });
+    const body = [];
+    if (done.length) body.push(uiP('Already Frenzy ready (every kit piece worn or in the bag): ' + done.join(', ') + '.'));
+    if (!fields.length) return uiAlert({ title: 'Frenzy ready', kind: missing.length ? 'info' : 'ok', body: body.concat(missing.length ? [uiH('Not anywhere (clan warehouse, collector, other bags)'), uiList(missing)] : []) });
+    if (missing.length) body.push(uiH('Not anywhere we can take it from'), uiList(missing));
+    body.push(uiNote('Pieces from the clan warehouse are taken out by the clan leader' + (chars[0].clanLeader ? ' (' + chars[0].clanLeader + ')' : '') + '; pieces in a bag are handed over in Giran (that character walks there). Nothing is put on: the kit stays in the bag and is worn only for the HP swap before Frenzy. Never +10, never another destroyer\'s own kit.'));
+    const res = await uiForm({ title: (leader ? 'Party ' + leader : chars[0].name) + ': get the Frenzy kit', body, fields,
+      buttons: [{ label: 'Go to Giran now', value: 'now' }, { label: 'Next time in Giran', value: 'town', primary: true }] }).catch(() => null);
+    if (!res || (res.value !== 'now' && res.value !== 'town')) { toast('Frenzy ready — cancelled', null); return; }
+    const out = [];
+    for (const c of chars) {
+      const picks = (c.slots || []).map(s => { const v = res.values[c.name + '|' + s.key]; if (v == null || v === '') return null; const f = s.from[Number(v)]; return f ? { key: s.key, src: f.src, char: f.char, id: f.id, objId: f.objId } : null; }).filter(Boolean);
+      if (!picks.length) continue;
+      let r = null; try { r = await api('/api/frenzykit/get', { method: 'POST', body: JSON.stringify({ name: c.name, now: res.value === 'now', picks }) }); } catch (e) { r = { error: e.message }; }
+      out.push(c.name + ': ' + (r && r.ok ? picks.length + ' piece(s) — ' + (r.queued ? 'next Giran visit' : 'going to Giran now') : 'not sent (' + ((r && r.error) || '?') + ')'));
+    }
+    if (!out.length) { toast('Frenzy ready — nothing ticked, nothing sent', false); return; }
+    uiAlert({ title: 'Frenzy ready: sent', kind: 'ok', body: [uiList(out)] });
+    try { if (window.CharPage && CharPage._cp) { CharPage._cp.fk = null; CharPage._cp.fkAt = 0; } } catch (e) { }
+  }
+  /** the party card button: only when the party has a destroyer / titan */
+  function partyButton(leader, list) {
+    const has = (list || []).some(m => m && (m.role === 'destroyer' || /Destroyer|Titan|Orc Raider/i.test(String(m.cls || ''))));
+    return has ? `<button data-frenzyready="${String(leader).replace(/[^A-Za-z0-9_\-]/g, '')}" title="Get the HP-swap kit for Frenzy from the clan warehouse, the collector or other bags (you tick every piece)">Frenzy ready</button>` : '';
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('[data-frenzyready]'); if (!b) return; e.preventDefault(); e.stopPropagation(); open([], b.dataset.frenzyready).catch(er => toast(String(er.message || er), false)); }, true);
+  return { open, partyButton, version: '2026-10-29' };
 })();

@@ -134,7 +134,7 @@ const ids = (r) => r.list.map(x => x.id).sort((a, b) => a - b);
   ok(/sellCandidatesEx\(grades\)/.test(sa) && /pick\.why/.test(sa), 'sellAt uses the pick and returns WHY when nothing goes');
   ok(/unsellRecord\(refused/.test(sa) && !/u\[it\.id\] = it\.name/.test(sa), 'sellAt records strikes (no more life bans after one failed sale)');
   ok(/objOk\(id, i\.objId\)/.test(sa), 'sellAt sells only the bag entries the pick chose');
-  const sc = cut("case '!sell': {", 3000);
+  const sc = cut("case '!sell': {", 6000);   // (SELLTRIP-2026-10-30 put the town trip in front)
   ok(/bagSync\(\)/.test(sc) && /note\(`sell: \$\{pick\.why\}`/.test(sc) && !/note\('sell: nothing marked\/junk to sell'/.test(sc), '!sell: bag sync first, the note says WHY');
   ok(/giranGo\('grocer'\)/.test(sc), '!sell in Giran walks the recorded route to Helvetia');
   const ls = cut('async function leadSupply(why, opts) {', 14000);

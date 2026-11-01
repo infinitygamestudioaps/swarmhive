@@ -34,7 +34,8 @@ check(/d\.dp = deathPenaltyLevel\(\); d\.dps = itemCount\(recoveryScroll\(\)\.id
 check(/giranServices\('at the Giran regroup'\)/.test(SRC), 'Giran regroup runs the services');
 check(/giranServices\('after the gear purchases'(, \{ order: true \})?\)/.test(SRC),   // RESUPOPT-2026-10-27: your order = order: true (buys with the DP switch off)
  '!gearup (the plan gear step) runs the services');
-check(/async function giranServices[\s\S]{0,1600}pautoOn\('storeCov'\)[\s\S]{0,200}storeBuyBuff\(STORE_COV\.id, 'Party'/.test(SRC), 'services: COV for the party when storeCov is on');
+check(/async function giranServices[\s\S]{0,1600}pautoOn\('storeCov'\)[\s\S]{0,200}storeBuyBuff\(STORE_COV\.id, acStoreMode\('Party'\)/.test(SRC)
+  && /function acStoreMode\(m\) \{ return isAcademy\(\) \? null : m; \}/.test(SRC), 'services: COV for the party when storeCov is on (ACADSTORE-2026-10-31: still "Party" for every non-academy party)');
 check(!SRC.includes('STORE_LOG()') || /function STORE_LOG\(\)/.test(SRC), 'the store-buff log path exists (it was missing: every store buy threw after buying)');
 check(/async function giranServices[\s\S]{0,2400}pautoOn\('vitality'\)/.test(SRC), 'services: Gift of Vitality when its switch is on');
 check(/async function giranServices[\s\S]{0,400}lastSupplyAtGet\(\)/.test(SRC), 'services skipped right after a supply run (it did them)');

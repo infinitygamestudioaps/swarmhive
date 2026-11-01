@@ -48,7 +48,7 @@ check(mtCut([P(0, 0, 0), P(5000, 0, 0)], { x: 5000, y: 0, dist: 1000 }).slice(-1
 
 // ---- C) every action path checks the sight -----------------------------------------------------------------------------------
 check(/function canSee\(c\)[\s\S]{0,1800}GeoSight\(Me\.X, Me\.Y, Me\.Z, x, y, z\)/.test(src), 'C1 canSee asks the geodata (GeoSight)');
-check(/function srvAttack\(id\) \{[^\n]*canSee\(m\)\) \{ wallRefused\('attacking', m\); wallApproach\(o, m\); return; \}/.test(src) && /function wallApproach\(o, m\)[^\n]*Send\.MoveBackwardToLocation/.test(src), 'C2 srvAttack refuses a monster behind a wall and walks to it instead (WALLWALK: members no longer stand still)');
+check(/function srvAttack\(id\) \{[^\n]*canSee\(m\)\) \{ wallRefused\('attacking', m\); (?:if \(roomTargetDecide\([^\n]*\) === 'drop'\) roomTargetDrop\(o, m\); else )?wallApproach\(o, m\); return; \}/.test(src) && /function wallApproach\(o, m\)[^\n]*Send\.MoveBackwardToLocation/.test(src), 'C2 srvAttack refuses a monster behind a wall and walks to it instead (WALLWALK: members no longer stand still)');
 check(/async function engage\(t\)[\s\S]{0,700}if \(!canSee\(t\)\)/.test(src), 'C3 engage refuses it');
 check(/function huntTarget\([\s\S]{0,8000}for \(const c of cands\) \{ if \(!canSee\(c\.mb\)\)/.test(src), 'C4 huntTarget skips it (nearest first, only until one is in sight)');
 check(/function nearestMonster\([\s\S]{0,400}if \(d < bestDist && canSee\(crt\)\)/.test(src), 'C5 nearestMonster skips it');

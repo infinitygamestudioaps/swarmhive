@@ -110,16 +110,28 @@ async function kitGet(ctx, b) {
   const fs = require('fs');
   if (!ctx.commandRun) return { code: 500, error: 'the dashboard server needs a restart' };
   const name = String(b.name || ''); const I = info(ctx, name, false); if (I.error) return I;
-  const want = I.slots.filter(s => s.have && (s.have.where === 'clan' || s.have.sealed));
-  if (!want.length) return { code: 409, error: 'Nothing to get: no kit piece is in the clan warehouse or sealed.' };
   const cs = ctx.readJson(path.join(ctx.LOGS, 'clan_state.json'), null) || {}, me = (ctx.readStates() || []).find(s => s.name === name) || {};
   const ci = me.clanInfo || cs.clanInfo || null, clanLeader = ci && ci.leader ? String(ci.leader) : '';
   const label = (h) => { const sg = h.list === 311262504 || h.list === 311262505, acc = h.list === 311262505 || h.list === 311262507; return `Release the ${sg ? 'S' : 'A'}-grade ${acc ? 'accessory' : 'armor'} seal`; };
-  const pieces = want.map(s => Object.assign({ src: s.have.where === 'clan' ? 'clan' : 'bag', id: Number(s.have.id), name: s.have.name, enchant: 0, objId: 0, slot: s.label, sealed: !!s.have.sealed },
-    s.have.sealed ? { toId: s.have.toId, toName: s.have.toName, label: label(s.have), pay: s.have.pay, price: s.have.price } : { toId: Number(s.have.id), toName: s.have.name }));
+  let pieces;
+  if (Array.isArray(b.picks)) {   // FRENZYREADY-2026-10-29: exactly the owner's ticks, each checked against the live sources (one per kit slot)
+    const SRC = kitSources(ctx, name); if (SRC.error) return SRC; pieces = []; const used = new Set();
+    for (const p of b.picks.slice(0, 12)) { const sl = SRC.slots.find(s => s.key === String(p.key || '')); if (!sl || used.has(sl.key)) continue;
+      const f = sl.from.find(x => x.src === String(p.src) && x.id === Number(p.id) && (x.char || '') === String(p.char || '') && (x.src !== 'char' || x.objId === Number(p.objId))); if (!f) continue;
+      used.add(sl.key); pieces.push(Object.assign({ src: f.src, char: f.char, id: f.id, name: f.name, enchant: f.enchant || 0, objId: f.src === 'char' ? f.objId : 0, slot: sl.label, sealed: !!f.sealed },
+        f.sealed ? { toId: f.toId, toName: f.toName, label: label(f), pay: f.pay, price: f.price } : { toId: f.id, toName: f.name })); }
+    if (!pieces.length) return { code: 409, error: 'None of the ticked pieces is there any more (bags / the clan warehouse changed): reload and tick again.' };
+  } else {
+    const want = I.slots.filter(s => s.have && (s.have.where === 'clan' || s.have.sealed));
+    if (!want.length) return { code: 409, error: 'Nothing to get: no kit piece is in the clan warehouse or sealed.' };
+    pieces = want.map(s => Object.assign({ src: s.have.where === 'clan' ? 'clan' : 'bag', id: Number(s.have.id), name: s.have.name, enchant: 0, objId: 0, slot: s.label, sealed: !!s.have.sealed },
+      s.have.sealed ? { toId: s.have.toId, toName: s.have.toName, label: label(s.have), pay: s.have.pay, price: s.have.price } : { toId: Number(s.have.id), toName: s.have.name }));
+  }
   const id = `ij_${name.toLowerCase()}_kg${Date.now().toString(36)}`, now = !!b.now;
   const steps = [];
   const fromClan = pieces.filter(p => p.src === 'clan'); if (fromClan.length) steps.push(`${name} takes ${fromClan.length} kit piece(s) out of the clan warehouse: ${fromClan.map(p => p.name).join(', ').slice(0, 200)}`);
+  const byChar = {}; pieces.filter(p => p.src === 'char').forEach(p => { (byChar[p.char] = byChar[p.char] || []).push(p.name); });   // FRENZYREADY
+  Object.keys(byChar).forEach(c => steps.push(`${c} hands ${name} ${byChar[c].join(', ').slice(0, 200)} in Giran`));
   const sealed = pieces.filter(p => p.sealed); if (sealed.length) steps.push(`unseals ${sealed.length} at Pushkin: ${sealed.map(p => p.toName + ' (' + p.price + (p.pay === 57 ? ' adena' : ' Ancient Adena') + ')').join(', ').slice(0, 240)}`);
   steps.push(`everything stays in ${name}'s bag (the Frenzy swap kit)`);
   const J = { id, doer: name, kind: 'kitget', item: { name: `Frenzy kit: ${pieces.length} piece(s)`, id: pieces[0].toId }, unseal: { pieces, keep: true }, give: null, clanLeader, steps,
@@ -134,7 +146,50 @@ async function kitGet(ctx, b) {
   try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\tkitget\t${id} (now): ${steps.join(' / ').slice(0, 400)}\tdashboard\r\n`); } catch (e) { }
   return body && body.error ? { code: 500, error: body.error } : { ok: true, id, queued: false, steps };
 }
+// FRENZYREADY-2026-10-29 (owner: "a way to ask destroyer or titan to get the gears from clan warehouse or collector to become 'Frenzy ready'"):
+// every place a missing kit piece lies: the clan warehouse, the COLLECTOR's bag (Storage page -> Collector), any other character's bag (< 6 h old;
+// never worn / quest / +10, never from another destroyer: that is its own kit). Sealed copies count (unsealed at Pushkin). The owner ticks the
+// pieces; kitGet takes exactly those (a bag piece comes by hand-over in Giran: the giver walks there, swarm.js unsealRun -> ijFetch CHARSRC).
+const fsx = require('fs');
+function collectorOf(ctx) { const c = (ctx.readJson(path.join(ctx.DATA, 'stash_rules.json'), {}) || {}).collector || null; if (!c || c.on !== true) return ''; const cs = ctx.readJson(path.join(ctx.LOGS, 'clan_state.json'), null) || {}; return String(c.name || (cs.clanInfo && cs.clanInfo.leader) || ''); }
+function kitSources(ctx, name) {
+  const I = info(ctx, name, false); if (I.error) return I;
+  const kit = ctx.readJson(path.join(ctx.DATA, 'frenzy_kit.json'), null), uns = ctx.readJson(path.join(ctx.DATA, 'unseal_h5.json'), null) || {}, byU = uns.byUnsealed || {};
+  const cs = ctx.readJson(path.join(ctx.LOGS, 'clan_state.json'), null), clan = cs && cs.warehouse && Array.isArray(cs.warehouse.items) ? cs.warehouse.items : [];
+  const states = ctx.readStates() || [], role = {}; states.forEach(s => { role[s.name] = s.role; });
+  const col = collectorOf(ctx), bags = [];
+  try { fsx.readdirSync(ctx.LOGS).forEach(f => { const m = /^bag_(.+)\.json$/.exec(f); if (!m || m[1] === name || role[m[1]] === 'destroyer') return; const j = ctx.readJson(path.join(ctx.LOGS, f), null);
+    if (!j || !Array.isArray(j.items) || Date.now() - (Date.parse(j.at || '') || 0) > 6 * 3600000) return; bags.push({ char: m[1], items: j.items.filter(r => !r.eq && !r.equipped && !r.q && !r.quest && (Number(r.enchant) || 0) < 10) }); }); } catch (e) { }
+  bags.sort((a, b) => (b.char === col) - (a.char === col) || a.char.localeCompare(b.char));
+  const out = [];
+  for (const s of ((kit && kit.slots) || []).filter(x => x.set === 'low' || x.set === 'high')) {
+    const st = I.slots.find(x => x.key === s.key) || {}; if (st.have && (st.have.where === 'worn' || st.have.where === 'bag') && !st.have.sealed) continue;   // it has this one
+    const ids = new Map((s.ids || []).map(x => [Number(x.id), x])), sealedOf = new Map(); (s.ids || []).forEach(x => { const u = byU[x.id]; if (u && u.sealed) sealedOf.set(Number(u.sealed), x); });
+    const row = (r, src, char) => { const x = ids.get(Number(r.id)), z = !x ? sealedOf.get(Number(r.id)) : null, u = z ? byU[z.id] : null; if (!x && !z) return null;
+      return Object.assign({ src, char: char || '', id: Number(r.id), objId: Number(r.objId) || 0, count: Math.max(1, Number(r.count) || 1), name: x ? x.name : String(r.name || z.name), enchant: Number(r.enchant) || 0, collector: !!char && char === col, sealed: !!z },
+        z ? { toId: Number(z.id), toName: z.name, pay: Number(u.pay) || 57, price: Number(u.aa) || 0, list: Number(u.list) || 0 } : { toId: Number(r.id), toName: x.name }); };   // the kit's name: the client drops the S.A. from bag / warehouse names
+    const from = [];
+    if (st.have && st.have.where === 'bag' && st.have.sealed) from.push(Object.assign({ src: 'bag', char: '', objId: 0, enchant: 0, collector: false }, st.have));
+    clan.forEach(r => { if ((Number(r.enchant) || 0) < 10) { const x = row(r, 'clan'); if (x && !from.some(y => y.src === 'clan' && y.id === x.id)) from.push(x); } });
+    bags.forEach(b => b.items.forEach(r => { const x = row(r, 'char', b.char); if (x) from.push(x); }));
+    from.sort((a, b) => (a.sealed - b.sealed) || ((a.src === 'clan' ? 0 : a.collector ? 1 : a.src === 'bag' ? -1 : 2) - (b.src === 'clan' ? 0 : b.collector ? 1 : b.src === 'bag' ? -1 : 2)));
+    out.push({ key: s.key, set: s.set, label: s.label, from: from.slice(0, 8) });
+  }
+  return { ok: true, name, cls: I.cls, roleOk: I.roleOk, collector: col, clanLeader: (cs && cs.clanInfo && cs.clanInfo.leader) || '', slots: out };
+}
+/** the party's destroyers / titans (role destroyer or the class) with their sources */
+function partySources(ctx, leader) {
+  if (!NAME_RE.test(String(leader || ''))) return { code: 400, error: 'leader?' };
+  const team = ctx.teamMap() || {}, states = ctx.readStates() || [];
+  const list = states.filter(s => (team[s.name] || (typeof s.leader === 'string' && s.leader ? s.leader : s.name)) === leader && (s.role === 'destroyer' || DESTROYER_RE.test(String(s.cls || '')))).map(s => s.name).filter((v, i, a) => a.indexOf(v) === i).sort();
+  return { ok: true, leader, chars: list.map(n => kitSources(ctx, n)).filter(x => x && x.ok) };
+}
 async function handle(req, res, url, ctx) {
+  if (url.pathname === '/api/frenzykit/sources' || url.pathname === '/api/frenzykit/party') {   // FRENZYREADY (read only)
+    if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
+    try { const r = url.pathname.endsWith('party') ? partySources(ctx, url.searchParams.get('leader')) : kitSources(ctx, url.searchParams.get('name')); const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
+    return true;
+  }
   if (url.pathname === '/api/frenzykit/get' && req.method === 'POST') {   // KITGET
     if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
     let b = {}; try { let t = ''; for await (const c of req) t += c; b = JSON.parse(t || '{}'); } catch (e) { ctx.json(res, 400, { error: 'bad JSON' }); return true; }
@@ -146,4 +201,4 @@ async function handle(req, res, url, ctx) {
   try { const r = info(ctx, url.searchParams.get('name'), url.searchParams.get('buy') === '1'); const code = r.code; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, info, kitGet, kitStatus, buyPlan, shopIndex, townNear, DESTROYER_RE };
+module.exports = { handle, info, kitGet, kitSources, partySources, kitStatus, buyPlan, shopIndex, townNear, DESTROYER_RE };

@@ -425,6 +425,9 @@ const CONFIG = {
     settleMs: 10000,
     loginWaitMs: 420000,                         // after a (re)start: wait up to 7 min for every teammate to log in + join before any trip
     avoidLanding: /Ruins of Despair/i,
+    // NEVERAUTO-2026-10-30 (owner: "Forge of Gods its mostly AOE teams. Because the density of the monsters are so extreme" -> "Never auto-pick Forge"):
+    // the automatic spot choice never takes these places (custom / route zones, other parties' zones, team route, datapack spots); your own choice still does
+    neverAuto: /Forge of the Gods/i,
     ignoreMobs: /Treasure Chest/i,     // never fight these (stationary, hit hard, not worth it: Destroyer2 nearly died to one 2026-10-04)   // the landing traps followers in terrain (2026-10-04, twice) - never travel there
     zoneScale: 3,                    // hunting/combat square x3 (user 2026-10-04: "the attack square is far too small")                 // after every teleport the leader waits this long before walking or teleporting on (the team loads in, user 2026-10-04)               // smaller surplus is not worth a trade
     classLevels: [20, 40, 76],
@@ -2534,6 +2537,30 @@ const WALLWALK = { id: 0, at: 0 };
 function wallApproach(o, m) { if (WALLWALK.id === o && now() - WALLWALK.at < 1000) return; WALLWALK.id = o; WALLWALK.at = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.MoveBackwardToLocation(Math.round(num(m.X)), Math.round(num(m.Y)), Math.round(num(m.Z))); } catch (e) { } }
 /** a refused action through a wall: counted, told at most once a minute */
 function wallRefused(what, c) { SEE.refused++; if (now() - SEE.saidAt > 60000) { SEE.saidAt = now(); note(`wall: not ${what} ${c && c.Name ? c.Name : 'that'} — a wall is between us (${SEE.refused} refused so far)`); } }
+// ROOMTARGET-2026-11-01 (tester Vykaax, Catacomb of the Forbidden Path, chosen room "Lesser Ancient Shaman room", "in the room ✓": the party
+// "is still trying to fight through the wall even though they are already in the correct polygon"): a target behind a wall went to wallApproach,
+// a STRAIGHT move toward it - fine round a corner in the open, but in a room it walks into the wall toward the room below. While hunting a room /
+// area / drawn zone, a target behind a wall OUTSIDE that polygon is dropped (10 min) instead; inside it the corner approach stays.
+// Pure: o = { visible, inPoly: true | false | null (no hunt polygon) } -> 'attack' | 'approach' | 'drop'
+function roomTargetDecide(o) {
+  if (o.visible) return 'attack';
+  return o.inPoly === false ? 'drop' : 'approach';
+}
+/** the polygon I hunt in right now ([{x,y}]) or null: the leader's room / area / drawn zone, a member's room from its leader (swarm.room) */
+function huntPolyNow() {
+  try {
+    if (inRaid() || inst.on) return null;
+    if (isLeader()) { const z = autoLvl.active && autoLvl.zone; return z && Array.isArray(z.poly) && z.poly.length >= 3 ? z.poly.map(p => Array.isArray(p) ? { x: num(p[0]), y: num(p[1]) } : { x: num(p.x), y: num(p.y) }) : null; }
+    return MROOM.poly && now() - MROOM.at < 60000 ? MROOM.poly : null;
+  } catch (e) { return null; }
+}
+/** is this monster inside my hunt polygon (+150)? null = I hunt in no polygon */
+function huntPolyHas(m) { const P = huntPolyNow(); if (!P || !m) return null; return nearPolygon(num(m.X), num(m.Y), P, 150); }
+function roomTargetDrop(o, m) {
+  huntBlack[o] = now() + 600000;
+  try { if (Target && num(Target.objId) === o) Send.RequestTargetCancel(0); } catch (e) { }
+  if (now() - (SEE.roomSaidAt || 0) > 60000) { SEE.roomSaidAt = now(); note(`wall: ${m && m.Name ? m.Name : 'that monster'} is behind a wall OUTSIDE our hunting room — dropped for 10 min, not walked to`); }
+}
 function nearestMonster(cx, cy, range) {
   let best = null, bestDist = range;
   try {
@@ -3173,6 +3200,59 @@ function bfStanceLive() {
   } catch (e) { return false; }
 }
 function bfInCombat() { try { return !!(bfStanceLive() || bfHitMe(8000) || now() - ownAtkAt < 15000); } catch (e) { return false; } }
+// COMBATSTATE-2026-11-01 (owner: "Build a function that will tell you if party or any character is still in combat or not" - 3 .townname were
+// refused "Cannot use while in combat mode"). The server keeps a character in combat 15 s after its last attack AND 15 s after the last hit on it
+// (L2J AttackStanceTaskManager); a monster that targets me will hit me. Pure: o = { flag, attacking, sinceOwn, sinceHit, targeting, casting }
+// -> { in, why: [...], clearInMs } (clearInMs = how long until the 15 s run out, 0 = clear)
+const COMBAT_STANCE_MS = 15000;
+function combatInfoPure(o) {
+  const why = [], S = COMBAT_STANCE_MS, own = Number(o.sinceOwn), hit = Number(o.sinceHit);
+  if (o.attacking) why.push('attacking');
+  if (o.casting) why.push('casting');
+  if (own < S) why.push(`my attack ${Math.round(own / 1000)} s ago`);
+  if (hit < S) why.push(`hit ${Math.round(hit / 1000)} s ago`);
+  if (o.targeting > 0) why.push(`${o.targeting} monster(s) targeting me`);
+  if (o.flag && Math.min(own, hit) < 2 * S) why.push('server combat flag');
+  const clearInMs = Math.max(0, S - Math.min(own, hit)) + (o.attacking || o.casting || o.targeting > 0 ? 1000 : 0);
+  return { in: why.length > 0, why, clearInMs: why.length ? clearInMs : 0 };
+}
+/** am I in combat (the server's view)? -> { in, why, clearInMs } */
+function combatInfo() {
+  let targeting = 0; try { targeting = escAttackers().filter(a => a.targetsMe && !a.cc).length; } catch (e) { }
+  let flag = false, attacking = false, casting = false; try { flag = !!Me.IsInCombat; attacking = !!Me.IsAttacking; casting = !!Me.IsCasting; } catch (e) { }
+  return combatInfoPure({ flag, attacking, casting, sinceOwn: now() - (ownAtkAt || 0), sinceHit: lastAttackerOnMe.for ? 1e9 : now() - (lastAttackerOnMe.at || 0), targeting });
+}
+/** pure: my info + teammates' live reports ({ name, at, fight, dead }) -> { in, who: [names], clear: [names] } (a report older than 8 s does not count) */
+function partyCombatPure(me, mates, t) {
+  const who = [], clear = [];
+  if (me && me.info && me.info.in) who.push(me.name); else if (me) clear.push(me.name);
+  (mates || []).forEach(m => { if (!m) return; if (!m.dead && t - m.at < 8000 && m.fight) who.push(m.name); else clear.push(m.name); });
+  return { in: who.length > 0, who, clear };
+}
+/** is my party (me + every teammate) in combat? */
+function partyCombatInfo() {
+  const mates = teamNames().map(n => { const lp = livePos[n]; return lp ? { name: n, at: lp.at, fight: lp.cb !== undefined ? !!lp.cb : !!lp.fight, dead: !!lp.IsDead } : { name: n, at: 0 }; });
+  return partyCombatPure({ name: Me.Name, info: combatInfo() }, mates, now());
+}
+/** FIGHTOFF-2026-11-01 (owner: "A character should always fight the monsters off, or they will die ... So this does not happen: ... stand still"):
+ *  pure: the monster to fight now = the nearest one hitting / targeting me that is not crowd-controlled (null = nobody on me). a = escAttackers() */
+function fightOffPick(a) { return (a || []).filter(x => (x.targetsMe || x.hitMe) && !x.cc).sort((p, q) => ((q.hitMe ? 1 : 0) - (p.hitMe ? 1 : 0)) || (p.dist - q.dist))[0] || null; }
+/** get out of combat: monsters on me are FOUGHT OFF (healers keep healing, never attack), then - nobody on me - stop attacking and wait until
+ *  combatInfo() is clear for settleMs (max maxMs) -> { ok, waited, why } */
+async function waitCombatClear(maxMs, settleMs) {
+  const t0 = now(), settle = settleMs == null ? 2000 : settleMs; let clearAt = 0, last = null, fought = 0;
+  while (now() - t0 < maxMs && !Me.IsDead) {
+    last = combatInfo();
+    let foe = null; try { foe = fightOffPick(escAttackers()); } catch (e) { }
+    if (foe) {
+      clearAt = 0;
+      if (!isHealerRole()) { try { if (num(Target && Target.objId) !== foe.id || !Me.IsAttacking) { srvAttack(foe.id); fought++; } } catch (e) { } }
+    } else if (last.in) { clearAt = 0; if (Me.IsAttacking) { try { stopCombatG('wait for out of combat'); } catch (e) { } } }
+    else { if (!clearAt) clearAt = now(); if (now() - clearAt >= settle) return { ok: true, waited: now() - t0, why: fought ? 'fought them off, out of combat' : 'out of combat' }; }
+    await sleep(500);
+  }
+  return { ok: false, waited: now() - t0, why: last ? last.why.join(', ') : 'dead' };
+}
 async function waitOutOfCombat(maxMs, settleMs, opt) {
   const t0 = now(), max = maxMs || CONFIG.buffs.outOfCombatMaxMs || 45000, settle = settleMs == null ? 3000 : settleMs;
   let clearSince = bfInCombat() ? 0 : now(), stepped = !!(opt && opt.noStep);   // BUFFFIX2-2026-10-21: noStep = I keep following the party, never walk off to a safe spot
@@ -4082,7 +4162,7 @@ function healTargets() {
   });
   if (DLV.on) return [];                                               // DELEVEL (2026-10-12): I am dying on purpose, I heal nobody
   // WALLSIGHT-2026-10-24: a teammate behind a wall is not healed through it (the follow brings us together)
-  return out.filter(t => (t.me || (Math.hypot(t.x - Me.X, t.y - Me.Y) < HEAL.range && canSee({ x: t.x, y: t.y, z: (livePos[t.name] && livePos[t.name].Z !== undefined) ? livePos[t.name].Z : Me.Z }))) && !(livePos[t.name] && livePos[t.name].dlv && now() - livePos[t.name].at < 10000));
+  return out.filter(t => (t.me || (Math.hypot(t.x - Me.X, t.y - Me.Y) < HEAL.range && canSee({ x: t.x, y: t.y, z: (livePos[t.name] && livePos[t.name].Z !== undefined) ? livePos[t.name].Z : Me.Z }))) && !(livePos[t.name] && livePos[t.name].dlv && now() - livePos[t.name].at < 10000) && !(typeof aoeSkipHeal === 'function' && !t.me && aoeSkipHeal(t)));   // AOETEAM-2026-10-30: never after a puller out on his route
 }
 let lastHealPot = 0;
 const cureTried = {};
@@ -4323,7 +4403,7 @@ function findPathNow(pt) { return null; }
 // packet: the SERVER walks the character to the monster (same fix as Cruma Tower). Every former Attack( call uses it.
 let ownAtkAt = 0;                                                  // BOARDCOMBAT-2026-10-22: my own last attack (the server keeps the combat stance ~15 s after it)
 const srvAtkLast = { id: 0, at: 0 };   // ORDERFLOOD-2026-10-24: the same attack within 600 ms is dropped (46k orders in 5 min ran the agent 22 min behind)
-function srvAttack(id) { const o = num(id); if (!o) return; { const m = mobById(o); if (m && !canSee(m)) { wallRefused('attacking', m); wallApproach(o, m); return; } } if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return; srvAtkLast.id = o; srvAtkLast.at = now(); ownAtkAt = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.Attack(o); } catch (e) { } }
+function srvAttack(id) { const o = num(id); if (!o) return; { const m = mobById(o); if (m && !canSee(m)) { wallRefused('attacking', m); if (roomTargetDecide({ visible: false, inPoly: huntPolyHas(m) }) === 'drop') roomTargetDrop(o, m); else wallApproach(o, m); return; } } if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return; srvAtkLast.id = o; srvAtkLast.at = now(); ownAtkAt = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.Attack(o); } catch (e) { } }
 
 function num(v) { return typeof v === 'bigint' ? Number(v) : (Number(v) || 0); }
 
@@ -5078,7 +5158,9 @@ function assistChoose(o) {
   if (c.attacker && c.attacker.alive && c.attacker.id) return { id: c.attacker.id, why: 'hitting me' };
   if (c.keep && c.keep.alive && c.keep.id) return { id: c.keep.id, why: 'in range (leader target out of reach)' };
   const L = c.leader;
-  if (c.assist && L && L.alive && L.id && (L.fighting || (L.hpPct > 0 && L.hpPct < 100) || L.targetsUs)
+  // MARKED-2026-10-30 (owner: "the parties are not attacking before the tank has cast Aggression or Hate Aura while normal hunting ... they should just
+  // attack as soon as he has marked the target"): the leader's marked (selected) monster is enough - no wait for his first hit / its aggro
+  if (c.assist && L && L.alive && L.id && (L.fighting || L.marked || (L.hpPct > 0 && L.hpPct < 100) || L.targetsUs)
       && !(L.dist > (c.chaseMax || CASTLOOP.chaseMax)) && !(Math.abs(Number(L.dz) || 0) > (c.zLimit || 500))) return { id: L.id, why: 'assist' };
   if (c.cur && c.cur.alive && c.cur.mob && c.cur.id) return { id: c.cur.id, why: 'current' };
   return null;
@@ -5456,7 +5538,7 @@ function leaderFightTarget() {
   if (!tid) return null;
   const m = mobById(tid); if (!m || m.IsDead || ignoredMob(m)) return null;   // WALLSIGHT: choosing the leader's target is fine behind a corner (we move to it); hitting / casting through a wall is refused in srvAttack / castOn
   let us = false; try { const t = num(m.TargetObjId); us = !!t && (t === num(Me.objId) || !!livePosByObj(t)); } catch (e) { }
-  return { id: num(m.objId), alive: true, fighting, hpPct: num(m.HpPercent), targetsUs: us, dist: Math.hypot(m.X - Me.X, m.Y - Me.Y), dz: (m.Z || Me.Z) - Me.Z };
+  return { id: num(m.objId), alive: true, fighting, marked: true, hpPct: num(m.HpPercent), targetsUs: us, dist: Math.hypot(m.X - Me.X, m.Y - Me.Y), dz: (m.Z || Me.Z) - Me.Z };   // MARKED: he selected it
 }
 /** script-driven caster member: which monster to cast at (L2Swarm's assist no longer selects one for a mage without combat skills) */
 function casterTarget() {
@@ -6882,7 +6964,8 @@ async function gkTeleport(wanted, why) {
       // user rule 2026-10-04: towns are reached with .townname (one jump, the leader then waits for the whole team) — no gatekeeper chain
       if (TOWN_CMD[via.t]) { lastTownCmd = 0; if (!(await townCommand(`${why}: to ${via.t} for ${wanted.text}`, via.t))) { r = false; gkFail = `.${TOWN_CMD[via.t]} did not work: ${gkFail}`; } }
       else for (const hop of via.path.slice(1)) {
-        if (TOWN_CMD[hop]) { lastTownCmd = 0; if (await townCommand(`${why} via ${hop}`, hop, { only: true })) continue; }
+        if (TOWN_CMD[hop]) { lastTownCmd = 0; gkFail = ''; if (await townCommand(`${why} via ${hop}`, hop, { only: true })) continue;
+          if (townHopNoGk(hop)) { r = false; gkFail = `route to ${via.t}: .${TOWN_CMD[hop]} did not take us to ${hop} (${gkFail || 'no answer'})`; break; } }   // PLANWATCH-2026-10-31
         if (isLeader() && (await teamRegroupBeforePort(`${hop} (route hop)`)) === 'interrupted') { r = false; gkFail = 'a more important task took over'; break; }
         if (!(await gkTeleportInner({ text: TOWNS[hop].menu, noRoute: true }, `${why} via ${hop}`))) { r = false; gkFail = `route to ${via.t} broke at ${hop}: ${gkFail}`; break; }
       }
@@ -6899,7 +6982,8 @@ async function gkTeleport(wanted, why) {
       note(`gatekeeper: '${wanted.text}' is not on the menu here — route ${path.join(' → ')}`, true);
       r = true;
       for (const hop of path.slice(1)) {
-        if (TOWN_CMD[hop]) { lastTownCmd = 0; if (await townCommand(`${why} via ${hop}`, hop, { only: true })) continue; }   // .townname, then the leader waits for all
+        if (TOWN_CMD[hop]) { lastTownCmd = 0; gkFail = ''; if (await townCommand(`${why} via ${hop}`, hop, { only: true })) continue;   // .townname, then the leader waits for all
+          if (townHopNoGk(hop)) { r = false; gkFail = `route ${path.join(' → ')}: .${TOWN_CMD[hop]} did not take us to ${hop} (${gkFail || 'no answer'})`; break; } }   // PLANWATCH-2026-10-31: no gatekeeper fallback that is always refused
         if (isLeader() && (await teamRegroupBeforePort(`${hop} (route hop)`)) === 'interrupted') { r = false; gkFail = 'a more important task took over'; break; }
         if (!(await gkTeleportInner({ text: TOWNS[hop].menu, noRoute: true }, `${why} via ${hop}`))) { r = false; gkFail = `route ${path.join(' → ')} broke at ${hop}: ${gkFail}`; break; }
       }
@@ -6923,6 +7007,8 @@ async function gkTeleport(wanted, why) {
   intentDone('teleport', r, r ? `landed ${here()}` : (gkFail || 'teleport failed (unknown reason)'));
   return r;
 }
+/** PLANWATCH-2026-10-31: would gkTeleportInner refuse a gatekeeper to this town (it has a working .townname)? then a failed .town hop is the end */
+function townHopNoGk(tk) { try { return tcMode() !== 'gatekeeper' && dfTownRule({ hasCmd: !!TOWN_CMD[tk], bad: !!TOWN_CMD[tk] && townCmdBad.has(TOWN_CMD[tk]), enabled: !!CONFIG.town.enabled }) === 'town'; } catch (e) { return false; } }
 async function gkTeleportInner(wanted, why) {
   // D14 (2026-10-12): every gatekeeper click goes through here - a town with a working .townname is never reached by gatekeeper
   { const tk0 = wanted && wanted.text && !wanted.cmd ? townKeyFor(wanted.text) : null;
@@ -8173,7 +8259,9 @@ async function rescueRunPlan(io, plan, R) {
 /** Same area for the leader's 'nobody left behind in a fight' rule: my floor (|dz| < 800) and within 8000. */
 function sameArea(p, me) { return !!p && Math.hypot(p.X - me.X, p.Y - me.Y) < 8000 && Math.abs(((p.Z === undefined || p.Z === null) ? me.Z : p.Z) - me.Z) < 800; }
 /** Teammates whose fight blocks the leader's teleport: fighting (fresh report), alive, in my area. Far ones / other floors never block. */
-function portBlockers(names, pos, me, t) { return (names || []).filter(n => { const lp = pos[n]; return !!(lp && t - lp.at < 8000 && lp.fight && !lp.IsDead && sameArea(lp, me)); }); }
+// COMBATSTATE-2026-11-01: a teammate blocks the port while the SERVER still has it in combat (its report's cb: own attack / hit within 15 s,
+// monsters on it), not only while it is hit right now - the party fights everything off and waits until all are out of combat, then ports
+function portBlockers(names, pos, me, t) { return (names || []).filter(n => { const lp = pos[n]; return !!(lp && t - lp.at < 8000 && (lp.cb !== undefined ? !!lp.cb : lp.fight) && !lp.IsDead && sameArea(lp, me)); }); }
 // CRUMAHOLD-2026-10-24 (public tester, party FindStuff8, Cruma 1st floor, plan step "Go to Giran and buy better gear"): the hold before .giran
 // walked the team out of "aggro range" with safeSpot() (24 straight directions, no walls) and with an 8.7k flee route along the hallways:
 // the leader ended in the corner of the next room (Porta room right-c, 23224,120248) in a new fight, the healer stayed 7k behind.
@@ -8182,6 +8270,7 @@ function portBlockers(names, pos, me, t) { return (names || []).filter(n => { co
 function holdDungeonPlanOk(plan, from, max) {
   if (!plan || !Array.isArray(plan.points) || !plan.points.length || !from) return false;
   if (plan.src === 'safeSpot()' || plan.src === 'away') return false;
+  if (plan.ownerSpot) return true;   // FORGESAFE-2026-10-30: the owner's safe spot (Forge: the start before the bridge) - the team walks back the way it came
   let len = 0, p = from; plan.points.forEach(q => { len += Math.hypot(q.x - p.x, q.y - p.y); p = q; });
   return len <= (max || 2500);
 }
@@ -8527,7 +8616,10 @@ function npcTripPlan(n, me, opts) {
     if (me.dungeon !== p.dungeon) steps.push({ do: 'dungeon', dungeon: p.dungeon, floor: p.floorIdx, label: `into ${p.dungeon}` });
     steps.push({ do: 'room-walk', dungeon: p.dungeon, floor: p.floorIdx, x: n.x, y: n.y, z: n.z, label: `room by room to ${n.name} (${p.floor}${p.room ? ', ' + p.room : ''})` });
   } else if (p.town) {
-    if (!me.town || tk(me.town) !== tk(p.town)) steps.push({ do: 'town', town: p.town, label: `.${String(tk(p.town) || p.town).toLowerCase()} / gatekeeper to ${p.town}` });
+    // PLANWATCH-2026-10-31: just outside the town (7.4k from the Orc Village Newbie Guide) = walk; the "to the town" step sent academy characters to
+    // Tamil, the Orc Village gatekeeper, to ask for the Orc Village (no such link) and the coupon step failed for all of them
+    const near = Math.hypot(n.x - me.x, n.y - me.y) <= (o.walkMax || 12000);
+    if ((!me.town || tk(me.town) !== tk(p.town)) && !near) steps.push({ do: 'town', town: p.town, label: `.${String(tk(p.town) || p.town).toLowerCase()} / gatekeeper to ${p.town}` });
     steps.push({ do: 'walk', x: n.x, y: n.y, z: n.z, near: 150, label: `walk to ${n.name}` });
   } else {
     if (Math.hypot(n.x - me.x, n.y - me.y) > 8000) steps.push({ do: 'travel', x: n.x, y: n.y, z: n.z, label: `travel near ${n.name}${p.region ? ' (' + p.region + ')' : ''}` });
@@ -8628,7 +8720,8 @@ function escFloor(me) {
     try {
       const D = dungeonRooms();                                     // (re-read when the file changed, 2026-10-08 23:30)
       ESCF.list = (D || []).map(d => ({ name: d.name, bbox: d.bbox, floors: (d.floors || []).map(f => ({ name: f.name, z: f.z,
-        safeSpots: (f.safeSpots || []).map(s => ({ id: s.id, name: s.name || s.id || 'safe spot', x: num(s.x), y: num(s.y), z: num(s.z) })),
+        // FORGESAFE-2026-10-30: off = switched off (owner: Forge's spots next to the dense rooms); maxWalk = how far the owner's spot may be walked to
+        safeSpots: (f.safeSpots || []).filter(s => s.off !== true).map(s => ({ id: s.id, name: s.name || s.id || 'safe spot', x: num(s.x), y: num(s.y), z: num(s.z), maxWalk: num(s.maxWalk) || 0 })),
         rooms: (f.rooms || []).map(r => ({ id: r.id, name: r.name, center: r.center, radius: r.radius, poly: Array.isArray(r.poly) ? r.poly : null, route: Array.isArray(r.route) ? r.route : null })) })) }));
     } catch (e) { ESCF.list = ESCF.list || []; }
   }
@@ -8661,7 +8754,7 @@ async function geoFlee(dangers, fl, timeoutMs, lim) {
   const req = { id, op: 'flee', from: { x: Math.round(me.X), y: Math.round(me.Y), z: Math.round(me.Z) }, to: { x: Math.round(me.X), y: Math.round(me.Y), z: Math.round(me.Z) },
     dangers: dangers.slice(0, 30), margin: 150, maxWalk: (lim && lim.maxWalk) || 3500, maxSafeWalk: (lim && lim.maxSafeWalk) || 6000,   // CRUMAHOLD-2026-10-24: the team hold asks for SHORT ways
     polys: fl ? fl.rooms.filter(r => r.poly && r.center && Math.hypot(ptX(r.center) - me.X, ptY(r.center) - me.Y) < 6000).slice(0, 10).map(r => r.poly) : [],
-    safeSpots: fl ? fl.safeSpots.filter(s => Math.hypot(s.x - me.X, s.y - me.Y) < 9000).slice(0, 40) : [] };
+    safeSpots: fl ? fl.safeSpots.filter(s => Math.hypot(s.x - me.X, s.y - me.Y) < Math.max(9000, s.maxWalk || 0)).slice(0, 40) : [] };
   try { File.WriteAllText(`${GEO_DIR}\\req_${Me.Name}__flee.json`, JSON.stringify(req)); } catch (e) { return null; }
   const until = now() + (timeoutMs || 7000);
   while (now() < until) {
@@ -8682,6 +8775,10 @@ async function escFleePlan(opts) {
   const clear = (x, y) => dangers.length ? Math.min(...dangers.map(d => Math.hypot(x - d.x, y - d.y) - d.r)) : 9999;
   const fl = escFloor(me);
   const mk = (src, kind, label, pts) => { const e = pts[pts.length - 1]; return { src, kind, label, x: Math.round(ptX(e)), y: Math.round(ptY(e)), z: Math.round(ptZ(e) || me.Z), points: pts.map(p => ({ x: Math.round(ptX(p)), y: Math.round(ptY(p)), z: Math.round(ptZ(p) || me.Z) })), dist: Math.hypot(ptX(e) - me.X, ptY(e) - me.Y) }; };
+  // 0) FORGESAFE-2026-10-30 (owner: "the safe spot should be in the start BEFORE the bridge"): a floor with the OWNER's safe spot (maxWalk) uses only
+  //    that one, whatever lies closer (Forge of the Gods: every corridor next to the dense rooms keeps the monsters coming)
+  { const os = fl && (fl.safeSpots || []).find(s => s.maxWalk > 0 && Math.abs((s.z || me.Z) - me.Z) < 900 && Math.hypot(s.x - me.X, s.y - me.Y) < s.maxWalk);
+    if (os) { const p = mk('safeSpots', 'safeSpot', `safe spot "${os.name}" (yours)`, [os]); p.ownerSpot = true; return p; } }
   // 1) the path finder (walls, floors): safe spot > hallway > free cell
   const lim = opts && opts.maxSafeWalk ? { maxWalk: Math.min(3500, opts.maxSafeWalk), maxSafeWalk: opts.maxSafeWalk } : null;   // CRUMAHOLD-2026-10-24
   const r = await geoFlee(dangers, fl, 7000, lim);
@@ -8692,7 +8789,7 @@ async function escFleePlan(opts) {
   // 2) the floor's safe spots (corridors), nearest first
   if (fl && fl.safeSpots.length) {
     const s = fl.safeSpots.filter(p => Math.abs((p.z || me.Z) - me.Z) < 600 && clear(p.x, p.y) > 0).sort((a, b) => Math.hypot(a.x - me.X, a.y - me.Y) - Math.hypot(b.x - me.X, b.y - me.Y))[0];
-    if (s && Math.hypot(s.x - me.X, s.y - me.Y) < ((opts && opts.maxSafeWalk) || 6000)) return mk('safeSpots', 'safeSpot', `safe spot "${s.name}"`, [s]);
+    if (s && Math.hypot(s.x - me.X, s.y - me.Y) < Math.max((opts && opts.maxSafeWalk) || 6000, s.maxWalk || 0)) return mk('safeSpots', 'safeSpot', `safe spot "${s.name}"`, [s]);   // FORGESAFE: the owner's spot may be further
   }
   // 3) back along the room's own walkable route (towards the floor entry) to the first point out of the fight and out of the rooms
   if (fl) {
@@ -9108,8 +9205,32 @@ setInterval(() => {
 // All 11 that exist (tested live 2026-10-03, docs/plan/town_commands.md). The racial villages + Floran have NO command.
 const TOWN_CMD = { Gludin: 'gludin', Gludio: 'gludio', Dion: 'dion', Giran: 'giran', Oren: 'oren', Aden: 'aden', Hunters: 'hunters', Heine: 'heine',
   Goddard: 'goddard', Rune: 'rune', Schuttgart: 'schuttgart' };
+// TOWNBOX-2026-10-30: town areas (x min, x max, y min, y max) - Giran = its recorded streets 77458-83473 / 146400-150788 + margin (Dashboard GIRAN_BOX)
+const TOWN_BOX = { Giran: [75900, 85100, 144800, 152400] };
 const TOWN_LAND = { Gludin: [-80786, 150251], Gludio: [-12712, 122776], Dion: [15619, 143132], Giran: [83473, 148554], Oren: [82760, 53578],
   Aden: [147448, 25816], Hunters: [116589, 76268], Heine: [111381, 218981], Goddard: [147732, -56554], Rune: [43759, -48122], Schuttgart: [87355, -142095] };
+// TOWNLAND-2026-11-01 (owner: "you keep saying that the .townname keeps failing? But it actually dont fail most of the time ... check if the xyz
+// changes after the .townname, could be 10 seconds wait ... write down ALL .townname locations where you arrive and give it a radius of 500"):
+// a .townname is DONE when I stand within radius (500) of a known landing of that town (Scripts/data/town_landings.json, every landing measured
+// from the logs) within waitMs (10 s); unknown landing = moved >= 3000 (then the new point goes to Logs/town_landings_new.log). Before: "moved
+// >= 3000" only - a .gludio from 2,000 outside Gludio counted as a failure although it landed.
+function townAtLanding(x, y, z, town, towns, radius) {
+  const L = (towns && towns[town]) || [];
+  return L.some(p => Math.hypot(Number(p.x) - x, Number(p.y) - y) <= radius && (z === undefined || p.z === undefined || Math.abs(Number(p.z) - z) <= 600));
+}
+function townArrived(pos, start, town, towns, radius) {
+  if (townAtLanding(pos.x, pos.y, pos.z, town, towns, radius)) return { ok: true, how: 'landing' };
+  if (Math.hypot(pos.x - start.x, pos.y - start.y) >= 3000) return { ok: true, how: 'moved' };
+  return { ok: false, how: '' };
+}
+const TLAND = { j: null, stamp: '', chk: 0 };
+function townLandings() {
+  if (TLAND.j && now() - TLAND.chk < 30000) return TLAND.j;
+  TLAND.chk = now();
+  const def = { radius: 500, waitMs: 10000, towns: {} }; Object.keys(TOWN_LAND).forEach(k => { def.towns[k] = [{ x: TOWN_LAND[k][0], y: TOWN_LAND[k][1] }]; });
+  try { const F = `${__DIR__}\\Scripts\\data\\town_landings.json`, st = fileStamp(F); if (st && st !== TLAND.stamp) { const j = JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, '')); TLAND.j = { radius: num(j.radius) || 500, waitMs: num(j.waitMs) || 10000, towns: Object.assign(def.towns, j.towns || {}) }; TLAND.stamp = st; } } catch (e) { }
+  return TLAND.j || def;
+}
 const townCmdBad = dfTownBadSet(() => now());   // D14 (2026-10-12): timed, 2 "Usage" answers (was a Set: one answer = gatekeeper forever)
 //                     // names the server answered with "Usage: .townname" (unknown town)
 // TOWNMODE-PURE-BEGIN (pure: docs/plan/tools/test_town_mode.js runs this block in node)
@@ -9219,7 +9340,7 @@ async function townCommand(why, wantTown) {
   if (Me.IsDead) return false;
   if (!opts.soInner) { let ways = null; try { ways = soTownWays(soMine().townWays); } catch (e) { } if (ways) return await soTownGo(why, wantTown, opts, ways); }   // SRVOPT-2026-10-21: the party chose its own ways to town
   if ((!CONFIG.town.enabled || tcMode() === 'gatekeeper') && !supplyHoldsTeam() && !opts.soInner) return await townByGatekeeper(why, wantTown, opts);   // TOWNMODE-2026-10-17
-  if (now() - lastTownCmd < CONFIG.town.minGapMs) return false;
+  if (now() - lastTownCmd < CONFIG.town.minGapMs) { gkFail = `.town used ${Math.round((now() - lastTownCmd) / 1000)} s ago (min gap)`; return false; }
   if (supplyHoldsTeam()) { note(`town: NOT using .town (${why}) — the supply run holds the team in ${CONFIG.lead.hub} until it ends`); gkFail = 'the supply run holds the team in Giran'; return false; }
   lastTownCmd = now();
   const start = { x: Me.X, y: Me.Y };
@@ -9234,19 +9355,27 @@ async function townCommand(why, wantTown) {
   const wasEnabled = IsEnabled; if (IsEnabled) DisableBot();
   try {
     // fails in combat / with karma / flagged: wait up to 15 s for the combat flag to drop (self-defense still hits back meanwhile)
-    for (let i = 0; i < 15 && (bfStanceLive() || now() - lastAttackerOnMe.at < 5000); i++) await sleep(1000);
-    for (const c of cands) {
+    // COMBATSTATE-2026-11-01: never send .townname in combat (the server refuses it "#1983 Cannot use while in combat mode"): FIGHTOFF - monsters
+    // on me are fought off first, then it waits until combatInfo() is clear for 2 s (max 120 s); still in combat = not sent (safe-spot retreat below)
+    const cw = await waitCombatClear(120000, 2000);
+    if (!cw.ok) { intent('town', `.${TOWN_CMD[cands[0].k]} (${cands[0].k}) — ${why}`); intentDone('town', false, `not sent: still in combat after ${Math.round(cw.waited / 1000)} s (${cw.why})`); gkFail = `still in combat (${cw.why})`; }
+    for (const c of (cw.ok ? cands : [])) {
       const cmd = '.' + TOWN_CMD[c.k];
-      intent('town', `${cmd} (${c.k}, ${Math.round(c.d / 1000)}k away) — ${why}`);
+      const TL = townLandings(), R = TL.radius, here0 = { x: Me.X, y: Me.Y, z: Me.Z };
+      const already = townAtLanding(here0.x, here0.y, here0.z, c.k, TL.towns, R);   // TOWNLAND: already at that town's landing = done, no command
+      intent('town', already ? `${cmd} (${c.k}) — already at its landing — ${why}` : `${cmd} (${c.k}, ${Math.round(c.d / 1000)}k away) — ${why}`);
       const asked = now();
-      castLiveSet({ kind: 'town', id: 0, skill: 0, name: cmd, ms: CONFIG.town.waitMs, target: c.k });   // dashboard: live bar while the server answers
-      Send.Say2(0, cmd, '', true);
-      const until = now() + CONFIG.town.waitMs;
-      while (now() < until && !Me.IsDead && Math.hypot(Me.X - start.x, Me.Y - start.y) < 3000) {
+      castLiveSet({ kind: 'town', id: 0, skill: 0, name: cmd, ms: TL.waitMs, target: c.k });   // dashboard: live bar while the server answers
+      if (!already) Send.Say2(0, cmd, '', true);
+      const until = already ? now() : now() + TL.waitMs;
+      let arr = { ok: false, how: '' };
+      while (now() < until && !Me.IsDead && !(arr = townArrived({ x: Me.X, y: Me.Y, z: Me.Z }, start, c.k, TL.towns, R)).ok) {
         if (lastSysMsg && lastSysMsg.at >= asked && /Usage: \.townname|Command not found|Unknown command|Incorrect command|Wrong command|no such command|command .*not (exist|available|allowed)/i.test(lastSysMsg.text)) { townCmdBad.add(TOWN_CMD[c.k]); break; }
         await sleep(500);
       }
-      const ok = Math.hypot(Me.X - start.x, Me.Y - start.y) >= 3000;
+      arr = townArrived({ x: Me.X, y: Me.Y, z: Me.Z }, start, c.k, TL.towns, R);
+      const ok = arr.ok;
+      if (ok && arr.how === 'moved' && currentTownKey() === c.k) { try { appendShared(SWARM_ROOT + '\\Logs\\town_landings_new.log', `${new Date().toISOString()}\t${c.k}\t${Math.round(Me.X)},${Math.round(Me.Y)},${Math.round(Me.Z)}\t${Me.Name}\r\n`); } catch (e) { } }
       const said = lastSysMsg && lastSysMsg.at >= asked ? lastSysMsg.text : '';
       tcRecord({ ok, refused: !!said || Me.IsDead || Me.IsInCombat || now() - lastAttackerOnMe.at < 8000 || townCmdBad.has(TOWN_CMD[c.k]) });   // TOWNMODE: learn whether the server knows .townname
       // a .town that did not move us while we see NPCs: the server froze our position (2026-10-06 05:53 Tank1 in Giran after a supply
@@ -9671,6 +9800,9 @@ function buildTownGraph() {
 function currentTownKey() {
   const g = buildTownGraph();
   const mx = Number(Me.X), my = Number(Me.Y);                     // (throws like distTo did when Me is not there yet)
+  // TOWNBOX-2026-10-30 (owner: "Fix this" - Pushkin / Rupio / Kusto (77458,148169) are 6,000 from Giran's landing, inside the walls, and fell
+  // through every distance rule: the unseal walk, the gear-up and Chanter1's item job all thought he was 'not in Giran'): a town AREA wins first
+  { for (const k in TOWN_BOX) { const b = TOWN_BOX[k]; if (mx >= b[0] && mx <= b[1] && my >= b[2] && my <= b[3]) return k; } }
   // 0) within 3000 of a town's .town landing (exact live points, TOWN_LAND): that town (2026-10-10, user: "there are always issues in Hunters
   //    Village" - the bot never knew it stood in Hunters: .hunters on the spot "did not move" and the retry looked for a gatekeeper link 'hunter')
   { let lk = null, ld = 3000; for (const k in TOWN_LAND) { const p = TOWN_LAND[k], d = Math.hypot(mx - p[0], my - p[1]); if (d < ld) { ld = d; lk = k; } } if (lk) return lk; }
@@ -11789,8 +11921,17 @@ function giranShopIndex() {
       const cost = Array.isArray(o.cost) ? o.cost : [];
       const adena = o.kind === 'exchange' ? (cost.length === 1 && num(cost[0].id) === 57 ? num(cost[0].count) : 0) : (!scanned.has(o.npc) ? num(o.price) : 0);
       if (!(adena > 0) || !num(o.id) || num(o.count || 1) !== 1 || num(o.enchant) > 0) return;
-      (idx[o.id] = idx[o.id] || []).push({ npc: o.npc, alt: [], route: 'market', path: o.path || [], price: adena, common: /^Common Item/.test(String(o.name)), est: 0,
-        market: { npc: o.npc, x: num(o.x) || (pos[o.npc] || {}).x || 0, y: num(o.y) || (pos[o.npc] || {}).y || 0, path: o.path || [], kind: o.kind, listId: o.listId, entry: o.entry, shopId: o.shopId } });
+      const market = { npc: o.npc, x: num(o.x) || (pos[o.npc] || {}).x || 0, y: num(o.y) || (pos[o.npc] || {}).y || 0, path: o.path || [], kind: o.kind, listId: o.listId, entry: o.entry, shopId: o.shopId };
+      (idx[o.id] = idx[o.id] || []).push({ npc: o.npc, alt: [], route: 'market', path: o.path || [], price: adena, common: /^Common Item/.test(String(o.name)), est: 0, market });
+      // SEALBUY-2026-10-30 (tester Vykaax, 1.12.9: "Bots are buying a-grade armor now! But only the pieces that don't need to be unsealed. Gloves / boots
+      // are not purchased"): Alexandria sells every A glove / boot / jewel only SEALED (Sealed Tallum Gloves 5295 ...), and the plan looks for the
+      // unsealed piece (Tallum Gloves - Heavy Armor 5768 ...). A sealed offer joins the index under each unsealed version (unseal_h5.json: Heavy /
+      // Light / Robe) with the Pushkin fee in its price; buyGearPicks buys the sealed piece and unseals it at Pushkin into that version.
+      // Only the adena fee (A grade); an S seal costs Ancient Adena = never bought this way.
+      const vars = (typeof sealVariants === 'function' ? sealVariants() : {})[num(o.id)] || [];   // (the offline gear tests lift this function alone)
+      vars.forEach(v => { if (num(v.pay) !== 57 || !(num(v.aa) >= 0)) return;
+        (idx[v.id] = idx[v.id] || []).push({ npc: o.npc, alt: [], route: 'market', path: o.path || [], price: adena + num(v.aa), common: false, est: 0, market,
+          sealed: { id: num(o.id), name: String(o.name), buy: adena, unseal: { id: v.id, pay: 57, aa: num(v.aa), label: v.label } } }); });
     });
   } catch (e) { logError('giran_market.json (luxury shop)', e); }
   Object.keys(idx).forEach(k => idx[k].sort((a, b) => a.price - b.price || a.est - b.est));   // same price: the live-scanned merchant first
@@ -12460,6 +12601,55 @@ function planUpgrades(budget) {
       picks.filter(p => p.set).forEach(p => virtualEquip(g, p));
     }
   }
+  // AFALLBACK-2026-10-30 (tester Vykaax 21:22: "77-78 ... S grade eligible. They are still wearing c-grade ... they 'want' s-grade but can't buy it.
+  // I want them to buy a-grade since they are still wearing c" - "I turned off s-grade in the Gear Plan hoping they would then fallback to consider
+  // a-grade the best they can get, but no luck"): step b) buys COMMON items only (owner 2026-10-07 "COMMON items for everything under 40"), and no
+  // Common item exists from B grade up, so a B / A / S character never got the luxury shop's B / A armor. From B grade up the armor comes as ONE
+  // WHOLE SET (set bonus, owner 2026-10-29): the best set of my role's armor type (heavy / light / robe) of the highest grade <= mine that Giran sells
+  // complete (sealed gloves / boots via Pushkin, SEALBUY), cheapest of that grade; only when it beats the worn chest's grade. Its pieces are then
+  // the only B+ candidates for those slots in b); weapons / jewelry: the normal B / A piece is allowed too (no Common twin exists).
+  const hiG = (info) => GEAR_GRADES.indexOf(String((info && info.g) || 'NONE')) >= GEAR_GRADES.indexOf('B');
+  const LUX = (() => {
+    const myG = GEAR_GRADES.indexOf(myGearGrade()); if (myG < GEAR_GRADES.indexOf('B')) return null;
+    const wantT = R.stat === 'ma' ? 'MAGIC' : (Array.isArray(R.armor) && R.armor[0]) || 'HEAVY';
+    const wornChest = ((g.eq.chest || [])[0] || {}).info, wornG = wornChest ? GEAR_GRADES.indexOf(String(wornChest.g || 'NONE')) : -1;
+    const sold = (id) => (idx[id] || []).slice().sort((a, b) => a.price - b.price)[0] || null;
+    const cands = [];
+    (gearDb().sets || []).forEach(S => {
+      const chestIds = (S.pieces.chest || []).map(num), ch = items[chestIds[0]];
+      // a worn B / A chest = complete ITS set (its missing helmet / gloves / boots), never another set of the same grade
+      const mine = !!wornChest && chestIds.includes(num(((g.eq.chest || [])[0] || {}).id));
+      const gi = GEAR_GRADES.indexOf(String(S.grade || '')); if (gi < GEAR_GRADES.indexOf('B') || gi > myG || (gi <= wornG && !mine)) return;
+      if (!ch || ((ch.t !== wantT || !canUse(ch)) && !mine)) return;
+      const rows = {}; let total = 0, ok = true;
+      Object.keys(S.pieces).forEach(slot => { if (!ok) return; if (slot === 'shield' && !R.shield) return;
+        let best = null; (S.pieces[slot] || []).map(num).forEach(id => { const o = sold(id); if (o && items[id] && (!best || o.price < best.offer.price)) best = { id, offer: o }; });
+        if (!best) { ok = false; return; } rows[slot] = best; total += best.offer.price; });
+      if (ok && rows.chest) cands.push({ name: S.name, grade: S.grade, gi, rows, total, mine });
+    });
+    if (!cands.length) return null;
+    cands.sort((a, b) => b.gi - a.gi || (b.mine ? 1 : 0) - (a.mine ? 1 : 0) || a.total - b.total);   // same grade: the worn chest's set first
+    return cands.find(c => c.gi === cands[0].gi && c.total <= budget) || cands[0];   // the highest grade; one I can pay now, else the cheapest (saving up)
+  })();
+  const luxIds = {};
+  if (LUX) {
+    // the set as ONE pick group (judged as a set, not slot by slot: a Dark Crystal Breastplate alone loses to a worn one-piece Full Plate Armor,
+    // which also covers the legs - the set as a whole wins). Slots the plan / S.A. / enchant / your own type keep are left out; if your own type
+    // (GEARGUARD) or the plan keeps the CHEST, no set at all. Bought whole or not at all (SETWHOLE).
+    const slots = Object.keys(LUX.rows), keepOf = (s) => (locked[s] && locked[s] !== 'set') ? locked[s] : guard(s, items[num(LUX.rows[s].id)], false);
+    if (LUX.mine || !keepOf('chest')) {   // my own worn set: the worn chest stays, the missing pieces come
+      slots.forEach(s => { luxIds[s] = num(LUX.rows[s].id); });
+      slots.forEach(s => {
+        const r = LUX.rows[s], info = items[num(r.id)];
+        if (keepOf(s)) return;
+        if ((g.eq[s] || []).some(e => num(e.id) === num(r.id) || (e.info && GEAR_GRADES.indexOf(String(e.info.g || 'NONE')) >= LUX.gi))) { locked[s] = 'set'; return; }   // wearing it / something of that grade or higher
+        if (enchGrade[s] !== undefined && LUX.gi <= enchGrade[s]) return;
+        picks.push({ id: num(r.id), info, slot: s, offer: r.offer, gain: 0, set: LUX.name }); locked[s] = 'set';
+      });
+      if (luxIds.chest && !luxIds.legs) locked.legs = locked.legs || 'set';   // a set without legs pieces (Tallum Plate = one-piece): no loose legs
+      picks.filter(p => p.set === LUX.name).forEach(p => virtualEquip(g, p));
+    }
+  }
   // b) every other slot: the best COMMON piece I can use
   for (const slot of U.order) {
     if (locked[slot]) continue;
@@ -12479,12 +12669,15 @@ function planUpgrades(budget) {
       // stats"): no normal-piece fallback any more (it bought Dagger1 a normal Sword Breaker 217k). Giran's Common lists DO have No-Grade
       // weapons (Common Crafted Dagger / Assassin Knife / Saber 20,166). A slot without a Common piece keeps what it has. Casters still get
       // their real armour SET in step a) above.
-      const normal = !idx[id].some(o => o.common);
+      const normal = !idx[id].some(o => o.common) && !hiG(info);   // AFALLBACK: a B / A piece competes on its gain (no Common twin exists for it)
       // NOGRADEARMOR-2026-10-23 (tester: "new bots (lvl 1-19) still don't get rid of squire armor"): Giran sells NO Common No-Grade armor, so the
       // Common-only rule kept every Squire's Shirt / Pants and Apprentice's Tunic for ever (the class plan's Wooden set is not sold in Giran). A No-Grade
       // armor piece may be the normal one when I wear a starter piece there (or nothing): cheap (6k-44k), and it is what Giran has.
       const wornS = ((g.eq[slot] || [])[0] || {}).info;
-      const normalSlotOk = normalOk || (slot !== 'weapon' && String(info.g || 'NONE') === 'NONE' && (!wornS || sgIsStarter(wornS)));
+      // AFALLBACK-2026-10-30: from B grade up there is no Common twin -> the normal piece; armor only the chosen whole set's piece (LUX above)
+      if (hiG(info) && luxIds[slot] !== undefined && num(id) !== luxIds[slot]) continue;
+      if (hiG(info) && ['chest', 'legs', 'head', 'gloves', 'feet', 'shield'].includes(slot) && luxIds[slot] === undefined && !(slot === 'shield' && LUX)) continue;   // no complete set = no loose B / A armor piece
+      const normalSlotOk = normalOk || (slot !== 'weapon' && String(info.g || 'NONE') === 'NONE' && (!wornS || sgIsStarter(wornS))) || hiG(info);
       const offer = idx[id].filter(o => o.common).sort((a, b) => a.price - b.price)[0] || (normalSlotOk ? idx[id].slice().sort((a, b) => a.price - b.price)[0] : null);
       if (!offer) continue;
       if (enchGrade[slot] !== undefined && GEAR_GRADES.indexOf(info.g) <= enchGrade[slot]) continue;
@@ -12513,18 +12706,91 @@ function planUpgrades(budget) {
     }
     if (!best && bestNormal) best = bestNormal;                                     // OWNTYPE: no Common piece of my type beats what I wear
     if (!best && bestOff && String((((g.eq[slot] || [])[0] || {}).info || {}).t || '') !== R.armor[0]) best = bestOff;   // ROLEFIT-2026-10-15: the fallback armor type only when no main-type piece is better and I do not wear the main type
+    if (best && slot === 'shield' && LUX && luxIds.chest && hiG(best.info)) best.set = LUX.name;   // AFALLBACK: a B / A shield is saved up for TOGETHER with the set (never the shield first)
     if (best) { picks.push(best); virtualEquip(g, best.change ? { ...best, id: best.change, info: items[best.change] } : best); }
   }
+  // SETKEEP-2026-10-30 (owner: "why does Tank1 have Nightmare armor on and Dark Crystal in back?" - Armor of Nightmare with the Dark Crystal helmet,
+  // gloves, boots and shield = no set bonus): after the picks, the armor I would wear may not MIX two sets of one grade. A pick that brings a
+  // second set next to 2+ worn / picked pieces of another set of that grade is dropped (the plan says so); a whole new set in one go is fine.
+  const setKeepSkip = [];
+  try {
+    // the armor set of an item name ("Dark Crystal Gloves - Heavy Armor" -> Dark Crystal, "Armor of Nightmare" -> Nightmare), '' = none
+    const SET_FAMILY_RE = /\b(Dark Crystal|Nightmare|Majestic|Tallum|Doom|Blue Wolf|Zubei'?s?|Avadon|Karmian|Demon'?s?|Divine|Devotion|Plated Leather|Full Plate|Composite|Chain Mail|Brigandine|Mithril|Draconic|Imperial Crusader|Major Arcana|Vesper|Moirai|Elegia|Vorpal|Apella|Dynasty|Eternal|Phoenix|Paulina'?s?|Shilen|Wolf|Manticore|Salamander)\b/i;
+    const fam = (n) => { const m = String(n || '').replace(/^(Sealed |Common Item - )+/i, '').match(SET_FAMILY_RE); return m ? m[1].replace(/'?s$/i, '') : ''; };
+    const ARM = ['chest', 'legs', 'head', 'gloves', 'feet', 'shield'];
+    const gearNow = myGear();                                                  // what I really wear (g is already virtually re-equipped with the picks)
+    const fin = {}; ARM.forEach(sl => { const w = (gearNow.eq[sl] || [])[0]; if (w && w.info) fin[sl] = { n: w.info.n, g: w.info.g, worn: true }; });
+    picks.filter(p => ARM.includes(p.slot)).forEach(p => { fin[p.slot] = { n: p.info.n, g: p.info.g, pick: p }; if (p.info.full) delete fin.legs; });
+    for (const p of picks.filter(x => ARM.includes(x.slot)).slice()) {
+      const pf = fam(p.info.n); if (!pf) continue;
+      const others = Object.keys(fin).filter(sl => sl !== p.slot && fin[sl] && fin[sl].g === p.info.g && fam(fin[sl].n) && fam(fin[sl].n) !== pf);
+      const byFam = {}; others.forEach(sl => { const k = fam(fin[sl].n); byFam[k] = (byFam[k] || 0) + 1; });
+      const keep = Object.keys(byFam).find(k => byFam[k] >= 2); if (!keep) continue;
+      const same = Object.keys(fin).filter(sl => fin[sl] && fam(fin[sl].n) === pf).length;
+      if (same >= byFam[keep] + 1) continue;                                    // the new set wins outright (a whole new set bought together)
+      picks.splice(picks.indexOf(p), 1); fin[p.slot] = (gearNow.eq[p.slot] || [])[0] ? { n: gearNow.eq[p.slot][0].info.n, g: gearNow.eq[p.slot][0].info.g, worn: true } : null;
+      setKeepSkip.push(`${p.info.n}: not bought - it would break the ${keep} set I wear (${byFam[keep]} pieces); the ${keep} piece for this slot comes from the bag / warehouse / by hand`);
+    }
+  } catch (e) { logError('setkeep', e); }
+  // FULLSET-2026-10-30 (owner, requirement gear.md R7: "You never change gear unless you can get full set of the gear ... From A above a grade you
+  // need to manuelle approve! ... For weapons for casters ... you should not replace it. Unless you can get a sword of higher grade with acumen.
+  // For fighters better weapons from agrade and above still have to be appeoved"): runs on the final picks, before the budget.
+  //  1) A grade and up (A/S/S80/S84) only when the owner approved that item for me (Scripts/data/gear_approved.json { "<name>": [itemIds] }).
+  //  2) caster weapon: only an Acumen weapon of a HIGHER grade than the worn one.
+  //  3) armor: the armor I would wear afterwards must be ONE COMPLETE set (gear_catalog.json sets); armor without a set only replaces armor that
+  //     has no complete set now. Otherwise every armor pick is dropped and the current armor stays.
+  const fullSetSkip = [];
+  try {
+    const R7 = typeof fullSetRules === 'function' ? fullSetRules() : null, now7 = myGear(), A_UP = ['A', 'S', 'S80', 'S84'];
+    if (R7) {   // no set data (a test harness) = the rule is skipped
+      const approved = R7.approvedFor(Me.Name);
+      for (const p of picks.slice()) {
+        if (A_UP.includes(String(p.info.g)) && !approved.has(num(p.id))) { picks.splice(picks.indexOf(p), 1); fullSetSkip.push(`${p.info.n}: ${p.info.g} grade - waits for your OK (gear.md R7)`); }
+      }
+      const caster = (ROLE_RULES[gearRole()] || {}).stat === 'ma' || (typeof isHealerRole === 'function' && isHealerRole());
+      const wp = picks.find(p => p.slot === 'weapon'), ww = ((now7.eq.weapon || [])[0] || {}).info;
+      if (wp && caster) {
+        const gi = (x) => GEAR_GRADES.indexOf(String(x || 'NONE'));
+        if (!/acumen/i.test(wp.info.n) || (ww && gi(wp.info.g) <= gi(ww.g))) { picks.splice(picks.indexOf(wp), 1); fullSetSkip.push(`${wp.info.n}: not bought - a caster only changes to an Acumen weapon of a higher grade than ${ww ? ww.n : 'what I hold'} (gear.md R7)`); }
+      }
+      const ARM = ['chest', 'legs', 'head', 'gloves', 'feet'], ap = picks.filter(p => ARM.includes(p.slot));
+      if (ap.length) {
+        const worn = {}; ARM.forEach(sl => { const w = (now7.eq[sl] || [])[0]; if (w) worn[sl] = { id: num(w.id), info: w.info }; });
+        const fin = Object.assign({}, worn); ap.forEach(p => { fin[p.slot] = { id: num(p.change || p.id), info: p.info }; if (p.info.full) delete fin.legs; });
+        const nowS = R7.complete(worn), after = R7.complete(fin);
+        const ok = after.ok || (!nowS.ok && !after.set && !ap.some(p => R7.setOf(num(p.change || p.id))));
+        if (!ok) {
+          ap.forEach(p => picks.splice(picks.indexOf(p), 1));
+          fullSetSkip.push(`armor kept: ${ap.map(p => p.info.n).join(', ')} would not give one full set${after.set ? ` (${after.set.name}: missing ${after.missing.join(', ')})` : ''}${nowS.ok ? ` and would break my ${nowS.set.name} set` : ''} (gear.md R7)`);
+        }
+      }
+    }
+  } catch (e) { logError('fullset', e); }
   // c) budget: in slot order (weapon and body first)
-  const buys = [], skipped = [];
+  const buys = [], skipped = [].concat(setKeepSkip, fullSetSkip);
   let spend = 0;
   const slotRank = (p) => { const i = U.order.indexOf(p.slot); return i < 0 ? 99 : i; };   // OWNTYPE 2026-10-13: really weapon + body first (an automatic weapon pick came after the jewelry)
+  // SEALOWN-2026-10-30 (Chanter1: "needs 3188000 more adena" for pieces he already had sealed in his bag): a pick whose sealed version is in my bag
+  // costs only Pushkin's unseal fee (buyGearPicks unseals the bag one instead of buying); one bag piece per pick of that id
+  const sealUsed = {}, pcost = (p) => { try { const S = p.offer && p.offer.sealed; if (S && num(S.id)) { const k = num(S.id), have = bagCount(k); sealUsed[k] = sealUsed[k] || 0; if (have > sealUsed[k]) { sealUsed[k]++; return num(S.unseal && S.unseal.aa) || 0; } } } catch (e) { } return p.offer.price; };
   // SETWHOLE-2026-10-23 (owner: nukers ran around in "a little of some gear and some other gear" - Tunic of Devotion + Demon's Stockings + Demon's
   // Gloves: the budget bought set pieces one by one, so the set bonus (cast speed / INT) never came): the missing pieces of a caster set are bought
   // TOGETHER or not at all (saving up for the whole set, said in the plan); everything else as before
-  { const sp = picks.filter(p => p.set), cost = sp.reduce((a, p) => a + p.offer.price, 0);
+  { const sp = picks.filter(p => p.set), cost = sp.reduce((a, p) => a + pcost(p), 0); Object.keys(sealUsed).forEach(k => { sealUsed[k] = 0; });
     if (sp.length && cost > budget) { sp.forEach(p => { picks.splice(picks.indexOf(p), 1); }); skipped.push(`${sp[0].set} set: saving up for all ${sp.length} missing pieces together (${cost} adena; never half a set)`); } }
-  picks.slice().sort((a, b) => (b.set ? 1 : 0) - (a.set ? 1 : 0) || slotRank(a) - slotRank(b)).forEach(p => { if (spend + p.offer.price <= budget) { buys.push(p); spend += p.offer.price; } else skipped.push(`${p.info.n} (${p.offer.price})`); });
+  // GEARGROUP-2026-10-30 (tester Raltru, C grade 4x party: "randomly my chars buy things or not. One sword and not clothes, or clothes and not weapon"):
+  // the budget walked the pieces one by one and SKIPPED a piece it could not pay to buy cheaper later ones, so every character got a different
+  // mix (adena differs per character). Now three groups in a fixed order - weapon, then the armor (body, legs, head, gloves, feet, shield), then the
+  // jewelry - each bought WHOLE or not at all ("saving up for ..."): never a couple of random pieces. A group that does not fit is skipped as a
+  // whole and the next one may still be bought (owner 2026-10-30 "Skip a group that doesn't fit": a caster who cannot pay the staff still gets
+  // the whole armor set - gear.md R3 "not all casters can afford it"). Caster set pieces stay together inside the armor group (SETWHOLE).
+  const GRP = (p) => p.slot === 'weapon' ? 0 : ['chest', 'legs', 'head', 'gloves', 'feet', 'shield'].includes(p.slot) ? 1 : 2, GRPN = ['weapon', 'armor', 'jewelry'];
+  [0, 1, 2].forEach(gi => {
+    const gp = picks.filter(p => GRP(p) === gi).sort((a, b) => slotRank(a) - slotRank(b)); if (!gp.length) return;
+    const cost = gp.reduce((a, p) => a + pcost(p), 0);
+    if (spend + cost <= budget) { gp.forEach(p => buys.push(p)); spend += cost; return; }
+    skipped.push(`saving up for the ${GRPN[gi]}: ${gp.map(p => p.info.n).join(', ')} (${cost} adena together; never half of it)`);
+  });
   if (locked.weapon && /^S\.A\./.test(locked.weapon)) skipped.push(`weapon kept: ${locked.weapon}`);
   prefSkipped.forEach(t => skipped.push(t));
   // OWNTYPE notes (tester 2026-10-13): the decision in plain words instead of "weapon kept: different weapon type" blockers
@@ -12668,6 +12934,35 @@ function gdReserved(id) { const t = now(); let n = 0; Object.keys(GD.res).forEac
 function gdIsDistributor(n) { const S = gearSources(); return S.dist && S.names.includes(n || Me.Name); }
 function gdBagFree(id) { let n = 0; try { Inventory.forEach(i => { if (num(i.Id) === id && !i.IsEquiped) n += Math.max(1, num(i.Count) || 1); }); } catch (e) { } return n; }
 function gdClanCount(id) { try { const c = JSON.parse(File.ReadAllText(SWARM_ROOT + '\\Logs\\clan_state.json')); return ((c.warehouse && c.warehouse.items) || []).filter(r => num(r.id) === id && !num(r.enchant)).reduce((t, r) => t + (num(r.count) || 1), 0); } catch (e) { return 0; } }
+/** FULLSET-2026-10-30 (gear.md R7): armor sets from Dashboard/data/gear_catalog.json + the owner's approvals (Scripts/data/gear_approved.json).
+ *  complete(armor) -> { ok, set, missing[] } for { slot: { id } }: ok = every set slot (chest, legs unless the chest is full-body, head, gloves,
+ *  feet) holds a piece of the chest's set. */
+let FSCACHE = null;
+function fullSetRules() {
+  if (!FSCACHE || now() - FSCACHE.at > 600000) {
+    let sets = []; try { sets = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Dashboard\\data\\gear_catalog.json`).replace(/^﻿/, '')).sets || []; } catch (e) { sets = []; }
+    FSCACHE = { at: now(), sets };
+  }
+  const sets = FSCACHE.sets;
+  const setOf = (id) => sets.find(s => Object.keys(s.pieces || {}).some(sl => sl !== 'shield' && (s.pieces[sl] || []).map(Number).includes(num(id)))) || null;
+  const complete = (arm) => {
+    const ch = arm.chest; const set = ch ? setOf(ch.id) : null; if (!set) return { ok: false, set: null, missing: [] };
+    const missing = Object.keys(set.pieces).filter(sl => sl !== 'shield').filter(sl => !(arm[sl] && (set.pieces[sl] || []).map(Number).includes(num(arm[sl].id))) && !(sl === 'legs' && ch.info && ch.info.full));
+    return { ok: !missing.length, set, missing };
+  };
+  const approvedFor = (name) => { try { const j = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Scripts\\data\\gear_approved.json`).replace(/^﻿/, '')); return new Set(((j.chars || {})[name] || []).map(Number)); } catch (e) { return new Set(); } };
+  return { setOf, complete, approvedFor };
+}
+/** SEALBUY-2026-10-30: sealed item id -> [{ id (unsealed version), pay, aa, label (Pushkin's menu link) }] (every Heavy / Light / Robe version) */
+let sealVarCache = null;
+function sealVariants() {
+  if (sealVarCache) return sealVarCache;
+  const out = {}, u = unsealData();
+  Object.keys(u.byUnsealed || {}).forEach(k => { const r = u.byUnsealed[k]; if (!r || !num(r.sealed)) return;
+    const sgrade = r.list === 311262504 || r.list === 311262505, acc = r.list === 311262505 || r.list === 311262507;
+    (out[num(r.sealed)] = out[num(r.sealed)] || []).push({ id: num(k), pay: num(r.pay) || (sgrade ? 5575 : 57), aa: num(r.aa), label: `Release the ${sgrade ? 'S' : 'A'}-grade ${acc ? 'accessory' : 'armor'} seal` }); });
+  return (sealVarCache = out);
+}
 /** the unseal cost of a sealed piece: { id (the piece), pay (57 adena | 5575 Ancient Adena), count, label (Pushkin's menu link) } | null */
 function gdUnsealCost(sealedId) {
   const u = unsealData(), r = (u.bySealed || {})[sealedId]; if (!r) return null;
@@ -12684,7 +12979,9 @@ App.on('swarm.gearask', (e) => {
     if (currentTownKey() !== 'Giran' || Me.IsDead || IsInCombat) return;
     for (const it of (d.ids || [])) {
       const id = num(it.id); if (!id) continue;
-      const src = (dist || bags) && gdBagFree(id) - gdReserved(id) > 0 ? (dist ? 'dist' : 'bag') : clan && gdClanCount(id) - gdReserved(id) > 0 ? 'clan' : '';
+      // GDMINE-2026-10-30 (Destroyer1 + Destroyer2 passed the same sealed Majestic Gauntlets / Boots back and forth): a piece my own open gear-up plan needs is not spare
+      const mine = GD.mine && now() - GD.mine.at < 30 * 60000 && GD.mine.ids.has(num(id));
+      const src = (dist || bags) && !mine && gdBagFree(id) - gdReserved(id) > 0 ? (dist ? 'dist' : 'bag') : clan && gdClanCount(id) - gdReserved(id) > 0 ? 'clan' : '';
       if (!src) continue;
       GD.res[d.rid] = { id, n: 1, for: d.from, src, until: now() + 20000, sealed: !!it.sealed, pay: num(it.pay), payN: num(it.payN) };
       App.emit('swarm.gearoffer', { rid: d.rid, by: Me.Name, src, id, sealed: !!it.sealed });
@@ -12721,6 +13018,8 @@ async function gdDeliver(rid, r) {
 /** asker side, in Giran, before buying: fill the planned picks from my warehouse, then from the givers. -> report lines */
 async function gearOwnedFirst(picks, why) {
   const S = gearSources(), out = [], open = () => picks.filter(p => !p.bought && !p.owned);
+  // GDMINE: my open plan pieces + their sealed versions (the giver side skips them)
+  try { const ids = new Set(); const u = unsealData(); picks.forEach(p => { ids.add(num(p.id)); const rr = (u.byUnsealed || {})[p.id]; if (rr && num(rr.sealed)) ids.add(num(rr.sealed)); if (p.offer && p.offer.sealed) ids.add(num(p.offer.sealed.id)); }); GD.mine = { at: now(), ids }; } catch (e) { }
   if (!open().length) return out;
   // 1) my own warehouse: one visit takes every planned id that is there (a fresh list that holds none of them = no walk)
   if (S.ownWh && open().length) {
@@ -12751,7 +13050,10 @@ async function gearOwnedFirst(picks, why) {
       if (bagCount(getId) <= c0) { out.push(`${p.info.n}: ${o.by} did not hand it over in ${Math.round(S.waitMs / 60000)} min - buying it`); continue; }
       if (!o.sealed) { p.bought = true; p.owned = o.by; out.push(`${p.info.n}: from ${o.by}`); continue; }
       // a sealed piece: I unseal it myself at Pushkin
-      const c = gdUnsealCost(getId);
+      // UNSEALWAIT-2026-10-30: the walk to Pushkin was cut off by the next hand-over (Destroyer1: 3 tries in 8 ms, 'Pushkin not in sight'); wait until
+      // no trade / hand-over runs (max 3 min), and unseal into exactly the version the plan picked (Heavy / Light / Robe), not the first one
+      { const tw2 = now(); while (now() - tw2 < 180000) { let busy = false; try { busy = !!(tradeState || HOV.busy); } catch (e) { } if (!busy) break; await sleep(2000); } }
+      const cv = (sealVariants()[getId] || []).find(v => v.id === num(p.id)), c0u = gdUnsealCost(getId), c = cv ? { id: cv.id, pay: cv.pay, count: cv.aa, label: cv.label } : c0u;
       let r = { ok: false, why: 'no unseal data' };
       if (c) { try { r = await ijBuyAt({ npc: 'Pushkin', x: 77458, y: 148169, path: [c.label], kind: 'exchange' }, c.id, 1, `gearup_${String(Me.Name).toLowerCase()}`); } catch (e) { r = { ok: false, why: String(e.message || e) }; } }
       if (r.ok) { p.bought = true; p.owned = o.by + ' (unsealed)'; out.push(`${p.info.n}: from ${o.by}, unsealed at Pushkin`); }
@@ -12769,7 +13071,22 @@ async function buyGearPicks(picks) {
     if (G.offer.market) {
       for (const p of G.picks) {
         if (p.bought) continue;
-        let r = { ok: false, why: '?' }; try { r = await ijBuyAt(G.offer.market, p.id, 1, `gearup_${String(Me.Name).toLowerCase()}`); } catch (e) { r = { ok: false, why: String(e.message || e) }; }
+        const tag = `gearup_${String(Me.Name).toLowerCase()}`, S = p.offer.sealed;
+        if (S) {   // SEALBUY-2026-10-30: the sealed piece at the luxury shop, then Pushkin unseals it into the version the plan picked
+          const b0 = new Set(); try { Inventory.forEach(i => { if (num(i.Id) === num(S.unseal.id)) b0.add(num(i.objId)); }); } catch (e) { }
+          let r = { ok: false, why: '?' };
+          if (bagCount(S.id) < 1) { try { r = await ijBuyAt(p.offer.market, S.id, 1, tag); } catch (e) { r = { ok: false, why: String(e.message || e) }; } }
+          else r = { ok: true };   // a sealed one left in the bag from an earlier try: unseal that one
+          if (!r.ok) { res.push(`${S.name} at ${G.offer.npc}: ${r.why}`); continue; }
+          try { Send.RequestBuySellUIClose(); } catch (e) { }
+          if (itemCount(57) < S.unseal.aa) { res.push(`${S.name}: bought, but ${S.unseal.aa} adena for Pushkin's unsealing is missing — it stays sealed in my bag`); continue; }
+          let u = { ok: false, why: '?' }; try { u = await ijBuyAt({ npc: 'Pushkin', x: 77458, y: 148169, path: [S.unseal.label], kind: 'exchange' }, S.unseal.id, 1, tag); } catch (e) { u = { ok: false, why: String(e.message || e) }; }
+          let got = false; try { Inventory.forEach(i => { if (num(i.Id) === num(S.unseal.id) && !b0.has(num(i.objId))) got = true; }); } catch (e) { }
+          if (u.ok && got) { p.bought = true; res.push(`${p.info.n} ${p.offer.price}: bought sealed (${S.buy}) + unsealed at Pushkin (${S.unseal.aa})`); }
+          else res.push(`${S.name}: bought, but Pushkin did not unseal it (${u.why || 'no unsealed piece'}) — it stays sealed in my bag; the next gear-up tries the unsealing again`);
+          continue;
+        }
+        let r = { ok: false, why: '?' }; try { r = await ijBuyAt(G.offer.market, p.id, 1, tag); } catch (e) { r = { ok: false, why: String(e.message || e) }; }
         if (r.ok) { p.bought = true; res.push(`${p.info.n} ${p.offer.price}: bought`); } else res.push(`${p.info.n} at ${G.offer.npc}: ${r.why}`);
       }
       try { Send.RequestBuySellUIClose(); } catch (e) { }
@@ -12888,6 +13205,31 @@ async function equipCommonFromBag() {
   // pieces the hive bought for me itself (gear_upgrades.log) go on from the bag too - never loot / gifts (the player equips those himself)
   const setIdsB = new Set(); try { if ((ROLE_RULES[gearRole()] || {}).stat === 'ma') { const cs = casterSetForMe(); if (cs) Object.values(cs.pieces).forEach(pc => (pc.all || [pc.id]).forEach(i => setIdsB.add(num(i)))); } } catch (e) { }
   const hbB = (() => { try { return hiveBoughtNames(); } catch (e) { return new Set(); } })();
+  // BAGWANT-2026-10-30 (owner: Tank1 had the Dark Crystal Breastplate + Gaiters in his bag, the plan "bought" Armor of Nightmare instead): a bag
+  // piece that IS the plan's piece for its slot (gear prefs / recommended: id + alternatives) goes on first, also when it came as a hand-over.
+  try { const PF = gearPrefsFor() || {}; Object.keys(PF).forEach(sl => { const e = PF[sl]; if (!e || typeof e !== 'object' || e.none) return; [e.id].concat(e.alt || []).forEach(i => { if (num(i)) setIdsB.add(num(i)); }); }); } catch (e) { }
+  // FULLSET (gear.md R7): when the pieces in my bag + what I wear make ONE complete set (better chest than now), they all go on together
+  try {
+    const R7 = typeof fullSetRules === 'function' ? fullSetRules() : null, g0 = myGear(), ARM = ['chest', 'legs', 'head', 'gloves', 'feet'];
+    if (R7) {
+      const appr = R7.approvedFor(Me.Name), worn = {}; ARM.forEach(sl => { const x = (g0.eq[sl] || [])[0]; if (x) worn[sl] = { id: num(x.id), info: x.info }; });
+      const cur = R7.complete(worn);
+      for (const b of g0.bag.filter(x => x.info && x.info.s === 'chest' && R7.setOf(num(x.id)))) {
+        const S = R7.setOf(num(b.id)); if (cur.ok && cur.set && cur.set.name === S.name) continue;
+        if (['A', 'S', 'S80', 'S84'].includes(String(S.g)) && !appr.has(num(b.id))) continue;
+        const take = { chest: b }; let ok = true;
+        for (const sl of Object.keys(S.pieces).filter(k => k !== 'shield' && k !== 'chest')) {
+          if (sl === 'legs' && b.info.full) continue;
+          if (worn[sl] && (S.pieces[sl] || []).map(Number).includes(worn[sl].id)) continue;
+          const pc = g0.bag.find(x => (S.pieces[sl] || []).map(Number).includes(num(x.id)) && (!['A', 'S', 'S80', 'S84'].includes(String(x.info && x.info.g)) || appr.has(num(x.id))));
+          if (!pc) { ok = false; break; } take[sl] = pc;
+        }
+        if (!ok || upgradeGain(b.id, b.info, g0, false) < 0) continue;
+        for (const sl of Object.keys(take)) { const on = await equipPiece(num(take[sl].objId), sl, keep); out.push(`${take[sl].info.n}: ${on ? 'equipped from the bag (full ' + S.name + ' set)' : 'could NOT equip'}`); }
+        break;
+      }
+    }
+  } catch (e) { logError('fullset bag', e); }
   for (let n = 0; n < 12; n++) {
     const g = myGear(), w = (g.eq.weapon || [])[0], ownB = gearOwnTypes(g, GPb, WRb);   // OWNTYPE: a bought bow for a knight who chose a bow
     let best = null;
@@ -12895,6 +13237,18 @@ async function equipCommonFromBag() {
       const oko = gearOwnOk(ownB, b.info.s, b.info);
       if (!(/^Common Item/.test(b.info.n) || setIdsB.has(num(b.id)) || hbB.has(b.info.n)) || !(canUse(b.info) || oko)) continue;
       if (b.info.s === 'weapon' && w && isSaWeapon(w.info.n) && GEAR_GRADES.indexOf(b.info.g) <= GEAR_GRADES.indexOf(w.info.g)) continue;   // S.A.: same grade stays
+      // FULLSET (gear.md R7): A+ only when approved; a single armor piece only when the result is a full set (or nothing had a set)
+      { const R7 = typeof fullSetRules === 'function' ? fullSetRules() : null;
+        if (R7) {
+          if (['A', 'S', 'S80', 'S84'].includes(String(b.info.g)) && !R7.approvedFor(Me.Name).has(num(b.id))) continue;
+          if (['chest', 'legs', 'head', 'gloves', 'feet'].includes(b.info.s)) {
+            const worn = {}; ['chest', 'legs', 'head', 'gloves', 'feet'].forEach(sl => { const x = (g.eq[sl] || [])[0]; if (x) worn[sl] = { id: num(x.id), info: x.info }; });
+            const fin = Object.assign({}, worn, { [b.info.s]: { id: num(b.id), info: b.info } }); if (b.info.full) delete fin.legs;
+            const n0 = R7.complete(worn), n1 = R7.complete(fin);
+            if (!(n1.ok || (!n0.ok && !n1.set && !R7.setOf(num(b.id))))) continue;
+          }
+          if (b.info.s === 'weapon' && ((ROLE_RULES[gearRole()] || {}).stat === 'ma' || (typeof isHealerRole === 'function' && isHealerRole())) && w && !(/acumen/i.test(b.info.n) && GEAR_GRADES.indexOf(b.info.g) > GEAR_GRADES.indexOf(w.info.g))) continue;
+        } }
       if (b.info.s === 'weapon' && gearRole() === 'fighter2h' && !b.info.two && !oko) continue;
       if (b.info.s === 'weapon' && WRb && ((WRb.type && b.info.t !== WRb.type) || (WRb.two && !b.info.two))) continue;   // weapon rule (gear_prefs.json _weapon)
       const kw = kamaelWeaponFor(gearRole());
@@ -12925,10 +13279,39 @@ async function oldGearAfter(worn0, why) {
 }
 /** The whole upgrade for this character (must stand in Giran). Returns { ok, msg }. */
 var GUP = { busy: false };   // CMDFIX2-SUPPLY-2026-10-12: one buy run at a time (a member heard a clan order twice -> two flows bought the same piece)
+// AOEPOLE-2026-10-30 (owner: "If melee team then they should get polearms etc" -> "Owned first, else buy in Giran"): a melee damage dealer of a party
+// with an AOE team and no polearm in its bag gets one on the next Giran trip (the supply run's gear step): owned first (gearOwnedFirst: own warehouse,
+// distributors / the collector, clan warehouse per gear_sources.json), else the best polearm of its grade from the Giran shops (Common first), within
+// the adena it may spend (gearKeep). Never put on: it waits in the bag for the AOE packs (POLEDYN switches it in and out).
+async function aoePolearmGet(why) {
+  let c = null; try { c = aoeCfg(); } catch (e) { }
+  if (!c || !POLE_ROLES.test(state.role || '') || ROLE_RE.tank.test(state.role || '') || isHealerRole() || currentTownKey() !== 'Giran') return '';
+  const items = gearDb().items, g = myGear();
+  if (g.bag.concat(g.eq.weapon || []).some(e => e.info && e.info.s === 'weapon' && e.info.t === 'POLE')) return '';
+  const idx = giranShopIndex(); let best = null;
+  Object.keys(idx).forEach(id => {
+    const info = items[id]; if (!info || info.s !== 'weapon' || info.t !== 'POLE' || !gradeOk(info.g) || !canUse(info)) return;
+    const offs = idx[id], o = offs.filter(x => x.common && !x.sealed).sort((a, b) => a.price - b.price)[0] || offs.filter(x => !x.sealed).sort((a, b) => a.price - b.price)[0]; if (!o) return;
+    const gi = GEAR_GRADES.indexOf(String(info.g || 'NONE')), bi = best ? GEAR_GRADES.indexOf(String(best.info.g || 'NONE')) : -1;
+    if (!best || gi > bi || (gi === bi && (num(info.pa) > num(best.info.pa) || (num(info.pa) === num(best.info.pa) && o.price < best.offer.price)))) best = { id: num(id), info, slot: 'weapon', offer: o, gain: 0 };
+  });
+  if (!best) { note(`aoe team: no polearm for me in the Giran shops (grade ${myGearGrade()}) — give me one by hand (Trade page)`, true); return 'no polearm sold'; }
+  const p = best;
+  try { await gearOwnedFirst([p], why + ' (AOE polearm)'); } catch (e) { logError('aoe polearm owned', e); }
+  if (!p.bought) {
+    const can = itemCount(57) - gearKeep();
+    if (can < p.offer.price) { note(`aoe team: a polearm for the AOE packs (${p.info.n}, ${p.offer.price}) — not enough adena (I may spend ${Math.max(0, can)})`, true); return 'not enough adena for a polearm'; }
+    try { await buyGearPicks([p]); } catch (e) { logError('aoe polearm buy', e); }
+  }
+  const msg = p.bought ? `aoe team: polearm for the AOE packs: ${p.info.n} (${p.owned || 'bought ' + p.offer.price}) — in my bag, not worn` : `aoe team: could not get a polearm (${p.info.n})`;
+  note(msg, true); try { appendShared(SWARM_ROOT + '\\Logs\\gear_upgrades.log', `${new Date().toISOString()} [${Me.Name}] (${why}) ${msg}\r\n`); } catch (e) { }
+  return msg;
+}
 async function gearUpgrade(why) {
   const U = CONFIG.gear.upgrade;
   if (!U.on) return { ok: true, msg: 'upgrades off' };
   if (GUP.busy) return { ok: false, msg: 'already shopping (another upgrade run is under way)' };
+  let aoePole = ''; try { GUP.busy = true; aoePole = await aoePolearmGet(why); } catch (e) { logError('aoe polearm', e); } finally { GUP.busy = false; }   // AOEPOLE-2026-10-30: before the auto-upgrade gate (the owner chose it)
   { const GP = gearPolicy(); if (GP.lock) return { ok: true, msg: 'equipment locked (Gear page)' }; if (!GP.auto && !/^!/.test(String(why || ''))) return { ok: true, msg: `auto gear upgrades off (${GP.from})` }; }   // GEARGUARD: a !order still runs
   const sgPrev = sgBefore();                                                       // STARTERGEAR: starter pieces worn before this run
   const ogWorn0 = ijWornNow();                                                     // OLDGEAR-2026-10-26: what I wore before (the replaced pieces = worn before, in the bag after)
@@ -13215,7 +13598,7 @@ async function ijToGiran(seq, label, opt) {
   if (opt && opt.solo && team && !isLeader()) {
     o.solo = true; scoutAway(true); followHold(SCOUTP.maxMs); stopCombatG();
     try { SayToParty(`[upgrade] ${Me.Name}: going to Giran alone for my upgrade, back to the party afterwards`); } catch (e) { }
-    if (currentTownKey() === 'Giran') { o.ok = true; return o; }
+    if (ijInGiran()) { o.ok = true; return o; }
     if (!(await orderWaitControl(label, seq))) { o.why = 'another task held control'; return o; }
     o.ctl = true;
     const tr = await orderTownTrip(label + ' ' + Me.Name, 'Giran', { regroup: false, solo: true, control: label });
@@ -13226,14 +13609,14 @@ async function ijToGiran(seq, label, opt) {
   // for ever"): Nuker18 was in Giran only because his party was passing through, so no trip was asked, and the leader ported back to Cruma
   // with him. A party member now ALWAYS asks its leader to hold the party in Giran until the item job reports done (swarm.kitbuy.done).
   if (team && !isLeader()) { try { App.emit('swarm.kitbuy.trip', { name: Me.Name, why: 'item', label }); } catch (e) { } }
-  if (currentTownKey() === 'Giran') { o.ok = true; o.member = team && !isLeader(); return o; }
+  if (ijInGiran()) { o.ok = true; o.member = team && !isLeader(); return o; }
   if (team && !isLeader()) {
     o.member = true; let ask = now(); const tw = now();
-    while (currentTownKey() !== 'Giran' && !stale() && now() - tw < 15 * 60000) {
+    while (!ijInGiran() && !stale() && now() - tw < 15 * 60000) {
       if (now() - ask > 120000) { ask = now(); App.emit('swarm.kitbuy.trip', { name: Me.Name, why: 'item', label }); note(`${label}: asked my leader ${CONFIG.leader} to take the party to Giran`); }
       await sleep(3000);
     }
-    o.ok = currentTownKey() === 'Giran'; if (!o.ok) o.why = stale() ? 'a newer order replaced it' : `my leader ${CONFIG.leader} did not take the party to Giran within 15 min`;
+    o.ok = ijInGiran(); if (!o.ok) o.why = stale() ? 'a newer order replaced it' : `my leader ${CONFIG.leader} did not take the party to Giran within 15 min`;
     return o;
   }
   if (autoLvl.active) { o.wasLvl = true; autoLvl.stop = true; const tl = now(); while (autoLvl.active && now() - tl < 60000) await sleep(1000); }
@@ -13477,10 +13860,12 @@ async function unsealRun(J, id, seq) {
   state.gkBusy = true; try { Options.ActiveFollow = false; Send.StopMove(); } catch (e) { } standUp();
   { const groups = {};
     P.forEach((x, i) => { if (x.result || x.src === 'bag') return; if (num(x.enchant) >= WH_PROTECT_ENCH && x.plus10 !== true) { x.result = 'skipped'; x.why = '+10 and higher only with the owner\'s +10 tick'; return; }
-      const k = x.src + ':' + num(x.id) + ':' + num(x.enchant); (groups[k] = groups[k] || []).push(i); });
+      const k = x.src + ':' + (x.char || '') + ':' + num(x.id) + ':' + num(x.enchant); (groups[k] = groups[k] || []).push(i); });
     for (const k of Object.keys(groups)) {
       const idx = groups[k], x0 = P[idx[0]];
-      const f = await ijFetch(num(x0.id), bagCount(num(x0.id)) + idx.length, x0.name + (num(x0.enchant) ? ' +' + num(x0.enchant) : ''), x0.src === 'wh' ? { wh: 1 } : { clan: 1 }, id, num(x0.enchant), { stay: true });
+      // FRENZYREADY-2026-10-29: src 'char' = another character's bag (the collector / a teammate): it hands the picked pieces over in Giran (CHARSRC)
+      const fromW = x0.src === 'char' ? { char: { name: String(x0.char || ''), count: idx.length, rows: idx.map(i => ({ objId: num(P[i].objId), id: num(P[i].id), name: String(P[i].name || ''), count: 1 })) } } : x0.src === 'wh' ? { wh: 1 } : { clan: 1 };
+      const f = await ijFetch(num(x0.id), bagCount(num(x0.id)) + idx.length, x0.name + (num(x0.enchant) ? ' +' + num(x0.enchant) : ''), fromW, id, num(x0.enchant), { stay: true });
       if (!f.ok) ijStatus(id, null, `${x0.name}: ${f.why}`);
     }
     ijSaveJob(J); }
@@ -13615,6 +14000,9 @@ async function oldGearGive(replaced, why, say, maxWaitMs) {
   try { const q = done.filter(r => distObj.has(num(r.objId))); if (q.length && typeof gpassQueueAdd === 'function') gpassQueueAdd(q.map(r => ({ objId: num(r.objId), id: num(r.id), name: String(r.name || ''), grade: String(((db[num(r.id)] || {}).g) || 'NONE') })), col); } catch (e) { }
   return { given: done, kept: kept.concat(stay), msg };
 }
+/** SETTOGETHER-2026-10-31: armor slots whose pieces of one job go on together (gear.md R7) */
+const IJ_SET_SLOTS = new Set(['chest', 'legs', 'head', 'gloves', 'feet']);
+function ijLineSlot(l) { try { const g = gearDb().items[num(l.item && (l.item.finalId || l.item.id)) || num(l.finalId)]; return g ? g.s : ''; } catch (e) { return ''; } }
 /** UPGRADE-2026-10-25: run J.upgrade = { lines: [{ item, enchant, sa, finalId, needs, result, why, objId }], collector } in one Giran trip */
 async function upgradeRun(J, id, seq) {
   const me = Me.Name, U = J.upgrade, L = U.lines;
@@ -13665,11 +14053,34 @@ async function upgradeRun(J, id, seq) {
       ijStatus(id, null, a.found ? `✓ ${it.name}: wanted bonus after ${a.tries} tries` : `${it.name}: ${a.why || 'augment done'}`);
     }
     let info = null; try { Inventory.forEach(i => { if (num(i.objId) === objId) info = gearDb().items[num(i.Id)]; }); } catch (e) { }
+    // SETTOGETHER-2026-10-31 (gear.md R7, owner's Get it for Nuker18: Tunic + Boots went on one by one, the Stockings failed -> half a Demon set
+    // worn): armor pieces of this job are NOT put on as they arrive; they wait in the bag and go on together after the loop, only when every armor
+    // piece of the job arrived
+    if (l.wear !== false && info && IJ_SET_SLOTS.has(String(info.s))) {
+      keep.add(objId); l.objId = objId; l.result = 'done'; l.worn = false; l.setWait = true; ijSaveJob(J);
+      try { keptForMeAdd(objId, num(it.id || l.item && l.item.id), String(it.name || ''), 'item job ' + id); } catch (e) { }
+      ijStatus(id, null, `✓ ${it.name} +${enchLevelOf(objId)} in my bag - it goes on with the rest of the set`);
+      continue;
+    }
     const on = l.wear === false ? false : await equipPiece(objId, info ? info.s : '', keep);
     keep.add(objId); l.objId = objId; l.result = 'done'; l.worn = !!on; ijSaveJob(J);
+    try { keptForMeAdd(objId, num(it.id || l.item && l.item.id), String(it.name || ''), 'item job ' + id); } catch (e) { }   // KEPTFORME-2026-10-31
     res.push(`${it.name} +${enchLevelOf(objId)}${on ? ' worn' : l.wear === false ? ' in the bag' : ' (could not put it on)'}`);
     ijStatus(id, null, `✓ ${it.name} +${enchLevelOf(objId)}${on ? ' put on' : l.wear === false ? ' kept in the bag' : ' — could not put it on (level / class?)'}`);
   }
+  // SETTOGETHER-2026-10-31: the armor pieces wait for each other - all arrived = all on together, one missing = all stay in the bag
+  { const setL = L.filter(l => l.setWait), armorL = L.filter(l => l.setWait || (l.result !== 'done' && l.wear !== false && IJ_SET_SLOTS.has(String(ijLineSlot(l)))));
+    if (setL.length) {
+      if (setL.length === armorL.length) {
+        for (const l of setL) { const o = num(l.objId); let s = ''; try { Inventory.forEach(i => { if (num(i.objId) === o) s = (gearDb().items[num(i.Id)] || {}).s || ''; }); } catch (e) { }
+          const on = await equipPiece(o, s, keep); l.worn = !!on; l.setWait = false; ijSaveJob(J);
+          res.push(`${l.item.name} +${enchLevelOf(o)}${on ? ' worn' : ' (could not put it on)'}`); }
+        ijStatus(id, null, `✓ the whole set is here: ${setL.map(l => l.item.name).join(', ')} put on together`);
+      } else {
+        setL.forEach(l => { l.setWait = false; res.push(`${l.item.name} +${enchLevelOf(num(l.objId))} in the bag`); }); ijSaveJob(J);
+        ijStatus(id, null, `the set is not complete (${armorL.filter(l => !l.setWait && l.result !== 'done').map(l => l.item.name).join(', ')} missing) - ${setL.map(l => l.item.name).join(', ')} stay in my bag, nothing of the set is put on`);
+      }
+    } }
   // only the pieces the new ones replaced (worn before the trip, not worn now, still in my bag) -> the collector
   const nowWorn = ijWornNow(), replaced = [];
   try { Inventory.forEach(i => { const o = num(i.objId); if (worn0.has(o) && !nowWorn.has(o) && !keep.has(o)) replaced.push({ objId: o, id: num(i.Id), name: String(i.Name || ''), count: 1, stack: false }); }); } catch (e) { }
@@ -14207,11 +14618,15 @@ async function gscanClick(npc, path, keepOpen) {   // keepOpen: leave the list o
  *  at ANY Giran NPC the census found (Scripts/data/giran_market.json offer: { npc, x, y, path, kind: 'shop'|'exchange', shopId | listId, entry }).
  *  Walks to that NPC (npc atlas + street graph), opens the same menu path, then a shop = buy packet, an exchange = the live list is read again
  *  (the entry for this product, every ingredient checked in the bag) and MultiSellChoose(list, entry, count). -> { ok, objId, got, why } */
+// IJGIRAN-2026-10-30 (Chanter1's Homunkulus job waited at Pushkin 77496,148168 'asked my leader to take the party to Giran' for ever: Pushkin, Rupio
+// and Kusto stand in the Giran outskirts where currentTownKey() is not 'Giran'): an item job counts the Giran box (the dashboard's GIRAN_BOX) as Giran
+function ijInGiran() { try { if (currentTownKey() === 'Giran') return true; const x = num(Me.X), y = num(Me.Y); return x >= 75900 && x <= 85100 && y >= 144800 && y <= 152400; } catch (e) { return false; } }
 async function ijBuyAt(o, id, count, jid) {
   count = Math.max(1, num(count) || 1);
   const atl = ((npcAtlas() || {}).npcs || []).filter(n => n.name === o.npc).sort((p, q) => Math.hypot(p.x - num(o.x), p.y - num(o.y)) - Math.hypot(q.x - num(o.x), q.y - num(o.y)))[0] || { name: o.npc, x: num(o.x), y: num(o.y), z: Me.Z };
   ijStatus(jid, null, `walking to ${o.npc}`);
-  try { await townWalkToNpc(atl, { solo: true, atlasFirst: true }); } catch (e) { }
+  { let tw = '?'; try { tw = await townWalkToNpc(atl, { solo: true, atlasFirst: true }); } catch (e) { tw = 'error ' + (e && e.message || e); logError('ijBuyAt walk ' + o.npc, e); }
+    if (tw !== true) note(`[item] walk to ${o.npc}: ${tw === false ? 'the town walk did not get there' : tw} (at ${Math.round(Me.X)},${Math.round(Me.Y)}, ${Math.round(Math.hypot(num(atl.x) - Me.X, num(atl.y) - Me.Y))} away)`); }   // PUSHKINDBG-2026-10-30
   let npc = null, bd = 900; try { snapNpcs().forEach(n => { if (String(n.Name) === o.npc) { const d = Math.hypot(n.X - atl.x, n.Y - atl.y); if (d < bd) { bd = d; npc = n.ref; } } }); } catch (e) { }
   if (!npc) return { ok: false, why: `${o.npc} not in sight` };
   // NEARBUY-2026-10-18 (Dagger1 15:43: the walk to Stanford ended 1900 short, the shop page still opened but the server refused the buy
@@ -19513,7 +19928,12 @@ function lootKeptNote(kept, party, where) {
   });
 }
 /** my loot list for the clan leader: the stash plan's deposit rows (+ enchant scrolls, + the always-give list, + adena above the keep), filtered by the party's loot rule */
-function lootRowsMine(rule) {
+/** KEPTFORME-2026-10-31: pieces given to me for myself (item jobs, gear-up) - never loot / stash / spare for others. Logs/kept_<name>.json
+ *  { items: [{ objId, id, name, why, at }] }, entries older than 7 days drop out */
+function keptForMeRead() { try { const j = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Logs\\kept_${Me.Name}.json`)); return (j && Array.isArray(j.items) ? j.items : []).filter(x => x && num(x.objId) && now() - num(x.at) < 7 * 86400000); } catch (e) { return []; } }
+function keptForMeAdd(objId, id, name, why) { if (!num(objId)) return; const L = keptForMeRead().filter(x => num(x.objId) !== num(objId)); L.push({ objId: num(objId), id: num(id), name: String(name || ''), why: String(why || ''), at: now() }); try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\kept_${Me.Name}.json`, JSON.stringify({ items: L.slice(-200) })); } catch (e) { } }
+function keptForMeSet() { return new Set(keptForMeRead().map(x => num(x.objId))); }
+function lootRowsMine(rule, opts) {
   const R = rule || {}, rows = [];
   // LOOTALL-2026-10-15 (owner: "Death Egg, Destruction Tombstone, tattoos, enchants, Coin of Luck … why are they not handed over?"): the list came
   // from the WAREHOUSE plan with the character's warehouse mode ('rules' = only the storage lists), so a loot rule "all" still handed over only
@@ -19525,11 +19945,22 @@ function lootRowsMine(rule) {
   if (NR.always.length) { try { Inventory.forEach(it => { const id = num(it.Id), oid = num(it.objId), nm = String(it.Name || ''); if (id === 57 || it.IsEquiped || it.IsQuestItem || qeProtected(id) || rows.some(r => r.objId === oid) || !lootListMatch(NR.always, { id, name: nm })) return;
     let st = false; try { st = !!it.IsStackable; } catch (e) { } rows.push({ objId: oid, id, name: nm, count: Math.max(1, num(it.Count)), stack: st || num(it.Count) > 1 }); }); } catch (e) { } }
   const NT = hovNotrade();
-  const cand = rows.filter(r => !NT.has(num(r.id)) && num(r.id) !== 57), bi = lootBagInfo();
+  // KEPTFORME-2026-10-31 (owner's Get it for Nuker18: Demon's Tunic +8 / Stockings +8 / Boots arrived "kept in the bag until the set is complete",
+  // and 4 minutes later the party's loot hand-over (mode all -> clan leader) gave them straight back to Dagger1): a piece an item job / the
+  // gear-up gave me for MYSELF is never loot (Logs/kept_<name>.json, by object id, 7 days)
+  const KM = keptForMeSet();
+  const cand = rows.filter(r => !NT.has(num(r.id)) && num(r.id) !== 57 && !KM.has(num(r.objId))), bi = lootBagInfo();
   const sp = lootSplit(R, cand.map(r => Object.assign({}, r, lootItemInfo(r, bi))), 'loot');   // LOOTRULE: never hand an item the rule keeps
   let to = ''; try { to = lootReceiver(R, clanLeaderName()); } catch (e) { }
   lootKeptNote(sp.kept, String(CONFIG.leader || ''), `loot to ${to || 'the collector'}`);
   const out = sp.give.map(r => ({ objId: r.objId, id: r.id, name: r.name, count: r.count, stack: r.stack }));
+  // LETTERSGIRAN-2026-10-30 (owner: "Yes hand letters during trip to giran"): during the 12 h hunting session the letters hand-over waits (no town trips
+  // for it), but in a supply run the party IS in Giran with the collector: my event letters ride along with the loot when the letters receiver is the
+  // loot receiver (stash_rules.json letters: on, to, ids, except; the receiver itself never gives)
+  try { const lt = String((opts && opts.lettersTo) || '');
+    if (lt && lt !== Me.Name) { const cfg = stashLettersCfg(stashRules());
+      if (cfg.on && !cfg.except.includes(Me.Name) && stashLetterReceiver(cfg, clanLeaderName()) === lt) Inventory.forEach(it => { const id = num(it.Id), oid = num(it.objId);
+        if (cfg.ids.includes(id) && !it.IsEquiped && num(it.Count) > 0 && !out.some(r => r.objId === oid)) out.push({ objId: oid, id, name: String(it.Name || ''), count: num(it.Count), stack: true }); }); } } catch (e) { logError('loot rows letters', e); }
   const adena = num(R.adenaAbove) > 0 ? Math.max(0, itemCount(57) - num(R.adenaAbove)) : 0;
   return { rows: out, adena, kept: sp.kept.filter(k => !/hand only the items on the always-give list/.test(k.why)).map(k => ({ name: k.name, count: k.count, why: k.why })) };
 }
@@ -19539,7 +19970,9 @@ function hovLootGate(o, r) {
   const scope = lootOrderScope(o && o.id); if (!scope || !r || !(r.give || []).length) return r;
   const party = scope === 'loot' ? String(o.by || CONFIG.leader || '') : String(CONFIG.leader || '');
   const rule = lootRuleRaw(party); if (!rule) return r;
-  const bi = lootBagInfo(), items = r.give.filter(g => !g.adena), sp = lootSplit(rule, items.map(g => Object.assign({}, g, lootItemInfo(g, bi))), scope);
+  // LETTERSGIRAN-2026-10-30: event letters for the letters receiver (the owner's letters setting) are never kept back by the loot rule
+  let letterIds = new Set(); try { const lc = stashLettersCfg(stashRules()); if (lc.on && stashLetterReceiver(lc, clanLeaderName()) === String(o.receiver || '')) letterIds = new Set(lc.ids.map(Number)); } catch (e) { }
+  const bi = lootBagInfo(), items = r.give.filter(g => !g.adena && !letterIds.has(num(g.id))), sp = lootSplit(rule, items.map(g => Object.assign({}, g, lootItemInfo(g, bi))), scope);
   if (!sp.kept.length) return r;
   const keptObj = new Set(sp.kept.map(k => num(k.objId)));
   lootKeptNote(sp.kept, party, scope === 'loot' ? `loot to ${o.receiver}` : `${String(o.id).split('_')[0]} hand-over to ${o.receiver}`);
@@ -19557,7 +19990,8 @@ async function leadLootGive(why) {
     if (!rv || !here || rv.town !== here) { note(`[loot] ${to} is not here in ${here || 'this place'} (${rv ? (rv.town || 'out in the field') : 'position unknown'}) — the loot stays in the bags until a supply run where ${to} is in town (or use the Trade page)`, true); return `${to} not in ${here || 'town'}`; }
   }
   const runId = `${Date.now()}`;
-  const r = await teamStep(runId, 'lootrows', 20000, { rule });
+  let lettersTo = ''; try { const lc = stashLettersCfg(stashRules()); if (lc.on && stashLetterReceiver(lc, clanLeaderName()) === to) lettersTo = to; } catch (e) { }   // LETTERSGIRAN-2026-10-30
+  const r = await teamStep(runId, 'lootrows', 20000, { rule, lettersTo });
   const givers = {}, keptAll = [];
   Object.values(r.got || {}).forEach(a => { (a.kept || []).forEach(k => keptAll.push(`${k.name} (${a.name}: ${k.why})`)); if (a.name === to || !a.ok) return; const rows = a.rows || []; if (rows.length || num(a.adena) > 0) givers[a.name] = { items: rows, adena: num(a.adena) }; });
   if (keptAll.length) { const m = `[loot] kept by the finders (party loot rule): ${keptAll.slice(0, 6).join('; ')}${keptAll.length > 6 ? ` (+${keptAll.length - 6} more)` : ''}`; note(m.slice(0, 480), true); }   // LOOTRULE-2026-10-13
@@ -21456,8 +21890,9 @@ function pickSpot(level, solo) {
   if (autoLvl.forceSpot) return autoLvl.forceSpot;                       // !dungeon <name> / !assist <name>
   { const ms = manualSpot(level, solo); if (ms) return ms; }              // the party's hunting spot chosen on the dashboard (ROOM POLYS PATCH 2026-10-08)
   const team = CONFIG.leader, passed = [];
+  const noAuto = (nm) => { try { return !!(CONFIG.lead.neverAuto && CONFIG.lead.neverAuto.test(String(nm || ''))); } catch (e) { return false; } };   // NEVERAUTO-2026-10-30
   // KEEPOUT-2026-10-22 (spot map "keep out" areas for chosen field areas / rooms): a zone whose note starts with KEEPOUT only carries exclusion polygons (inZoneHole) - never a hunting spot
-  const zones = customZones().filter(z => z.enabled !== false && !/^KEEPOUT\b/.test(String(z.note || '')) && zoneTeamOk(z, team) && (!z.kind || z.kind === 'any' || z.kind === teamKind()) && ssSpotOk(z));
+  const zones = customZones().filter(z => z.enabled !== false && !/^KEEPOUT\b/.test(String(z.note || '')) && !noAuto(z.name) && !noAuto(z.rooms) && zoneTeamOk(z, team) && (!z.kind || z.kind === 'any' || z.kind === teamKind()) && ssSpotOk(z));
   const tryZone = (z) => {
     const b = spotBlock(z.name, { x: z.x, y: z.y, z: z.z }, z.radius, true);   // skipped / occupied; the area (rooms, sub-areas, whole zone) is checked in zoneSpot
     if (b) { passed.push(`${z.name}: ${b}`); return null; }
@@ -21496,14 +21931,14 @@ function pickSpot(level, solo) {
   // 2b) a custom zone of ANOTHER party that fits this level (user-made spots, often split into sub-areas, beat far datapack spots:
   // 2026-10-08 17:31 Destroyer3 + Tank2 were sent to a 12-monster datapack spot at the Dwarven Eastern Mining Zone)
   if (passed.length) {
-    const others = customZones().filter(z => z.enabled !== false && !zoneTeamOk(z, team) && level >= z.levelMin && level <= z.levelMax
+    const others = customZones().filter(z => z.enabled !== false && !noAuto(z.name) && !noAuto(z.rooms) && !zoneTeamOk(z, team) && level >= z.levelMin && level <= z.levelMax
       && (!z.kind || z.kind === 'any' || z.kind === teamKind()) && ssSpotOk(z) && !sameAsSkipped(z))
       .sort((a, b) => Math.hypot(a.x - Me.X, a.y - Me.Y) - Math.hypot(b.x - Me.X, b.y - Me.Y));
     for (const z of others) { const s = tryZone(z); if (s) { pickLog(`autolevel: lvl ${level}: our route zones are taken — using another party's zone: ${s.name}${passedTxt()}`); return s; } }
   }
   const tr = !solo && teamRoute();
   if (tr && tr.length) {
-    const ok = tr.filter(r => r.levelMin <= level + 2 && r.levelMax >= level && ssSpotOk(r) && !spotBlock(r.name, r.center, r.radius || 3000));
+    const ok = tr.filter(r => r.levelMin <= level + 2 && r.levelMax >= level && !noAuto(r.name) && ssSpotOk(r) && !spotBlock(r.name, r.center, r.radius || 3000));
     const e = ok.sort((a, b) => b.levelMin - a.levelMin)[0];     // sværeste trin vi kan klare (trio med healer)
     if (e) { if (passed.length) pickLog(`autolevel: lvl ${level}: team route step ${e.name}${passedTxt()}`); return { name: e.name, levelMin: e.levelMin, levelMax: e.levelMax, center: e.center, gk: e.gk, soloScore: 0, partyScore: 0 }; }
   }
@@ -21522,6 +21957,7 @@ function pickSpot(level, solo) {
     const up = wide ? 4 : (soloLow ? 0 : 2), down = wide ? 5 : 2;
     for (const s of huntingSpots()) {
       if (s.enabled === false) continue;                                  // switched off in the dashboard shape editor (2026-10-08 23:30)
+      if (noAuto(s.name) || noAuto(s.dungeon) || noAuto((s.gk && s.gk.desc) || '')) continue;   // NEVERAUTO-2026-10-30
       if (s.levelMin > level + up || s.levelMax < level - down || (solo && s.dungeon) || !spotReachable(s) || !ssSpotOk(s) || (leadMode() && CONFIG.lead.avoidLanding.test(String((s.gk && s.gk.desc) || '') + ' ' + s.name))) continue;
       // leveling = teleport to a field landing and walk from THERE; a spot without a "Town -> Field" gatekeeper link would mean walking
       // out of a town, which is never done (user rule 2026-10-05)
@@ -21541,6 +21977,180 @@ function pickSpot(level, solo) {
   return null;
 }
 
+// ==== AOETEAM-2026-10-30 (owner: "I also want to be able to create a AOE team ... HERE WE ALL STAND, HERE STANDS THE HEALERS, HERE ARE ALL THE DAMAGE
+// DEALERS, THIS IS THE ROUTE THE 'pullers' run ... FAST so they dont die. Healers will NOT run after them while they pull, and they should NOT stop
+// running NEVER or they die"; AskUserQuestion: the whole route every time, polearm pullers stand until the fighters have aggro (max N s), speed buffs +
+// skills before each pull). Scripts/data/aoe_teams.json teams.<leader> (dashboard #/aoe/<leader>, Dashboard/aoeteam_api.js), read every 5 s.
+//  * active while my party runs (Start), out of towns / raids / instances, within 6000 of the camp
+//  * pullers: speed (own Dash / Sprint / Wind Walk / Haste skills, a Haste Potion), the WHOLE route without stopping (no self-defence, a quick tag at
+//    each point when 'tag'), back to the camp. Tank AOE: Ultimate Defense + Aura of Hate / Mass Hate, fight at the camp until it is clear (max
+//    clearMaxSec), again. Polearm AOE: stand at the camp until every monster there hits a non-puller (max standMaxSec), run again.
+//  * everyone else holds ITS place (healers / damage dealers / camp): no follow, no assist chase, fights only monsters at the camp; melee damage
+//    dealers take a polearm in Polearm AOE; healers never heal a puller who is out on the route (> 700 away) - they would walk after him.
+const AOE = { at: 0, cfg: null, pulling: false, runs: 0, said: 0, hold: 0, pole: false, mobsAt: 0 };
+function aoeCfg() {
+  if (now() - AOE.at < 5000) return AOE.cfg;
+  AOE.at = now(); let c = null;
+  try { const j = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\aoe_teams.json`)).replace(/^﻿/, '')) || {}; const t = (j.teams || {})[CONFIG.leader] || null;
+    // v2 (owner: "like a hunting Ground you setup, then you can select which team should go there"): the team names its AOE ground (places + route);
+    // mode / pullers / on belong to the team. v1 (the team held its own places) still works.
+    if (t && t.ground && (j.grounds || {})[t.ground]) c = Object.assign({}, j.grounds[t.ground], { on: t.on === true, mode: t.mode, pullers: t.pullers || [], roles: t.roles || null, groundId: t.ground });
+    else c = t && t.camp ? t : null; } catch (e) { c = null; }
+  // AOEROLES-2026-10-30 (owner: "Under /aoe you should be able to create multiple Pullers' routes and assign each character to a class. So Who is
+  // healer, who is standing still, who is a puller etc."): ground.routes [{ id, name, points }] (old ground.route = routes[0]); team.roles
+  // { <char>: { role: tank|healer|dealer|puller, route: <routeId> } } (old team.pullers = pullers on routes[0]); the pullers come from the roles
+  if (c) {
+    if (!Array.isArray(c.routes) || !c.routes.length) c.routes = Array.isArray(c.route) && c.route.length ? [{ id: 'r1', name: 'Route 1', points: c.route }] : [];
+    if (c.roles && typeof c.roles === 'object') c.pullers = Object.keys(c.roles).filter(n => c.roles[n] && c.roles[n].role === 'puller');
+  }
+  AOE.cfg = c && c.on === true && c.camp && c.routes.some(r => Array.isArray(r.points) && r.points.length >= 2) && Array.isArray(c.pullers) && c.pullers.length ? c : null;
+  return AOE.cfg;
+}
+/** AOEROLES: a character's role in the AOE team (the owner's roles; without them: puller list, healer class, tank class, else damage dealer) */
+function aoeRoleOf(c, name) {
+  const r = c && c.roles && c.roles[name]; if (r && /^(tank|healer|dealer|puller)$/.test(r.role)) return r.role;
+  if (c && (c.pullers || []).includes(name)) return 'puller';
+  const role = name === Me.Name ? String(state.role || '') : String((livePos[name] && livePos[name].role) || '');
+  if (name === Me.Name && isHealerRole()) return 'healer';
+  if (HEALER_ROLES.test(role)) return 'healer';
+  if (ROLE_RE.tank.test(role)) return 'tank';
+  return 'dealer';
+}
+/** AOEROLES: the route I pull (my role's route, else the first one) -> [points] */
+function aoeMyRoute(c) {
+  const R = (c && c.routes) || [], want = c && c.roles && c.roles[Me.Name] && c.roles[Me.Name].route;
+  const r = R.find(x => x.id === want && Array.isArray(x.points) && x.points.length >= 2) || R.find(x => Array.isArray(x.points) && x.points.length >= 2);
+  return r ? r.points : [];
+}
+/** the AOE team runs for me now: my party is started, I am out of towns / raids / instances and near the camp */
+function aoeActive(c) {
+  c = c || aoeCfg(); if (!c) return false;
+  try { if (currentTownKey() || inRaid() || inst.on || inKamaInstance() || Me.IsDead || !runOn() || handsOffMe()) return false; } catch (e) { return false; }
+  return Math.hypot(num(c.camp.x) - Me.X, num(c.camp.y) - Me.Y) < 6000;
+}
+const aoeIsPuller = (c) => !!c && aoeRoleOf(c, Me.Name) === 'puller';
+/** AOEROLES: my place by my role - tank = the camp, healer = the healers' place, damage dealer = the dealers' place (each falls back to the camp) */
+function aoeMyPlace(c) { const r = aoeRoleOf(c, Me.Name); return (r === 'healer' ? c.healers : r === 'dealer' ? c.dealers : null) || c.camp; }
+/** monsters fighting at the camp (in combat / targeting someone) within r */
+function aoeCampMobs(c, r) { const out = []; try { snapMobs().forEach(m => { if (m.IsDead || ignoredMob(m)) return; if (Math.hypot(num(m.X) - num(c.camp.x), num(m.Y) - num(c.camp.y)) > (r || 900)) return; if (Math.abs(num(m.Z) - Me.Z) > CONFIG.rest.zLimit) return; out.push(m); }); } catch (e) { } return out; }
+/** a teammate puller far out on his route: healers leave him alone (a heal out of range makes the healer walk after him) */
+function aoeSkipHeal(t) { try { const c = aoeCfg(); if (!c || !aoeActive(c) || !(c.pullers || []).includes(t.name)) return false; return Math.hypot(num(t.x) - Me.X, num(t.y) - Me.Y) > 700; } catch (e) { return false; } }
+function aoeSay(msg) { note(`aoe team: ${msg}`, now() - AOE.said > 20000); AOE.said = now(); try { setTask(`aoe team: ${msg}`); } catch (e) { } }
+/** cast my own skill by name pattern when known + ready (+ not running already as a buff) */
+async function aoeCastNamed(re, why) {
+  let k = null; try { SkillsList.forEach(s => { if (!k && re.test(String(s.Name || '')) && s.IsReady && !s.IsPassive) k = s; }); } catch (e) { }
+  if (!k) return false;
+  try { if (crHasBuffNamed(String(k.Name))) return false; } catch (e) { }
+  if (!hiveSkillsOn()) return false;                                             // Hive skills OFF = the AOE team casts nothing itself
+  try { Send.RequestMagicSkillUse(num(k.Id)); } catch (e) { return false; }
+  await sleep(700); note(`aoe team: ${k.Name}${why ? ' (' + why + ')' : ''}`); return true;
+}
+/** speed before a pull: own Dash / Sprint / Wind Walk / Haste skills, else a Haste Potion from the bag */
+async function aoeSpeedUp() {
+  await aoeCastNamed(/^(Dash|Sprint|Wind Walk|Haste|Ultimate Evasion|Shadow Step|Fast Run)$/i, 'speed before the pull');
+  let hasted = false; try { hasted = crHasBuffNamed('Haste') || crHasBuffNamed('Wind Walk') || crHasBuffNamed('Dash') || crHasBuffNamed('Sprint'); } catch (e) { }
+  if (!hasted) { try { const p = bagItems(/Haste Potion/i)[0]; if (p) { Send.UseItem(num(p.objId)); await sleep(500); note('aoe team: Haste Potion before the pull'); } } catch (e) { } }
+}
+/** one pull: the WHOLE route without stopping, back to the camp, then the mode's camp part. Returns the monsters tagged. */
+async function aoePullRun(c) {
+  if (AOE.pulling) return 0;
+  AOE.pulling = true; AOE.runs++;
+  const camp = c.camp, cz = isFinite(num(camp.z)) && num(camp.z) ? num(camp.z) : Me.Z, gen = control.gen, tagged = new Set(), plan = currentSkillPlan();
+  try {
+    stopCombatG(); followHold(120000);
+    if (c.speedBuffs !== false) await aoeSpeedUp();
+    const route = aoeMyRoute(c);                                         // AOEROLES: MY route (each puller its own)
+    aoeSay(`pull ${AOE.runs}: running my route (${route.length} points) — not stopping`);
+    for (const p of route) {
+      if (Me.IsDead || interrupted(gen) || autoLvl.stop || !aoeActive(c)) break;
+      if (num(Me.HpPercent) < 25) { aoeSay(`HP ${Math.round(num(Me.HpPercent))} % — back to the camp at once`); break; }   // survival beats "the whole route"
+      state.fleeUntil = now() + 25000;                                 // no self-defence / help on the route: keep running
+      await walkDirect(num(p.x), num(p.y), isFinite(num(p.z)) && num(p.z) ? num(p.z) : Me.Z, 150, 20000, null, true);
+      if (c.tag !== false) {
+        const me = meSnap(), near = [];
+        snapMobs().forEach(m => { if (m.IsDead || ignoredMob(m) || tagged.has(num(m.objId)) || num(m.TargetObjId) === num(Me.objId)) return; if (Math.hypot(num(m.X) - num(me.X), num(m.Y) - num(me.Y)) > 600) return; near.push(m); });
+        for (const m of near.slice(0, 2)) {                            // a quick tag, then on (never a fight here)
+          try { Send.Action(num(m.objId)); const k = plan.lock && SkillsList.GetItemByID(plan.lock.id); if (k && k.IsReady && hiveSkillsOn()) Send.RequestMagicSkillUse(plan.lock.id); else Send.Attack(num(m.objId)); tagged.add(num(m.objId)); await sleep(350); } catch (e) { }
+        }
+      }
+    }
+    state.fleeUntil = now() + 25000;
+    await walkDirect(num(camp.x), num(camp.y), cz, 150, 30000, null, true);   // back the straight way to the camp
+    state.fleeUntil = 0;
+    if (Me.IsDead) return tagged.size;
+    const t0 = now();
+    // AOEMIX-2026-10-30 (owner: "It can still be AOE tank team with polearms pulling to tank"): only a TANK puller does the Ultimate Defense + hate part; any
+    // other puller (polearm pullers in Tank AOE, all pullers in Polearm AOE) hands the monsters over: it stands until the tank / the fighters have them
+    const iTank = ROLE_RE.tank.test(state.role || '');
+    if (c.mode === 'polearm' || !iTank) {
+      aoeSay(`pull ${AOE.runs}: at the camp with the monsters — standing until ${c.mode === 'polearm' ? 'the fighters have' : 'the tank has'} them (max ${num(c.standMaxSec) || 4} s)`);
+      while (now() - t0 < (num(c.standMaxSec) || 4) * 1000 && !Me.IsDead) {
+        const onMe = aoeCampMobs(c, 900).filter(m => num(m.TargetObjId) === num(Me.objId) || (c.pullers || []).some(n => { const lp = livePos[n]; return lp && num(lp.objId) === num(m.TargetObjId); }));
+        if (now() - t0 > 1200 && !onMe.length) break;
+        await sleep(300);
+      }
+    } else {
+      aoeSay(`pull ${AOE.runs}: back with the monsters — Ultimate Defense + hate aura, everyone blasts`);
+      await aoeCastNamed(/^Ultimate Defen[cs]e$/i, 'at the camp');
+      await aoeCastNamed(/^(Aura of Hate|Mass Hate|Hate Aura|Shield Slam|Mass Aggression)$/i, 'all monsters on me');
+      startCombatG();
+      while (now() - t0 < (num(c.clearMaxSec) || 120) * 1000 && !Me.IsDead && !autoLvl.stop && aoeActive(c)) {
+        const left = aoeCampMobs(c, 900);
+        if (!left.length) { if (!AOE.mobsAt) AOE.mobsAt = now(); if (now() - AOE.mobsAt > 4000) break; } else AOE.mobsAt = 0;
+        if (left.length >= 2) await aoeCastNamed(/^(Aura of Hate|Mass Hate|Hate Aura)$/i, 'keeping them on me');
+        if (left.length && !Me.IsAttacking) { const m = left.sort((a, b) => Math.hypot(num(a.X) - Me.X, num(a.Y) - Me.Y) - Math.hypot(num(b.X) - Me.X, num(b.Y) - Me.Y))[0]; try { srvAttack(num(m.objId)); } catch (e) { } }
+        await sleep(800);
+      }
+      AOE.mobsAt = 0;
+    }
+    return tagged.size;
+  } finally { state.fleeUntil = 0; AOE.pulling = false; }
+}
+/** everyone but the pullers: stand at my place, fight only what is at the camp (no follow, no chase) */
+async function aoeHoldStep(c) {
+  const p = aoeMyPlace(c), pz = isFinite(num(p.z)) && num(p.z) ? num(p.z) : Me.Z;
+  AOE.hold = now(); followHold(4000);
+  try { Options.ActiveFollow = false; } catch (e) { }
+  const myRole = aoeRoleOf(c, Me.Name), heal = myRole === 'healer', iTankRole = myRole === 'tank';   // AOEROLES: the owner's role, not only the class
+  const mobs = aoeCampMobs(c, 900);
+  // AOEMIX: the tank waits at the camp in Tank AOE while others pull: the pack arrives -> Ultimate Defense + Aura of Hate / Mass Hate (once per pack), then he fights
+  if (c.mode !== 'polearm' && iTankRole && mobs.length >= 2 && now() - (AOE.tankAt || 0) > 20000) {
+    AOE.tankAt = now(); aoeSay(`the pack is here (${mobs.length}) — Ultimate Defense + hate aura`);
+    await aoeCastNamed(/^Ultimate Defen[cs]e$/i, 'the pack is at the camp'); await aoeCastNamed(/^(Aura of Hate|Mass Hate|Hate Aura|Mass Aggression)$/i, 'all monsters on me');
+  } else if (c.mode !== 'polearm' && iTankRole && mobs.length >= 2) await aoeCastNamed(/^(Aura of Hate|Mass Hate|Hate Aura)$/i, 'keeping them on me');
+  // POLEDYN-2026-10-30 (owner: "they should switch on the polearm to kill monsters but a single monster should be killed with sword or single target
+  // spell as normal hunting"): a melee damage dealer takes the polearm when 2+ monsters are on / next to it, its own weapon again after 5 s with 1 or none
+  if (!heal && !iTankRole && POLE_ROLES.test(state.role || '') && !ROLE_RE.tank.test(state.role || '')) {
+    const near = mobs.filter(m => Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) < 400).length;
+    if (near >= 2) { AOE.fewAt = 0; if (!AOE.pole) { AOE.pole = true; try { await polearmSwap(true, true); } catch (e) { } } }
+    else if (AOE.pole) { if (!AOE.fewAt) AOE.fewAt = now(); if (now() - AOE.fewAt > 5000) { AOE.pole = false; AOE.fewAt = 0; try { await polearmSwap(false, true); } catch (e) { } } }
+  }
+  if (Math.hypot(num(p.x) - Me.X, num(p.y) - Me.Y) > 250 && !(mobs.length && !heal && Math.hypot(num(c.camp.x) - Me.X, num(c.camp.y) - Me.Y) < 700)) {
+    setTask(`aoe team: to my place (${heal && c.healers ? 'healers' : myRole === 'dealer' && c.dealers ? 'damage dealers' : 'the camp'})`);
+    await walkTo(num(p.x), num(p.y), pz, 120, 20000); return;
+  }
+  if (heal || !mobs.length) { setTask(`aoe team: holding my place${mobs.length ? ` — ${mobs.length} monster(s) at the camp` : ' — waiting for the pull'}`); return; }
+  const cur = Target && Target.objId ? mobs.find(m => num(m.objId) === num(Target.objId)) : null;
+  if (cur) return;                                                     // the cast loop / my attack keeps working on it
+  const m = mobs.sort((a, b) => Math.hypot(num(a.X) - Me.X, num(a.Y) - Me.Y) - Math.hypot(num(b.X) - Me.X, num(b.Y) - Me.Y))[0];
+  try { if (casterOwnsAttacks()) Send.Action(num(m.objId)); else srvAttack(num(m.objId)); } catch (e) { }
+}
+/** the leader's turn in the autolevel loop (true = handled, the loop continues) */
+async function aoeLeaderStep() {
+  const c = aoeCfg(); if (!c || !aoeActive(c)) return false;
+  if (aoeIsPuller(c)) { await aoePullRun(c); await sleep(300); return true; }
+  await aoeHoldStep(c); await sleep(1000); return true;
+}
+// members: their own pulls (pullers) / holding their place; the polearm goes back when the AOE team ends
+setInterval(() => {
+  try {
+    if (!state.role || isLeader() || !leadMode()) return;
+    const c = aoeCfg(), on = !!c && aoeActive(c);
+    if (!on) { if (AOE.pole && now() - AOE.hold > 15000) { AOE.pole = false; polearmSwap(false, true).catch(() => { }); } return; }
+    if (aoeIsPuller(c)) { if (!AOE.pulling) aoePullRun(c).catch(e => logError('aoe pull', e)); return; }
+    if (!AOE.busy) { AOE.busy = true; aoeHoldStep(c).catch(e => logError('aoe hold', e)).then(() => { AOE.busy = false; }); }
+  } catch (e) { logError('aoe member', e); }
+}, 1000);
 /** PULL ROUTE (user 2026-10-07: "routes that characters should run and gather monsters, then arriving at the tank and everyone change to
  *  polearm and kill the monsters"). The route's first point is the anchor: the team waits there (members stop following and fight what
  *  arrives); the leader runs the route, tags up to 4 monsters near every point (his aggro skill when ready, else one hit), turns back
@@ -21666,7 +22276,7 @@ function attackFirstNow(curId) {
     const team = (() => { try { return teamNames(); } catch (e) { return []; } })();
     const healers = team.concat([Me.Name]).filter(n => { try { const r = CONFIG.roster[n]; return !!r && (CONFIG.healer.roles.includes(r) || /heal|bishop|elder|saint|oracle/i.test(String(r))); } catch (e) { return false; } });
     const hits = [], seen = {};
-    const add = (id, on, at) => { const k = String(id); if (seen[k]) return; const m = mobById(id); if (!m || m.IsDead || ignoredMob(m) || huntBlacklisted(m.objId)) return; if (Math.abs(num(m.Z) - num(Me.Z)) > CONFIG.rest.zLimit) return; seen[k] = 1; hits.push({ id: num(m.objId), on, at, d: Math.hypot(num(m.X) - num(Me.X), num(m.Y) - num(Me.Y)), m }); };
+    const add = (id, on, at) => { const k = String(id); if (seen[k]) return; const m = mobById(id); if (!m || m.IsDead || ignoredMob(m) || huntBlacklisted(m.objId)) return; if (huntPolyHas(m) === false && !canSee(m)) return; /* ROOMTARGET: a monster in the next room behind the wall never pulls us out of ours */ if (Math.abs(num(m.Z) - num(Me.Z)) > CONFIG.rest.zLimit) return; seen[k] = 1; hits.push({ id: num(m.objId), on, at, d: Math.hypot(num(m.X) - num(Me.X), num(m.Y) - num(Me.Y)), m }); };
     if (lastAttackerOnMe && lastAttackerOnMe.id) add(lastAttackerOnMe.id, Me.Name, lastAttackerOnMe.at);
     Object.keys(inst.attackers || {}).forEach(id => { const a = inst.attackers[id]; if (a) add(id, a.on, a.at); });
     const p = attackFirstPick({ cur: curId, me: Me.Name, team, healers, hits, now: now() });
@@ -21690,6 +22300,18 @@ function levelHealthDecide(o) {
   const bad = slow ? (x.bad || 0) + 1 : 0;
   return { bad, fix: bad >= H.badChecks && !(x.lastFixAgo < H.gapMs) };
 }
+// SLOWHUNT-2026-11-01 (tester Vykaax: "If the party is in Hunting mode and the Slow Hunting warning is triggered ... I've often been able to fix it
+// by pressing Stop, ... moving the leader a few feet away, then pressing Start -> Level ... worst case, repeated fails for X (20, 30?) minutes they
+// should go back to town and run the path again"): each SLOW HUNTING repair escalates - 'drop' (the whole party drops its targets, 10 min) ->
+// 'step' (the next repair within 6 min: the leader steps 150-300 to a free spot inside the room, no wall between) -> 'town' (no kill for 20 min
+// at the spot: fight everything off, town, the route back; at most once per hour).
+var SLOWHUNT = { stepWithinMs: 360000, townAfterMs: 1200000, townGapMs: 3600000 };
+/** o = { kills20, atSpotMs, streak: repairs in a row (each within stepWithinMs of the last), lastTownAgo } -> 'drop' | 'step' | 'town' */
+function slowHuntStep(o) {
+  const x = o || {}, S = SLOWHUNT;
+  if (!(x.kills20 > 0) && x.atSpotMs >= S.townAfterMs && !(x.lastTownAgo < S.townGapMs)) return 'town';
+  return (x.streak || 0) >= 1 ? 'step' : 'drop';
+}
 // LEVELHEALTH-PURE-END
 const LH2 = { bad: 0, fixAt: 0, last: null };
 // KILLCOUNT-2026-10-23 (owner: "almost ALL characters have SLOW HUNTING"): autoLvl.killTimes only counts a monster the hunt loop picked itself;
@@ -21697,8 +22319,10 @@ const LH2 = { bad: 0, fixAt: 0, last: null };
 // Every kill in reach gives experience (LIVEP.hour): the kill count is the larger of the two
 function killsIn(ms) { const t = now(); let own = 0, xp = 0; try { own = (autoLvl.killTimes || []).filter(k => t - num(k) < ms).length; } catch (e) { } try { xp = (LIVEP.hour || []).filter(x => x && x.amt > 0 && x.why !== 'res' && t - x.at < ms).length; } catch (e) { } return Math.max(own, xp); }
 /** every window: clear what keeps me from fighting (called on the leader's swarm.levelfix and by the leader itself) */
-function levelFixMine(why) {
+function levelFixMine(why, dropTarget) {
   const done = [];
+  // SLOWHUNT 'drop': my current target (not one hitting me) is dropped for 10 min - a monster behind terrain / on a pillar / in a tree
+  if (dropTarget) { try { if (Target && Target.objId && !Target.IsDead) { const o = num(Target.objId); if (!(num(lastAttackerOnMe.id) === o && now() - lastAttackerOnMe.at < 5000)) { huntBlack[o] = now() + 600000; Send.RequestTargetCancel(0); done.push(`target ${Target.Name || o} dropped for 10 min`); } } } catch (e) { } }
   try { if (typeof routeStaleEnd === 'function' && memberRoute.id && !memberRoute.busy) { memberRouteStop(); done.push('old route walk ended'); } } catch (e) { }
   try { if (typeof rgFollow !== 'undefined' && rgFollow.pts && rgFollow.pts.length) { rgFollow.pts = []; done.push('old follow route cleared'); } if (state.route && state.route.kind === 'follow') state.route = null; } catch (e) { }
   try { if (Target && Target.objId) { const t = mobById(Target.objId); if (t && !t.IsDead && hpZeroKnown(t)) { huntBlack[num(t.objId)] = now() + 60000; Send.RequestTargetCancel(0); done.push(`target ${t.Name} stuck at 0 % HP dropped`); } } } catch (e) { }
@@ -21706,7 +22330,18 @@ function levelFixMine(why) {
   if (done.length) note(`level health: ${done.join(', ')} (${why})`, true);
   return done;
 }
-App.on('swarm.levelfix', (e) => { try { if (e.source.characterName !== CONFIG.leader || isLeader()) return; levelFixMine('asked by ' + CONFIG.leader); } catch (er) { } });
+App.on('swarm.levelfix', (e) => { try { if (e.source.characterName !== CONFIG.leader || isLeader()) return; levelFixMine('asked by ' + CONFIG.leader, !!(e.data && e.data.drop)); } catch (er) { } });
+/** SLOWHUNT 'step': a free spot 150-300 away inside my hunting room (no wall between, not a learned blocked spot) -> {x,y,z} | null */
+function slowHuntSpot() {
+  const P = huntPolyNow();
+  for (const r of [250, 180, 300, 150]) for (let k = 0; k < 8; k++) {
+    const a = k * Math.PI / 4 + (r === 180 ? Math.PI / 8 : 0), p = { x: Me.X + Math.cos(a) * r, y: Me.Y + Math.sin(a) * r, z: Me.Z };
+    if (P && !inPolygon(p.x, p.y, P)) continue;
+    try { if (geoBlockedAt(p.x, p.y, p.z, 120)) continue; if (!canSee(p)) continue; } catch (e) { continue; }
+    return p;
+  }
+  return null;
+}
 setInterval(() => {
   try {
     if (!isLeader() || !autoLvl.active || autoLvl.stop || !autoLvl.spot || currentTownKey() || inRaid() || inst.on) { LH2.bad = 0; return; }
@@ -21721,9 +22356,46 @@ setInterval(() => {
     // the warning stayed on the card for 30 min after the hunt had recovered. A healthy window (kills >= minKills) clears it at once.
     if (LH2.last && kills5 >= LEVELHEALTH.minKills) LH2.last = null;
     if (!d.fix) return;
+    LH2.streak = LH2.fixAt && t - LH2.fixAt < SLOWHUNT.stepWithinMs && killsIn(t - LH2.fixAt) === 0 ? (LH2.streak || 0) + 1 : 0;   // SLOWHUNT: repairs in a row without a kill
     LH2.fixAt = t; LH2.bad = 0;
-    const done = levelFixMine(`${kills5} kills in 5 min with ${mobs} monsters here`);
-    try { App.emit('swarm.levelfix', { leader: Me.Name }); } catch (e) { }
+    // ROOMWALK-2026-10-30: the repair does not help when I stand OUTSIDE the room's outline (a dead-end corridor beside it): the 2nd repair in a row
+    // there = the whole party goes to Giran and takes the normal way in again (gatekeeper, floor teleporters, room route) - said in party chat
+    { const poly = Array.isArray(sp.poly) && sp.poly.length >= 3 ? sp.poly : null, out = !!poly && !nearPolygon(num(Me.X), num(Me.Y), poly, 150);
+      LH2.outFix = out ? (LH2.outFix || 0) + 1 : 0;
+      if (out && LH2.outFix >= 2 && !LH2.escBusy && leadMode() && !leadPaused()) {
+        LH2.escBusy = true; LH2.outFix = 0;
+        (async () => {
+          try { SayToParty(`[level health] we are stuck outside ${sp.name} (no way in from here) — going to ${CONFIG.lead.hub} and back the normal way`); } catch (e) { }
+          note(`level health: stuck outside ${sp.name} after 2 repairs — the party goes to ${CONFIG.lead.hub} and takes the normal way in again`, true);
+          autoLvl.stop = true; { const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
+          const ok = await leadGoGiran(`stuck outside ${sp.name}`);
+          autoLvl.spot = null;
+          if (!leadPaused()) leadLevel(ok ? 'after the stuck-outside-the-room trip' : 'stuck outside the room (Giran trip failed)').catch(e => logError('level after stuck', e));
+        })().catch(e => logError('stuck outside the room', e)).then(() => { LH2.escBusy = false; });
+        return;
+      } }
+    // SLOWHUNT-2026-11-01: drop -> step aside -> town and the route back (see slowHuntStep)
+    const sh = slowHuntStep({ kills20: killsIn(SLOWHUNT.townAfterMs), atSpotMs: t - LH2.atSpot, streak: LH2.streak, lastTownAgo: LH2.townAt ? t - LH2.townAt : undefined });
+    if (sh === 'town' && !LH2.escBusy && leadMode() && !leadPaused() && state.mode !== 'mission') {
+      LH2.escBusy = true; LH2.townAt = t; LH2.streak = 0;
+      (async () => {
+        try { SayToParty(`[level health] no kill for 20 min at ${sp.name} — fighting off what is on us, then ${CONFIG.lead.hub} and the route back`); } catch (e) { }
+        note(`level health: no kill for 20 min at ${sp.name} — fight off, ${CONFIG.lead.hub}, the route back (SLOWHUNT)`, true);
+        autoLvl.stop = true; { const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
+        try { await waitCombatClear(120000, 2000); } catch (e) { }   // FIGHTOFF: a monster beating on one of us is killed first (Vykaax: "they'll never be able to leave")
+        const ok = await leadGoGiran(`no kill for 20 min at ${sp.name}`);
+        if (!leadPaused()) leadLevel(ok ? 'after the slow-hunting town trip' : 'slow hunting (town trip failed)').catch(e => logError('level after slowhunt', e));
+      })().catch(e => logError('slowhunt town', e)).then(() => { LH2.escBusy = false; });
+      return;
+    }
+    if (sh === 'step' && !LH2.escBusy) {
+      const p = slowHuntSpot();
+      if (p) { note(`level health: still no kills — stepping ${Math.round(Math.hypot(p.x - Me.X, p.y - Me.Y))} aside inside ${sp.name} and hunting on from there (SLOWHUNT)`, true);
+        try { if (Target && Target.objId) Send.RequestTargetCancel(0); } catch (e) { }
+        walkDirect(p.x, p.y, p.z, 60, 8000, () => !!autoLvl.stop || Me.IsDead, true).catch(e => logError('slowhunt step', e)); }
+    }
+    const done = levelFixMine(`${kills5} kills in 5 min with ${mobs} monsters here`, true);
+    try { App.emit('swarm.levelfix', { leader: Me.Name, drop: true }); } catch (e) { }
     const shots = (() => { try { return state.shotWarn && t - (Date.parse(state.shotWarn.at) || 0) < 3600000; } catch (e) { return false; } })();
     const why = `${kills5} kills in 5 min with ${mobs} monsters here — reset stale walks / targets on the whole party${done.length ? ' (' + done.join(', ') + ')' : ''}${shots ? '; NO SHOTS: buy shots from player shops (party Settings → Supplies) or the damage stays low' : ''}`;
     LH2.last = { at: new Date().toISOString(), why };
@@ -23464,7 +24136,13 @@ function hovBag() {
 /** HOVOWNJOB 2026-10-20 (Dagger1 -> Bishop6, Homunkulus's Sword - Acumen: the receiver's own item job waits for this very hand-over, but it
  *  answered 'busy (your item job ...)' and the giver waited 10 min until it was stopped): a hand-over that belongs to my running item job is not blocked by it */
 function hovForMyJob(id) {
-  try { if (!id || typeof IJ === 'undefined' || !IJ.busy) return false; const o = hovLoad(id); return !!(o && String(o.why || '').indexOf(String(IJ.busy)) >= 0); } catch (e) { return false; }
+  try {
+    if (!id) return false; const o = hovLoad(id); if (!o) return false;
+    // SELFASK-2026-10-30 (Chanter1's Homunkulus job: Dagger1's clan-warehouse crystals waited "Chanter1 is busy (your item job)" forever and
+    // Dagger1 refused every gear-up take meanwhile): a clan warehouse take I asked for myself is part of my own task, never "busy".
+    if (o.receiver === Me.Name && String(o.why || '').indexOf('(asked by ' + Me.Name + ')') >= 0) return true;
+    if (typeof IJ === 'undefined' || !IJ.busy) return false; return String(o.why || '').indexOf(String(IJ.busy)) >= 0;
+  } catch (e) { return false; }
 }
 function hovBusyWhy(id) {
   try {
@@ -24205,7 +24883,8 @@ async function whTakeAt(npc, kind, want) {
 async function whTake(kind, want, why, opts) {
   opts = opts || {};   // WHSELL-FIX 2026-10-14: holdCtl = the caller (!whsell) holds control and resumes leveling itself; stayAtKeeper = no walk back
   if (WH.busy || STASH.busy) return { ok: false, msg: 'already at the warehouse' };
-  if (kind === 'clan' && Me.Name !== clanLeaderName()) return { ok: false, msg: 'only the clan leader can take items out of the clan warehouse (L2Toggle)' };
+  // WHTRY-2026-10-30 (owner: "can members take things out of the clan warehouse themselves?"): opts.memberTry = a member really tries (the server decides)
+  if (kind === 'clan' && Me.Name !== clanLeaderName() && Me.Name !== cwhWorkerName() && !opts.memberTry) return { ok: false, msg: 'only the clan leader / the clan warehouse worker (the crafter) can take items out of the clan warehouse' };   // CRAFTRUN A
   if (kind === 'clan' && !myClanName()) return { ok: false, msg: 'I am in no clan' };
   if (inRaid() || inKamaInstance() || state.mode === 'mission') return { ok: false, msg: 'busy with a raid / Kamaloka / mission — send it again afterwards' };
   let ctl = false, wasLvl = false, walked = false, msg = '';
@@ -24250,8 +24929,18 @@ async function whClanFor(name, items, src) {
   const key = name + '|' + JSON.stringify(items);
   if (WH.askSeen[key] && now() - WH.askSeen[key] < 120000) return;   // heard twice (party chat + the member's ask)
   WH.askSeen[key] = now();
-  const bag0 = whBag();
-  const r = await whTake('clan', items, 'for ' + name + ' (' + src + ')');
+  // WHASKQUEUE-2026-10-31 (owner's Get it for Nuker18: the Stockings were asked 0.3 s after the Tunic's hand-over started -> "!handover (P4)
+  // comes first — send it again afterwards", nobody sent it again, Nuker18 waited 20 min for nothing): a request that finds me busy (another
+  // hand-over / warehouse visit holds control) WAITS for its turn (max 3 min), it is never dropped
+  let r = null; const tq = now();
+  for (;;) {
+    const bag0w = whBag();
+    r = await whTake('clan', items, 'for ' + name + ' (' + src + ')');
+    if (r.ok || !/comes first|already at the warehouse/.test(String(r.msg || '')) || now() - tq > 180000) { r.bag0 = bag0w; break; }
+    if (now() - tq < 3000) note(`[whtake] for ${name}: busy (${r.msg}) - waiting for my turn`, true);
+    await sleep(2000);
+  }
+  const bag0 = r.bag0;
   note('[whtake] ' + (name !== Me.Name ? 'for ' + name + ': ' : '') + r.msg, true);
   if (!r.ok || name === Me.Name) return;
   const rows = whHandRows(bag0, whBag(), r.got);
@@ -24274,7 +24963,8 @@ App.on('swarm.whtake.ask', (e) => {
  *  out of the CLAN warehouse (whTake) and sells exactly the pieces that arrived (sellAt only = their objIds / stack parts) at the grocer
  *  (Giran: Helvetia via the recorded route), then walks back. Only the clan leader's window acts. Log: Logs/whtake.log + Logs/whsell.log. */
 async function whSell(parts) {
-  if (Me.Name !== clanLeaderName()) return;
+  if (Me.Name !== clanLeaderName() && Me.Name !== cwhWorkerName()) return;   // CRAFTRUN A: the worker (the crafter) sells the marks
+  if (Me.Name === clanLeaderName() && cwhWorkerName() !== Me.Name) return;   // ... and then the clan leader leaves it to him
   // "!whsell order" = the Storage page's selection (more than one order line holds): Logs/whsell_order.json { items: [{ id, count }], sell, at }
   let p, sell = true, pendingOnly = false;
   if (/^pending$/i.test(String(parts[1] || ''))) { p = { items: [], err: '' }; pendingOnly = true; }   // WHSELL-FIX: sell what an earlier take-out left in my bag
@@ -24426,6 +25116,7 @@ async function whSellLoopInner(items, pendingOnly) {
       if ((gen = await whsYield(gen, ctlName)) === false) { why = 'paused too long (the pieces are in my bag: "!whsell pending" sells them)'; break; }
       const s = await whsSell(Object.keys(only).length ? only : whsOnlyFromIds(ids), `!whsell round ${rounds}`);
       sold += s.n; adena += s.adena;
+      if (s.n > 0) ledgerIn('npcsale', Me.Name, null, s.n, s.adena, `clan warehouse marks sold at the grocer (round ${rounds})`);   // CRAFTRUN A: the bank books it
       note(`[whsell] round ${rounds}: took ${rows.length} piece(s), sold ${s.n} kind(s) for ${s.adena} adena — ${Object.keys(todo).length} kind(s) left`, true);
       appendShared(SWARM_ROOT + '\\Logs\\whsell.log', `${new Date().toISOString()} [${Me.Name}] round ${rounds}: took ${rows.length}, sold ${s.n} kinds for ${s.adena} adena, ${Object.keys(todo).length} kinds left | ${String(s.msg).slice(0, 600)}\r\n`);
       whsRunWrite({ active: true, at: new Date().toISOString(), todo, rounds });   // WHSELL-RESUME: progress after every round
@@ -24959,6 +25650,191 @@ function craftRules() {
   return CRAFTX.rules || {};
 }
 function craftMineCfg() { const c = craftCfgOf(craftRules(), String(Me.Name)); return c.exists ? c : null; }
+// ===== CRAFTRUN-2026-11-01 (owner: "initiate full plan with him [Crafter1] taking over all the selling and crystallizing and make sure the collector
+// role now can run to parties and 'collect' items, letters, materials and refill them with soulshots, blessed spiritshots" + "Parties should be
+// supplied so they can run 24/7 in their areas then collector will collect items back and forth and crafter1 will get all the items"):
+//  A. the clan warehouse worker = the crafter (Scripts/data/crafter.json crafter; cwhWithdraw false = the clan leader as before): takes out, sells
+//     and crystallizes the Storage page's marks himself; every NPC sale / crystallize / shot sale = a row in the bank ledger (via Logs/crafter_ledger_in.log)
+//  B. crafter mode: the crafter never levels / hunts / goes on supply runs; with its run switch ON it crafts toward the targets in Giran
+//  C. paid shots: shots from the crafter cost the NPC price, paid by the party leader to the bank (crafter.json pays.<party> false = free)
+//  D. the runner (crafter.json runner + runnerOn): a party low on supplies calls it instead of a supply run; it takes the shots from the crafter,
+//     goes to the party, collects loot / materials / letters, hands each member its shots, takes the payment, and brings everything to the crafter
+// CRAFTRUN-PURE-BEGIN (no host calls)
+const CRUN_SHOT_PRICE = { 1463: 14, 1464: 22, 1465: 50, 1466: 80, 1467: 100, 2510: 18, 2511: 35, 2512: 100, 2513: 120, 2514: 150, 3948: 28, 3949: 42, 3950: 245, 3951: 290, 3952: 350, 5789: 0, 5790: 0, 1835: 7, 2509: 15, 3947: 25 };
+/** NPC price of a shot (crafter.json prices override) */
+function crunPrice(id, prices) { const p = prices && prices[id]; return p !== undefined && p !== null && Number(p) >= 0 ? Number(p) : (CRUN_SHOT_PRICE[id] || 0); }
+/** what a list of shots { id, n } costs -> adena */
+function crunPay(rows, prices) { return Math.round((rows || []).reduce((s, r) => s + crunPrice(r.id, prices) * Math.max(0, Number(r.n) || 0), 0)); }
+/** who takes out / sells / crystallizes the clan warehouse marks: the crafter (when it may withdraw), else the clan leader */
+function crunWorker(crafter, withdraw, clanLeader) { return crafter && withdraw !== false ? crafter : clanLeader || ''; }
+/** is this character the crafter in crafter mode? (never hunts / levels / supply runs) */
+function crunCrafterMode(me, crafter, cfgOn) { return !!me && me === crafter && cfgOn === true; }
+/** party side: call the runner instead of a supply run? o = { runner, runnerOn, runnerFresh, me, isCrafter, lastCallAt, now, low } */
+function crunCallDecide(o) {
+  if (!o.runnerOn || !o.runner) return { call: false, why: 'no runner set (crafter.json runner / runnerOn)' };
+  if (o.me === o.runner || o.isCrafter) return { call: false, why: 'I am the runner / the crafter' };
+  if (!o.runnerFresh) return { call: false, why: `the runner ${o.runner} is offline` };
+  if (!(o.low && o.low.length)) return { call: false, why: 'nothing low' };
+  if (o.now - (o.lastCallAt || 0) < 20 * 60000) return { call: false, why: 'called less than 20 min ago - waiting for it' };
+  return { call: true, why: `low: ${o.low.slice(0, 3).join(' | ')}` };
+}
+/** runner side: the next party to serve: out of shots first, then the oldest call; stale calls (> 2 h) dropped. calls = [{ party, at, out }] */
+function crunNext(calls, nowMs) {
+  return (calls || []).filter(c => c && c.party && nowMs - (c.at || 0) < 2 * 3600000).sort((a, b) => ((b.out ? 1 : 0) - (a.out ? 1 : 0)) || (a.at - b.at))[0] || null;
+}
+/** may the runner walk to the party itself? (no monster above runner level + 5 there) -> { walkIn, why } */
+function crunMeetDecide(danger, runnerLevel) {
+  const lim = (Number(runnerLevel) || 0) + 5;
+  if (!(danger > lim)) return { walkIn: true, why: `monsters up to ${danger || '?'} (my limit ${lim})` };
+  return { walkIn: false, why: `monsters up to ${danger} there (my limit ${lim}) - the party sends ONE member to me at the landing` };
+}
+/** what a party member hands the runner: loot / materials / letters - never shots, potions, scrolls, coupons, shadow gear, worn or quest items */
+const CRUN_KEEP_RE = /Soulshot|Spiritshot|Potion|Elixir|Antidote|Herb|Scroll|Teleport|Coupon|Shadow Item|Apprentice's|Bandage|Arrow|Bolt|Soul Crystal|Spirit Ore|Soul Ore/i;
+function crunHandRows(bag) { return (bag || []).filter(b => b && Number(b.id) !== 57 && !b.equipped && !b.quest && !CRUN_KEEP_RE.test(String(b.name || ''))); }
+// CRAFTRUN-PURE-END
+const CRUNS = { j: null, chk: 0, lastCallAt: 0, q: [], busy: false, cur: null, state: '' };
+/** Scripts/data/crafter.json (the Crafter page's settings) -> { crafter, bank, runner, runnerOn, pays, prices, cwhWithdraw } */
+function crafterSet() {
+  if (CRUNS.j && now() - CRUNS.chk < 30000) return CRUNS.j;
+  CRUNS.chk = now();
+  let j = {}; try { j = JSON.parse(String(File.ReadAllText(`${__DIR__}\\Scripts\\data\\crafter.json`)).replace(/^﻿/, '')) || {}; } catch (e) { }
+  const nm = (x) => /^[A-Za-z0-9_.-]{1,40}$/.test(String(x || '')) ? String(x) : '';
+  CRUNS.j = { crafter: nm(j.crafter), bank: nm(j.bank) || nm(j.crafter), runner: nm(j.runner), runnerOn: j.runnerOn === true, pays: j.pays && typeof j.pays === 'object' ? j.pays : {}, prices: j.prices && typeof j.prices === 'object' ? j.prices : {}, cwhWithdraw: j.cwhWithdraw !== false };
+  return CRUNS.j;
+}
+/** the clan warehouse worker (A) */
+function cwhWorkerName() { const S = crafterSet(); return crunWorker(S.crafter, S.cwhWithdraw, clanLeaderName()); }
+/** am I the crafter in crafter mode (B)? */
+function crafterModeMe() { try { const S = crafterSet(), c = craftMineCfg(); return crunCrafterMode(String(Me.Name), S.crafter, !!(c && c.on)); } catch (e) { return false; } }
+/** a bank ledger row (A / C / D): the dashboard (crafterpage_api ingest) books it into Scripts/data/crafter_ledger.json */
+function ledgerIn(kind, who, item, count, adena, note) {
+  try { appendShared(SWARM_ROOT + '\\Logs\\crafter_ledger_in.log', JSON.stringify({ at: new Date(now()).toISOString(), kind, who: String(who || Me.Name), item: item || null, count: Math.max(0, Math.round(num(count))), adena: Math.max(0, Math.round(num(adena))), note: String(note || '').slice(0, 160), by: Me.Name }) + '\r\n'); } catch (e) { }
+}
+/** a hand-over order (the HANDOVER machinery) from me to <receiver> -> id */
+function crunOrder(receiver, items, adena, why) {
+  const id = `crun_${String(Me.Name).toLowerCase()}_${Date.now().toString(36)}`;
+  File.WriteAllText(`${HOV_DIR}\\${id}.json`, JSON.stringify({ id, receiver, batch: HOV_CFG.batch, givers: { [Me.Name]: { items: items || [], adena: Math.max(0, Math.round(num(adena))) } }, by: Me.Name, why, kind: 'craftrun', created: new Date(now()).toISOString() }, null, 1));
+  try { App.emit('swarm.hovcall', { id }); } catch (e) { }
+  hovCommand(['!handover', id]);
+  return id;
+}
+async function crunWaitOrder(id, giver, ms) {
+  const t0 = now(); let s = null;
+  while (now() - t0 < (ms || 480000)) { await sleep(4000); try { s = JSON.parse(File.ReadAllText(`${HOV_DIR}\\${id}_${giver}.json`)); } catch (e) { s = null; } if (s && /^(done|failed|stopped)$/.test(String(s.state || ''))) break; }
+  return s;
+}
+// B: the crafter stays in Giran (its town) - once in 10 min back by .giran when it stands idle elsewhere
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || Me.IsDead || !crafterModeMe() || busy() || IsInCombat || tradeState) return;
+    if (currentTownKey() === 'Giran' || now() - (CRUNS.homeAt || 0) < 600000) return;
+    CRUNS.homeAt = now(); note('crafter: back to Giran (crafter mode - I stay in my town)', true);
+    lastTownCmd = 0; townCommand('crafter mode: back to Giran', 'Giran', { only: true }).catch(e => logError('crafter home', e));
+  } catch (e) { logError('crafter home tick', e); }
+}, 30000);
+// D, party side: my members report their shot needs (sn) in swarm.pos; the leader sums them into the runner call
+function crunMyNeeds() { try { return supplyNeeds().filter(n => n.need > 0 && /shot/i.test(String(n.name || ''))).map(n => ({ id: num(n.id), n: Math.round(num(n.need)) })); } catch (e) { return []; } }
+function crunPartyNeeds() {
+  const out = { [Me.Name]: crunMyNeeds() };
+  teamNames().forEach(n => { const lp = livePos[n]; if (lp && Array.isArray(lp.sn) && now() - lp.at < 60000) out[n] = lp.sn.map(r => ({ id: num(r.id), n: num(r.n) })).filter(r => r.id && r.n > 0); });
+  return out;
+}
+/** the supply watch asks this first: true = the runner was called (no supply run) */
+function crunCallRunner(low) {
+  const S = crafterSet(), lp = livePos[S.runner];
+  const d = crunCallDecide({ runner: S.runner, runnerOn: S.runnerOn, runnerFresh: !!(lp && now() - lp.at < 60000), me: Me.Name, isCrafter: Me.Name === S.crafter, lastCallAt: CRUNS.lastCallAt, now: now(), low });
+  if (!d.call) return /called less than/.test(d.why);   // a pending call also holds the supply run
+  CRUNS.lastCallAt = now();
+  const needs = crunPartyNeeds(), out = Object.values(needs).some(L => L.some(r => r.n > 0)) && low.some(l => /shot[^|]*\b0\b/i.test(l));
+  App.emit('swarm.runner.call', { party: Me.Name, needs, out, x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), at: now() });
+  note(`supply: the runner ${S.runner} was called (${d.why}) - we keep hunting here`, true);
+  return true;
+}
+// D, runner side: the queue of calls, one party at a time
+App.on('swarm.runner.call', (e) => {
+  try {
+    const d = e.data || {}; if (String(Me.Name) !== crafterSet().runner || !d.party) return;
+    CRUNS.q = CRUNS.q.filter(c => c.party !== d.party).concat([Object.assign({}, d, { at: now() })]);
+    note(`runner: ${d.party} called me (${CRUNS.q.length} in my queue)`, true);
+  } catch (er) { }
+});
+// D, party side: the runner is here -> each member hands its loot / materials / letters; the leader also pays the shots
+App.on('swarm.runner.here', (e) => {
+  try {
+    const d = e.data || {}; if (d.party !== CONFIG.leader || d.runner === Me.Name) return;
+    if (d.meet && d.meet !== Me.Name && !(isLeader() && d.payer === Me.Name)) return;   // a far meeting: only the one member that walks over
+    (async () => {
+      if (d.meet === Me.Name && d.x) { note(`runner: walking to ${d.runner} at the landing`, true); try { await walkTo(d.x, d.y, d.z, 300, 240000); } catch (er) { } }
+      const rows = crunHandRows(hovBag()).map(b => ({ objId: b.objId, id: b.id, name: b.name, count: b.count, stack: b.count > 1 }));
+      const pay = Me.Name === d.payer ? num(d.pay) : 0;
+      if (!rows.length && !(pay > 0)) return;
+      const id = crunOrder(d.runner, rows, Math.min(pay, itemCount(57)), `the runner collects (${rows.length} kinds${pay ? ', shots ' + pay + ' adena' : ''})`);
+      note(`runner: ${rows.length} kinds${pay ? ' + ' + pay + ' adena' : ''} to ${d.runner} (hand-over ${id})`, true);
+    })().catch(er => logError('runner here', er));
+  } catch (er) { }
+});
+async function crunServe(c) {
+  const S = crafterSet(); CRUNS.cur = c.party;
+  const say = (t) => { CRUNS.state = t; note(`runner: ${t}`, true); };
+  try {
+    const want = {}; Object.values(c.needs || {}).forEach(L => (L || []).forEach(r => { want[r.id] = (want[r.id] || 0) + num(r.n); }));
+    const ids = Object.keys(want).map(Number).filter(id => want[id] > 0);
+    // 1. the shots from the crafter, in Giran
+    if (ids.length && S.crafter && S.crafter !== Me.Name) {
+      if (currentTownKey() !== 'Giran') { lastTownCmd = 0; if (!(await townCommand('runner: shots from the crafter', 'Giran', { only: true }))) return say(`could not get to Giran (${gkFail || '?'}) - ${c.party} waits`); }
+      say(`asking ${S.crafter} for ${ids.map(id => want[id] + 'x' + id).join(', ')}`);
+      App.emit('swarm.runner.stock', { runner: Me.Name, crafter: S.crafter, want });
+      const t0 = now(); while (now() - t0 < 300000 && ids.some(id => itemCount(id) < want[id])) await sleep(5000);
+    }
+    // 2. to the party (fight off what attacks me, never port in combat: townCommand / FIGHTOFF)
+    const danger = dangerAt(num(c.x), num(c.y), 1500, num(c.z)), m = crunMeetDecide(danger, num(Me.Level));
+    say(`to ${c.party} (${m.why})`);
+    const tp = await teleportNear(num(c.x), num(c.y), `runner to ${c.party}`).catch(() => false);
+    if (m.walkIn) { try { await walkTo(num(c.x), num(c.y), num(c.z), 600, 300000); } catch (e) { } }
+    // 3. the hand-overs: each member gets its shots, pays to me (the leader), hands me its loot
+    const lp = livePos[c.party], pay = crunPay(Object.values(c.needs || {}).flat().map(r => ({ id: r.id, n: Math.min(num(r.n), itemCount(r.id)) })), S.prices);
+    const payer = S.pays[c.party] === false ? '' : c.party;
+    App.emit('swarm.runner.here', { runner: Me.Name, party: c.party, payer, pay: payer ? pay : 0, meet: m.walkIn ? '' : crunMeetMember(c.party), x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z) });
+    const given = [];
+    for (const [who, L] of Object.entries(c.needs || {})) {
+      const items = (L || []).map(r => { const row = hovBag().find(b => b.id === num(r.id) && !b.equipped); return row ? { objId: row.objId, id: row.id, name: row.name, count: Math.min(num(r.n), row.count), stack: true } : null; }).filter(Boolean).filter(x => x.count > 0);
+      if (!items.length) continue;
+      const id = crunOrder(who, items, 0, `the runner brings shots for ${c.party}`); const s = await crunWaitOrder(id, Me.Name, 300000);
+      if (s && s.state === 'done') items.forEach(x => given.push({ id: x.id, n: x.count, who }));
+    }
+    const t1 = now(); while (now() - t1 < 120000 && (typeof HOV !== 'undefined' && HOV.busy)) await sleep(3000);
+    if (given.length && payer) ledgerIn('sale', c.party, null, given.reduce((s, g) => s + g.n, 0), crunPay(given, S.prices), `runner ${Me.Name}: ${given.map(g => g.n + 'x' + g.id + ' ' + g.who).join(', ')}`.slice(0, 160));
+    // 4. back to Giran: everything I collected (not my own supplies) + the payment to the crafter / bank
+    lastTownCmd = 0; await townCommand('runner: back to the crafter', 'Giran', { only: true }).catch(() => false);
+    const rows = crunHandRows(hovBag()).map(b => ({ objId: b.objId, id: b.id, name: b.name, count: b.count, stack: b.count > 1 }));
+    const keepAdena = 10000000, give = Math.max(0, itemCount(57) - keepAdena);
+    if ((rows.length || give > 0) && S.bank && S.bank !== Me.Name) { const id = crunOrder(S.bank, rows, give, `the runner brings ${c.party}'s loot + payment`); await crunWaitOrder(id, Me.Name, 600000); }
+    say(`done with ${c.party}: ${given.length} shot hand-overs, ${rows.length} kinds + ${give} adena to ${S.bank}`);
+  } finally { CRUNS.cur = null; }
+}
+/** the member that walks to the runner at a dangerous spot: the first teammate that is not a healer (else the leader) */
+function crunMeetMember(party) { const lp = livePos[party]; const mates = Object.keys(livePos).filter(n => { const p = livePos[n]; return p && p.lead === party && now() - p.at < 60000 && n !== party; }); return mates.find(n => !/heal|bishop|elder|saint|oracle|cardinal|eva|shillien/i.test(String((livePos[n] || {}).role || ''))) || party; }
+// the crafter answers the runner's stock request (hands the shots over in Giran)
+App.on('swarm.runner.stock', (e) => {
+  try {
+    const d = e.data || {}; if (d.crafter !== Me.Name) return;
+    const items = Object.keys(d.want || {}).map(Number).map(id => { const row = hovBag().find(b => b.id === id && !b.equipped); return row ? { objId: row.objId, id, name: row.name, count: Math.min(num(d.want[id]), row.count), stack: true } : null; }).filter(Boolean);
+    if (!items.length) { note(`crafter: the runner wants shots I do not have (${Object.keys(d.want || {}).join(', ')})`, true); return; }
+    crunOrder(d.runner, items, 0, 'shots for the runner');
+  } catch (er) { }
+});
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || Me.IsDead || CRUNS.busy) return;
+    const S = crafterSet(); if (!S.runnerOn || Me.Name !== S.runner) return;
+    const c = crunNext(CRUNS.q, now()); if (!c) { CRUNS.state = 'waiting for calls'; return; }
+    if (busy() || IsInCombat || tradeState || (typeof HOV !== 'undefined' && HOV.busy)) return;
+    CRUNS.busy = true; CRUNS.q = CRUNS.q.filter(x => x !== c);
+    crunServe(c).catch(e => logError('runner serve', e)).finally(() => { CRUNS.busy = false; });
+  } catch (e) { logError('runner tick', e); }
+}, 10000);
+// the runner's state for the Crafter page
+setInterval(() => { try { const S = crafterSet(); if (Me.Name !== S.runner) return; File.WriteAllText(SWARM_ROOT + '\\Logs\\runner_state.json', JSON.stringify({ name: Me.Name, on: S.runnerOn, at: new Date(now()).toISOString(), state: CRUNS.state, cur: CRUNS.cur, queue: CRUNS.q.map(c => ({ party: c.party, out: !!c.out, at: new Date(c.at).toISOString() })), x: Math.round(Me.X), y: Math.round(Me.Y), town: currentTownKey() || '' })); } catch (e) { } }, 15000);
 function craftBag() { const b = {}; try { Inventory.forEach(it => { const id = num(it.Id); b[id] = (b[id] || 0) + Math.max(1, num(it.Count)); }); } catch (e) { } return b; }
 function craftUsageFile() { return `${SWARM_ROOT}\\Logs\\crafter_usage_${Me.Name}.json`; }
 function craftUsed() { try { const j = JSON.parse(File.ReadAllText(craftUsageFile())); if (j.day === craftDay(new Date())) return j.used || {}; } catch (e) { } return {}; }
@@ -25131,6 +26007,16 @@ async function crafterSupplyStep(total, runId) {
     if (s && /^(done|failed|stopped)$/.test(String(s.state || ''))) break;
   }
   const got = sp.take.map(t => ({ name: t.name, n: Math.max(0, itemCount(t.id) - before[t.id]) })).filter(x => x.n > 0);
+  // CRAFTRUN C (owner: "the price should be normal cost ... Crafter1 will be the clan bank"): the party leader pays the NPC price to the bank
+  try {
+    const S = crafterSet(), paid = sp.take.map(t => ({ id: t.id, n: Math.max(0, itemCount(t.id) - before[t.id]) })).filter(x => x.n > 0);
+    const pay = S.pays[Me.Name] === false ? 0 : crunPay(paid, S.prices);
+    if (pay > 0 && S.bank && S.bank !== Me.Name && itemCount(57) >= pay) {
+      const pid = crunOrder(S.bank, [], pay, `pays the clan bank for ${paid.map(x => x.n + 'x' + x.id).join(', ')}`);
+      ledgerIn('sale', Me.Name, null, paid.reduce((a, x) => a + x.n, 0), pay, `supply run: ${paid.map(x => x.n + 'x' + x.id).join(', ')} from ${crafter} (hand-over ${pid})`.slice(0, 160));
+      note(`[supply] paid ${pay} adena to the clan bank ${S.bank} for the crafter's shots`, true);
+    }
+  } catch (e) { logError('crafter pay', e); }
   const m = got.length ? `got ${got.map(x => `${craftFmt(x.n)} ${x.name}`).join(', ')} from ${crafter}` : `${crafter} gave nothing (${(s && (s.msg || s.state)) || 'no answer in 8 min'}) — buying everything`;
   intentDone('craftsupply', got.length > 0, m); craftLog(`supply for ${Me.Name}: ${m}`); note(`[supply] ${m}`, true);
   return m;
@@ -25348,6 +26234,7 @@ async function cryRun(p) {
       if (gone) {
         res.done.push({ name: nm, grade: j.grade, got, expect: j.crystals }); res.got[j.grade] = (res.got[j.grade] || 0) + got;
         cryLog(`crystallized ${nm} (${j.grade}) -> ${got} ${j.grade} crystals (expected ${j.crystals}) via ${via}`);
+        ledgerIn('cry', Me.Name, null, got, 0, `${nm} -> ${got} ${j.grade} crystals`);   // CRAFTRUN A
         if (got !== j.crystals) cryLog(`  note: got ${got}, the datapack says ${j.crystals}${got === 0 ? ' — the crystals did not show up (yet)' : ''}`);
       } else {
         const sm = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text || '').slice(0, 140) : '';
@@ -25372,6 +26259,38 @@ function cryCommand(parts) {
   if (p.err) { note(`[crystallize] ${p.err} — use "!crystallize <name> <objId,objId,...> [enchanted] [special]" (the Storage page sends it)`, true); return; }
   cryRun(p).then(r => note(`[crystallize] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!crystallize', e));
 }
+// CRYMARK-2026-11-01 (owner: "if I'm on a Bounty Hunter that has the crystallize ability I can't select items from its inventory to auto crystallize.
+// There is no reason for them to keep it, it should be crystallized"): every character WITH Crystallize (248) crystallizes the item kinds marked for
+// it (Scripts/data/crystallize_marks.json chars.<Name> + all; dashboard character page) from its own bag - idle, out of combat (combatInfo), never in
+// a raid / trade / NPC dialog / escape; worn, enchanted (so never +10), special (S.A. / augmented / untradeable) and quest pieces never (cryBlock
+// without ticks); a grade above its Crystallize level never; up to 3 pieces per round, a round at most every 15 s (cryRun: Logs/crystallize.log + ledger)
+// CRYMARK-PURE-BEGIN
+/** marks { chars, all } + my name -> Set of marked item ids */
+function crymarkIds(m, me) { const s = new Set(); ((m && m.all) || []).forEach(x => s.add(Number(x))); (((m && m.chars) || {})[me] || []).forEach(x => s.add(Number(x))); return s; }
+/** judged bag rows (cryJudge) of the marked kinds -> up to max objIds that may go now (cryBlock with NO ticks: not enchanted / special / worn / quest) */
+function crymarkPick(judged, max) { return (judged || []).filter(j => j && !cryBlock(j, {}) && !j.special.length && !(j.enchant > 0)).slice(0, max || 3).map(j => j.objId); }
+// CRYMARK-PURE-END
+const CRYM = { j: null, stamp: '', chk: 0, at: 0 };
+function cryMarks() {
+  if (CRYM.j && now() - CRYM.chk < 15000) return CRYM.j;
+  CRYM.chk = now();
+  try { const F = `${__SCRIPTS__}\\data\\crystallize_marks.json`, st = fileStamp(F); if (!st) { CRYM.j = { chars: {}, all: [] }; CRYM.stamp = ''; } else if (st !== CRYM.stamp) { CRYM.j = JSON.parse(String(File.ReadAllText(F)).replace(/^﻿/, '')); CRYM.stamp = st; } } catch (e) { if (!CRYM.j) CRYM.j = { chars: {}, all: [] }; }
+  return CRYM.j;
+}
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || Me.IsDead || CRY.busy || now() - scriptStartAt < 90000 || now() - CRYM.at < 15000) return;
+    const skill = stashSkillLvl(248); if (skill <= 0) return;
+    const ids = crymarkIds(cryMarks(), Me.Name); if (!ids.size) return;
+    if (cryBusyWhy() || combatInfo().in || inRaid() || state.npcBusy || state.gkBusy || state.bbsBusy || ESC.on) return;
+    const D = cryData(), NT = hovNotrade(), judged = [];
+    Inventory.forEach(it => { const r = cryRowOf(it); if (ids.has(r.id)) judged.push(cryJudge(r, D.crystal[r.id], { skillLvl: skill, notrade: NT })); });
+    const pick = crymarkPick(judged, 3); if (!pick.length) return;
+    CRYM.at = now();
+    cryLog(`auto (marked kinds): ${pick.length} piece(s)`);
+    cryRun({ ids: pick, enchanted: false, special: false }).then(r => { if (r && r.done && r.done.length) note(`[crystallize] marked: ${r.msg}`.slice(0, 300)); }).catch(e => logError('crymark', e));
+  } catch (e) { logError('crymark tick', e); }
+}, 5000);
 // CRYQUEUE-2026-10-15 (owner: "under Storage select items I want crystallized", "not hard coded for my characters"): the Storage page's clan warehouse
 // list -> "Take out and crystallize" writes Scripts/data/crystallize_queue.json { orders: [{ id, crafter, items: [{ id, count, name }], enchanted, at }] }
 // and the clan leader takes those kinds out for the crafter. THE CRAFTER (whoever the order names) crystallizes exactly those kinds - up to the counts -
@@ -25465,10 +26384,10 @@ function crinPendStop(id) {
 /** !whtake <id>[:count],<id>[:count] [private|clan] [name] */
 function whCommand(parts) {
   const p = whParse(parts.slice(1));
-  const forMe = !p.name || p.name.toLowerCase() === String(Me.Name).toLowerCase(), iAmCL = Me.Name === clanLeaderName();
+  const forMe = !p.name || p.name.toLowerCase() === String(Me.Name).toLowerCase(), iAmCL = Me.Name === clanLeaderName() || Me.Name === cwhWorkerName();   // CRAFTRUN A
   if (p.err) { if (forMe) note('whtake: ' + p.err + ' — use "!whtake <id>[:count],<id>[:count] [private|clan] [name]"', true); return; }
   if (p.kind === 'clan') {
-    if (iAmCL) { whClanFor(p.name || Me.Name, p.items, 'order').catch(e => logError('!whtake', e)); return; }
+    if (iAmCL && (Me.Name === cwhWorkerName() || String(p.name || '').toLowerCase() !== cwhWorkerName().toLowerCase())) { whClanFor(p.name || Me.Name, p.items, 'order').catch(e => logError('!whtake', e)); return; }   // CRAFTRUN A: an order for the worker = the worker itself
     if (!forMe) return;
     try { App.emit('swarm.whtake.ask', { from: Me.Name, items: p.items, at: now() }); } catch (e) { }
     note('whtake: asked the clan leader ' + clanLeaderName() + ' for ' + p.items.map(i => i.id + (i.count === 1 ? '' : ':' + i.count)).join(',') + ' from the clan warehouse (he takes it and trades it to me)', true);
@@ -25565,7 +26484,8 @@ function clanSkillCheck(o) {
 function clanSkillPrecheck() {
   if (!myClanName() && !myClanId()) return { ok: false, f: null, msg: 'no clan' };
   const cfg = clanCfg() || { clan: {} }, skills = clanData().skills || [], have = {};
-  skills.forEach(k => (k.items || []).forEach(i => { if (have[i.id] == null) have[i.id] = itemCount(num(i.id)); }));
+  // SKILLWH-2026-10-30 (owner: fix 'learning a clan skill with items from the clan warehouse'): the clan warehouse counts as well (the leader takes them out)
+  skills.forEach(k => (k.items || []).forEach(i => { if (have[i.id] == null) have[i.id] = itemCount(num(i.id)) + (typeof gdClanCount === 'function' ? gdClanCount(num(i.id)) : 0); }));
   return clanSkillCheck({ skills, learned: clanSkillsLearned(), clvl: clanLevelNow(), focus: cfg.clan && cfg.clan.skillFocus, autoFocus: clanAutoFlag('skillFocus', true),
     rep: clanIntel.at ? num(clanIntel.rep) : null, have });
 }
@@ -25809,6 +26729,119 @@ async function villageMasterClick(npc, want, label) {
   }
   return { ok: false, msg: `${nm}: no "${label}" link within 6 pages` };
 }
+// L2DAY-PURE (owner 2026-10-31: "I need a Way for Me to deliver the letters for the npc i giran town square ... x1, x5, x10 ... Queue x amount of
+// deliveries ... based on how many we have"; requirement docs/requirements/l2day.md, test test_l2day.js). Louie the Cat (Event Manager, Giran square
+// 82153,148390) page (Logs/npclive_Louie_the_Cat_*.html): one table row per word: "<word>" (= x1) | "x5" | "x10".
+const L2DAY_LETTER = { A: 3875, C: 3876, E: 3877, F: 3878, G: 3879, H: 3880, I: 3881, L: 3882, N: 3883, O: 3884, R: 3885, S: 3886, T: 3887, II: 3888 };
+const L2DAY_WORDS = { LineageII: ['L', 'I', 'N', 'E', 'A', 'G', 'E', 'II'], LIIToggle: ['L', 'II', 'T', 'O', 'G', 'G', 'L', 'E'], NCSoft: ['N', 'C', 'S', 'O', 'F', 'T'], Throne: ['T', 'H', 'R', 'O', 'N', 'E'] };
+const L2DAY_MULT = { x1: 1, x5: 5, x10: 10 };
+/** the word as the NPC writes it ('lineageii' -> 'LineageII'), null = unknown */
+function l2dayWord(w) { const k = Object.keys(L2DAY_WORDS).find(x => x.toLowerCase() === String(w || '').toLowerCase()); return k || null; }
+/** letters for <units> words: { itemId: count } */
+function l2dayNeed(word, units) { const out = {}, u = Math.max(0, Math.floor(Number(units) || 0)); (L2DAY_WORDS[word] || []).forEach(l => { const id = L2DAY_LETTER[l]; out[id] = (out[id] || 0) + u; }); return out; }
+/** how many single words (x1 units) the stock { itemId: count } makes */
+function l2dayPossible(stock, word) {
+  const need = l2dayNeed(word, 1), ids = Object.keys(need); if (!ids.length) return 0;
+  return ids.reduce((m, id) => Math.min(m, Math.floor((Number((stock || {})[id]) || 0) / need[id])), Infinity);
+}
+/** bag diff around one exchange: before / after = bagCounts() maps ({ id: count, 'n'+id: name }) -> { got: [{ id, name, count }], used: [...] } */
+function l2dayDiff(before, after) {
+  const b = before || {}, a = after || {}, ids = [...new Set(Object.keys(b).concat(Object.keys(a)).filter(k => /^\d+$/.test(k)))], got = [], used = [];
+  ids.forEach(id => { const d = (Number(a[id]) || 0) - (Number(b[id]) || 0), name = String(a['n' + id] || b['n' + id] || id);
+    if (d > 0) got.push({ id: Number(id), name, count: d }); else if (d < 0) used.push({ id: Number(id), name, count: -d }); });
+  return { got, used };
+}
+/** the link for word + multiplier in the page's rows (rows = [[{ text, cmd }, ...], ...]): the row whose first link is the word; x1 = that link,
+ *  x5 / x10 = the link with that text IN THAT ROW (the x5 / x10 texts repeat in every row) */
+function l2dayLink(rows, word, mult) {
+  const row = (rows || []).find(r => r && r[0] && String(r[0].text).trim().toLowerCase() === String(word).toLowerCase()); if (!row) return null;
+  if (!mult || mult === 'x1') return row[0];
+  return row.find(l => String(l.text).trim().toLowerCase() === String(mult).toLowerCase()) || null;
+}
+// L2DAY-PURE-END
+var L2DAY = { busy: false, pending: [] };
+/** L2DAY: the letters collector exchanges <times> × <word> at <mult> at Louie the Cat. Letters missing in the bag come out of the clan warehouse
+ *  first (he is the clan leader), every exchange is logged with its bag diff (Logs/l2day_rewards.log, one JSON line) and the run in
+ *  Logs/l2day_state.json. Stops when the letters run out, the server answers with no change (refused) or a newer owner order comes. */
+async function l2dayRun(wordIn, timesIn, multIn, seq) {
+  const W = l2dayWord(wordIn), mult = L2DAY_MULT[String(multIn || 'x1').toLowerCase()] ? String(multIn || 'x1').toLowerCase() : 'x1', M = L2DAY_MULT[mult];
+  const times = Math.max(1, Math.min(500, Math.floor(Number(timesIn) || 1)));
+  const STF = `${SWARM_ROOT}\\Logs\\l2day_state.json`, LOGF = `${SWARM_ROOT}\\Logs\\l2day_rewards.log`;
+  const st = { word: W || String(wordIn || ''), mult, times, done: 0, state: 'running', msg: '', startedAt: new Date().toISOString(), got: {} };
+  const save = () => { try { File.WriteAllText(STF, JSON.stringify(Object.assign(st, { at: new Date().toISOString(), pending: L2DAY.pending.map(p => `${p.word} ${p.times} ${p.mult || 'x1'}`) }))); } catch (e) { } };
+  const end = (state, msg) => { st.state = state; st.msg = String(msg || '').slice(0, 200); save(); note(`[l2day] ${st.word} ${mult}: ${st.done}/${times} done — ${st.msg}`, true); return `${st.done}/${times} done — ${st.msg}`; };
+  if (!W) return end('failed', 'unknown word (LineageII | LIIToggle | NCSoft | Throne)');
+  if (orderReplaced(seq)) return end('stopped', 'a newer order came before it started');
+  save();
+  if (!ijInGiran()) return end('failed', 'not in Giran');
+  // letters for the whole run: what the bag lacks comes out of the clan warehouse (Taurin) first
+  const need = l2dayNeed(W, M * times), bc0 = bagCounts();
+  const miss = Object.keys(need).map(id => ({ id: num(id), count: Math.max(0, need[id] - (num(bc0[id]) || 0)) })).filter(x => x.count > 0);
+  if (miss.length) {
+    st.msg = `taking ${miss.reduce((a, x) => a + x.count, 0)} letters out of the clan warehouse`; save();
+    try { const r = await whTake('clan', miss, `L2Day ${W} ${mult} x${times}`, {}); st.whTake = String((r && r.msg) || '').slice(0, 160); } catch (e) { logError('l2day whTake', e); }
+  }
+  const can = Math.floor(l2dayPossible(bagCounts(), W) / M);
+  if (can < 1) return end('failed', `not enough letters for one ${W} ${mult}`);
+  const n = Math.min(times, can); if (n < times) st.msg = `letters for ${n} of ${times}`;
+  const louie = () => { let r = null; try { snapNpcs().forEach(x => { if (!r && String(x.Name) === 'Louie the Cat') r = x.ref; }); } catch (e) { } return r; };
+  for (let i = 0; i < n; i++) {
+    if (orderReplaced(seq)) return end('stopped', 'a newer order came');
+    let npc = louie();
+    // Giran: only the recorded routes (to the route point nearest the square); openNpc then walks right in front of him (CLAUDE.md rule 0)
+    if (!npc) { try { const pl = giranPlaceNear(82153, 148390); await ijGiranGo(pl && pl.d < 1500 ? pl.pl : 'start'); } catch (e) { } npc = louie(); }
+    if (!npc) return end('failed', 'Louie the Cat is not in sight');
+    const html = await openNpc(npc); if (!html) return end('failed', 'Louie the Cat did not answer');
+    try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\l2day_page.html`, String(html)); } catch (e) { }
+    const rows = String(html).split(/<tr\b/i).slice(1).map(r => npcLinks(r));
+    const link = l2dayLink(rows, W, mult); if (!link) return end('failed', `no "${W}" ${mult} link on Louie's page`);
+    const b0 = bagCounts(), t0 = now();
+    try { await dlgPage(link, 5000, 'Louie the Cat'); } catch (e) { }
+    await sleep(2500);
+    const d = l2dayDiff(b0, bagCounts()), said = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text).slice(0, 160) : '';
+    try { appendShared(LOGF, JSON.stringify({ at: new Date().toISOString(), by: Me.Name, word: W, mult, used: d.used, rewards: d.got, msg: said }) + '\r\n'); } catch (e) { }
+    if (!d.got.length && !d.used.length) return end('failed', `no change in the bag - the server refused${said ? ': ' + said : ''}`);
+    d.got.forEach(g => { st.got[g.name] = (st.got[g.name] || 0) + g.count; });
+    st.done++; save();
+  }
+  return end('done', n < times ? `letters only for ${n} of ${times}` : 'finished');
+}
+// CLANUNIT-2026-10-30 (owner: "So we are missing the sub units in order to put more clan members in" / "It should create the royal Guards inside
+// the clan page"): "!clanunit guard|knight <name> <captain>" (clan leader) = village master -> Clan. -> "Manage Guards." / "Manage Knights." ->
+// the create link -> the form: the bypass with $edit vars gets the name (first var) + the captain (second var). Every page is saved
+// (Logs/clan_page_unit_<npc>_<n>.html) and the server's answer goes to Logs/clan.log + party chat.
+async function clanUnitCreate(kind, name, captain) {
+  if (!/^[A-Za-z0-9]{2,16}$/.test(String(name || ''))) return 'name: 2-16 letters / digits, no spaces';
+  const manage = kind === 'knight' ? /manage knights|order of knights|knight/i : /manage (royal )?guards|royal guard/i;
+  return await atVillageMaster('create ' + kind, async (npc) => {
+    const a = await villageMasterClick(npc, [manage], 'unit'); if (!a.ok) { clanLog(a.msg); return null; }
+    let html = a.html; const nm = String(npc.Name);
+    for (let i = 0; i < 4 && html; i++) {
+      a.save(html);
+      const H = String(html), text = htmlText(H);
+      const edits = []; { const re = /<edit\b[^>]*var="([^"]+)"/gi; let m; while ((m = re.exec(H))) edits.push(m[1]); }
+      const L = npcLinks(H).concat((() => { const o = []; const re = /<button[^>]*value="([^"]*)"[^>]*action="bypass\s+([^"]+)"|<button[^>]*action="bypass\s+([^"]+)"[^>]*value="([^"]*)"/gi; let m; while ((m = re.exec(H))) o.push({ text: m[1] || m[4] || '', cmd: m[2] || m[3] || '' }); return o; })());
+      const form = edits.length ? L.find(l => edits.some(v => l.cmd.includes('$' + v))) : null;
+      if (form) {
+        // UNITFORM-2026-10-30 (Gesto 18:31: the button is 'bypass -h 00 $master_name $pledge_name' - captain FIRST; by position the server got
+        // captain 'LegionAegis' + name 'Destroyer7' and ignored it): each $var by its name (master / leader / captain = the captain, else the unit name),
+        // the '-h ' cleaned off like every other link (cleanBypass)
+        let cmd = cleanBypass(form.cmd); const vars = (cmd.match(/\$\w+/g) || []);
+        vars.forEach(v => { cmd = cmd.split(v).join(/master|leader|captain|chief/i.test(v) ? (captain || '') : name); });
+        clanLog(`${nm}: create ${kind} "${name}" captain ${captain || '-'} (button "${form.text}", bypass "${cmd}")`);
+        const t0 = now(), seen = []; Send.ReqBypassToServer(cmd, true);
+        await DLG.effect({ check: () => { if (lastSysMsg && lastSysMsg.at >= t0 && !seen.includes(lastSysMsg.text)) seen.push(lastSysMsg.text); return seen.length > 0; }, base: 8000, label: `${nm}: create ${kind}` });
+        await sleep(1500); try { await clanIntelRequest('after creating a ' + kind); } catch (e) { }
+        const said = seen.join(' | ').slice(0, 300) || 'no answer from the server';
+        clanLog(`create ${kind} "${name}" at ${nm}: ${said}`); return `${kind} "${name}": ${said}`;
+      }
+      const next = L.find(l => /create|establish|found/i.test(l.text) && !/clan$/i.test(l.text));
+      if (!next) { clanLog(`${nm}: unit page ${i} has no create link - ${L.map(l => l.text).join(' | ').slice(0, 300)} - text: ${text.slice(0, 200)}`); return `${nm}: no create link on the ${kind} page (see Logs/clan_page_unit_*.html)`; }
+      clanLog(`${nm}: unit page ${i}: click "${next.text}"`); html = await dlgPage(next, 6000, nm); await sleep(500);
+    }
+    return `${nm}: did not reach the ${kind} form`;
+  });
+}
 /** The safe trip to a village master (as the clan founding): stop leveling, here or Giran (Gesto / Kusto / Angus), run fn(npc). */
 async function atVillageMaster(why, fn) {
   const gen = takeControl(why, PRIO.ORDER);
@@ -25841,10 +26874,13 @@ async function atVillageMaster(why, fn) {
     releaseControl(why);
   }
 }
-async function clanLevelUp(why) {
+async function clanLevelUp(why, tryAnyway) {
   const N = clanLevelNeeds();
   if (!N) return 'not in a clan';
-  if (!N.ok) { const m = `clan level ${N.level} -> ${N.next || '?'}: missing ${N.missing.join('; ')}`; clanLog(m); return m; }
+  // CLANTRY-2026-10-30 (owner: "Yes try clan lvl 7" - our datapack says 50 members, the owner's table 40+): "!clanlevel try" asks the village master
+  // even when OUR check says something is missing; the server decides (a refusal costs nothing and its message tells the real rule)
+  if (!N.ok && tryAnyway) clanLog(`clan level ${N.level} -> ${N.next}: our check says missing ${N.missing.join('; ')} - trying anyway (owner's order)`);
+  if (!N.ok && !tryAnyway) { const m = `clan level ${N.level} -> ${N.next || '?'}: missing ${N.missing.join('; ')}`; clanLog(m); return m; }
   clanLog(`clan level ${N.level} -> ${N.next} (${why}): everything there — going to a village master`);
   const before = N.level, spBefore = num(Me.SP || 0), spNeed = num(N.sp && N.sp.need), itemsBefore = (N.items || []).map(i => ({ id: i.id, have: itemCount(i.id), need: i.need }));
   const r = await atVillageMaster('clan level up', async (npc) => {
@@ -26131,6 +27167,10 @@ setInterval(() => {
   try {
     if (!IsCharacterReady() || !Me.Name || now() - scriptStartAt < 240000 + clanPhase()) return;          // after the character-list capture (first 3 min) + my CLANSHARE phase
     if (!myClanId() && !myClanName()) { if (clanIntel.at) Object.assign(clanIntel, { id: 0, name: '', leader: '', members: [], at: 0 }); return; }
+    // CLANDUP-2026-10-30 (owner's clan window: LegionAegis 9/9 with Nuker4 / Nuker2 / Nuker3 twice, main clan 80/80): every '4D' clan list
+    // request on a character played in the game client (In-game) makes the server re-send the member lists, and the client ADDS them to its
+    // window. A hand-played (In-game) character never asks; the out-of-game characters (the clan leader) keep the data fresh.
+    try { const m = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Settings\\client_mode.json`)).replace(/^﻿/, '')) || {}; if (String(m[Me.Name] || '').toLowerCase() === 'ingame') return; } catch (e) { }
     if (now() - clanIntel.asked > 600000 || (clanIntel.id && myClanId() && clanIntel.id !== myClanId())) { if (clanAdoptShared()) return; clanIntelRequest('every 10 min').catch(() => { }); }
   } catch (e) { }
 }, 30000);
@@ -26158,6 +27198,17 @@ async function ccInviteAll(leaders, why) {
   }
   return `CC (${right}): ${out.join('; ')}`;
 }
+/** CLANALLOWREAD-2026-11-01 ("allowed on the server list: none | NOT on it: Crafter1" although the page listed Bishop1, Inspector1, Crafter1): the
+ *  names on the ".clan allowh" -> "List given" page = every table cell text that is a character name in a row with a "Remove" button */
+function clanAllowNames(html) {
+  const out = [];
+  String(html || '').split(/<tr[^>]*>/i).forEach(row => {
+    if (!/value="Remove"/i.test(row)) return;
+    const cells = [...row.matchAll(/<td[^>]*>([^<]*)<\/td>/gi)].map(m => m[1].trim()).filter(t => /^[A-Za-z0-9_\-]{2,40}$/.test(t));
+    if (cells.length) out.push(cells[0]);
+  });
+  return out;
+}
 function clanLog(msg) { try { appendShared(`${__DIR__}\\Logs\\clan.log`, `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`); } catch (e) { } }
 // the clan leader: found the clan in a town when there is none (max 3 tries a day), invite teammates standing next to him
 setInterval(async () => {
@@ -26172,25 +27223,31 @@ setInterval(async () => {
     }
     const mine = myClanName(); if (!mine || now() - clanRun.lastInvite < CLAN.inviteGapMs) return;
     const members = Object.keys(clanSeen).filter(n => clanSeen[n].clan === mine && now() - clanSeen[n].at < 180000).length + 1;
-    const isAcad = (n) => !!(CONFIG.academy && CONFIG.academy[n]);
+    // ACADEMYAUTO-2026-10-30 (owner: "academy should ... auto invite new academy toons automatically as we talked about"): besides the accounts'
+    // academy flag, every roster character below level 40 (before its 2nd class change) is an Academy candidate, no tick needed (switch
+    // "academyAuto" on the Clan tab, default ON)
+    const acadAuto = clanAutoFlag('academyAuto', true);
+    const isAcad = (n) => !!(CONFIG.academy && CONFIG.academy[n]) || (acadAuto && livePos[n] && num(livePos[n].lvl || 0) > 0 && num(livePos[n].lvl) < 40);
     // CLANAUTO 2026-10-12: L2Swarm reports Me.Clan.Level 0 (MyClan is 2) -> the limit came out as 10; the clan intel has the real level + members
     const clvlNow = clanLevelNow(), memNow = (clanIntel.at && now() - num(clanIntel.at) < 1800000 && clanIntel.members.length) ? clanIntel.members.length : members;
     const full = memNow >= CLAN.limits[Math.min(clvlNow, CLAN.limits.length - 1)] || now() < CLANAUTO.inviteFullUntil;
     const shadedTeam = (n) => teamOf(n) === (CONFIG.mainLeader || CONFIG.leader) ? 0 : 1;   // main party first (was 'Tank1')
     // WHO GETS INVITED (user 2026-10-10: "why did it invite all the others?" -> "option 1, so I control who gets invited"): only the names
     // ticked on the dashboard Clan tab (clan_quests.json clan.inviteAllow, read live); no list = nobody is invited
+    // CLANUNIT: a created squad with a free place (clan intel units: type 100/200 Royal Guard 20, 1001/1002/2001/2002 Knights 10 (25 at clan level 9+))
+    const unitRoom = () => { try { const U = (clanInfo() && clanInfo().units) || []; const cap = (ty) => ty === 100 || ty === 200 ? (clvlNow >= 11 ? 30 : 20) : ty > 1000 ? (clvlNow >= 9 ? 25 : 10) : 0; const u = U.find(x => cap(num(x.type)) > 0 && num(x.n) < cap(num(x.type))); return u ? num(u.type) : 0; } catch (e) { return 0; } };
     const allow = new Set(((cfg.clan && cfg.clan.inviteAllow) || []).map(String));
     const allowParties = new Set(((cfg.clan && cfg.clan.inviteParties) || []).map(String));   // CLANAUTO: a ticked PARTY = its current and future members
     if (!clanAutoFlag('invite', true)) { clanAutoNote('invite', 'invites are switched off on the Clan tab'); return; }
     if (!allow.size && !allowParties.size) { clanAutoNote('invite', 'nobody is ticked to be invited'); return; }
     if (full) clanAutoNote('invite', now() < CLANAUTO.inviteFullUntil ? 'the server said the clan is full — waiting' : `the clan is full (${memNow} members at clan level ${clvlNow})`);
-    const cand = Object.keys(clanSeen).filter(n => CONFIG.roster[n] && n !== Me.Name && clanInviteAllowed(n, teamOf(n), allow, allowParties) && !clanSeen[n].clan && now() - clanSeen[n].at < 180000)
-      .filter(n => isAcad(n) ? (clanLevelNow() >= 5 && (!livePos[n] || num(livePos[n].lvl || 0) <= 40)) : !full)   // academy: clan level 5+, level <= 40
+    const cand = Object.keys(clanSeen).filter(n => CONFIG.roster[n] && n !== Me.Name && (clanInviteAllowed(n, teamOf(n), allow, allowParties) || (acadAuto && isAcad(n))) && !clanSeen[n].clan && now() - clanSeen[n].at < 180000)
+      .filter(n => isAcad(n) ? (clanLevelNow() >= 5 && (!livePos[n] || num(livePos[n].lvl || 0) <= 40)) : (!full || !!unitRoom()))   // academy: clan level 5+, level <= 40
       .map(n => { let o = null; try { snapChars().forEach(c => { if (String(c.Name) === n) o = c.ref; }); } catch (e) { } return o ? { n, o } : null; })
       .filter(x => x && Distance(x.o) < 900).sort((a, b) => shadedTeam(a.n) - shadedTeam(b.n));
     if (!cand.length) { if (!full) { const wait = Object.keys(clanSeen).filter(n => CONFIG.roster[n] && n !== Me.Name && clanInviteAllowed(n, teamOf(n), allow, allowParties) && !clanSeen[n].clan && now() - clanSeen[n].at < 180000); clanAutoNote('invite', wait.length ? `waiting for ${wait.slice(0, 6).join(', ')}${wait.length > 6 ? ' +' + (wait.length - 6) : ''} to stand next to me (within 900)` : 'everyone ticked is in the clan (or offline)'); } return; }
     clanRun.lastInvite = now();
-    const ptype = isAcad(cand[0].n) ? -1 : 0;
+    const ptype = isAcad(cand[0].n) ? -1 : full ? (unitRoom() || 0) : 0;   // CLANUNIT: main clan full = the first Royal Guard / Order of Knights with room
     Send.RequestJoinPledge(num(cand[0].o.objId), ptype, true);
     clanLog(`invited ${cand[0].n} ${ptype === -1 ? 'into the ACADEMY' : ''} (${members} members)`);
     { const invAt = now(), invWho = cand[0].n; clanAutoNote('invite', `invited ${invWho}`);   // CLANAUTO: the server's "clan is full" answer pauses the invites for 1 h
@@ -27121,7 +28178,9 @@ setInterval(() => {
     if (!p) return;
     MROOM.walking = true; MROOM.outSince = 0;
     note(`room: outside ${R.name} — walking back inside`);
-    walkDirect(p.x + (Math.random() - 0.5) * 200, p.y + (Math.random() - 0.5) * 200, me.Z, 150, 15000, null, true).catch(() => { }).then(() => { MROOM.walking = false; });
+    // ROOMWALK-2026-10-30 (owner screenshot: Spoiler6 + Healer6 in a dead-end corridor next to the Cruma Ossiud room for 4 h, "walking back inside" every
+    // 20 s): the straight move ran into the wall every time. walkTo takes the dungeon's room-graph centrelines first (rgWalkInside), then the old walk
+    walkTo(p.x + (Math.random() - 0.5) * 200, p.y + (Math.random() - 0.5) * 200, me.Z, 150, 30000).catch(() => { }).then(() => { MROOM.walking = false; });
   } catch (e) { MROOM.walking = false; }
 }, 2000);
 
@@ -27154,8 +28213,7 @@ async function zoneHoldStep(sp, center, radius, solo) {
     zoneHoldEnd();
     setTask(`autolevel: walking back inside ${sp.name} (the drawn hunting area)`);
     const z = isFinite(num(center.z)) && num(center.z) ? num(center.z) : num(me.Z);
-    if (sp.floor && Math.hypot(d.to.x - num(me.X), d.to.y - num(me.Y)) < 3000) await walkDirect(d.to.x, d.to.y, z, 150, 15000, null, true);
-    else await walkTo(d.to.x, d.to.y, z, 150, 60000);
+    await walkTo(d.to.x, d.to.y, z, 150, 60000);   // ROOMWALK-2026-10-30: the room-graph walk on a dungeon floor too (a straight move ran into walls)
     return;
   }
   if (d.act !== 'hold') { await sleep(3000); return; }
@@ -27169,7 +28227,7 @@ async function zoneHoldStep(sp, center, radius, solo) {
   }
   if (!solo && now() - ZHOLD.emitAt > 5000) { ZHOLD.emitAt = now(); try { App.emit('swarm.zhold', { on: true, name: sp.name, x: Math.round(num(me.X)), y: Math.round(num(me.Y)), text }); } catch (e) { } }
   // rest while waiting (never with a monster on me; solo: never with an aggressive one close)
-  if (now() - lastAttackerOnMe.at > 5000 && !rest.sitting && (Me.HpPercent < ZONEPOLY.restHp || Me.MpPercent < ZONEPOLY.restMp) && soloRestClear('zone hold rest')) {
+  if ((typeof restRule !== 'function' || restRule().on) && now() - lastAttackerOnMe.at > 5000 && !rest.sitting && (Me.HpPercent < ZONEPOLY.restHp || Me.MpPercent < ZONEPOLY.restMp) && soloRestClear('zone hold rest')) {   // RESTOPT-2026-10-30: only with the party's rest switch on
     stopCombatG();
     for (let i = 0; i < 4 && toggleOffOne('resting'); i++) await sleep(800);
     RunCommand('/sit');
@@ -28861,7 +29919,9 @@ function giranPlaceOf(npcName) {
 /** the NPC atlas entry of a name (npc_atlas.json) */
 function atlasNpc(name) { try { return (npcAtlas().npcs || []).find(n => n.name === name) || null; } catch (e) { return null; } }
 async function townWalkToNpc(npc, opts) {
-  const o = opts || {}, town = npc && npc.place && npc.place.town; if (!town) return false;
+  // OUTSKIRT-2026-10-30 (every unseal at Pushkin failed 'Pushkin not in sight' in 0 ms: the atlas files Pushkin / Rupio / Kusto under 'Giran outskirts'
+  // with nearTown Giran 6097 - no place.town = this walk gave up at once): an NPC within 8000 of a town counts as that town
+  const o = opts || {}, pl0 = (npc && npc.place) || {}, town = pl0.town || (pl0.nearTown && num(pl0.nearTown.dist) < 8000 ? pl0.nearTown.name : ''); if (!town) return false;
   // o.atlasFirst (owner 2026-10-14 19:57: "just use the atlas paths, it literally shows the perfect route"): the street graph to the spot in
   // front of the NPC FIRST, the Giran recorded route only when the atlas walk did not get there
   const giranRoute = async () => { if (townKeyFor(town) !== 'Giran') return false; const pl = giranPlaceOf(npc.name); return pl ? !!(await giranGo(pl)) : false; };
@@ -29671,6 +30731,8 @@ function rsCleanId(type, id) {
   return s.replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 120);
 }
 /** route file relative to Scripts/data ('' = unknown type / id), always with '/' (the host side turns it into a path) */
+/** VIASPLIT-2026-11-01: the hops of a route start's via text ('.gludio > Gludio -> DE Village'): split on ' > ' only, never on the '>' of '->' */
+function viaHops(via) { return String(via || '').split(/\s*(?<!-)>\s*/).map(h => h.trim()).filter(Boolean); }
 function rsRel(type, id) { const f = RS_FOLDER[type], k = rsCleanId(type, id); return f && k ? 'routes/' + f + '/' + k + '.json' : ''; }
 /** the usable points of a saved route */
 function rsPoints(r) {
@@ -29844,7 +30906,7 @@ async function rsCustomTrip(r, label, o) {
           // QPLANOV-2026-10-27 (batch1 A2): via = the hops to a gatekeeper the town commands do not reach ('.schuttgart > Schuttgart -> Orc Village')
           let viaDone = false;
           if (st.via) {
-            const hops = String(st.via).split('>').map(h => h.trim()).filter(Boolean);
+            const hops = viaHops(st.via);   // VIASPLIT-2026-11-01: '.gludio > Gludio -> DE Village' split on every '>' gave the hop "Gludio -" (quest 412 failed for every academy character)
             for (let hi = 0; hi < hops.length; hi++) {
               if (abort()) return { ok: false, why: 'stopped' };
               const h = hops[hi], tgt = h[0] === '.' ? h.slice(1) : h.split('->').pop().trim();
@@ -30662,6 +31724,18 @@ async function clanLearnFocus() {
   if (!myClanName()) return 'no clan';
   let need = 0; try { const cd = JSON.parse(File.ReadAllText(`${__DIR__}\\Scripts\\data\\clan_data.json`)); const sk = (cd.skills || []).find(x => x.id === num(f.id) && x.level === num(f.level)); need = sk ? num(sk.clanLevel) : 0; } catch (e) { }
   if (need && clanLevelNow() < need) return `clan level ${clanLevelNow()}: the focus skill needs ${need}`;
+  // SKILLWH: the skill's items that are not in my bag come out of the clan warehouse first (Giran, Taurin), then the village master
+  try {
+    const cd2 = clanData(), sk2 = (cd2.skills || []).find(x => num(x.id) === num(f.id) && num(x.level) === num(f.level));
+    const miss = ((sk2 && sk2.items) || []).map(i => ({ id: num(i.id), count: Math.max(0, num(i.count) - itemCount(num(i.id))) })).filter(i => i.count > 0);
+    if (miss.length) {
+      clanLog(`clan skill ${f.name || f.id} lv ${f.level}: taking ${miss.map(i => i.count + 'x item ' + i.id).join(', ')} out of the clan warehouse first`);
+      if (currentTownKey() !== 'Giran') { lastTownCmd = 0; await townCommand('clan skill items', 'Giran'); await sleep(4000); sendAppearing('clan skill items'); }
+      const r = await whTake('clan', miss, 'clan skill ' + (f.name || f.id), { holdCtl: true });
+      const still = miss.filter(i => itemCount(i.id) < num(((sk2.items || []).find(x => num(x.id) === i.id) || {}).count));
+      if (still.length) { const m = `clan skill ${f.name || f.id}: the clan warehouse did not give ${still.map(i => 'item ' + i.id).join(', ')} (${(r && r.msg) || '?'})`; clanLog(m); return m; }
+    }
+  } catch (e) { logError('clan skill items', e); }
   // CMDFIX2-2026-10-12: the trip goes through atVillageMaster (P4 control, autolevel stopped, follow off; masters here, else Gesto / Kusto / Angus
   // in Giran) — before, .giran + walk ran next to his autolevel loop, which kept taking him back to his spot (the clanCreate bug of 2026-10-07)
   return atVillageMaster('clan skill', async (npc) => {
@@ -30687,6 +31761,30 @@ setInterval(async () => {
     note(`clan skill: ${await clanLearnFocus()}`, true);
   } catch (e) { }
 }, 300000);
+
+// PRIVAPPLY-2026-10-30 (owner: "I also want to be able to create permissuons for clan via Dashboard" + "Fix all these"): the clan leader applies
+// the wanted privileges per rank from Scripts/data/clan_privileges.json (dashboard Clan tab -> Members & ranks; ranks.<1-9>.bits = L2J H5 CP_*
+// mask, .at = when saved) with RequestPledgePower (0xCC: d rank, d action 2 = set, d privileges). A rank is sent once per save (Logs/
+// clan_privs_applied.json), then the ranks are read again (clan intel). The owner's own edit = an order: no run-switch / town gate.
+setInterval(async () => {
+  try {
+    if (!IsCharacterReady() || Me.IsDead || Me.Name !== clanLeaderName() || !myClanName()) return;
+    let P = null; try { P = JSON.parse(File.ReadAllText(`${__DIR__}\\Scripts\\data\\clan_privileges.json`).replace(/^﻿/, '')); } catch (e) { return; }
+    const R = (P && P.ranks) || {}, AF = `${__DIR__}\\Logs\\clan_privs_applied.json`;
+    let A = {}; try { A = JSON.parse(File.ReadAllText(AF)); } catch (e) { }
+    const le = (n) => { const b = (v) => ('0' + (v & 255).toString(16)).slice(-2); return b(n) + b(n >> 8) + b(n >> 16) + b(n >> 24); };
+    let sent = 0;
+    for (const r of Object.keys(R)) {
+      const rk = num(r), w = R[r] || {}; if (!(rk >= 1 && rk <= 9) || !Number.isInteger(num(w.bits))) continue;
+      if (A[r] && A[r].at === w.at) continue;
+      const t0 = now(); Send.SendHex('cc' + le(rk) + le(2) + le(num(w.bits))); await sleep(1200);
+      const said = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text).slice(0, 160) : 'no server message';
+      A[r] = { at: w.at, bits: num(w.bits), sentAt: new Date().toISOString(), said }; sent++;
+      clanLog(`privileges rank ${rk} = ${num(w.bits)} (0x${num(w.bits).toString(16)}) sent (RequestPledgePower) — ${said}`);
+    }
+    if (sent) { try { File.WriteAllText(AF, JSON.stringify(A, null, 1)); } catch (e) { } note(`clan: privileges applied for ${sent} rank(s) (dashboard)`, true); clanIntel.rankAt = 0; try { await clanIntelRequest('after privileges'); } catch (e) { } }
+  } catch (e) { logError('clan privileges', e); }
+}, 60000);
 
 // CATACOMBS + NECROPOLISES (user 2026-10-07: "be able to enter the catacombs or necropolis by swimming down the entrance and using
 // the teleporter inside"). Data: Scripts/data/catacombs.json (docs/plan/catacombs.md). Way in: .town -> that town's gatekeeper link to the
@@ -30754,7 +31852,10 @@ App.on('swarm.appear', (e) => { try { if (e.source.characterName === CONFIG.lead
 App.on('swarm.gearup', async (e) => {
   try { if (e.source.characterName !== CONFIG.leader || isLeader() || !(e.data.names || []).includes(Me.Name)) return;
     await sleep(((e.data.names || []).indexOf(Me.Name) + 1) * 7000);           // one at a time at the shops (ten at once = "did not answer")
-    errandStart('buy', 10 * 60000);                                            // ERRAND-2026-10-23: a member on its shopping errand is not pulled back to the leader
+    // GEARTWICE-2026-10-30 (owner sent !gearup while the first run shopped: "they are still running back and fourth"): a second order found
+    // GUP.busy, and its finally errandEnd('buy') ended the RUNNING trip's errand -> follow resumed -> pulled back to Tank1. Busy = leave it alone.
+    if (typeof GUP !== 'undefined' && GUP.busy) { note('[gear] gearup: already shopping - the running trip goes on', true); return; }
+    errandStart('buy', 30 * 60000);                                            // ERRAND-2026-10-23: a member on its shopping errand is not pulled back to the leader
     try { const r = await gearUpgrade('!gearup'); note(`[gear] gearup: ${r.msg}`.slice(0, 400), true); } finally { errandEnd('buy'); } } catch (er) { errandEnd('buy'); logError('swarm.gearup', er); }
 });
 App.on('swarm.zig', async (e) => {
@@ -31208,6 +32309,7 @@ function questwalkPending() {
   } catch (e) { return false; }
 }
 async function autoLevelLoop(solo) {
+  if (crafterModeMe()) { note('leveling: not for me - I am the clan crafter (crafter mode: I craft in Giran)', true); return; }   // CRAFTRUN B
   // no character (disconnected: Me.Name null, level 0 — 2026-10-06 06:05 the leader's window 'started leveling' at 0,0 during a server drop)
   if (!IsCharacterReady() || !Me.Name || !num(Me.Level)) return;
   if (autoLvl.active) return;
@@ -31357,6 +32459,15 @@ async function autoLevelLoop(solo) {
           if (!(await travelToSpot(spot))) {
             // interrupted for a new dashboard choice: not the spot's fault, no ban — pick the chosen one at once (2026-10-08)
             if (manualSw.pending) { note(`autolevel: trip to ${spot.name} stopped — the hunting spot was changed on the dashboard`, !solo); writeClaim(null); autoLvl.spot = null; lastPick = 0; continue; }
+            // ORDERSTOP-2026-10-30 (owner: "why is shaded trying to escape"): a !sell sent 5 s after the supply run stopped the trip to the chosen Varka spot
+            // ("stopped (your Stop)" / "a more important task took over"); that counted as "could not reach your dashboard choice" -> the automatic spot
+            // (Forge of the Gods, aggressive Stakatos) -> 5 min later the chosen spot again, leaving in the middle of a fight = the escape rules.
+            // An interrupted trip is not the spot's fault: no fallback, no skip list - the same spot is picked again once the order is done.
+            if (autoLvl.stop || outranked(PRIO.LEVEL) || /your Stop|more important task|interrupted|replaced by a newer order/i.test(String(gkFail || ''))) {
+              note(`autolevel: trip to ${spot.name} interrupted by an order — the same spot again when it is done (not a failed trip)`, !solo);
+              writeClaim(null); autoLvl.spot = null; lastPick = 0;
+              await sleep(autoLvl.stop ? 0 : 5000); continue;   // the loop's own stop check ends it when leveling was stopped
+            }
             manualSpotOnTravel(spot, false);
             // unreachable (fx datapack "Giran -> Devil Isle" but Clarissa's live menu has no Devil Isle): skip it for 1 h and pick
             // another spot — before this he clicked Clarissa every 40 s for the same spot (2026-10-04 13:28)
@@ -31480,8 +32591,9 @@ async function autoLevelLoop(solo) {
           if (!autoLvl.expMark || autoLvl.measureKey !== mk) { autoLvl.expMark = { at: now(), exp: expNow() }; autoLvl.killTimes = []; autoLvl.mobLevels = []; autoLvl.teamKillTimes = []; autoLvl.weakWindows = 0; }
           autoLvl.measureKey = mk; }
       }
-      // Hvil (solo: below 50 %, 2026-10-08)
-      if (Me.HpPercent < (soloChar() ? SOLO.restBelow : 40) || Me.MpPercent < 20) {
+      // Hvil (solo: below 50 %, 2026-10-08) - RESTOPT-2026-10-30: only when the party's "Sit down to rest" switch is on (default OFF), with its numbers
+      const RR = restRule();
+      if (RR.on && (Me.HpPercent < (soloChar() ? Math.max(RR.hpBelow, SOLO.restBelow) : RR.hpBelow) || (RR.mpBelow > 0 && Me.MpPercent < RR.mpBelow))) {
         const attacked = now() - lastAttackerOnMe.at < 5000;
         if (!attacked && soloRestClear('autolevel rest')) {                // solo: never sit with an aggressive monster within 1200 (2026-10-09)
           setTask(`autolevel: resting (HP ${Math.round(Me.HpPercent)}% MP ${Math.round(Me.MpPercent)}%)`);
@@ -31489,7 +32601,7 @@ async function autoLevelLoop(solo) {
           for (let i = 0; i < 4 && toggleOffOne('resting'); i++) await sleep(800);   // toggles off before sitting (2026-10-09)
           RunCommand('/sit');
           const until = now() + 120000;
-          while ((Me.HpPercent < 90 || Me.MpPercent < 70) && now() < until && now() - lastAttackerOnMe.at > 3000 && !autoLvl.stop
+          while ((Me.HpPercent < RR.hpUntil || Me.MpPercent < RR.mpUntil) && now() < until && now() - lastAttackerOnMe.at > 3000 && !autoLvl.stop
             && (!soloChar() || soloRestOk({ x: Me.X, y: Me.Y, z: Me.Z }, soloMobList(), SOLOSAFE.restClear * 0.75).ok)) await sleep(2000);   // solo: stand up when one walks close (2026-10-09)
           RunCommand('/stand'); await sleep(1000);
         }
@@ -31570,6 +32682,8 @@ async function autoLevelLoop(solo) {
       if (killed && cur && !cur.IsDead) lastTarget = 0;
       if (!sfMode && (!cur || cur.IsDead || !lastTarget || killed)) {
         if (killed) { kills++; autoLvl.killTimes.push(now()); multiKill(autoLvl.spot); const ml = cur ? npcLevel(cur.NpcId !== undefined ? cur.NpcId : cur.Id) : 0; if (ml) autoLvl.mobLevels.push(ml); lastTarget = 0; }
+        // AOETEAM-2026-10-30: the party's AOE team (camp / places / pullers' route) owns the hunt at its camp
+        if (isLeader() && leadMode() && !solo && (await aoeLeaderStep())) { autoLvl.mobSeenAt = now(); continue; }
         // PULL ROUTES (user zone editor 2026-10-07): the leader runs the drawn route, tags the monsters and brings them to the team
         if (autoLvl.spot && autoLvl.spot.pulls && autoLvl.spot.pulls.length && leadMode() && !solo && isLeader() && now() - (pull.lastAt || 0) > 4000) {
           await pullCycle(autoLvl.spot); pull.lastAt = now(); continue;
@@ -31603,7 +32717,9 @@ async function autoLevelLoop(solo) {
       try {
         const sp = autoLvl.spot, mark = autoLvl.expMark;
         if (!atPickedSpot) autoLvl.emptyAwayAt = now();                 // walking to / away from it: that time never counts as empty
-        if (sp && mark && atPickedSpot && !htHolds('move on')) {
+        // EMPTYHT-2026-10-29 (owner: "Why are there so many teams ... just standing idle?" -> "Leave empty spots"; Spoiler8 70 min at an empty Enchanted Valley area):
+        // the hunting session (hunting.md R3) no longer holds an EMPTY spot - no monster, no kill, no experience = leave (a spot the player chose stays)
+        if (sp && mark && atPickedSpot) {
           const userPick = !!(sp.manual && (() => { try { const e = partySpotEntry(); return !(e && e.by === 'plan' && !e.stay); } catch (er) { return true; } })());
           const lastK = Math.max(0, ...(autoLvl.killTimes || []), ...(autoLvl.teamKillTimes || []));
           const since = Math.max(num(mark.at), num(autoLvl.mobSeenAt) || 0, num(autoLvl.emptyAwayAt) || 0, lastK);
@@ -34484,6 +35600,9 @@ setInterval(() => {
     // a regroup / supply / order still runs (2026-10-08 18:34:38: the split watchdog's Giran regroup was still waiting for Doombringer1 when this
     // started leadLevel -> a 2nd regroup + supply run in parallel; the first one then walked/ported the leader out of Giran mid-supply)
     if (leadRunBusy || state.levelRetry || state.inHubRegroup || state.goingHub || (control.owner && control.owner !== 'leveling' && now() - control.since < 20 * 60000)) return;
+    let wpick = 'level'; try { wpick = watchdogPick(planStartNow()); } catch (e) { }   // PLANWATCH-2026-10-31
+    if (wpick === 'wait') return;
+    if (wpick === 'plan') { note(`watchdog: team has been idle for ${Math.round(CONFIG.watchdog.idleAfterMs / 60000)} min — running the party plan`, true); planRun('watchdog').catch(e => logError('watchdog plan', e)); return; }
     note(`watchdog: team has been idle for ${Math.round(CONFIG.watchdog.idleAfterMs / 60000)} min — leveling (regroup in Giran first)`, true);
     leadLevel('watchdog').catch(e => logError('watchdog level', e));
     return;
@@ -34524,14 +35643,15 @@ setInterval(() => {
   if (!state.role || !IsCharacterReady() || Me.IsDead) return;
   if (handsOffMe()) return;                                          // HANDSOFF-2026-10-26: no Hive rest (sit / stand)
   const caster = ROLE_RULES[gearRole()] && ROLE_RULES[gearRole()].stat === 'ma';
-  const low = Me.HpPercent < (soloChar() ? Math.max(CONFIG.rest.hpBelow, SOLO.restBelow) : CONFIG.rest.hpBelow) || (caster && Me.MpPercent < CONFIG.rest.mpBelow);   // solo: rest below 50 % (2026-10-08)
+  const RR = restRule();   // RESTOPT-2026-10-30: the party switch (default OFF) - off = never sits to rest (a character already sitting still stands up below)
+  const low = RR.on && (Me.HpPercent < (soloChar() ? Math.max(RR.hpBelow, SOLO.restBelow) : RR.hpBelow) || (RR.mpBelow > 0 && Me.MpPercent < RR.mpBelow));   // solo: rest below 50 % (2026-10-08); RESTOPT: MP for every role (the tank's skills need it too)
   const attacked = now() - lastAttackerOnMe.at < 5000;
   const travelling = state.gkBusy || state.escaping || tradeState || inRaid() || state.buffTurn || Me.IsMoving;
   // ZONEPOLY (2026-10-13): the leader holds an EMPTY drawn zone (swarm.zhold) -> members rest up to 97 % / 92 % meanwhile, and stand at once
   // when the hold ends (a monster respawned inside: the leader engages)
-  const zh = !isLeader() && zoneHoldRest({ hold: zholdFresh(), byHold: !!rest.byHold, sitting: rest.sitting, hp: num(Me.HpPercent), mp: num(Me.MpPercent) });
+  const zh = !isLeader() && RR.on && zoneHoldRest({ hold: zholdFresh(), byHold: !!rest.byHold, sitting: rest.sitting, hp: num(Me.HpPercent), mp: num(Me.MpPercent) });
   if (rest.sitting) {
-    const fresh = rest.byHold ? zh === 'stand' : Me.HpPercent >= CONFIG.rest.hpUntil && (!caster || Me.MpPercent >= CONFIG.rest.mpUntil);
+    const fresh = !RR.on || (rest.byHold ? zh === 'stand' : Me.HpPercent >= RR.hpUntil && Me.MpPercent >= RR.mpUntil);   // RESTOPT: switched off while sitting = stand up now
     if (attacked || fresh || now() - rest.since > CONFIG.rest.maxMs) {
       rest.byHold = false;
       RunCommand('/stand'); rest.sitting = false;
@@ -34566,8 +35686,10 @@ setInterval(() => {
   let attackers = 0, near = 0;
   try { escAttackers().forEach(a => { if (a.cc) return; if (a.targetsMe || a.hitMe) attackers++; if (a.dist <= SOLOSAFE.nearR && (a.targetsMe || a.hitMe || (a.aggr > 0 && a.dist <= a.aggr + 150))) near++; }); } catch (e) { }   // SOLONEAR-2026-10-28
   const atk = mobById(lastAttackerOnMe.id);
+  // ACADFIGHT-2026-11-01 (Nuker22 died running away from ONE Skeleton Hunter at 44 % because 4 monsters stood near; the 2.5-min escape killed
+  // him): an academy nuker only flees from 2+ attackers below 50 %, or below 30 % still hit - monsters standing near do not count
   const d = soloFleeDecide({ hp: num(Me.HpPercent), hitAgo: now() - lastAttackerOnMe.at, attackers: Math.max(attackers, 1), near, atkHp: atk ? num(atk.HpPercent) : 0,
-    sinceEsc: ESC.endedAt ? now() - ESC.endedAt : undefined }, SOLOSAFE);
+    sinceEsc: ESC.endedAt ? now() - ESC.endedAt : undefined }, acadFleeCfg(isAcademy(), SOLOSAFE));
   if (d.act !== 'escape') return;
   SOLO.fleeAt = now(); SOLO.flees = SOLO.flees.filter(t => now() - t < 300000); SOLO.flees.push(now());
   note(`solo: ${d.why} — escaping (CC, run to a safe spot, .townname / Scroll of Escape)`, true);
@@ -35652,7 +36774,7 @@ function planOfParty(j, leader) {
   const P = j && typeof j === 'object' && j.parties && typeof j.parties === 'object' ? j.parties[leader] : null;
   if (!P || typeof P !== 'object' || !Array.isArray(P.steps)) return null;
   const steps = P.steps.filter(s => s && typeof s === 'object' && PLAN_KINDS.indexOf(s.kind) >= 0 && /^[A-Za-z0-9_-]{2,40}$/.test(String(s.id || '')) &&
-    (s.kind !== 'level' || Number(s.to) >= 2) && (s.kind !== 'quest' || Number(s.quest) > 0) && (s.kind !== 'raid' || Number(s.boss) > 0) && (s.kind !== 'academy' || ['join', 'funds', 'buy', 'graduate'].indexOf(s.act) >= 0));
+    (s.kind !== 'level' || Number(s.to) >= 2) && (s.kind !== 'quest' || Number(s.quest) > 0) && (s.kind !== 'raid' || Number(s.boss) > 0) && (s.kind !== 'academy' || ['join', 'funds', 'buy', 'graduate', 'coupon'].indexOf(s.act) >= 0));   // ACADCOUPON-2026-10-31: + coupon
   return { name: String(P.name || 'My plan'), on: P.on === true, steps };
 }
 /** = Dashboard/planlogic.js planCursor: the step to run now (steps.length = finished) */
@@ -35674,7 +36796,7 @@ function planStepSay(s) {
     case 'gear': return 'better gear in Giran';
     case 'raid': return `raid boss ${st.name || st.boss}`;
     case 'wait': return 'wait for your order';
-    case 'academy': return { join: 'academy: Giran + the Academy invite', funds: 'academy: adena for the kit', buy: `academy: buy the ${st.set || 'start'} kit`, graduate: 'academy: graduate + log out' }[st.act] || 'academy step';
+    case 'academy': return { join: 'academy: Giran + the Academy invite', funds: 'academy: adena for the kit', buy: `academy: buy the ${st.set || 'start'} kit`, graduate: 'academy: graduate + log out', coupon: `academy: Newbie Guide ${st.which === 'jewelry' || st.which === 'armor' ? st.which : 'weapon'} coupon` }[st.act] || 'academy step';
     default: return '?';
   }
 }
@@ -35737,6 +36859,18 @@ function planStartInfo(plan, prog, running) {
   return { on: !!plan.on, name: String(plan.name || ''), n, left: Math.max(0, n - idx), idx, status: String((prog && prog.status) || 'idle'), running: !!running,
     text: idx < n ? `step ${idx + 1}/${n}: ${planStepSay(plan.steps[idx])}` : 'finished' };
 }
+// PLANWATCH-2026-10-31 (owner: "Fix it so it never happens again"): 6 of the 20 new academy characters never started their academy plan - a supply
+// run came first, then the idle watchdog started plain leveling; they left Giran without their start adena. An idle team with a plan that is switched
+// on and not finished runs the PLAN (a plan waiting for the owner stays waiting); only without one it levels. info = planStartInfo -> plan|wait|level
+function watchdogPick(info) {
+  if (!info || !info.on || !(info.left > 0)) return 'level';
+  if (info.running) return 'wait';
+  if (info.status === 'waiting') return 'wait';
+  return 'plan';
+}
+// PLANWATCH-2026-10-31: the automatic supply run never cuts into a running plan step that is not a leveling step (Nuker22 was pulled to Giran
+// mid-way to the Orc Village Newbie Guide; the trip then broke). During a plan's leveling step supply runs work as before.
+function planHoldsSupply(running, levelStep) { return !!running && !levelStep; }
 // PARTYPLAN-PURE-END
 var PLAN = { running: false, stop: false, jump: false, seq: -1, sentText: '', sentAt: 0, levelStep: null, gearDone: 0, gearFail: '', gearSeq: -1, j: null, stamp: '', chk: 0, resumed: false };
 const PLAN_FILE = () => `${__DIR__}\\Scripts\\data\\party_plans.json`;
@@ -35860,6 +36994,8 @@ async function planStepLevel(step) {
     }
   } finally { PLAN.levelStep = null; }
 }
+/** QUESTADOPT: does the plan take over a quest run that is already going (the same quest)? */
+function planQuestAdopt(running, runningId, id) { return !!running && Number(runningId) === Number(id) && Number(id) > 0; }
 async function planStepQuest(step, prog) {
   const id = num(step.quest), team = [Me.Name].concat(teamNames()), rep = Math.max(1, num(step.repeat) || 1);
   const scope = step.mode === 'solo' ? (step.who && step.who.length ? step.who.filter(n => team.indexOf(n) >= 0) : team) : [Me.Name];
@@ -35871,7 +37007,11 @@ async function planStepQuest(step, prog) {
     const q = qeQuest(id), oneTime = q && !qeRepeatable(q);
     if (oneTime && scope.every(n => { const r = planQuestRec(n, id); return r && num(r.runs) > 0; })) return { ok: true, result: 'already done before' };
   }
-  PLAN.seq = orderBegin(`plan: quest ${id}`);
+  // QUESTADOPT-2026-11-01 (19 academy plans paused after a deploy: the quest engine resumed quest 320 by itself, 15 s later the plan's resume began
+  // a NEW order for the same quest - "a newer order replaced it" - and the step read the stop as "the quest was stopped"): the quest engine already
+  // runs THIS quest = the plan adopts that run (no new order); only another quest / none starts a new order
+  const adopt = planQuestAdopt(qeS().running, qeS().q ? num(qeS().q.id) : 0, id);
+  PLAN.seq = adopt ? orderState.seq : orderBegin(`plan: quest ${id}`);
   const launch = (n) => {
     if (step.mode !== 'solo') { if (!qeS().running) qeStart({ id, repeat: rep, mode: teamNames().length ? 'party' : 'solo' }); return; }
     if (n === Me.Name) { if (!qeS().running) qeStart({ id, repeat: rep, mode: 'solo' }); return; }
@@ -35997,16 +37137,20 @@ function planGearupDone(seq, failWhy) {
 // This block: the live config, the live roster of academy accounts (a new account needs no deploy / no reload of the other windows: the
 // clan leader and the adena givers learn it within a minute), the state file Logs/academy_<Name>.json (the manager reads it) and the steps.
 // ACADEMY-PURE-BEGIN (no host calls: docs/plan/tools/test_academy.js runs this block in node)
-var ACADEMY_ACTS = ['join', 'funds', 'buy', 'graduate'];
+var ACADEMY_ACTS = ['join', 'funds', 'buy', 'graduate', 'coupon'];   // ACADCOUPON-2026-10-31: + coupon
 /** academy.json -> the parts the bot uses (= Dashboard/academy_logic.js academyCfg, shortened) */
 function acadCfgPure(j) {
   const o = j && typeof j === 'object' ? j : {}, fn = o.funds || {}, en = o.end || {};
-  return { on: o.on !== false, classPlan: Array.isArray(o.classPlan) ? o.classPlan.map(Number) : [39, 40], buy: o.buy && typeof o.buy === 'object' ? o.buy : {},
+  return { on: o.on !== false, coupons: o.coupons !== false /* ACADCOUPON-2026-10-31: default ON */, classPlan: Array.isArray(o.classPlan) ? o.classPlan.map(Number) : [39, 40], buy: o.buy && typeof o.buy === 'object' ? o.buy : {},
     funds: { target: Number(fn.target) >= 0 ? Number(fn.target) : 2000000, need: Number(fn.need) >= 0 ? Number(fn.need) : 900000, waitMin: Number(fn.waitMin) > 0 ? Number(fn.waitMin) : 45 },
-    end: { logout: en.logout !== false, newCharacter: en.newCharacter !== false } };
+    end: { logout: en.logout !== false, newCharacter: en.newCharacter !== false, deliver: en.deliver !== false /* ACADDELIVER-2026-10-31 */ },
+    buffs: (() => { const b = o.buffs || {}; return { on: b.on !== false, magnus: b.magnus !== false, cov: b.cov !== false, storeMaxPrice: Number(b.storeMaxPrice) >= 0 && b.storeMaxPrice !== '' && b.storeMaxPrice != null ? Number(b.storeMaxPrice) : 10 }; })() };   // ACADSTORE-2026-10-31
 }
 /** one buy list row + what I hold -> { act: 'have' | 'buy', count } (ids = the item and its alternatives) */
-function acadBuyNeed(row, holds) {
+function acadBuyNeed(row, holds, worn, gear) {
+  // ACADROUTE-2026-11-01: a piece to wear is skipped when the worn piece of that slot is as good (the free shadow armor from the guide)
+  // worn = { slot: { pd, ma } } of the worn pieces, gear = gear_items.json row of this item (s, pd, ma)
+  if (row.equip && gear && worn && worn[gear.s]) { const k = gear.s === 'weapon' ? 'ma' : 'pd'; if ((Number(worn[gear.s][k]) || 0) >= (Number(gear[k]) || 0)) return { act: 'have', have: 0, worn: true }; }
   const ids = [Number(row.id)].concat(Array.isArray(row.alt) ? row.alt.map(Number) : []), want = Math.max(1, Number(row.count) || 1);
   const have = ids.reduce((m, id) => Math.max(m, Number((holds || {})[id]) || 0), 0);
   if (row.shots) return have >= want * 0.8 ? { act: 'have', have } : { act: 'buy', count: want - have, have };   // shots: top up below 80 %
@@ -36122,6 +37266,7 @@ async function acadFunds() {
   return { fail: `only ${itemCount(57)} adena after ${C.funds.waitMin} min (need ${need}) — nobody gave: check the Adena page (givers, fund rules)` };
 }
 /** what I hold per item id (bag + worn) */
+function acadWorn() { const w = {}; try { const db = gearDb().items || {}; Inventory.forEach(i => { const f = db[i.Id]; if (i.IsEquiped && f) { const c = w[f.s] || { pd: 0, ma: 0 }; w[f.s] = { pd: Math.max(c.pd, num(f.pd)), ma: Math.max(c.ma, num(f.ma)) }; } }); } catch (e) { } return w; }
 function acadHolds() { const h = {}; try { (hostSnap.inv() || Inventory).forEach(i => { const id = num(i.Id); h[id] = (h[id] || 0) + Math.max(1, num(i.Count)); }); } catch (e) { } return h; }
 async function acadBuy(step) {
   const C = acadCfg(), set = String(step.set || 'start'), list = Array.isArray(C.buy[set]) ? C.buy[set] : [];
@@ -36135,8 +37280,8 @@ async function acadBuy(step) {
   try {
     for (const row of list) {
       const why = planInterrupted(); if (why) return { interrupted: why };
-      const nd = acadBuyNeed(row, acadHolds());
-      if (nd.act === 'have') { res.push(`${row.name}: have it`); continue; }
+      const nd = acadBuyNeed(row, acadHolds(), acadWorn(), (gearDb().items || {})[num(row.id)]);
+      if (nd.act === 'have') { res.push(`${row.name}: ${nd.worn ? 'a piece as good is worn (shadow armor) - not bought' : 'have it'}`); continue; }
       if (row.npc) {                                                  // shots at a shop NPC (Helvetia): its recorded route, then buyAt
         try { await giranGo('grocer'); } catch (e) { }
         let npc = null; try { snapNpcs().forEach(n => { if (n.Name === row.npc) npc = n.ref; }); } catch (e) { }
@@ -36170,6 +37315,7 @@ async function acadBuy(step) {
       try { Send.UseItem(num(item.objId)); } catch (e) { }
       await sleep(900);
     }
+    try { const sb = await acadStoreBuffs(`the "${set}" kit`); if (sb) res.push(sb); } catch (e) { logError('academy store buffs', e); }   // ACADSTORE-2026-10-31: Magnus' Chant at the Giran start
   } finally { try { await giranGo('start'); } catch (e) { } state.gkBusy = false; }
   const holds = acadHolds(), miss = list.filter(r => acadBuyNeed(r, holds).act !== 'have');
   academyLog(`buy "${set}": ${res.join('; ')}`);
@@ -36181,9 +37327,136 @@ async function acadGraduate() {
   const C = acadCfg(), d = acadGradDecide(num(Me.ClassId), C.classPlan, myClanName());
   if (!d.ok) return { fail: d.why };
   { const t0 = now(); while (myClanName() && now() - t0 < 60000) await sleep(3000); }   // the server takes graduates out of the clan
+  // ACADDELIVER-2026-10-31 (owner: "after each academy toon graduate to deliver items to collector and all adena and items. Then log out"): before
+  // the logout everything tradeable (worn pieces taken off first) + all adena goes to the collector in Giran by the hand-over machinery
+  let dv = { text: 'delivery switched off (academy.json end.deliver)' };
+  if (C.end.deliver) { try { dv = await acadDeliver(); } catch (e) { logError('academy deliver', e); dv = { text: 'delivery error: ' + (e && e.message || e) }; } }
   try { StopCombat(); DisableBot(); } catch (e) { }
-  acadState('graduated', `${d.why}; level ${num(Me.Level)} — the dashboard logs me out${C.end.newCharacter ? ' and makes the next academy character' : ''}`);
-  return { ok: true, result: `graduated (${d.why})` };
+  acadState('graduated', `${d.why}; level ${num(Me.Level)}; ${dv.text} — the dashboard logs me out${C.end.newCharacter ? ' and makes the next academy character' : ''}`);
+  return { ok: true, result: `graduated (${d.why}; ${dv.text})` };
+}
+// ACADDELIVER-PURE-BEGIN (no host calls: docs/plan/tools/test_academy_loop.js runs it in node)
+/** what a graduate hands to the collector: every bag row that is tradeable (not quest, not on the untradeable list), worn pieces included
+ *  (they are taken off first); adena separately. bag = hovBag() rows, nt = Set of untradeable ids -> { rows, kept } */
+function acadDeliverRows(bag, nt) {
+  const rows = [], kept = [];
+  (bag || []).forEach(b => {
+    if (!b || Number(b.id) === 57) return;
+    if (b.quest || (nt && nt.has(Number(b.id)))) { kept.push(b.name || String(b.id)); return; }
+    rows.push({ objId: Number(b.objId), id: Number(b.id), name: b.name, count: Number(b.count) || 1, stack: !!b.stackable || Number(b.count) > 1 });
+  });
+  return { rows, kept };
+}
+/** after a delivery try: { done, retry, why } (tries so far, rows left, adena left, cap) */
+function acadDeliverNext(tries, rowsLeft, adenaLeft, cap) {
+  if (!(rowsLeft > 0) && !(adenaLeft > 0)) return { done: true, retry: false, why: 'everything handed over' };
+  if (tries >= cap) return { done: false, retry: false, why: `${rowsLeft} item kinds + ${adenaLeft} adena still with me after ${tries} tries — logging out anyway` };
+  return { done: false, retry: true, why: `${rowsLeft} item kinds + ${adenaLeft} adena left — trying again` };
+}
+// ACADDELIVER-PURE-END
+async function acadDeliver() {
+  const col = fundCollectorName() || clanLeaderName();
+  if (!col || col === Me.Name) return { text: 'no collector set (Storage: collector) — nothing delivered' };
+  const g = await acadToGiran(); if (g) return { text: 'could not get to Giran to deliver: ' + (g.fail || g.interrupted || '?') };
+  acadState('delivering', `everything tradeable + all adena to ${col} in Giran`);
+  // worn pieces off first (a worn item cannot be traded); the character leaves anyway
+  try { const nt = hovNotrade(); hovBag().filter(b => b.equipped && !b.quest && !nt.has(b.id)).forEach(b => { try { Send.UseItem(b.objId); } catch (e) { } }); } catch (e) { }
+  await sleep(2500);
+  const CAP = 3; let tries = 0, res = null;
+  for (;;) {
+    const { rows, kept } = acadDeliverRows(hovBag().filter(b => !b.equipped), hovNotrade()), adena = itemCount(57);
+    res = acadDeliverNext(tries, rows.length, adena, CAP);
+    if (!res.retry) { if (kept.length) res.why += ` (untradeable, stays: ${kept.slice(0, 6).join(', ')}${kept.length > 6 ? ' …' : ''})`; break; }
+    tries++;
+    const hid = 'acad_' + String(Me.Name).toLowerCase() + '_' + Date.now().toString(36);
+    try { File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: col, batch: HOV_CFG.batch, givers: { [Me.Name]: { items: rows, adena } }, by: Me.Name, why: 'academy graduation: everything to the collector', at: new Date().toISOString() })); } catch (e) { res = { why: 'hand-over order: ' + e.message }; break; }
+    academyLog(`deliver try ${tries}: ${rows.length} item kinds + ${adena} adena -> ${col} (hand-over ${hid})`);
+    try { App.emit('swarm.hovcall', { id: hid }); } catch (e) { }
+    try { await hovCommand(['!handover', hid]); } catch (e) { logError('academy deliver handover', e); }
+    const t0 = now(); while ((typeof HOV !== 'undefined' && HOV.busy) && now() - t0 < 15 * 60000) await sleep(3000);
+    await sleep(3000);
+  }
+  academyLog('deliver: ' + res.why);
+  return { text: `delivered to ${col}: ${res.why}` };
+}
+// ACADUNLOAD-2026-11-01 (Nuker25: 202 of 200 slots, the coupon exchange "Your inventory is full" - academy characters pick up every loot and
+// nothing ever emptied their bags): a nearly full / full bag = Giran + the loot to the collector (the same hand-over as the graduation), keeping
+// what the character needs to hunt. Pure: which rows go / whether to go now.
+const ACAD_KEEP_RE = /Soulshot|Spiritshot|Potion|Elixir|Antidote|Herb|Scroll of Escape|Scroll of Resurrection|Scroll: Recovery|Teleport|Coupon|Shadow Item|Apprentice's|Bandage|Waking Scroll|Blessed Scroll/i;
+function acadUnloadRows(rows) { return (rows || []).filter(r => !ACAD_KEEP_RE.test(String(r.name || ''))); }
+function acadUnloadDecide(o) {
+  if (!o.academy) return { go: false, why: 'not an academy character' };
+  if (o.lvl !== 'full' && o.lvl !== 'near') return { go: false, why: 'bag ok' };
+  if (o.now - (o.lastAt || 0) < 10 * 60000) return { go: false, why: 'unloaded less than 10 min ago' };
+  if (o.busy) return { go: false, why: 'busy' };
+  if (!(o.rows > 0)) return { go: false, why: 'nothing to hand over (only kept things)' };
+  return { go: true, why: `bag ${o.lvl}: ${o.rows} item kinds to the collector` };
+}
+const ACUL = { busy: false, lastAt: 0 };
+/** a full bag with loot to hand over: the coupon retry waits, the unload goes first (Nuker25 retried every 30 s into "inventory full") */
+function acadBagBlocks() { try { return acadUnloadRows(acadDeliverRows(hovBag().filter(b => !b.equipped), hovNotrade()).rows).length > 0 && now() - ACUL.lastAt > 60000; } catch (e) { return false; } }
+async function acadUnload(why) {
+  const col = fundCollectorName() || clanLeaderName();
+  if (!col || col === Me.Name) return { ok: false, why: 'no collector set' };
+  ACUL.busy = true; ACUL.lastAt = now();
+  // UNLOADRESUME-2026-11-01 (Nuker25 stood in Giran for 20 min: acadToGiran went as an ORDER, an order pauses the plan "the user took over",
+  // and nothing resumed it): the trip is the plain .giran (no order), and a plan that was running goes on afterwards
+  const planWas = !!PLAN.running;
+  if (PLAN.running && !PLAN.levelStep) { PLAN.stop = true; try { planHaltStep(); } catch (e) { } const t0 = now(); while (PLAN.running && now() - t0 < 30000) await sleep(500); }   // a quest / trip step: halted cleanly, resumed below
+  try {
+    if (currentTownKey() !== 'Giran') { lastTownCmd = 0; if (!(await townCommand('academy bag unload', 'Giran', { only: true }))) return { ok: false, why: 'could not get to Giran: ' + (gkFail || '.giran refused') }; }
+    // ACADSELL-2026-11-01 (owner: "make sure academy toons sell junk in town when they are 80% full"): the junk (the sell list + unused D / no-grade
+    // gear) goes to Helvetia first; only what no shop takes goes on to the bank
+    let soldTxt = '';
+    try {
+      if (pautoOn('sell')) {
+        await bagSync(); await giranGo('grocer');
+        let npc = null; try { snapNpcs().forEach(n => { if (n.Name === 'Helvetia') npc = n.ref; }); } catch (e) { }
+        if (npc) { const r = await sellAt(npc, 'academy bag 80%', supplyJunkGrades()); soldTxt = `sold ${r.sold.length} kind(s) at Helvetia; `; academyLog(`unload: ${soldTxt}`); }
+      }
+    } catch (e) { logError('academy unload sell', e); }
+    try { await giranGo('start'); } catch (e) { }
+    const rows = acadUnloadRows(acadDeliverRows(hovBag().filter(b => !b.equipped), hovNotrade()).rows);
+    if (!rows.length) return { ok: true, why: 'nothing to hand over' };
+    const hid = 'acul_' + String(Me.Name).toLowerCase() + '_' + Date.now().toString(36);
+    File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: col, batch: HOV_CFG.batch, givers: { [Me.Name]: { items: rows, adena: 0 } }, by: Me.Name, why: 'academy bag full: loot to the collector', at: new Date(now()).toISOString(), v: 1 }));
+    academyLog(`unload (${why}): ${rows.length} item kinds -> ${col} (hand-over ${hid})`);
+    try { App.emit('swarm.hovcall', { id: hid }); } catch (e) { }
+    try { await hovCommand(['!handover', hid]); } catch (e) { logError('academy unload handover', e); }
+    const t0 = now(); while ((typeof HOV !== 'undefined' && HOV.busy) && now() - t0 < 10 * 60000) await sleep(3000);
+    return { ok: true, why: `${soldTxt}${rows.length} item kinds handed to ${col}` };
+  } finally {
+    ACUL.busy = false; ACUL.lastAt = now();
+    try { if (acadResumeAfter(planWas, PLAN.running, planStartNow())) { academyLog('unload: the plan goes on'); planRun('after the bag unload').catch(e => logError('plan after unload', e)); } } catch (e) { }
+  }
+}
+/** pure: resume the plan after an unload? (it ran before, it does not run now, it is switched on, not finished, not waiting for the owner) */
+function acadResumeAfter(was, running, info) { return !!was && !running && !!info && !!info.on && info.left > 0 && info.status !== 'waiting'; }
+setInterval(() => {
+  try {
+    if (!state.role || !isAcademy() || !IsCharacterReady() || !isLeader() || ACUL.busy) return;
+    let rows = 0; try { rows = acadUnloadRows(acadDeliverRows(hovBag().filter(b => !b.equipped), hovNotrade()).rows).length; } catch (e) { }
+    const d = acadUnloadDecide({ academy: true, lvl: FULLW.lvl, lastAt: ACUL.lastAt, now: now(), rows,
+      busy: Me.IsDead || ACC.busy || ACC.retrying || !!state.npcBusy || !!state.gkBusy || !!tradeState || (typeof HOV !== 'undefined' && HOV.busy) || inRaid() || ESC.on
+        || (PLAN.running && !PLAN.levelStep && FULLW.lvl !== 'full') });   // UNLOADRESUME: a nearly full bag waits for the quest / trip step; a full one halts it
+    if (!d.go) return;
+    (async () => {
+      const b = await acBreakOff(60000); if (!b.ok) { academyLog('unload: ' + b.why); return; }
+      const r = await acadUnload(d.why); academyLog('unload: ' + r.why);
+    })().catch(e => logError('acad unload', e));
+  } catch (e) { logError('acad unload tick', e); }
+}, 30000);
+// ACADSTORE-2026-10-31 (owner: "take 'Magnus Chant' from giran for 10 adena"): an academy character buys store buffs for itself (no party) at
+// most academy.json buffs.storeMaxPrice per buff (default 10); everyone else keeps the store's own limits
+function acStoreOpt(o) { if (!isAcademy()) return o || {}; return Object.assign({}, o || {}, { maxPrice: acadCfg().buffs.storeMaxPrice }); }
+function acStoreMode(m) { return isAcademy() ? null : m; }
+async function acadStoreBuffs(why) {
+  const B = acadCfg().buffs, out = [];
+  if (!B.on || currentTownKey() !== 'Giran') return '';
+  try { if (B.magnus) { const r = await storeBuyBuff(STORE_MAGNUS.id, null, "Magnus' Chant", acStoreOpt({ titleRe: STORE_MAGNUS.titleRe })); out.push("Magnus' Chant: " + r.why); } } catch (e) { logError('academy magnus', e); }
+  try { if (B.cov) { const r = await storeBuyBuff(STORE_COV.id, null, 'Chant of Victory', acStoreOpt({})); out.push('Chant of Victory: ' + r.why); } } catch (e) { logError('academy cov', e); }
+  if (out.length) academyLog(`store buffs (${why}): ${out.join('; ')}`);
+  return out.join('; ');
 }
 async function planStepAcademy(step) {
   if (!isAcademy()) return { fail: `${Me.Name} is not an academy mage (swarm.config.json accounts[].academyMage)` };
@@ -36191,8 +37464,391 @@ async function planStepAcademy(step) {
   if (step.act === 'funds') return acadFunds();
   if (step.act === 'buy') return acadBuy(step);
   if (step.act === 'graduate') return acadGraduate();
+  if (step.act === 'coupon') return acCouponStep(step.which === 'jewelry' || step.which === 'armor' ? step.which : 'weapon');   // ACADCOUPON-2026-10-31 / ACADROUTE armor
   return { fail: `unknown academy step "${step.act}"` };
 }
+// ============================================================================================================================================
+// ACADCOUPON-2026-10-31 (owner: "Have You added the shadow item coupons for academy toons" -> "Option 1": academy characters take their beginner
+// gear automatically). Only academy mages (isAcademy), only the two FREE Newbie Guide coupons of the Beginner gear plan (Dashboard/
+// beginnergear_logic.js + Scripts/data/beginner_gear.json), switch academy.json "coupons" (default ON):
+//  - weapon: Apprentice weapon coupons (7832 x5, base class, level 6-19, once): get them, exchange ONE for my class's shadow weapon (multisell
+//    305986001), put it on only when it beats the worn weapon; the other coupons stay in the bag. When the 180-min weapon is gone and a coupon is
+//    left, the next one is exchanged ONLY when I stand idle in a town next to a Newbie Guide (acSwapTick: never a trip, never during leveling).
+//  - jewelry: Magic accessory coupon (7833 x1, 1st class, level < 40, once) -> the D shadow jewelry box (multisell 305986002) -> opened -> the 5
+//    pieces put on when they beat the worn ones (planChar's rule: fewer than 5 worn, or M.Def gain > 20). Never armor, never a +10 piece.
+// When: the academy party plan's own steps (Dashboard/academy_logic.js: 'coupon weapon' after level 6, 'coupon jewelry' right after the 1st
+// class change, onFail skip) - a planned stop between level steps, never an interruption of running leveling. Nothing is sold, bought, dropped.
+// Status: Logs/acadcoupon_<Name>.json (Quests page -> Beginner gear). Test: docs/plan/tools/test_acad_coupon.js. Requirement gear.md R9.
+// ACADCOUPON-PURE-BEGIN (no host calls: test_acad_coupon.js runs it in node and compares it with Dashboard/beginnergear_logic.js)
+const AC_BASE = [0, 10, 18, 25, 31, 38, 44, 49, 53, 123, 124];
+const AC_FIRST = [1, 4, 7, 11, 15, 19, 22, 26, 29, 32, 35, 39, 42, 45, 47, 50, 54, 56, 125, 126];
+const AC_MYSTIC = [10, 11, 12, 13, 14, 15, 16, 17, 25, 26, 27, 28, 29, 30, 38, 39, 40, 41, 42, 43, 49, 50, 51, 52, 94, 95, 96, 97, 98, 103, 104, 105, 110, 111, 112, 115, 116];
+const AC_ITEM = { weapon: 7832, jewelry: 7833 };
+const AC_JEWEL = { box: 10473, earring: 10470, ring: 10471, neck: 10472, setMd: 24 * 2 + 16 * 2 + 32 };
+// COUPONLIVE-2026-11-01: L2Toggle's live page (Logs/acadcoupon_*_page1.html) says "Get the ..." / "Use the weapon warehouse ..." - both wordings count
+const AC_LINK = { weapon: { coupon: ["Receive the Apprentice Adventurer's Weapon Exchange Coupon.", "Get the Apprentice Adventurer's Weapon Exchange Coupon"],
+    exchange: ['Select a No-Grade Shadow Weapon.', 'Use the weapon warehouse for apprentice adventurers'] },
+  jewelry: { coupon: "Receive the Adventurer's Magic Accessory Exchange Coupon.", exchange: 'Select Magic Accessory.' },
+  // ACADROUTE-2026-11-01: L2Toggle's guide gives SHADOW ARMOR at level 20-39 (live page: "At level 20, you can borrow Shadow Armor with the
+  // Adventurer's Magic Armor Exchange Coupon"); the coupon has no client item id we know -> found in the bag by its name
+  armor: { coupon: ["Get the Adventurer's Magic Armor Exchange Coupon"], exchange: ['Use the Magic Armor warehouse for travellers'] } };
+const AC_ARMOR_COUPON_RE = /magic armor exchange coupon/i;
+const AC_ARMOR_SLOTS = ['chest', 'legs', 'full', 'head', 'gloves', 'feet'];
+const AC_GRADE_RANK = { NONE: 0, D: 1, C: 2, B: 3, A: 4, S: 5 };
+/** ACADROUTE-2026-11-01: which entries of the armor warehouse list to take with my armor coupons -> [{ entry, slot, cost, ids }] (best piece
+ *  per slot for a mystic: robes (MAGIC) for chest / legs / full, any helmet / gloves / boots that is not a fighter-only line; highest grade, then
+ *  P.Def; cheapest coupon use first, body pieces first; as many as the coupons pay for). entries = multisell rows { entry, products, ings },
+ *  db = gear_items.json items, coupons = how many I hold */
+function acArmorPick(entries, couponId, db, coupons) {
+  const D = db || {}, fighter = /breastplate|gaiters|leather shirt|gauntlet|iron boots|bracer|shield|composite|brigandine|plate/i;
+  const best = {};
+  (entries || []).forEach(e => {
+    const ing = (e.ings || []).find(g => Number(g.id) === Number(couponId)); if (!ing) return;
+    const prods = (e.products || []).map(p => ({ p, f: D[p.id] })).filter(x => x.f);
+    if (!prods.length || prods.length !== (e.products || []).length) return;
+    const f = prods[0].f, slot = f.s;
+    if (AC_ARMOR_SLOTS.indexOf(slot) < 0 || prods.some(x => x.f.s !== slot)) return;
+    if ((slot === 'chest' || slot === 'legs' || slot === 'full') && String(f.t || '') !== 'MAGIC') return;
+    if (fighter.test(String(f.n || ''))) return;
+    const score = (AC_GRADE_RANK[f.g] || 0) * 10000 + (Number(f.pd) || 0), cost = Math.max(1, Number(ing.count) || 1);
+    const cur = best[slot]; if (!cur || score > cur.score || (score === cur.score && cost < cur.cost)) best[slot] = { entry: e.entry, slot, cost, score, ids: prods.map(x => Number(x.p.id)) };
+  });
+  const order = ['full', 'chest', 'legs', 'head', 'gloves', 'feet'];
+  const list = Object.values(best).sort((a, b) => a.cost - b.cost || order.indexOf(a.slot) - order.indexOf(b.slot));
+  if (best.full && (best.chest || best.legs)) { const fullBetter = best.full.score >= Math.max(best.chest ? best.chest.score : 0, best.legs ? best.legs.score : 0); list.splice(0, list.length, ...list.filter(x => fullBetter ? (x.slot !== 'chest' && x.slot !== 'legs') : x.slot !== 'full')); }
+  const out = []; let left = Math.max(0, Number(coupons) || 0);
+  list.forEach(x => { if (x.cost <= left) { out.push({ entry: x.entry, slot: x.slot, cost: x.cost, ids: x.ids }); left -= x.cost; } });
+  return out;
+}
+function acTier(cid) {
+  const c = Number(cid);
+  if (cid === null || cid === undefined || cid === '' || !isFinite(c)) return null;
+  if (AC_BASE.indexOf(c) >= 0) return 0;
+  if (AC_FIRST.indexOf(c) >= 0) return 1;
+  if ((c >= 88 && c <= 118) || (c >= 131 && c <= 136)) return 3;
+  return 2;
+}
+function acMystic(cid) { return AC_MYSTIC.indexOf(Number(cid)) >= 0; }
+/** my class's shadow weapon id (= beginnergear_logic shadowWeaponFor): Kamael none, mystic staff, dwarf club, orc cestus, other fighters long sword */
+function acWeaponId(cid) {
+  const c = Number(cid);
+  if (c >= 123 && c <= 136) return null;
+  if (acMystic(c)) return 10474;
+  if ((c >= 53 && c <= 57) || c === 117 || c === 118) return 10475;
+  if ((c >= 44 && c <= 52) || (c >= 113 && c <= 116)) return 10477;
+  return 10479;
+}
+/** the coupon's level / class window (beginnergear_logic planChar, the same limits the server uses) -> { ok, why } */
+function acWindow(which, level, cid) {
+  const L = Number(level) || 0, t = acTier(cid);
+  if (t === null) return { ok: false, why: 'class unknown' };
+  if (which === 'weapon') {
+    if (t > 0) return { ok: false, why: 'only before the 1st class change' };
+    if (L >= 20) return { ok: false, why: 'only up to level 19' };
+    if (L < 6) return { ok: false, why: `from level 6 (I am ${L})` };
+    if (!acWeaponId(cid)) return { ok: false, why: 'Kamael: none of the shadow weapons fits' };
+    return { ok: true, why: '' };
+  }
+  if (which === 'armor') {   // ACADROUTE-2026-11-01: L2Toggle shadow armor, level 20-39 with the 1st class
+    if (t >= 2) return { ok: false, why: 'only with the 1st class (before the 2nd class change)' };
+    if (L >= 40) return { ok: false, why: 'only up to level 39' };
+    if (t === 0 || L < 20) return { ok: false, why: `after the 1st class change, from level 20 (I am ${L})` };
+    return { ok: true, why: '' };
+  }
+  if (t >= 2 || L >= 40) return { ok: false, why: t >= 2 ? 'only with the 1st class (before the 2nd class change)' : 'only below level 40' };
+  if (t === 0) return { ok: false, why: 'after the 1st class change (level 20), before 40' };
+  return { ok: true, why: '' };
+}
+/** the shadow weapon beats the worn one? worn = gear_items row { pa, ma } | null (nothing worn = yes); mystic compares M.Atk, fighters P.Atk */
+function acWeaponBetter(worn, shadow, mystic) {
+  if (!worn) return true;
+  const k = mystic ? 'ma' : 'pa';
+  return (Number(shadow && shadow[k]) || 0) > (Number(worn[k]) || 0);
+}
+/** put the shadow jewelry on? wornMd = M.Def of each worn earring / ring / necklace (planChar: fewer than 5 worn, or a gain > 20) */
+function acJewelDo(wornMd) {
+  const L = (wornMd || []).map(Number);
+  if (L.length < 5) return { go: true, gain: null };
+  const gain = AC_JEWEL.setMd - L.reduce((s, x) => s + (x || 0), 0);
+  return { go: gain > 20, gain };
+}
+const AC_HOP = /newbie|beginner|item|equipment|coupon|reward|gift|weapon|accessor/i;
+const AC_NOHOP = /teleport|quest|buy|sell|tutorial|back|close|cancel|shot|map|recommend|hunting|town|village|clan|skill|class|rank|ask|talk/i;
+function acNorm(s) { return String(s || '').toLowerCase().replace(/<[^>]*>/g, ' ').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim(); }
+/** the link to click on a Newbie Guide page: the wanted one (exact / contains), else (max 2 hops) a menu link that may lead to it
+ *  -> { link, final } | null. Read from the LIVE page (texts, never bypass codes). */
+function acPickLink(links, want, hop) {
+  const L = (links || []).filter(l => l && l.text);
+  for (const wt of [].concat(want)) {
+    const w = acNorm(wt);
+    const hit = L.find(l => acNorm(l.text) === w) || L.find(l => acNorm(l.text).includes(w)) || L.find(l => w.includes(acNorm(l.text)) && acNorm(l.text).length > 12);
+    if (hit) return { link: hit, final: true };
+  }
+  if (hop >= 2) return null;
+  // COUPONHOP-2026-11-01: L2Toggle's first guide page reaches the coupons through "Ask for help with a newbie item." - the "ask" in AC_NOHOP
+  // blocked it and every academy character went on in starter gear (owner: "this will kill every toon if they dont have it")
+  const m = L.find(l => /newbie item|newbie equipment|coupon/i.test(l.text)) || L.find(l => AC_HOP.test(l.text) && !AC_NOHOP.test(l.text));
+  return m ? { link: m, final: false } : null;
+}
+/** the multisell entry that turns my coupon into this product -> entry | null */
+function acEntry(entries, coupon, product) {
+  return (entries || []).find(e => (e.products || []).some(p => Number(p.id) === Number(product)) && (e.ings || []).some(g => Number(g.id) === Number(coupon))) || null;
+}
+/** the idle swap of an expired shadow weapon: { go, why } (o = { academy, on, win, coupons, shadowWorn, shadowBag, guideDist, idle }) */
+function acSwapDecide(o) {
+  if (!o.academy || !o.on) return { go: false, why: 'not an academy character / switched off' };
+  if (!o.win) return { go: false, why: 'outside the coupon window' };
+  if (o.shadowWorn) return { go: false, why: 'the shadow weapon is still on' };
+  if (o.shadowBag) return { go: false, why: 'a shadow weapon is in the bag: it is put on, no new exchange' };
+  if (!(o.coupons > 0)) return { go: false, why: 'no coupon left' };
+  if (!(o.guideDist <= 1500)) return { go: false, why: 'no Newbie Guide near: waits for the next stop next to one (no trip)' };
+  if (!o.idle) return { go: false, why: 'busy (fight / trade / order / leveling walk)' };
+  return { go: true, why: 'shadow weapon gone, a coupon left, standing idle next to a Newbie Guide' };
+}
+/** COUPONRETRY-2026-11-01 (owner: "every single academy toon JUST works ... 24/7"; the coupons are "life saving"): a failed weapon / armor coupon
+ *  is never given up while the character is in its window: retried at most every 15 min, never in a fight (10 s without one), never while a plan
+ *  step other than leveling runs. A 'running' left over from a cut-off try (> 20 min old) counts as failed.
+ *  o = { academy, on, win, status, lastAt, now, fightFreeMs, busy, planOther } -> { go, why } */
+function acRetryDecide(o) {
+  if (!o.academy || !o.on) return { go: false, why: 'not an academy character / coupons off' };
+  if (!o.win) return { go: false, why: 'outside the coupon window' };
+  // COUPONNOW-2026-11-01 (owner: "You retry until you make it work. Every 15 minutes is insane ... they cant Hunt without"): 30 s after a failure,
+  // also out of a hunt (acBreakOff stops leveling + the fight first); a cut-off 'running' counts as failed after 5 min
+  const stale = o.status === 'running' && o.now - (o.lastAt || 0) > 5 * 60000;
+  if (o.status !== 'failed' && !stale) return { go: false, why: `status ${o.status || 'none'}` };
+  if (o.now - (o.lastAt || 0) < 30000) return { go: false, why: 'tried less than 30 s ago' };
+  if (o.busy) return { go: false, why: 'busy (trade / NPC / raid / dead / another coupon run)' };
+  if (o.planOther) return { go: false, why: 'a plan step other than leveling runs' };
+  return { go: true, why: o.status === 'failed' ? 'the last try failed - again until it works' : 'the last try was cut off' };
+}
+/** COUPONLIVE-2026-11-01: which Newbie Guide to travel to: the nearest one within walking range (15k), else Gludio's (31077) -> npc query */
+const AC_GUIDES = [[30598, -84081, 243227], [30599, 45475, 48359], [30600, 12111, 16686], [30601, 115632, -177996], [30602, -45032, -113598], [31076, -83123, 150868], [31077, -13920, 121977], [32135, -119692, 44504]];
+function acGuideQuery(x, y) {
+  let best = null, bd = 1e12; AC_GUIDES.forEach(g => { const d = Math.hypot(g[1] - x, g[2] - y); if (d < bd) { bd = d; best = g; } });
+  return String(best && bd <= 15000 ? best[0] : 31077);
+}
+// ACADCOUPON-PURE-END
+const ACC = { busy: false, pos: null, posAt: 0 };
+function acFile() { return `${SWARM_ROOT}\\Logs\\acadcoupon_${Me.Name}.json`; }
+function acRead() { try { return JSON.parse(String(File.ReadAllText(acFile())).replace(/^﻿/, '')); } catch (e) { return {}; } }
+function acSet(which, status, text) {
+  const s = acRead(); s.name = String(Me.Name); s.on = acadCfg().coupons; s[which] = { status, text: String(text || '').slice(0, 300), at: new Date(now()).toISOString(), level: num(Me.Level) };
+  try { File.WriteAllText(acFile(), JSON.stringify(s, null, 1)); } catch (e) { }
+  academyLog(`coupon ${which}: ${status} - ${text || ''}`);
+}
+function acGuideNear() { let ref = null, bd = 1e9; try { snapNpcs().forEach(n => { if (n.IsDead || String(n.Name) !== 'Newbie Guide') return; const d = Math.hypot(num(n.X) - Me.X, num(n.Y) - Me.Y); if (d < bd) { bd = d; ref = n.ref; } }); } catch (e) { } return { ref, d: bd }; }
+function acObjOf(id, worn) { let o = 0; try { Inventory.forEach(i => { if (!o && num(i.Id) === num(id) && !!i.IsEquiped === !!worn) o = num(i.objId); }); } catch (e) { } return o; }
+/** open the guide and click my way to the wanted link -> { ok, path: [texts], link, why } (pages saved to Logs/acadcoupon_<Name>_page.html) */
+async function acDialogTo(ref, want) {
+  let html = await openNpc(ref); const path = [];
+  for (let hop = 0; hop <= 2; hop++) {
+    try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\acadcoupon_${Me.Name}_page${hop}.html`, String(html || '')); } catch (e) { }
+    if (!html) return { ok: false, why: `the Newbie Guide did not answer${path.length ? ' after "' + path.join(' > ') + '"' : ''}` };
+    const L = npcLinks(String(html)), p = acPickLink(L, want, hop);
+    if (!p) return { ok: false, why: `no "${want}" on the guide's page (links: ${L.map(x => x.text).join(' | ').slice(0, 200)})` };
+    if (p.final) return { ok: true, path: path.concat([p.link.text]), link: p.link };
+    path.push(p.link.text);
+    const ans = await DLG.click(p.link, { expect: ['npc'], base: 3000, from: 'Newbie Guide', reclick: false });
+    html = ans && ans.ok ? ans.html : null;
+  }
+  return { ok: false, why: `"${want}" not found within 2 pages` };
+}
+/** get the coupon(s) of this kind at the guide (once per character) -> { ok, why } */
+/** ACADROUTE-2026-11-01: the armor coupon has no known id -> the bag item whose name says "Magic Armor Exchange Coupon" -> { id, count } */
+function acArmorCoupon() { let id = 0, n = 0; try { (hostSnap.inv() || Inventory).forEach(i => { if (AC_ARMOR_COUPON_RE.test(String(i.Name || ''))) { id = num(i.Id); n += Math.max(1, num(i.Count)); } }); } catch (e) { } return { id, count: n }; }
+function acCouponCount(which) { return which === 'armor' ? acArmorCoupon().count : bagCount(AC_ITEM[which]); }
+async function acGetCoupon(ref, which) {
+  const c0 = acCouponCount(which);
+  if (c0 > 0) return { ok: true, why: `${c0} coupon(s) already in the bag` };
+  const d = await acDialogTo(ref, AC_LINK[which].coupon); if (!d.ok) return d;
+  const ans = await DLG.click(d.link, { expect: ['npc', 'quest'], base: 2500, from: 'Newbie Guide', reclick: false });
+  await DLG.effect({ check: () => acCouponCount(which) > c0, base: 2500, label: `Newbie Guide: ${which} coupon` });
+  if (acCouponCount(which) > c0) return { ok: true, why: `got ${acCouponCount(which) - c0} coupon(s)` };
+  const t = ans && ans.html ? htmlText(String(ans.html)).slice(0, 160) : '';
+  // COUPONFINAL-2026-11-01 (Nuker38: the ARMOR coupon link answers "Your already got your newbie weapon!" - L2Toggle uses the weapon coupon's
+  // once-only flag for it too): the server's "already got" answer is final = 'unavailable', never retried every 30 s
+  return { ok: false, final: acCouponFinal(t), why: `no coupon came (once per character, or the window does not fit${t ? ': "' + t + '"' : ''})` };
+}
+/** COUPONFINAL: the guide's answer says this character can never get it */
+function acCouponFinal(text) { return /already (got|received|have)|only once/i.test(String(text || '')); }
+/** exchange ONE coupon for the product at the guide's list -> { ok, why } */
+async function acExchange(ref, which, product) {
+  const id = AC_ITEM[which], c0 = bagCount(product);
+  if (bagCount(id) < 1) return { ok: false, why: 'no coupon in the bag' };
+  const d = await acDialogTo(ref, AC_LINK[which].exchange); if (!d.ok) return d;
+  try { Send.RequestBuySellUIClose(); } catch (e) { }
+  const r = await gscanClick(ref, d.path, true);
+  try {
+    if (r.kind !== 'multisell' || !r.entries) return { ok: false, why: `the exchange list did not open (${r.error || r.kind || '?'})` };
+    const e = acEntry(r.entries, id, product);
+    if (!e) return { ok: false, why: `the list has no coupon -> item ${product} entry` };
+    Send.MultiSellChoose(r.listId, e.entry, 1);
+    await DLG.effect({ check: () => bagCount(product) > c0, base: 2500, label: `Newbie Guide: exchange ${which}` });
+  } finally { try { Send.RequestBuySellUIClose(); } catch (e) { } }
+  return bagCount(product) > c0 ? { ok: true, why: `exchanged 1 coupon (${bagCount(id)} left)` } : { ok: false, why: 'the exchange gave nothing' };
+}
+/** ACADROUTE-2026-11-01: armor coupons -> the shadow robe pieces (acArmorPick) from the "Magic Armor warehouse" list -> { ok, why, ids } */
+async function acExchangeArmor(ref) {
+  const cp = acArmorCoupon(); if (!cp.count) return { ok: false, why: 'no armor coupon in the bag' };
+  const d = await acDialogTo(ref, AC_LINK.armor.exchange); if (!d.ok) return d;
+  try { Send.RequestBuySellUIClose(); } catch (e) { }
+  const r = await gscanClick(ref, d.path, true), got = [];
+  try {
+    if (r.kind !== 'multisell' || !r.entries) return { ok: false, why: `the armor list did not open (${r.error || r.kind || '?'})` };
+    const picks = acArmorPick(r.entries, cp.id, gearDb().items || {}, cp.count);
+    try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\acadcoupon_${Me.Name}_armorlist.json`, JSON.stringify({ coupon: cp, entries: r.entries, picks }, null, 1)); } catch (e) { }
+    if (!picks.length) return { ok: false, why: `no robe piece on the list fits (${r.entries.length} entries, ${cp.count} coupon(s))` };
+    for (const p of picks) {
+      const b0 = p.ids.map(id => bagCount(id));
+      Send.MultiSellChoose(r.listId, p.entry, 1);
+      await DLG.effect({ check: () => p.ids.some((id, k) => bagCount(id) > b0[k]), base: 2500, label: `Newbie Guide: shadow ${p.slot}` });
+      if (p.ids.some((id, k) => bagCount(id) > b0[k])) got.push(...p.ids);
+      await sleep(400);
+    }
+  } finally { try { Send.RequestBuySellUIClose(); } catch (e) { } }
+  return got.length ? { ok: true, why: `${got.length} shadow piece(s) taken`, ids: got } : { ok: false, why: 'the exchange gave nothing' };
+}
+/** put the shadow armor pieces on where they beat the worn piece (P.Def; never over a +10 piece) -> text */
+async function acWearArmor(ids) {
+  const db = gearDb().items || {}, worn = {}, keep = new Set(); let on = 0;
+  try { Inventory.forEach(i => { const f = db[i.Id]; if (i.IsEquiped && f && AC_ARMOR_SLOTS.indexOf(f.s) >= 0) worn[f.s] = { pd: num(f.pd), ench: num(i.EnchantLvl) }; }); } catch (e) { }
+  for (const id of ids || []) {
+    const f = db[id]; if (!f) continue;
+    const w = worn[f.s] || (f.s === 'full' ? worn.chest : null);
+    if (w && (w.ench >= 10 || w.pd >= num(f.pd))) continue;
+    const oid = acObjOf(id, false); if (!oid) continue;
+    await equipPiece(oid, f.s, keep); keep.add(oid); on++;
+    await sleep(600);
+  }
+  return `${on} shadow armor piece(s) put on; the old pieces stay in the bag`;
+}
+/** put the shadow weapon on when it beats the worn one (never over a +10 weapon) -> text */
+async function acWearWeapon(wid) {
+  const db = gearDb().items || {}, shadow = db[wid] || {};
+  let worn = null, wornEnch = 0; try { Inventory.forEach(i => { if (i.IsEquiped && db[i.Id] && db[i.Id].s === 'weapon') { worn = db[i.Id]; wornEnch = num(i.EnchantLvl); } }); } catch (e) { }
+  if (worn && wornEnch >= 10) return `kept the worn +${wornEnch} weapon`;
+  if (!acWeaponBetter(worn, shadow, acMystic(num(Me.ClassId)))) return `kept ${worn ? worn.n : 'the worn weapon'} (better than ${shadow.n || wid})`;
+  const oid = acObjOf(wid, false); if (!oid) return 'the shadow weapon is not in the bag';
+  await equipPiece(oid, 'weapon', new Set());
+  return acObjOf(wid, true) ? `${shadow.n || wid} put on` : `${shadow.n || wid} did NOT go on`;
+}
+/** open the jewelry box and put the 5 pieces on when they beat the worn ones (never over a +10 piece) -> text */
+async function acWearJewels() {
+  const box = acObjOf(AC_JEWEL.box, false);
+  if (box) { const p0 = bagCount(AC_JEWEL.neck); try { Send.UseItem(box); } catch (e) { } await DLG.effect({ check: () => bagCount(AC_JEWEL.neck) > p0, base: 2500, label: 'open the Magic Accessory Set' }); }
+  const db = gearDb().items || {}, md = []; let plus10 = false;
+  try { Inventory.forEach(i => { const f = db[i.Id]; if (i.IsEquiped && f && /^(earring|ring|neck)$/.test(f.s)) { md.push(num(f.md)); if (num(i.EnchantLvl) >= 10) plus10 = true; } }); } catch (e) { }
+  if (plus10) return 'a worn +10 jewel: nothing put on (never touched)';
+  const dec = acJewelDo(md);
+  if (!dec.go) return `kept the worn jewelry (the shadow set adds only ${dec.gain} M.Def)`;
+  const keep = new Set(); let on = 0;
+  for (const [id, slot] of [[AC_JEWEL.neck, 'neck'], [AC_JEWEL.earring, 'earring'], [AC_JEWEL.earring, 'earring'], [AC_JEWEL.ring, 'ring'], [AC_JEWEL.ring, 'ring']]) {
+    const oid = acObjOf(id, false); if (!oid) continue;
+    await equipPiece(oid, slot, keep); keep.add(oid); on++;
+    await sleep(600);
+  }
+  return `${on} shadow jewel(s) put on${dec.gain !== null ? ` (+${dec.gain} M.Def)` : ''}; the old pieces stay in the bag`;
+}
+/** the academy plan step 'coupon': the trip to the nearest Newbie Guide + coupon + exchange + wear. Always { ok } (a fail is skipped by the plan) */
+async function acCouponStep(which) {
+  const C = acadCfg(), done = (acRead()[which] || {}).status === 'done';
+  if (!isAcademy()) return { ok: true, skipped: true, result: 'not an academy character' };
+  if (!C.coupons) { acSet(which, 'off', 'switched off (academy.json coupons)'); return { ok: true, skipped: true, result: 'coupons switched off' }; }
+  if (done) return { ok: true, result: `${which} coupon already done` };
+  const w = acWindow(which, num(Me.Level), num(Me.ClassId));
+  if (!w.ok) { acSet(which, 'skipped', w.why); return { ok: true, skipped: true, result: `${which} coupon: ${w.why}` }; }
+  if (ACC.busy) return { ok: true, skipped: true, result: 'a coupon run is already busy' };
+  ACC.busy = true;
+  // COUPONRETRY-2026-11-01: the coupon run holds the control slot (P4 order level) for the whole trip, so the leveling (P5) cannot take it back
+  // half-way ("trip: stopped" seen live); a more important task (survival, team safety) still wins -> failed, retried later
+  if (!takeControl('academy coupon', PRIO.ORDER)) { ACC.busy = false; acSet(which, 'failed', `a more important task holds the team (${control.owner || '?'})`); return { fail: `${which} coupon: a more important task runs (${control.owner || '?'})` }; }
+  autoLvl.stop = true;
+  try {
+    const bo = await acBreakOff(60000);   // COUPONRETRY: out of the fight first (".gludio did not move me (combat)" seen live)
+    if (!bo.ok) { acSet(which, 'failed', 'trip: ' + bo.why); return { fail: `${which} coupon: ${bo.why}` }; }
+    acSet(which, 'running', 'walking to the nearest Newbie Guide');
+    let g = acGuideNear();
+    if (!g.ref || g.d > 1500) {
+      // COUPONLIVE-2026-11-01: a guide within walking range, else the Gludio guide (31077: .gludio + a short walk) - the far trips to Kamael
+      // Village broke (gatekeepers "336821 away did not answer")
+      const t = await goToNpc(acGuideQuery(Me.X, Me.Y), { solo: true, noTalk: true });
+      if (!t.ok) { acSet(which, 'failed', 'trip: ' + t.why); return { fail: `${which} coupon: the trip to a Newbie Guide failed (${t.why})` }; }
+      g = acGuideNear();
+    }
+    if (!g.ref) { acSet(which, 'failed', 'no Newbie Guide in sight'); return { fail: `${which} coupon: no Newbie Guide in sight` }; }
+    const why = planInterrupted(); if (why) return { interrupted: why };
+    const got = await acGetCoupon(g.ref, which);
+    if (!got.ok) { acSet(which, got.final ? 'unavailable' : 'failed', got.why); return got.final ? { ok: true, skipped: true, result: `${which} coupon: not available for me (${got.why})` } : { fail: `${which} coupon: ${got.why}` }; }
+    const product = which === 'weapon' ? acWeaponId(num(Me.ClassId)) : which === 'armor' ? 0 : AC_JEWEL.box;
+    const ex = which === 'armor' ? await acExchangeArmor(g.ref) : await acExchange(g.ref, which, product);
+    if (!ex.ok) { acSet(which, 'failed', `${got.why}; exchange: ${ex.why}`); return { fail: `${which} coupon: ${ex.why}` }; }
+    const wear = which === 'weapon' ? await acWearWeapon(product) : which === 'armor' ? await acWearArmor(ex.ids) : await acWearJewels();
+    acSet(which, 'done', `${got.why}; ${ex.why}; ${wear}`);
+    return { ok: true, result: `${which} coupon: ${wear}` };
+  } catch (e) { logError('acad coupon', e); acSet(which, 'failed', 'error: ' + (e && e.message || e)); return { fail: `${which} coupon: error ${e && e.message || e}` }; }
+  finally { ACC.busy = false; releaseControl('academy coupon'); }
+}
+// the expired shadow weapon: the next coupon ONLY when I already stand idle next to a Newbie Guide (no trip, no interruption)
+setInterval(() => {
+  try {
+    if (ACC.busy || !state.role || !isAcademy() || !IsCharacterReady()) return;
+    const cid = num(Me.ClassId), wid = acWeaponId(cid), p = { x: Me.X, y: Me.Y }, moved = !ACC.pos || Math.hypot(p.x - ACC.pos.x, p.y - ACC.pos.y) > 60;
+    if (moved) { ACC.pos = p; ACC.posAt = now(); }
+    if (!wid || bagCount(AC_ITEM.weapon) < 1) return;
+    const idle = !moved && now() - ACC.posAt > 30000 && !Me.IsDead && !Me.IsInCombat && now() - lastAttackerOnMe.at > 30000 && !state.npcBusy && !state.gkBusy && !state.bbsBusy && !tradeState
+      && !(typeof HOV !== 'undefined' && HOV.busy) && !(typeof raidHunt !== 'undefined' && raidHunt.active) && !!currentTownKey();
+    const g = acGuideNear();
+    const d = acSwapDecide({ academy: true, on: acadCfg().coupons, win: acWindow('weapon', num(Me.Level), cid).ok, coupons: bagCount(AC_ITEM.weapon),
+      shadowWorn: !!acObjOf(wid, true), shadowBag: !!acObjOf(wid, false), guideDist: g.d, idle });
+    let anyWeapon = false; try { const db = gearDb().items || {}; Inventory.forEach(i => { if (i.IsEquiped && db[i.Id] && db[i.Id].s === 'weapon') anyWeapon = true; }); } catch (e) { }
+    // no weapon on at all + the shadow one in the bag: put it on (no exchange)
+    if (!d.go) { if (!anyWeapon && acObjOf(wid, false) && idle) { ACC.busy = true; acWearWeapon(wid).then(t => acSet('weapon', 'done', 'the shadow weapon from the bag: ' + t)).catch(e => logError('acad coupon wear', e)).finally(() => { ACC.busy = false; }); } return; }
+    ACC.busy = true;
+    (async () => {
+      const ex = await acExchange(g.ref, 'weapon', wid);
+      const wear = ex.ok ? await acWearWeapon(wid) : '';
+      acSet('weapon', ex.ok ? 'done' : 'failed', ex.ok ? `the shadow weapon ran out: ${ex.why}; ${wear}` : `the next exchange failed: ${ex.why}`);
+    })().catch(e => logError('acad coupon swap', e)).finally(() => { ACC.busy = false; });
+  } catch (e) { logError('acad coupon tick', e); }
+}, 30000);
+// COUPONRETRY-2026-11-01: retry a failed weapon / armor coupon (acRetryDecide). Before the trip the character breaks off: leveling stops, combat
+// stops, it waits up to 60 s for the combat flag to drop (an attacker = the escape: CC, run, town) - the two live causes today were "trip:
+// stopped" (leveling replaced the trip) and ".gludio did not move me (combat)". The plan's own leveling step restarts leveling afterwards.
+async function acBreakOff(maxMs) {
+  autoLvl.stop = true; stopCombatG('coupon trip'); try { Send.StopMove(); } catch (e) { }
+  const t0 = now(); let escaped = false;
+  while (now() - t0 < maxMs) {
+    const hit = now() - lastAttackerOnMe.at < 3000;
+    if (!hit && !IsInCombat && !bfStanceLive() && now() - lastAttackerOnMe.at > 8000 && !autoLvl.active) return { ok: true, why: escaped ? 'out of the fight (escaped)' : 'out of the fight' };
+    if (hit && !escaped && !ESC.on) { escaped = true; try { await escapeFight('coupon trip: still attacked while breaking off'); } catch (e) { } }
+    await sleep(1000);
+  }
+  return { ok: false, why: `still in a fight after ${Math.round(maxMs / 1000)} s` };
+}
+setInterval(() => {
+  try {
+    if (!state.role || !isAcademy() || !IsCharacterReady() || !isLeader()) return;
+    if (Me.IsDead || IsInCombat || now() - lastAttackerOnMe.at < 2000) ACC.fightAt = now();
+    if (ACC.retrying || ACC.busy) return;
+    const C = acadCfg(), cid = num(Me.ClassId), lvl = num(Me.Level), st = acRead();
+    for (const which of ['weapon', 'armor']) {
+      const s = st[which] || {}, lastAt = Date.parse(s.at || '') || 0;
+      const d = acRetryDecide({ academy: true, on: C.coupons, win: acWindow(which, lvl, cid).ok, status: s.status, lastAt, now: now(), fightFreeMs: now() - (ACC.fightAt || 0),
+        busy: Me.IsDead || !!state.npcBusy || !!state.gkBusy || !!state.bbsBusy || !!tradeState || (typeof HOV !== 'undefined' && HOV.busy) || (typeof raidHunt !== 'undefined' && raidHunt.active) || inRaid() || ESC.on || (typeof ACUL !== 'undefined' && ACUL.busy) || (FULLW.lvl === 'full' && which === 'weapon' && acadBagBlocks()),
+        planOther: !!PLAN.running && !PLAN.levelStep });
+      if (!d.go) continue;
+      ACC.retrying = true;
+      (async () => {
+        acSet(which, 'running', `retry (${d.why}): breaking off the fight first`);
+        const b = await acBreakOff(60000);
+        if (!b.ok) { acSet(which, 'failed', `retry: ${b.why}`); return; }
+        const r = await acCouponStep(which);
+        if (r && r.interrupted) acSet(which, 'failed', `retry cut off: ${r.interrupted}`);
+      })().catch(e => { logError('acad coupon retry', e); acSet(which, 'failed', 'retry error: ' + (e && e.message || e)); }).finally(() => { ACC.retrying = false; });
+      return;
+    }
+  } catch (e) { logError('acad coupon retry tick', e); }
+}, 5000);
 async function planRun(why) {
   if (!isLeader() || PLAN.running) return;
   const p0 = planMine();
@@ -36200,6 +37856,10 @@ async function planRun(why) {
   if (!p0.on) { note('plan: the plan is not switched on ("Use this plan when I press Start" in 📋 Plan)', true); return; }
   Object.assign(PLAN, { running: true, stop: false, jump: false });
   note(`plan "${p0.name}": running (${why})`, true);
+  // PLANWATCH-2026-10-31: leveling that ran before the plan started stops first (Nuker32: the watchdog's leveling kept running next to her plan's
+  // "adena in Giran" step, took her to a hunting ground and she died); the plan's own leveling steps start their own leveling
+  { let nextKind = ''; try { const st0 = p0.steps[planCursor(p0, planProg())]; nextKind = st0 ? String(st0.kind || '') : ''; } catch (e) { }
+    if (autoLvl.active && nextKind !== 'level') { autoLvl.stop = true; const tl = now(); while (autoLvl.active && now() - tl < 60000) await sleep(1000); } }
   try {
     for (;;) {
       PLAN.jump = false;
@@ -36301,6 +37961,20 @@ function planCommand(parts) {
   }
   note('[plan] use: !plan start | stop | next | goto <n> | restart | status', true);
 }
+// PLANBACKON-2026-11-01 (owner: "we keep State after restart of hive" / "Make a permanent solution for this"): a plan that paused ONLY because its
+// party was switched OFF (hive pause, dashboard restart, Stop) goes on at the same step by itself as soon as the party is ON again - whatever
+// switched it back on (dashboard Start, hive resume, run_state.json). A plan you paused yourself / that waits for you / is finished stays put.
+function planBackOnDecide(o) { return !!o.on && !o.running && !!o.planOn && o.left > 0 && o.status === 'paused' && /switched OFF/.test(String(o.why || '')); }
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || !isLeader() || PLAN.running) return;
+    const pl = planMine(); if (!pl || !pl.on) return;
+    const pg = planProg(), info = planStartInfo(pl, pg, PLAN.running);
+    if (!planBackOnDecide({ on: runOn(), running: PLAN.running, planOn: pl.on, left: info ? info.left : 0, status: pg.status, why: pg.why })) return;
+    note('plan: the party is ON again — going on with the same step', true);
+    planRun('the party is ON again').catch(e => logError('plan back on', e));
+  } catch (e) { logError('plan back on', e); }
+}, 5000);
 // RESUME (owner rule: nothing starts by itself — only a party that is switched ON and whose plan was RUNNING goes on after a restart)
 const planResumeIv = setInterval(() => {
   try {
@@ -36782,10 +38456,13 @@ function qeChainFor(file, a, cond, npcId, planKey) {
   return pick(all);                                                                 // another cond of the same talk (same event / same target stage)
 }
 /** one page: chain = step.dialog, pos = the next entry index, L = the page's links -> { link, idx } | { done } | { miss: why } */
-function qeChainPick(chain, pos, L) {
+function qeChainPick(chain, pos, L, questMenuUsed) {
   const C = chain || [];
   if (pos >= C.length) return { done: true };
   for (let j = pos; j < C.length; j++) { const l = qeDlgMatch(L, C[j]); if (l) return { link: l, idx: j, entry: C[j] }; }
+  // QUESTMENU-2026-11-01 (Varika, quest 412: L2Toggle's first page offers only "Quest"; the chain starts at "Want to obtain power" - the quest failed
+  // for every academy character): no chain link here but a plain "Quest" link = click it ONCE per talk (the quest page follows), the chain stays put
+  if (!questMenuUsed) { const q = (L || []).find(x => qeDlgNorm(x.text) === 'quest'); if (q) return { link: q, idx: pos - 1, entry: { kind: 'quest-menu', implicit: true } }; }
   // PHASEB-2026-10-27: only optional entries left ("Quest" / the quest list of a talk-trigger delivery, the NPC opened the quest page directly) = done, no stop
   if (C.slice(pos).every(e => e.optional || e.kind === 'quest-menu' || e.kind === 'quest-list')) return { done: true };
   const need = C.slice(pos).find(e => !(e.optional || e.kind === 'quest-menu' || e.kind === 'quest-list')) || C[pos];
@@ -37287,9 +38964,10 @@ async function qeDialog(ref, q, a) {
     let p = null; const cprev = cpos;
     if (a.kind === 'start' && qeListInProgress(npcLinks(String(html)), q.name)) { qeLog(q.id, ref.Name + '\'s quest list shows "' + q.name + ' (In Progress)": the quest runs at the server — not starting it again'); return { ok: true, inProgress: true, clicks, hit: false, text, endLinks: -1, refused: '', hard: false, chainMiss: '', chain: !!dstep }; }   // PHASEB-2026-10-27 (362)
     if (dstep) {   // QDIALOG-2026-10-27: the chain's click on THIS page (optional entries skipped), else stop and name what the page offered
-      const ck = qeChainPick(dstep.dialog, cpos, npcLinks(String(html)));
+      const ck = qeChainPick(dstep.dialog, cpos, npcLinks(String(html)), !!w.questMenuUsed);
       if (ck.done) break;
       if (ck.miss) { chainMiss = ref.Name + ' (' + dstep.key + '): ' + ck.miss; break; }   // PHASEB-2026-10-27: logged by qeDoTalk only when it really stops the step
+      if (ck.entry.implicit) w.questMenuUsed = true;                 // QUESTMENU-2026-11-01
       p = { link: ck.link, why: ck.entry.kind === 'quest-menu' ? 'menu' : 'chain' }; cpos = ck.idx + 1;
       if (ck.entry.effect || cpos >= dstep.dialog.length) hit = true;
       if (ck.entry.effect) cpos = dstep.dialog.length;   // PHASEB-2026-10-27: the goal click (any first-page variant, 271) ends the chain
@@ -38212,6 +39890,7 @@ function assistBlocked() {
     if (myPair.on && pairActive()) return 'hunting pair';
     if (escort.active) return 'escort';
     if (DLV.on) return 'delevel';
+    if (now() - (AOE.hold || 0) < 3000 || AOE.pulling) return 'aoe team: holding my place';   // AOETEAM-2026-10-30
     if (now() < (state.followHoldUntil || 0) && state.followHoldUntil !== assistSt.holdUntil) return 'follow held by another task';
   } catch (e) { return 'error'; }
   return '';
@@ -38220,13 +39899,30 @@ function assistFollowHold(ms) { followHold(ms); assistSt.holdUntil = state.follo
 /** Leader: say the monster I selected (every change at once, the same every 2 s, 0 = none / dead) */
 function assistLeaderTick() {
   if (!state.role || !leadMode() || !isLeader() || !IsCharacterReady()) return;
-  let id = 0, m = null;
+  let id = 0, m = null, why = 'announced';
   try {
-    if (!Me.IsDead && !isHealerRole() && assistOn() && !assistOwnedMode() && !currentTownKey()) {
+    if (Me.IsDead) why = 'dead'; else if (isHealerRole()) why = 'healer'; else if (!assistOn()) why = 'assist off'; else if (assistOwnedMode()) why = 'owned mode'; else if (currentTownKey()) why = 'town';
+    else {
       const T = Target; const tid = T ? num(T.objId) : 0;
-      if (tid) { m = mobById(tid); if (m && !m.IsDead && !(hpZeroKnown(m)) && !ignoredMob(m)) id = tid; else m = null; }
+      if (!tid) why = 'no target';
+      else { m = mobById(tid); if (!m) why = 'target not in my monster list'; else if (m.IsDead) why = 'target dead'; else if (hpZeroKnown(m)) why = 'target at 0 % HP'; else if (ignoredMob(m)) why = 'ignored monster'; else id = tid; if (!id) m = null; }
     }
-  } catch (e) { id = 0; m = null; }
+  } catch (e) { id = 0; m = null; why = 'error'; }
+  // LTGTDIAG-2026-10-30 (owner: "they dont attack when ever shaded has targeted the monsters, they still waits"; Tank1's members logged almost no
+  // assist decisions all day): per minute why the leader did / did not announce his target -> Logs/assist_diag.log (leader rows: "LEADER <name>")
+  { const W = assistSt.ldiag || (assistSt.ldiag = { at: now(), c: {} }); W.c[why] = (W.c[why] || 0) + 1;
+    if (now() - W.at > 60000) { try { appendShared(`${SWARM_ROOT}\\Logs\\assist_diag.log`, `${new Date().toISOString()}	LEADER ${Me.Name}	${JSON.stringify(W.c)}\r\n`); } catch (e) { } assistSt.ldiag = { at: now(), c: {} }; } }
+  // TANKFOCUS-2026-10-30 (owner: "feel like shaded is changing targets all the time?" -> "Keep the target, taunt the adds"): a TANK leader takes every
+  // monster that hits a teammate / him (help, ATTACKFIRST) and casts his Aggression at it - the MARKED target the party kills stays the monster it is
+  // on while that one lives, is within 1500 of me and was marked < 45 s ago; when it dies / is gone, the add I hold is the next marked target.
+  try {
+    const F = assistSt.focus;
+    if (ROLE_RE.tank.test(state.role || '') && id && F && F.id && F.id !== id) {
+      const fm = mobById(F.id);
+      if (fm && !fm.IsDead && Math.hypot(num(fm.X) - Me.X, num(fm.Y) - Me.Y) <= 1500 && now() - F.at < 45000) { id = F.id; m = fm; why = 'marked target kept (tank holds an add)'; }
+      else assistSt.focus = { id, at: now() };
+    } else if (id && (!F || F.id !== id)) assistSt.focus = { id, at: now() };
+  } catch (e) { }
   const E = assistSt.emit;
   if (id === E.id && (id === 0 || now() - E.at < ASSIST.refreshMs)) return;
   if (id === 0 && E.id <= 0) { E.id = 0; return; }
@@ -38234,9 +39930,13 @@ function assistLeaderTick() {
   try { App.emit('swarm.ltgt', { leader: Me.Name, id, x: m ? Math.round(num(m.X)) : 0, y: m ? Math.round(num(m.Y)) : 0, z: m ? Math.round(num(m.Z)) : 0, at: now() }); } catch (e) { }
 }
 /** Member: act on the leader's target (force = right after his event) */
+// LTGTDIAG-2026-10-30: why a member's tick stopped BEFORE its decision (those never reached the diag line): counted with it, once a minute
+function assistEarly(k) { const W = assistSt.ediag || (assistSt.ediag = { at: now(), c: {} }); W.c[k] = (W.c[k] || 0) + 1;
+  if (now() - W.at > 60000) { try { appendShared(`${SWARM_ROOT}\\Logs\\assist_diag.log`, `${new Date().toISOString()}\tEARLY ${Me.Name}\t${JSON.stringify(W.c)}\r\n`); } catch (e) { } assistSt.ediag = { at: now(), c: {} }; } }
 function assistMemberTick(force) {
   if (!state.role || isLeader() || !leadMode() || !IsCharacterReady() || Me.IsDead) return;
-  if (ownFollowNow()) {                                                // OWNPROFILE-2026-10-16: Hive skills OFF = the player's Follow Attack assists; no script attacks, no follow hold
+  if (assistSt.lt && now() - assistSt.lt.at < ASSIST.freshMs) assistEarly('fresh leader target');
+  if (ownFollowNow()) { if (assistSt.lt) assistEarly('own follow (hand-played leader / Hive skills off)');                                                // OWNPROFILE-2026-10-16: Hive skills OFF = the player's Follow Attack assists; no script attacks, no follow hold
     if (assistSt.holdUntil && state.followHoldUntil === assistSt.holdUntil) state.followHoldUntil = 0;
     assistSt.holdUntil = 0; assistSt.issued = { id: 0, at: 0 }; return;
   }
@@ -38249,7 +39949,7 @@ function assistMemberTick(force) {
   const caster = (() => { try { return casterOwnsAttacks(); } catch (e) { return false; } })();
   const selectOnly = !caster && (noMelee() || CASTER_ROLES.test(state.role || ''));   // a caster whose L2Swarm profile fights (Hive skills OFF): select only, never melee
   { const tp = mtTeamPoint(); const lt = assistLeaderView(); const tm = lt && lt.id ? mobById(lt.id) : null;   // TOGETHER-2026-10-18: no assist run off the team route
-    if (tp && tm && Math.hypot(num(tm.X) - num(tp.x), num(tm.Y) - num(tp.y)) > MT.leash) return; }
+    if (tp && tm && Math.hypot(num(tm.X) - num(tp.x), num(tm.Y) - num(tp.y)) > MT.leash) { assistEarly('target off the team route point (move-together leash)'); return; } }
   const d = assistDecide({ on: assistOn(), healer: isHealerRole() || HEALER_ROLES.test(state.role || '') || (noMelee() && !caster), blocked: assistBlocked(), attacker,
     lt: assistLeaderView(), mates: (ltFresh && assistSt.lt.id) ? [] : assistMateAttackers(), chase: ASSIST.chase, zl: assistZl(), nextRange: ASSIST.nextRange,
     caster, selectOnly, cur, sinceIssue: cur && cur.id === iss.id ? now() - iss.at : 1e9, reissueMs: ASSIST.reissueMs, stopDead: myDead && !!Me.IsMoving });
@@ -38272,10 +39972,16 @@ function assistMemberTick(force) {
   } else if (d.act === 'keep' && !selectOnly) assistFollowHold(3000);
 }
 setInterval(() => { try { assistLeaderTick(); } catch (e) { logError('assist leader', e); } try { assistMemberTick(false); } catch (e) { logError('assist member', e); } }, ASSIST.tickMs);
+// SELLTRIP-2026-10-30: the leader's team is in town for a !sell -> every member sells now (its own marked items, the normal !sell)
+App.on('swarm.sellnow', (event) => {
+  try { const d = event.data || {}; if (!d.leader || d.leader !== CONFIG.leader || isLeader() || !currentTownKey()) return;
+    note(`sell: ${d.leader} brought the team to ${currentTownKey()} — selling now`); handleSay(Me.Name, '!sell'); } catch (e) { logError('sellnow', e); }
+});
 App.on('swarm.ltgt', (event) => {
   const d = event.data || {};
   if (!d.leader || d.leader !== CONFIG.leader || d.leader === Me.Name || isLeader()) return;
   assistSt.lt = num(d.id) ? { id: num(d.id), x: num(d.x), y: num(d.y), z: num(d.z), at: now() } : null;
+  try { assistEarly(num(d.id) ? 'leader announced a target' : 'leader announced none'); } catch (e) { }
   try { assistMemberTick(true); } catch (e) { logError('assist event', e); }
 });
 
@@ -38962,6 +40668,15 @@ setInterval(() => {
     const e = num(Me.Exp), lvl = num(Me.Level), pct = num(Me.ExpPercent || 0), dead = !!Me.IsDead;
     if (dead && !LIVEP.dead) LIVEP.deadAt = now();
     if (!dead && LIVEP.dead) LIVEP.revAt = now();
+    // EXPKEEP-2026-10-30 (owner: "Many of the /overview says no xp but they are farming?"): the hour of exp lived only in memory, so every deploy /
+    // reload restarted the overview's measurement at 0 min. Saved every minute to Logs/exp_hour_<name>.json, read back at the first tick (same
+    // level only, entries < 1 h, the measuring window keeps its old start)
+    if (LIVEP.exp === null && !LIVEP.restored) {
+      LIVEP.restored = true;
+      try { const s = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Logs\\exp_hour_${Me.Name}.json`));
+        if (s && Array.isArray(s.hour) && num(s.lvl) === lvl) { LIVEP.hour = s.hour.filter(x => x && now() - num(x.at) < 3600000); if (num(s.startAt) && now() - num(s.startAt) < 3600000 + 600000) LIVEP.startAt = num(s.startAt); } } catch (er2) { }
+    }
+    if (LIVEP.restored && now() - (LIVEP.savedAt || 0) > 60000) { LIVEP.savedAt = now(); try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\exp_hour_${Me.Name}.json`, JSON.stringify({ lvl: LIVEP.lvl || lvl, startAt: LIVEP.startAt, hour: LIVEP.hour })); } catch (er2) { } }
     if (LIVEP.exp === null || !e || !lvl) { Object.assign(LIVEP, { exp: e || null, lvl, pct, dead }); if (!LIVEP.startAt) LIVEP.startAt = now(); return; }
     const amt = e - LIVEP.exp;
     if (amt !== 0) {
@@ -39215,6 +40930,7 @@ var SOLOSAFE = { fleeHp: 50, fleeAttackers: 2, fleeNear: 4, nearR: 900, leaveHp:
   restClear: 1200, restMoveGapMs: 15000, potBelow: 60, potGapMs: 10000, deathSkipMs: 24 * 3600e3, scriptFight: true };
 /** o = { hp, hitAgo, attackers (monsters targeting / hitting me, not CC'd), near (aggressive or on me, within nearR, not CC'd), atkHp (HP % of the
  *  one that hit me last), sinceEsc (ms since my last escape ended) } -> { act: 'escape' | '', why } */
+function acadFleeCfg(academy, cfg) { return academy ? Object.assign({}, cfg, { fleeNear: 99 }) : cfg; }   // ACADFIGHT-2026-11-01
 function soloFleeDecide(o, cfg) {
   const c = cfg || SOLOSAFE, hp = Math.round(Number(o.hp) || 0);
   if ((o.hitAgo === undefined ? 1e9 : o.hitAgo) > c.hitMs) return { act: '', why: 'not being hit' };
@@ -39440,7 +41156,9 @@ async function waitWholeTeam(what) {
 
 function teamNames() {
   const names = [];
-  try { (hostSnap.party() || PartyList).forEach(p => { if (CONFIG.roster[p.Name] && p.Name !== Me.Name) names.push(p.Name); }); } catch (e) { }
+  // TEAMCFG-2026-11-01 (owner: "why is shaded still looking for inspector1"): an in-game party member whose configured party (swarm.config.json) is
+  // another one is not my teammate - Inspector1 got her own party on 2026-10-31 but stayed in Tank1's in-game party and he kept waiting for her
+  try { (hostSnap.party() || PartyList).forEach(p => { if (CONFIG.roster[p.Name] && p.Name !== Me.Name && teamOf(p.Name) === teamOf(Me.Name)) names.push(p.Name); }); } catch (e) { }
   if (isLeader()) try { Object.keys(livePos).forEach(n => { const lp = livePos[n]; if (lp && lp.withLeader && now() - lp.at < 8000 && n !== Me.Name && !names.includes(n) && (lp.lead ? lp.lead === Me.Name : teamOf(n) === teamOf(Me.Name))) names.push(n); /* TEAMLEAD: a character naming another leader is never mine (characters added after my start have no CONFIG.teams entry -> teamOf = main leader for all) */ }); } catch (e) { }
   // HANDSOFF-2026-10-26: a teammate switched to hands off is not counted by its party (no waits, roll calls, team steps, supplies, trades for it)
   try { const H = runData().handsOff; if (H && typeof H === 'object' && Object.keys(H).length) { const keep = names.filter(n => !handsOffOf(n)); if (keep.length !== names.length) { names.length = 0; keep.forEach(n => names.push(n)); } } } catch (e) { }
@@ -39507,6 +41225,8 @@ setInterval(() => {
     withLeader: (() => { let w = false; try { (hostSnap.party() || PartyList).forEach(p => { if (p.Name === CONFIG.leader) w = true; }); } catch (e) { } return w || isLeader(); })(),   // my own view: am I in my leader's party?
     lead: isLeader() ? Me.Name : CONFIG.leader,   // TEAMLEAD-2026-10-13: WHOSE party I am with (withLeader alone made party Jade count in party Yellow)
     fight: !!(now() - lastAttackerOnMe.at < 6000 || bfStanceLive() || Me.IsAttacking || now() - hpWatch.dropAt < 6000),
+    sn: (() => { try { return crunMyNeeds().slice(0, 6); } catch (e) { return []; } })(),   // CRAFTRUN D: my shot needs (the runner brings them)
+    cb: (() => { try { const c = combatInfo(); return c.in ? { w: c.why.join(', ').slice(0, 120), ms: c.clearInMs } : 0; } catch (e) { return 0; } })(),   // COMBATSTATE-2026-11-01: the server's view (0 = out of combat)
     // PAIRSGATE (2026-10-09 17:55): REALLY in a fight = a monster hits ME / my HP drops (a teleport hold counts only these, never a fresh pull)
     tid: (() => { try { const T = Target; return T && T.objId && (Me.IsAttacking || IsInCombat || Me.IsCasting) ? num(T.objId) : 0; } catch (e) { return 0; } })(),   // MINIONSKIP-2026-10-18
     thp: (() => { try { const T = Target; const v = T ? Number(T.HpPercent) : NaN; return isFinite(v) ? Math.round(v * 10) / 10 : null; } catch (e) { return null; } })(),
@@ -39553,6 +41273,12 @@ function leaderHandPlayed() {
   if (now() - HANDLEAD.at < 30000) return HANDLEAD.v;
   HANDLEAD.at = now(); let v = false;
   try { const m = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Settings\\client_mode.json`)).replace(/^﻿/, '')) || {}; v = String(m[CONFIG.leader] || '').toLowerCase() === 'ingame'; } catch (e) { }
+  // HANDLEAD-3 (2026-10-30, owner: "they still wait for shaded to cast hes spell"): Tank1 runs in the game client (In-game) while his SCRIPT levels
+  // the party; the members took him for hand-played and left the attacking to L2Swarm's Follow Attack (= only after his Aggression / Hate Aura;
+  // test_member_assist: median 11 s -> 0.4 s without it). A leader whose script is leveling / hunting / raiding (his swarm_state mode, fresh) is
+  // led by the bots: never hand-played
+  if (v) { try { const s = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Logs\\swarm_state_${CONFIG.leader}.json`)).replace(/^﻿/, '')) || {};
+    const fresh = s.updated && now() - Date.parse(s.updated) < 120000; if (fresh && /^(autolevel|raid|raidhunt|mission|circuit|quest|lead)/i.test(String(s.mode || ''))) v = false; } catch (e) { } }
   HANDLEAD.v = v;
   return v && !(typeof runOn === 'function' && runOn());   // HANDLEAD-2: only while the party is switched OFF (raid hunt / Start = the bots lead, client open or not)
 }
@@ -39562,7 +41288,14 @@ setInterval(() => {
   try {
     if (isLeader() || !state.role || !leaderHandPlayed() || Me.IsDead || inRaid() || !IsCharacterReady()) return;
     let trading = false; try { trading = !!(tradeState || HOV.busy); } catch (e) { } if (trading) return;
-    if (memberRoute.mt && memberRoute.pts) return;                       // HANDLEAD-2: a team walk the leader started (an order) is never cancelled
+    if (memberRoute.mt && memberRoute.pts) return;
+    // HANDERRAND-2026-10-30 (owner: "all the team members from Shades team are STILL following him and is trying to run to their location but gets
+    // pulled back again"): this keeper forced follow + walked them back to the hand-played Tank1 during their gear-up. A member on an errand
+    // (shopping), an item job or an upgrade run is left alone; the keeper takes over again when it is done.
+    try { if ((typeof errandNow === 'function' && errandNow()) || (typeof IJ !== 'undefined' && IJ.busy) || (typeof GUP !== 'undefined' && GUP.busy)) return; } catch (e) { }
+    // HANDTASK-2026-10-30 (Inspector1's !goto npc Pushkin: 'stuck at 83368,148536' every 20 s next to the hand-played Tank1): any task holding
+    // control (an order, an NPC trip, a hand-over) or a running NPC trip leaves me alone too
+    try { if (control.owner || (state.npcTrip && !state.npcTrip.result)) return; } catch (e) { }                       // HANDLEAD-2: a team walk the leader started (an order) is never cancelled
     if (NNAV) NNAV.wantFollow = false;
     // HANDCATCH (owner 12:00: "rest of party should just follow the waypoints to leader under Baium"): far from the leader (> 1200 or another
     // floor) = walk the route waypoints (Scripts/data/hand_lead.json route, default raid:29020) from my nearest point to his, then follow again
@@ -39606,6 +41339,9 @@ function followOk(want) {
   if (!want) return false;
   if (runHeld()) return false;                                        // RUNSTATE: held by its own character switch (HANDSOFF-2026-10-26: hands off = held too)
   if (now() < (state.followHoldUntil || 0)) return false;
+  // ERRANDFOLLOW-2026-10-30 (owner: "the onces you set to run to buy gear keeps waitinf for party leader and runs back and fourth"): the gear-up
+  // errand's follow hold was cleared by a trade / dialog finally (followHoldUntil = 0) and every member was pulled back to Tank1. An errand = no follow.
+  if (!isLeader() && typeof errandNow === 'function' && errandNow()) return false;
   if (NNAV && !isLeader() && noNativeNav() && !ownFollowNow()) { NNAV.wantFollow = true; return false; }   // OWNPROFILE: own profile = L2Swarm follow stays   // no L2Swarm follow under the native-nav guard: the script follow does it
   try {
     if (isLeader()) return false;
@@ -40042,6 +41778,11 @@ async function duelHit(p) {
 // (dashboard: party Settings -> Fighting -> Team fighting). Off = no duel, no drain helper; Frenzy & co. still fire when the fight brings HP low.
 // The user's own !draintest order always runs.
 function destroyerDrainOn() { try { return partyTactics().destroyerDrain === true; } catch (e) { return false; } }
+// DRAINWAY-2026-10-30 (owner: "make it so the Frenzy kit (HP swap) is optional for raids ... switch between them hitting each other down to lower hp AND
+// if they can just use the gear swap ... Because in high level they kill each other"): two party switches under the drain, both default ON (missing =
+// ON, only false is stored): drainKit = the Frenzy kit gear swap, drainDuel = hitting each other (+ the partner's drain helper). Both off = no drain.
+function drainKitOn() { try { return partyTactics().drainKit !== false; } catch (e) { return true; } }
+function drainDuelOn() { try { return partyTactics().drainDuel !== false; } catch (e) { return true; } }
 async function drainAndFrenzy(reengageBoss, opts) {
   if (!hiveSkillsOn()) return;
   if (!destroyerDrainOn() && !(opts && opts.manual)) {                  // DESTROYERDRAIN-2026-10-15: off = ready at once (the !go prep waits for '!ready')
@@ -40069,9 +41810,10 @@ async function drainAndFrenzy(reengageBoss, opts) {
     await cast(s.rage, 1000);
     { const k = skillNamed('Battle Roar'); if (k && k.IsReady && !crHasBuffNamed('Bless the Body')) { Send.RequestMagicSkillUse(num(k.Id)); await sleep(900); } }
     // HP swap first (user 2026-10-04): low-max-HP gear on, then high-max-HP gear on -> current HP stays, % drops
-    if (Me.HpPercent >= below) swapBack = await hpSwap();
+    if (Me.HpPercent >= below && drainKitOn()) swapBack = await hpSwap();   // DRAINWAY: the gear swap only when the party's "Frenzy kit gear swap" is on
+    if (!drainDuelOn() && Me.HpPercent >= below) log(`Drain: HP ${Math.round(Me.HpPercent)}% — hitting each other is off for this party (gear swap only)`);
 
-    while (Me.HpPercent >= below &&
+    while (drainDuelOn() && Me.HpPercent >= below &&
            Me.HpPercent > CONFIG.drainFloor &&
            now() - started < CONFIG.prep.timeoutMs &&
            state.running && state.mode !== 'idle') {
@@ -40162,6 +41904,10 @@ const ORDER_STICK = { tries: 5, maxMs: 600000, gapMs: [4000, 8000, 12000, 20000]
 // commands that are a NEW order from the user / the leader: each one ends the order before it (its retry loop stops at once)
 const ORDER_CMDS = /^!(stop|start|park|safespot|town|level|autolevel|supply|restock|collect|mission|raidhunt|goto|gk|soe|regroup|return|gearup|assist|dungeon|jointraid|siege|routetest|escort|career|farm|go|raid|hunthere|formation|dawn)$/;   // ORDERQ (2026-10-13): + dawn (a user order: it supersedes the older one; = ORDER_RE in Dashboard/orderqueue.js)
 function orderCmdIs(cmd) { return ORDER_CMDS.test(String(cmd || '').toLowerCase()); }
+/** STARTKEEPSQUEST-2026-11-01: a plain '!start' (no name) while the quest engine runs the quest of my plan's current step does not replace it */
+function startKeepsQuest(cmd, nParts, qRunning, qId, planQuestId) { return cmd === '!start' && nParts <= 1 && !!qRunning && Number(qId) > 0 && Number(qId) === Number(planQuestId); }
+/** the quest id of my plan's current step (0 = none / not a quest step) */
+function planCurQuestId() { try { const pl = planMine(); if (!pl || !pl.on) return 0; const st = pl.steps[planCursor(pl, planProg())]; return st && st.kind === 'quest' ? num(st.quest) : 0; } catch (e) { return 0; } }
 /** does this command start a new order in MY window? '!goto npc <query> <character>' for another character does not replace my order */
 function orderNewFor(parts, me, roster) {
   const cmd = String((parts || [])[0] || '').toLowerCase();
@@ -40216,11 +41962,14 @@ const orderFile = () => `${SWARM_ROOT}\\Logs\\order_${Me.Name}.json`;
 // userSeq = the seq of the last REAL order (anything but an internal hand-over step); orderReplaced(seq) = a real order came after seq.
 function orderInternalText(t) { return /^!handover\b/i.test(String(t || '').trim()); }
 function orderReplaced(seq) { return (Number(orderState.userSeq) || 0) > (Number(seq) || 0); }
+// OWNERFIRST-2026-10-30 (owner: "if i cast a order it should take precedence over your decicion"; Tank1's letters hand-over at 22:45 marked the
+// owner's !start "superseded - a newer order (!handover letters_...) replaced it"): an internal hand-over step never ends the owner's order
+// (userOrderEnd only for real orders) and retry loops only step aside for a REAL newer order (orderReplaced = userSeq)
 /** handleSay: a new order arrived -> every older order's retry loop steps aside; its saved trip is forgotten */
 function orderBegin(text) {
   orderState.seq++; orderState.text = String(text || ''); orderState.at = now();
   if (!orderInternalText(text)) orderState.userSeq = orderState.seq;   // PLANGEAR-2026-10-23
-  try { if (typeof userOrderEnd === 'function') userOrderEnd(); } catch (e) { }   // ORDERQ (2026-10-13): the new order supersedes the old user order (it no longer blocks newer orders / Seven Signs)
+  try { if (typeof userOrderEnd === 'function' && !orderInternalText(text)) userOrderEnd(); } catch (e) { }   // OWNERFIRST: not for an internal hand-over; ORDERQ (2026-10-13): the new order supersedes the old user order (it no longer blocks newer orders / Seven Signs)
   // CMDFIX-2026-10-12: the formation hold (followHold 30 min) ends with the next order — "the next order releases them" was never built
   try { if (FORM.until > now()) { if (num(state.followHoldUntil) <= FORM.until + 1000) state.followHoldUntil = 0; FORM.until = 0; FORM.slot = null; } } catch (e) { }
   try { if (File.Exists(orderFile())) File.Delete(orderFile()); } catch (e) { }
@@ -40278,7 +42027,7 @@ async function orderRetry(order, o) {
   while (state.running) {
     const mine = !o.control || control.owner === o.control;
     // o.abort(): the caller's own stop (a mission's !mission stop / aborted team run) ends the loop like a newer order
-    const d = orderRetryDecide({ done: o.done ? !!o.done() : lastOk, superseded: orderState.seq !== seq || !!(o.abort && o.abort()), fatal: orderFatalWhy(lastWhy), dead: !!Me.IsDead,
+    const d = orderRetryDecide({ done: o.done ? !!o.done() : lastOk, superseded: orderReplaced(seq) || !!(o.abort && o.abort()),   // OWNERFIRST: only a REAL newer order (not an internal hand-over) replaces this one fatal: orderFatalWhy(lastWhy), dead: !!Me.IsDead,
       outranked: !mine && outranked(PRIO.ORDER), tries, startedAt: t0, now: now(), lastWhy, max, maxMs: o.maxMs });
     if (d.act === 'done') { if (typeof oqSeqOk === 'function') oqSeqOk(seq, o.what); if (tries > 1) note(`${order}: ${o.what} — done ${d.why}`, true); intentDone('order', true, `${o.what}${d.why ? ' — ' + d.why : ''}`); return { ok: true, why: '', tries }; }
     if (d.act === 'superseded') { intentDone('order', false, `${o.what}: ${d.why}`); return { ok: false, why: d.why, tries, superseded: true }; }
@@ -40462,6 +42211,21 @@ function runOnOrCollector() { if (handsOffMe()) return false; return collectorOn
 /** HANDSOFF-2026-10-26: is <n> (default: me) switched to hands off? (run_state.json, cached 2 s by runData; my own answer cached 1 s) */
 function handsOffOf(n) { try { const name = String(n || Me.Name); return !!name && runHandsOff(runData(), name); } catch (e) { return false; } }
 var HANDSOFF_LABEL = '✋ Hands off — Hive does nothing; only your L2Swarm profile and your own orders';   // HOFFRACE-2026-10-27: task / State list text
+// HOFFSTOP-2026-10-30 (tester Vykaax: "I went IG and Stopped the party AND pressed Hive Hands off and it is still making me run around town" - a
+// route walk started before, 403k left): the moment hands off switches ON, whatever the hive was doing stops (control.gen bump = every walk / team
+// loop that checks interrupted() ends, StopMove, my route walk + route state cleared). Orders you give afterwards still run.
+setInterval(() => {
+  try {
+    const h = handsOffMe();
+    if (h && HOFF.wasOn === false) {
+      control.gen++; try { Send.StopMove(); } catch (e) { }
+      try { if (typeof memberRoute !== 'undefined' && memberRoute.id) memberRouteStop(); } catch (e) { }
+      state.route = null; try { if (state.errand) errandEnd(); } catch (e) { }
+      note('hands off: switched on - I stopped what the hive had me doing (walks / tasks); your own orders still work', true);
+    }
+    HOFF.wasOn = h;
+  } catch (e) { }
+}, 1000);
 function handsOffMe() { try { if (now() - HOFF.at < 1000) return HOFF.on; HOFF.at = now(); HOFF.on = handsOffOf(String(Me.Name)); return HOFF.on; } catch (e) { return false; } }
 /** a member held by its own character switch (n = any roster name; the leader asks for his teammates through benched()) */
 function runHeld(n) {
@@ -40773,10 +42537,17 @@ function htEntryMine(key) {
   const e = htEntry(htData(), key); if (e) return e;
   if (htUntilStop(htData(), key)) return null;                              // UNTILSTOP-2026-10-29: "Until I stop it" = no 12 h session either
   try {
-    if (!autoLvl.spot || currentTownKey()) return null;
+    // LHSESSION-2026-10-30 (owner: option 2 "one trip to Giran when the 12 h run out: shots, loot, letters, then back to the same spot"): the session
+    // was keyed by the exact spot, so a party rotating rooms (Spoiler3: Torfe room -> Ossiud room) started a new 12 h every room and never went to
+    // town (no loot / letters since 26-27 Oct). ONE session per party now, kept in Logs/lh_session_<leader>.json across rooms and script reloads;
+    // it ends with the town visit (in a town = no session; the next arrival starts a new one). The end action is always the Giran trip + back.
+    const SF = `${SWARM_ROOT}\\Logs\\lh_session_${CONFIG.leader}.json`;
+    if (currentTownKey()) { if (LH.sess) { LH.sess = null; try { File.WriteAllText(SF, '{}'); } catch (e) { } } return null; }
+    if (!autoLvl.spot) return null;
     const k = spotKeyOf(autoLvl.spot); if (!k) return null;
-    if (!LH.first[k]) LH.first[k] = now();
-    return lhEntry(lhHours(pautoData(), CONFIG.leader), k, autoLvl.spot.name || k, LH.first[k], pautoOn('supplyWatch'));
+    if (!LH.sess) { try { const s = JSON.parse(File.ReadAllText(SF)); if (s && s.id && s.first) LH.sess = s; } catch (e) { } }
+    if (!LH.sess) { LH.sess = { id: 'session:' + now(), first: now(), spot: autoLvl.spot.name || k }; try { File.WriteAllText(SF, JSON.stringify(LH.sess)); } catch (e) { } }
+    return lhEntry(lhHours(pautoData(), CONFIG.leader), LH.sess.id, autoLvl.spot.name || k, LH.sess.first, true);
   } catch (er) { return null; }
 }
 /** LONGHUNT: the team is AT the long-hunt spot and hunting (the clock starts / a repeat run starts) */
@@ -40819,7 +42590,9 @@ async function htEndRun(action, e, key) {
   if (regroupRun) { try { abortRegroup('hunting time is up'); } catch (er) { } }
   let ok = false; try { ok = await leadGoGiran('hunting time is up'); } catch (er) { logError('hunt timer town', er); }
   let sup = '';
-  if (ok && pautoOn('supplyWatch')) { try { const r = await leadSupply('hunting time is up', { inline: true }); sup = r ? ` (supply run: ${r})` : ' + supply run'; } catch (er) { logError('hunt timer supply', er); sup = ' (supply run failed)'; } }
+  // LHSESSION (owner option 2): the end-of-session trip of a long hunt always buys the shots + hands loot / letters over (the supply run), also when
+  // the automatic supply watch is off for the party
+  if (ok && (pautoOn('supplyWatch') || (action === 'resupply' && e.long))) { try { const r = await leadSupply('hunting time is up', { inline: true }); sup = r ? ` (supply run: ${r})` : ' + supply run'; } catch (er) { logError('hunt timer supply', er); sup = ' (supply run failed)'; } }
   else if (ok) sup = ' (no supply run: switched off in the party settings)';
   if (action === 'resupply') {
     if (!ok) { fin(`could not get to ${hub} (${townFailWhy()}) — hunting goes on`); return; }
@@ -41031,6 +42804,7 @@ function nearStartOk() {
 async function leadLevel(why) {
   if (!isLeader()) return;
   if (!runAuto('leveling')) { note(`leveling (${why}): not started — the party is switched OFF (dashboard Start / !start / !level switch it on)`); return; }   // RUNSTATE
+  if (crafterModeMe()) { note(`leveling (${why}): not for me - I am the clan crafter (crafter mode)`, true); return; }   // CRAFTRUN B
   if (!rcAuto('level')) { note(`leveling (${why}): not started — the raid circuit owns this party (Stop it on the Circuit tab, or send your own order)`, true); return; }   // CIRCUIT 24/7 (2026-10-13)
   // ONEOWNER-LEVEL 2026-10-22 (Spoiler10 21:13: the hunt timer's late "back to the spot" cut the plan's Plains of Dion trip off with a Giran regroup;
   // docs/requirements/plan.md R1): an AUTOMATIC start never interrupts leveling that already runs (travel to the spot included) or a leadLevel
@@ -41128,10 +42902,13 @@ function recoveryScroll() {
   const t = lv < 20 ? [8594, 'No Grade'] : lv < 40 ? [8595, 'Grade D'] : lv < 52 ? [8596, 'Grade C'] : lv < 61 ? [8597, 'Grade B'] : lv < 76 ? [8598, 'Grade A'] : [8599, 'Grade S'];
   return { id: t[0], name: `Scroll: Recovery (${t[1]})` };
 }
-// use a Recovery scroll whenever I have the penalty and the scroll (every 15 s, not in a fight)
+// use a Recovery scroll whenever I have the penalty and the scroll (every 15 s). DPANYTIME-2026-11-01 (owner: "they did not use scrolls ...
+// they are running around with it" / "can be outside combat as well"): a leveling character is nearly never out of combat, so the old
+// "not in a fight" rule meant never; now also in a fight while HP >= 50 %
+function dpScrollNow(dead, inFight, hpPct) { return !dead && (!inFight || hpPct >= 50); }
 setInterval(() => {
   try {
-    if (!IsCharacterReady() || Me.IsDead || IsInCombat || now() - lastAttackerOnMe.at < 8000) return;
+    if (!IsCharacterReady() || !dpScrollNow(Me.IsDead, IsInCombat || now() - lastAttackerOnMe.at < 8000, num(Me.HpPercent))) return;
     const dp = deathPenaltyLevel(); if (!dp) return;
     const r = recoveryScroll(); if (itemCount(r.id) <= 0) return;
     UseItem(r.id); note(`death penalty ${dp}: used ${r.name}`);
@@ -41216,8 +42993,8 @@ async function giranServices(why, opt) {
     const sr = await teamStep(`${Date.now()}sl`, 'sellrun', 9000 * order.length + 300000, { order, grades: supplyJunkGrades() });
     const ss = Object.values(sr.got || {}).filter(a => a && /^sold [1-9]/.test(String(a.msg || ''))).map(a => `${a.name}: ${a.msg}`); if (ss.length) out.push('sold: ' + ss.join(', '));
   } catch (e) { logError('giran services sell', e); } }
-  if (pautoOn('storeCov')) { try { const c = await storeBuyBuff(STORE_COV.id, 'Party', 'Chant of Victory'); out.push('Chant of Victory: ' + c.why); } catch (e) { logError('dpcov cov', e); } }
-  if (pautoOn('storeMagnus')) { try { const c = await storeBuyBuff(STORE_MAGNUS.id, 'Party', "Magnus' Chant", { titleRe: STORE_MAGNUS.titleRe }); out.push("Magnus' Chant: " + c.why); } catch (e) { logError('magnus', e); } }   // MAGNUS-2026-10-23
+  if (pautoOn('storeCov')) { try { const c = await storeBuyBuff(STORE_COV.id, acStoreMode('Party'), 'Chant of Victory', acStoreOpt({})); out.push('Chant of Victory: ' + c.why); } catch (e) { logError('dpcov cov', e); } }   // ACADSTORE-2026-10-31
+  if (pautoOn('storeMagnus')) { try { const c = await storeBuyBuff(STORE_MAGNUS.id, acStoreMode('Party'), "Magnus' Chant", acStoreOpt({ titleRe: STORE_MAGNUS.titleRe })); out.push("Magnus' Chant: " + c.why); } catch (e) { logError('magnus', e); } }   // MAGNUS-2026-10-23
   try { await soStoreAddOn(out, 'rebuff trip'); } catch (e) { logError('store add-on', e); }   // STOREADD-2026-10-22
   if (pautoOn('vitality')) { try {
     const runId = `${Date.now()}vt`, vr = await teamStep(runId, 'vitalityrun', VIT.staggerMs * order.length + 180000, { order });
@@ -41733,12 +43510,12 @@ async function leadSupply(why, opts) {
     //     the leader buys Chant of Victory for the WHOLE party (target 'Party', no range limit) from a player buff store near the Giran landing
     if (pautoOn('storeCov') && currentTownKey() === 'Giran' && !hurry()) {
       pstStep('supply', 'Chant of Victory');
-      try { const r = await storeBuyBuff(STORE_COV.id, 'Party', 'Chant of Victory'); res.push('Chant of Victory: ' + r.why); note(`[supply] Chant of Victory: ${r.why}`, true); } catch (e) { logError('store buff', e); }
+      try { const r = await storeBuyBuff(STORE_COV.id, acStoreMode('Party'), 'Chant of Victory', acStoreOpt({})); res.push('Chant of Victory: ' + r.why); note(`[supply] Chant of Victory: ${r.why}`, true); } catch (e) { logError('store buff', e); }   // ACADSTORE-2026-10-31: academy = self, cheap cap
       T.mark('cov', now());
     }
     if (pautoOn('storeMagnus') && currentTownKey() === 'Giran' && !hurry()) {   // MAGNUS-2026-10-23: Magnus' Chant (casting speed) for the whole party
       pstStep('supply', "Magnus' Chant");
-      try { const r = await storeBuyBuff(STORE_MAGNUS.id, 'Party', "Magnus' Chant", { titleRe: STORE_MAGNUS.titleRe }); res.push("Magnus' Chant: " + r.why); note(`[supply] Magnus' Chant: ${r.why}`, true); } catch (e) { logError('store buff magnus', e); }
+      try { const r = await storeBuyBuff(STORE_MAGNUS.id, acStoreMode('Party'), "Magnus' Chant", acStoreOpt({ titleRe: STORE_MAGNUS.titleRe })); res.push("Magnus' Chant: " + r.why); note(`[supply] Magnus' Chant: ${r.why}`, true); } catch (e) { logError('store buff magnus', e); }   // ACADSTORE-2026-10-31
     }
     if (!hurry()) { try { const before = res.length; await soStoreAddOn(res, 'supply'); if (res.length > before) pstStep('supply', 'store buffs'); } catch (e) { logError('store add-on', e); } }   // STOREADD-2026-10-22: the party's own store buff list
     // 5e. GIFT OF VITALITY (VITALITY-2026-10-21, party switch 'vitality'): every member below vitality level 4 walks to Eva's High Priest at the
@@ -41892,6 +43669,28 @@ async function boardPath(labels) {
     if (!html) throw new Error(`page after '${label}' did not arrive${DLG.last && DLG.last.why ? ' (' + DLG.last.why + ')' : ''}`);
   }
   return html;
+}
+// BOARDPEEK-2026-10-31 (owner: "What does the sub class cost via community? We need to subclass Inspector1 to inspector" + "run read only check"):
+// READ ONLY. Opens the board home, then each menu path in BOARDPEEK_PATHS (boardPath: only the named menu buttons), saves every page
+// (Logs/boardpeek_<path>_<name>.html) and lists the buttons each page offers + its visible text (Logs/boardpeek_<name>.json). It NEVER presses a
+// button on the last page (no add / change / cancel subclass, profession, buy or exchange click); the owner picks what to open next.
+// Career -> Subclass added 2026-10-31 (owner: "Du kan sagtens trykke på Subclass så vi kan se hvad vi kan vælge"). Test: test_boardpeek.js.
+const BOARDPEEK_PATHS = [['Career'], ['Career', 'Subclass'], ['Services']];
+const BOARDPEEK_MENU = /^(Statistic|Buffs|Services|Database|Cabinet|Career|To menu|Back)$/i;
+async function boardPeek() {
+  return cfgWithBoard(async () => {
+    const pages = [];
+    for (const p of BOARDPEEK_PATHS) {
+      const tab = p.join(' > ');
+      try {
+        const html = await boardPath(p);
+        savePage('boardpeek_' + p.join('_').toLowerCase(), html);
+        pages.push({ tab, buttons: pageActions(html).map(a => a.label).filter(l => l && !BOARDPEEK_MENU.test(l)), text: ccText(html).slice(0, 1500) });
+      } catch (e) { pages.push({ tab, err: String((e && e.message) || e) }); }
+    }
+    try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\boardpeek_${Me.Name}.json`, JSON.stringify({ at: now(), name: Me.Name, pages })); } catch (e) { }
+    return { ok: pages.some(p => !p.err), msg: pages.map(p => p.err ? `${p.tab}: ${p.err}` : `${p.tab}: ${p.buttons.join(' · ') || '(no buttons)'}`).join(' | ') };
+  });
 }
 
 // CLASSPLAN-PURE-BEGIN (no host calls in here: Dashboard/classlogic.js carries the SAME block text for text; docs/plan/tools/test_class_plans.js
@@ -42660,7 +44459,7 @@ async function leadTeamAction(action, data) {
     return await dyeMine('supply run');
   }
   // WAREHOUSE STASH (user 2026-10-09 16:05): one after another (rank x CONFIG.stash.staggerMs) to Taurin, deposit, back to the start
-  if (action === 'lootrows') { const L = lootRowsMine(data && data.rule); return { ok: true, rows: L.rows, adena: L.adena, kept: (L.kept || []).slice(0, 20), msg: `${L.rows.length} kinds${L.adena ? ' + ' + L.adena + ' adena' : ''}${(L.kept || []).length ? `, ${L.kept.length} kept (loot rule)` : ''}` }; }   // LOOTRULE-2026-10-13: + kept   // LOOT TO THE CLAN LEADER (2026-10-12)
+  if (action === 'lootrows') { const L = lootRowsMine(data && data.rule, { lettersTo: data && data.lettersTo }); return { ok: true, rows: L.rows, adena: L.adena, kept: (L.kept || []).slice(0, 20), msg: `${L.rows.length} kinds${L.adena ? ' + ' + L.adena + ' adena' : ''}${(L.kept || []).length ? `, ${L.kept.length} kept (loot rule)` : ''}` }; }   // LOOTRULE-2026-10-13: + kept   // LOOT TO THE CLAN LEADER (2026-10-12)
   if (action === 'stashrun') {
     const rank = ((data && data.order) || []).indexOf(Me.Name);
     if (rank < 0 && data && Array.isArray(data.order)) return { ok: true, msg: 'nothing to stash (plan step)' };
@@ -42725,6 +44524,7 @@ const PAUTO_KINDS = { supplyWatch: { char: false, what: 'supply runs when someon
   unload: { char: false, what: 'the leader giving his spare loot to a teammate when his bag is full' },   // UNLOADGATE-2026-10-16: default OFF
   skills: { char: true, def: true, what: 'Hive picks my skills' }, heals: { char: true, def: true, what: 'Hive heals' }, potions: { char: true, def: true, what: 'Hive uses potions' },
   swarmFight: { char: false, what: 'Fight with L2Swarm (Hive only travels)' },   // SWARMFIGHT-2026-10-16: default OFF
+  rest: { char: false, what: 'sitting down to rest when HP / MP run low' },   // RESTOPT-2026-10-30: default OFF
   recommend: { char: false, what: 'party members recommend each other (up to 255)' },   // RECOMMEND-2026-10-23: default OFF
   spotLevelCheck: { char: false, what: 'ask me before hunting a chosen spot above the safe level (off = only warn)' },   // SPOTLVL-2026-10-23: default OFF = warn, never refuse
   // RESUPOPT-2026-10-27 (owner, asked whether "Supplies off" should also stop these three: "Make the resupply optional"): three more buying paths
@@ -42746,6 +44546,17 @@ function pautoEffective(j, kind, me, leader) {
   if (p && typeof p === 'object' && typeof p[kind] === 'boolean') return { on: p[kind], src: 'party' };
   if (typeof J.default[kind] === 'boolean') return { on: J.default[kind], src: 'default' };
   return { on: K.def === true, src: 'default' };                       // HIVESW: missing = the kind's own default (skills / heals / potions ON, the rest OFF)
+}
+/** RESTOPT-2026-10-30 (owner: "Sitting down should be an option" -> "Off by default, per party"): party_auto.json rest (party > all parties > OFF)
+ *  + parties.<leader>.restAt { hpBelow, mpBelow, hpUntil, mpUntil } (missing = 40 / 20 -> 85 / 70). Read at most every 5 s. */
+const RESTRULE = { at: 0, v: null };
+function restRule() {
+  if (RESTRULE.v && now() - RESTRULE.at < 5000) return RESTRULE.v;
+  let v = { on: false, hpBelow: 40, mpBelow: 20, hpUntil: 85, mpUntil: 70 };
+  try { const j = pautoData(), J = pautoNorm(j), lead = CONFIG.leader || Me.Name; v.on = !!pautoEffective(j, 'rest', Me.Name, lead).on;
+    const R = (J.parties[lead] && J.parties[lead].restAt) || (J.default && J.default.restAt) || null;
+    if (R && typeof R === 'object') ['hpBelow', 'mpBelow', 'hpUntil', 'mpUntil'].forEach(k => { const x = Number(R[k]); if (Number.isFinite(x) && x >= 0 && x <= 100) v[k] = x; }); } catch (e) { }
+  RESTRULE.at = now(); RESTRULE.v = v; return v;
 }
 /** HIVESW: the fight toggles the player ticked for this character (names, max 30) */
 function pautoToggles(j, me) {
@@ -42904,6 +44715,7 @@ function shotsOutOffNote(crit) {
 setInterval(() => {
   if (!leadMode() || !state.role || !isLeader() || !IsCharacterReady() || Me.IsDead || leadPaused()) return;
   if (nonstopOn()) return;                                             // NONSTOP / HUNT HERE 24/7: never an automatic supply run (2026-10-12)
+  if (typeof crafterModeMe === 'function' && crafterModeMe()) return;   // CRAFTRUN B: the clan crafter never goes on a supply run
   const rcH = rcHolds();                                               // CIRCUIT 24/7 (2026-10-13): low supplies = the circuit's own resupply step between bosses
   if (rcH && !supplyDue(lastSupplyAtGet(), now())) return;
   if (!rcH && (leadRunBusy || regroupRun || (globalThis.__spotTripAt && now() - globalThis.__spotTripAt < 1800000) || inRaid() || state.mode === 'mission' || (typeof scoutCtl !== 'undefined' && scoutCtl.on) || outranked(PRIO.ORDER) || !supplyDue(lastSupplyAtGet(), now()))) return;   // never during a scout trip (2026-10-10)
@@ -42919,9 +44731,11 @@ setInterval(() => {
   if (!runAuto('supply run')) return;                                  // RUNSTATE: the switch is OFF (your !supply still works)
   if (!rcH && !pautoOn('supplyWatch')) { supplyOffSay(low); return; }   // ONESWITCH-2026-10-27: supply runs off = nothing bought, also not for shots
   if (htHolds('supply run', { low })) return;                          // HUNTTIMER-2026-10-15: a timed hunt holds it (unless shots really ran out)
+  if (typeof planHoldsSupply === 'function' && typeof PLAN !== 'undefined' && planHoldsSupply(PLAN.running, PLAN.levelStep)) return;   // PLANWATCH-2026-10-31
   if (rcH) { rcSupplyAsk(low); return; }                              // CIRCUIT 24/7: asked, never a supply run of its own
   // SHOTSOUT-2026-10-22 / SHOTSOUTOPT-2026-10-26: the shots-out run with the supply switch off (and its shotsOutRun switch) were REMOVED on
   // 2026-10-27 (ONESWITCH above). SHOTBUY-2026-10-23: shots no shop sells never cause a trip (filtered above).
+  if (typeof crunCallRunner === 'function') { try { if (crunCallRunner(low)) return; } catch (e) { } }   // CRAFTRUN D: the runner comes to us - no town trip
   note(`supply watch: running low — ${low.join(' | ').slice(0, 200)} — starting a supply run`, true);
   leadSupply('automatic: ' + low.length + ' running low').catch(e => logError('auto supply run', e));
 }, 60000);
@@ -43645,6 +45459,27 @@ async function raidOverride(args) {
       const b1 = pc();
       return done(true, `${nm} used (HP ${b0.hp}% -> ${b1.hp}%, MP ${b0.mp}% -> ${b1.mp}%), ${Math.max(0, itemCount(id))} left`);
     }
+    // UNEQUIP-2026-10-30 (owner: "Under 'Equipment' I wanna ... be able to unequip items"; the character page's Take off): "unequip <objId>" =
+    // RequestUnEquipItem 0x16 d(slot mask) for that worn piece's body part (L2J H5 ItemTemplate SLOT_*); a ring / earring pair = try one side, the
+    // other one goes back on if the wrong side came off. The piece stays in the bag.
+    case 'unequip': {
+      const oid = num(rest[0]), it = oid ? ovInvItem(oid) : null; if (!it) return done(false, 'which worn piece? (object id from the character page)');
+      const nm = String(it.Name); if (!it.IsEquiped) return done(false, `${nm} is not worn`);
+      const MASK = { UNDERWEAR: 0x1, R_EAR: 0x2, L_EAR: 0x4, NECK: 0x8, R_FINGER: 0x10, L_FINGER: 0x20, HEAD: 0x40, R_HAND: 0x80, L_HAND: 0x100, GLOVES: 0x200, CHEST: 0x400, LEGS: 0x800, FEET: 0x1000, BACK: 0x2000, LR_HAND: 0x4000, FULL_ARMOR: 0x8000, HAIR: 0x10000, ALLDRESS: 0x20000, HAIR2: 0x40000, HAIRALL: 0x80000, R_BRACELET: 0x100000, L_BRACELET: 0x200000, DECO: 0x400000, BELT: 0x10000000, MULTI_ALLWEAPON: 0x4080 };
+      let bp = ''; try { const v = it.BodyPart; bp = String(v).replace(/^.*\./, '').toUpperCase(); if (/^\d+$/.test(bp)) { Object.keys(MASK).forEach(k => { try { if (num(L2BodyPartTypes[k]) === num(v)) bp = k; } catch (e) { } }); } } catch (e) { }
+      const tries = bp === 'LR_EAR' ? [0x2, 0x4] : bp === 'LR_FINGER' ? [0x10, 0x20] : bp === 'MULTI_ALLWEAPON' ? [0x80, 0x4000] : MASK[bp] ? [MASK[bp]] : [];
+      if (!tries.length) return done(false, `${nm}: unknown body part '${bp}'`);
+      const wornNow = () => { const r = {}; try { Inventory.forEach(i => { if (i.IsEquiped) r[num(i.objId)] = true; }); } catch (e) { } return r; };
+      for (const m of tries) {
+        const before = wornNow();
+        try { Send.SendHex('16' + cryLe(m, 4)); } catch (e) { return done(false, 'take-off packet failed: ' + (e && e.message || e)); }
+        await sleep(1200);
+        const after = wornNow(); if (!after[oid]) { Object.keys(before).filter(k => !after[k] && num(k) !== oid).forEach(k => { try { Send.UseItem(num(k)); } catch (e) { } }); return done(true, `${nm} taken off (in the bag)`); }
+        Object.keys(before).filter(k => !after[k]).forEach(k => { try { Send.UseItem(num(k)); } catch (e) { } });   // the other side came off: back on
+        await sleep(800);
+      }
+      return done(false, `${nm} is still worn (the server refused)`);
+    }
     case 'cast': {
       const id = num(rest[0]); const k = id ? SkillsList.GetItemByID(id) : null;
       if (!k) return done(false, `skill ${id || '?'} not learned`);
@@ -43878,7 +45713,9 @@ function handleSay(charName, text, messageType) {
   if (cmd.startsWith('!') && typeof oqChatGate === 'function' && oqChatGate(charName, text)) return;   // ORDERQ (2026-10-13): this order already ran from the dashboard queue - the party-chat copy runs it only once
   // Leader design (2026-10-04): the old self-driving commands are off — checked BEFORE orderBegin (CMDFIX 2026-10-12: they cancelled the running order)
   if (leadMode() && /^!(career|escort|gear|shop)$/.test(cmd)) { note(`${cmd}: switched off in the leader-controlled design (CONFIG.lead)`, isLeader()); return; }
-  if (orderNewFor(parts, Me.Name, CONFIG.roster)) orderBegin(text.trim());      // ORDERSTICK: a new order — every older order's retry loop steps aside
+  // STARTKEEPSQUEST-2026-11-01 (every dashboard restart paused the academy quest steps: the hive resume's '!start' began a NEW order, "a newer order
+  // replaced it (!start)" stopped the quest the plan had just resumed): a plain !start while the quest engine runs MY plan's current quest = carry on
+  if (orderNewFor(parts, Me.Name, CONFIG.roster) && !startKeepsQuest(String(parts[0] || '').toLowerCase(), parts.length, qeS().running, qeS().q ? num(qeS().q.id) : 0, planCurQuestId())) orderBegin(text.trim());      // ORDERSTICK: a new order — every older order's retry loop steps aside
   if (orderNewFor(parts, Me.Name, CONFIG.roster)) { try { rcOnUserOrder(parts, !!(typeof oq !== 'undefined' && oq.running)); } catch (e) { } }   // CIRCUIT 24/7 (2026-10-13): your order ends / pauses the raid circuit
   if (leadMode() && cmd === '!restock') { if (isLeader()) { setLeadPaused(false); orderSupply('!restock').catch(e => logError('!restock', e)); } return; }   // CMDFIX2-SUPPLY-2026-10-12: like !supply
   if (leadMode() && cmd === '!autolevel' && !/^(stop|solo)$/i.test(parts[1] || '')) {
@@ -43921,7 +45758,10 @@ function handleSay(charName, text, messageType) {
       if (orderReplaced(gseq)) return;                // PLANGEAR-2026-10-23: only a REAL newer order (a hand-over meanwhile is not one)
       note(`gearup: ${names.join(', ')} buy better gear now`, true);
       App.emit('swarm.gearup', { names: buyers });
-      if (names.includes(Me.Name)) { if (buyers.length) await sleep((buyers.length + 1) * 7000); const r = await gearUpgrade('!gearup'); note(`[gear] gearup: ${r.msg}`.slice(0, 400), true); }
+      // HANDSELF-2026-10-30 (owner: fix 'leave Tank1 out of !gearup while hand-played'): the bot never buys / equips for a leader the owner plays himself
+      const selfHand = (() => { try { const m = JSON.parse(String(File.ReadAllText(`${SWARM_ROOT}\\Settings\\client_mode.json`)).replace(/^﻿/, '')) || {}; return String(m[Me.Name] || '').toLowerCase() === 'ingame' && !(typeof runOn === 'function' && runOn()); } catch (e) { return false; } })();
+      if (selfHand && names.includes(Me.Name)) note('[gear] gearup: I am played by hand (In-game, party switched off) - I buy nothing for myself; my members do', true);
+      if (names.includes(Me.Name) && !selfHand) { if (buyers.length) await sleep((buyers.length + 1) * 7000); const r = await gearUpgrade('!gearup'); note(`[gear] gearup: ${r.msg}`.slice(0, 400), true); }
       await sleep(Math.max(60000, names.length * 25000));
       if (orderReplaced(gseq)) return;                // ORDERSTICK: a newer order (!park / !town / !stop ...) came in meanwhile — never level over it
       try { await giranServices('after the gear purchases', { order: true }); } catch (e) { logError('giran services', e); }   // RESUPOPT-2026-10-27: your !gearup = an order   // DPCOV-2026-10-21: in Giran anyway: DP scrolls / COV / vitality
@@ -43966,10 +45806,59 @@ function handleSay(charName, text, messageType) {
     setTimeout(() => leadLevel('!assist ' + who).catch(e => logError('!assist', e)), 3000);
     return;
   }
+  if (cmd === '!l2day') {                                       // L2DAY-2026-10-31: !l2day <word> <times> [x1|x5|x10] (the letters collector, Giran)
+    let rcv = ''; try { rcv = stashLetterReceiver(stashLettersCfg(stashRules()), clanLeaderName()); } catch (e) { }
+    if (Me.Name !== (rcv || clanLeaderName())) return;
+    // the dashboard queue marks !l2day done once dispatched, so the next one can arrive while a run goes on: it waits here, in order
+    // (each keeps the order number it came with: an owner order in between stops it and every one queued before that order)
+    L2DAY.pending.push({ word: parts[1], times: parts[2], mult: parts[3], seq: orderState.userSeq });
+    if (L2DAY.busy) { note(`l2day: queued after the running exchange (${L2DAY.pending.length} waiting)`, true); return; }
+    L2DAY.busy = true;
+    (async () => { while (L2DAY.pending.length) { const j = L2DAY.pending.shift(); try { note('[l2day] ' + await l2dayRun(j.word, j.times, j.mult, j.seq), true); } catch (e) { logError('!l2day', e); } } })()
+      .finally(() => { L2DAY.busy = false; });
+    return;
+  }
+  if (cmd === '!clanallow') {                                   // CLANALLOW-2026-10-30 (L2Toggle staff on Discord: ".clan allowh <charname>" + the 'Clan Search' privilege
+    // = a member may take items out of the clan warehouse): the clan leader types ".clan allowh <name>" for each name; the server's answer is logged
+    if (Me.Name !== clanLeaderName()) return;
+    const names = String(parts.slice(1).join(' ')).split(/[\s,]+/).filter(n => /^[A-Za-z0-9]{2,16}$/.test(n)).slice(0, 40);
+    if (!names.length) { note('clanallow: use "!clanallow <name>[,<name>...]"', true); return; }
+    // 22:42 live: ".clan allowh" answers with a window "Clan Warehouse Manage": <edit var="name"> + button "+" (bypass -h 00 $name) + "List given"
+    // (bypass -h 01). So: open the window, fill each name into the "+" bypass, then "List given" and log which names the server lists.
+    const page = async (send, ms) => { const h0 = String(LastHTML || ''); send(); const t0 = now(); while (now() - t0 < (ms || 6000)) { await sleep(300); const h = String(LastHTML || ''); if (h && h !== h0) return h; } return String(LastHTML || ''); };
+    const btn = (h, re) => { const m = [...String(h).matchAll(/<button[^>]*value="([^"]*)"[^>]*action="bypass\s+([^"]+)"/gi)].find(x => re.test(x[1])); return m ? cleanBypass(m[2]) : ''; };
+    (async () => {
+      let h = await page(() => Send.Say2(0, '.clan allowh'), 8000);
+      const plus = btn(h, /^\+$/); if (!plus) { const m = `clanallow: no "Clan Warehouse Manage" window (${htmlText(h).slice(0, 120)})`; clanLog(m); note(m, true); return; }
+      for (const n of names) {
+        const t0 = now(); h = await page(() => Send.ReqBypassToServer(plus.replace(/\$\w+/, n), true), 5000);
+        const said = lastSysMsg && lastSysMsg.at >= t0 ? String(lastSysMsg.text).slice(0, 120) : htmlText(h).slice(0, 120);
+        clanLog(`clan warehouse allow ${n}: ${said}`); await sleep(800);
+      }
+      const list = btn(h, /list given/i) || '01'; h = await page(() => Send.ReqBypassToServer(list, true), 6000);
+      try { File.WriteAllText(`${__DIR__}\\Logs\\clan_wh_allowed.html`, String(h)); } catch (e) { }
+      const listed = clanAllowNames(h), on = names.filter(n => listed.some(x => x.toLowerCase() === n.toLowerCase())), off = names.filter(n => !on.includes(n));   // CLANALLOWREAD-2026-11-01
+      const m = `clanallow: allowed on the server list: ${on.join(', ') || 'none'}${off.length ? ' | NOT on it: ' + off.join(', ') : ''}`; clanLog(m); note(m, true);
+    })().catch(e => logError('!clanallow', e));
+    return;
+  }
+  if (cmd === '!whtry') {                                       // WHTRY: !whtry <id>[:count] [name] = a clan MEMBER tries to take it out of the clan warehouse itself
+    if (parts[2] && parts[2].toLowerCase() !== String(Me.Name).toLowerCase()) return;
+    const m = String(parts[1] || '').match(/^(\d+)(?::(\d+))?$/); if (!m) { note('whtry: use "!whtry <itemId>[:count] <name>"', true); return; }
+    const bag0 = itemCount(num(m[1]));
+    whTake('clan', [{ id: num(m[1]), count: num(m[2] || 1) }], 'clan warehouse member test', { memberTry: true }).then(r => { const got = itemCount(num(m[1])) - bag0; const msg = `whtry: member withdraw ${got > 0 ? 'WORKS - took ' + got : 'did NOT work'} (${r && r.msg || '?'}${lastSysMsg && now() - lastSysMsg.at < 30000 ? ' | server: ' + lastSysMsg.text : ''})`; note(msg, true); clanLog(Me.Name + ' ' + msg); }).catch(e => logError('!whtry', e));
+    return;
+  }
+  if (cmd === '!clanunit') {                                    // CLANUNIT: !clanunit guard|knight <name> <captain> (clan leader)
+    if (Me.Name !== clanLeaderName() && !(clanInfo() && clanInfo().isLeader)) return;
+    const kind = /^knight/i.test(parts[1] || '') ? 'knight' : /^(guard|royal)/i.test(parts[1] || '') ? 'guard' : '';
+    if (!kind) { note('clanunit: use "!clanunit guard|knight <name> <captain>"', true); return; }
+    clanUnitCreate(kind, parts[2], parts[3]).then(r => note('clan unit: ' + r, true)).catch(e => logError('!clanunit', e)); return;
+  }
   if (cmd === '!clanlevel') {                                   // !clanlevel | !clanlevel auto on|off (clan leader)
     if (Me.Name !== clanLeaderName() && !(clanInfo() && clanInfo().isLeader)) return;
     if (/^auto$/i.test(parts[1] || '')) { const on = /^on$/i.test(parts[2] || ''); try { File.WriteAllText(CLAN_AUTO_F, JSON.stringify({ levelUp: on, at: new Date().toISOString() })); } catch (e) { } note(`clan level auto: ${on ? 'ON' : 'OFF'}`, true); return; }
-    clanLevelUp('!clanlevel').then(r => note('clan level: ' + r, true)).catch(e => logError('!clanlevel', e)); return;
+    clanLevelUp('!clanlevel', /^try$/i.test(parts[1] || '')).then(r => note('clan level: ' + r, true)).catch(e => logError('!clanlevel', e)); return;
   }
   if (cmd === '!clanquest') {                                   // !clanquest <bloodmark|501|503> [step|reset]
     const id = String(parts[1] || '').toLowerCase(), P = clanQuestPlan(id); if (!P) { if (isLeader() || Me.Name === clanLeaderName()) note('clanquest: use "!clanquest bloodmark|501|503 [step|reset]"', true); return; }
@@ -44052,6 +45941,26 @@ function handleSay(charName, text, messageType) {
       const who = apply ? parts[2] : parts[1];
       if (who && who !== Me.Name) break;
       cfgOrder(apply).catch(e => logError('!cfg', e));
+      break;
+    }
+
+    case '!callrunner': {                        // RUNNERCALL-2026-11-01 (owner: "Can I make a party call for collector?"): !callrunner [leader] = call the runner now
+      if (!isLeader() || (parts[1] && parts[1] !== Me.Name)) break;
+      const S = crafterSet(); if (!S.runner || !S.runnerOn) { note('callrunner: no runner switched on (Crafter page -> runner)', true); break; }
+      CRUNS.lastCallAt = now();
+      App.emit('swarm.runner.call', { party: Me.Name, needs: crunPartyNeeds(), out: false, manual: true, x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), at: now() });
+      note(`callrunner: ${S.runner} was called to party ${Me.Name} (your order) - we keep hunting here`, true);
+      break;
+    }
+    case '!combat': {                            // COMBATSTATE-2026-11-01: !combat [name] = in combat or not (me + my party), read-only
+      if (parts[1] && parts[1] !== Me.Name) break;
+      const c = combatInfo(), p = isLeader() ? partyCombatInfo() : null;
+      note(`combat: ${Me.Name} ${c.in ? 'IN COMBAT (' + c.why.join(', ') + `; clear in ${Math.ceil(c.clearInMs / 1000)} s)` : 'out of combat'}${p ? ` | party: ${p.in ? 'in combat: ' + p.who.join(', ') : 'everyone out of combat'}` : ''}`, true);
+      break;
+    }
+    case '!boardpeek': {                         // BOARDPEEK-2026-10-31: !boardpeek <name> = read-only look at the board's Career / Services pages
+      if (!parts[1] || parts[1] !== Me.Name) break;   // only the named character, never everyone who hears it
+      boardPeek().then(r => note('boardpeek: ' + String(r.msg || '').slice(0, 400), true)).catch(e => logError('!boardpeek', e));
       break;
     }
 
@@ -44711,6 +46620,32 @@ function handleSay(charName, text, messageType) {
 
     case '!sell': {                             // !sell [navn] — pause, gå til nærmeste købmand, sælg markeret + skrammel, fortsæt
       if (parts[1] && parts[1] !== Me.Name) break;
+      // SELLTRIP-2026-10-30 (owner: "I asked Tank2 team to go sell? But he is not going?"): outside a town !sell only said "no merchant reached -
+      // stand in a town" and the party hunted on (Cruma Tower). Now the LEADER takes the team to Giran first (the same safe team trip as the town
+      // orders: regroup, out of the fight, .giran), everyone sells there (the order is passed on in party chat), then leveling goes on as after any
+      // !sell. A member outside a town leaves it to its leader; a character without a party goes to Giran alone.
+      if (!currentTownKey() && leadMode() && !state.sellTrip) {
+        const leaderHere = !isLeader() && CONFIG.leader && CONFIG.leader !== Me.Name && (() => { try { return !!partyMember(CONFIG.leader); } catch (e) { return false; } })();
+        if (leaderHere) { note(`sell: not in a town — ${CONFIG.leader} takes the team to ${CONFIG.lead.hub || 'Giran'} first, I sell there`); break; }
+        state.sellTrip = true;
+        (async () => {
+          const hub = CONFIG.lead.hub || 'Giran', wasLvl = !!autoLvl.active;
+          try {
+            note(`sell: not in a town — taking ${isLeader() && !soloChar() ? 'the team' : 'me'} to ${hub} to sell`, true);
+            if (wasLvl && isLeader()) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
+            const r = await orderTownTrip('!sell', hub, { control: '!sell', solo: soloChar() || !isLeader() });
+            if (!r.ok) { note(`sell: could not get to ${hub} (${r.why || '?'}) — nothing sold`, true); if (wasLvl && isLeader() && !leadPaused()) autoLevelLoop(false).catch(e => logError('autolevel', e)); return; }
+            // the members sell too (they stand in Giran now). An App event, not party chat: the members already got '!sell' from the dashboard queue
+            // and dropped the leader's chat copy as a duplicate (2026-10-30 12:58, all 8 of Tank2's members)
+            if (isLeader() && !soloChar()) { try { App.emit('swarm.sellnow', { leader: Me.Name, at: now() }); } catch (e) { } }
+            await sleep(1500);
+          } catch (e) { logError('!sell town trip', e); return; }
+          finally { state.sellTrip = false; }
+          state.sellResumeLvl = wasLvl && isLeader();
+          handleSay(Me.Name, '!sell');   // my own sale, now in town (the normal !sell below; leveling resumes after it)
+        })().catch(e => logError('!sell trip', e));
+        break;
+      }
       (async () => {
         await bagSync();                                                // SELLPICK 2026-10-13: judge the bag as it is now
         const pick = sellCandidatesEx(), list = pick.list, kept = spSkipText(pick);
@@ -44721,7 +46656,7 @@ function handleSay(charName, text, messageType) {
         // paused the sale's own walks: findNpcOrWalk / openNpcInner walk after walkGate was reset); the errand holds every follow pull until
         // the sale ends; the P4 control slot keeps my own leveling / regroup walks off (a leader's leveling resumes afterwards)
         errandStart('sell', 15 * 60000);
-        let sellGen = takeControl('!sell', PRIO.ORDER), sellLvl = false;
+        let sellGen = takeControl('!sell', PRIO.ORDER), sellLvl = !!state.sellResumeLvl; state.sellResumeLvl = false;   // SELLTRIP: the trip stopped the leveling, the sale resumes it
         { const t0 = now(); while (sellGen === false && now() - t0 < 5 * 60000 && !Me.IsDead) { setTask(`sell: waiting for ${control.owner || 'my turn'}`); await sleep(3000); sellGen = takeControl('!sell', PRIO.ORDER); } }
         if (autoLvl.active && isLeader()) { sellLvl = true; autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
         const wasEnabled = IsEnabled; if (IsEnabled) DisableBot(); stopCombatG();
@@ -45823,7 +47758,7 @@ async function raidDealer(boss) {
     if (rkBuffBusy()) { rw('buff turn (primary buffer rebuffing)'); await sleep(300); continue; }   // BOARD BUFFS OPTIONAL: a primary buffer's rebuff comes before its own damage
     // DRAIN HELPER (2026-10-11 Verfa: Destroyer2 reached Frenzy first and went back to the boss; Destroyer1's duel drain then had nobody hitting her,
     // stalled at ~50 % and timed out): a destroyer that is NOT draining keeps hitting its partner while the partner drains and is still >= 45 %
-    if (state.role === 'destroyer' && !state.draining && destroyerDrainOn()) {   // DESTROYERDRAIN-2026-10-15: no drain helper when the drain is off
+    if (state.role === 'destroyer' && !state.draining && destroyerDrainOn() && drainDuelOn()) {   // DESTROYERDRAIN-2026-10-15: no drain helper when the drain is off (DRAINWAY: or hitting each other is off)
       const pd = partnerDestroyer();
       if (pd && drainingNow(pd.Name)) { const php = partnerHpNow(pd); if (php !== null && php >= CONFIG.frenzyMaxHp) { setTask(`raid: helping ${pd.Name} drain for Frenzy`); if (await duelHit(pd)) continue; } }   // careful duel; a partner already under 60 % can cast Frenzy
     }

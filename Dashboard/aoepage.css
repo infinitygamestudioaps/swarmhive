@@ -1,0 +1,128 @@
+/* AOE TEAM page (AOETEAM-2026-10-30, Dashboard/aoepage.js). AOELOOK-2026-10-31 (owner: "The format of the page looks extremely bad"):
+   cards with one padding, aligned grids for places + routes, a large sticky map on desktop, dashboard switches, collapsed team cards. */
+.aoe { overflow-x: hidden; }
+.aoe .aoe-layout { display: flex; flex-direction: column; gap: 12px; }
+.aoe .aoe-card, .aoe .aoe-ed { padding: 12px 14px; }
+.aoe .aoe-cardh { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.aoe .aoe-cardh h3 { margin: 0; padding: 0; border: 0; }
+.aoe .aoe-empty { padding: 8px 0; }
+.aoe .muted { color: var(--muted, #8e8879); }
+.aoe .aoe-small { font-size: 12px; margin-top: 6px; }
+.aoe .aoe-dot { display: inline-block; flex: none; width: 12px; height: 12px; border-radius: 50%; border: 1px solid #000; vertical-align: middle; }
+
+/* ---- the grounds: one card per ground ---- */
+.aoe .aoe-glist { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 8px; }
+.aoe .aoe-gc { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-align: left; padding: 10px 12px; min-width: 0; cursor: pointer;
+  background: rgba(255,255,255,.03); border: 1px solid var(--line, #3b382f); border-radius: 8px; color: inherit; font: inherit; position: relative; }
+.aoe .aoe-gc:hover { border-color: var(--line2, #575141); background: rgba(255,255,255,.05); }
+.aoe .aoe-gc.on { border-color: var(--gold, #e3c27a); box-shadow: inset 3px 0 0 var(--gold, #e3c27a); }
+.aoe .aoe-gc > b { padding-right: 52px; }
+.aoe .aoe-gc > .muted { font-size: 12px; overflow-wrap: anywhere; }
+.aoe .aoe-gmeta { font-size: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.aoe .aoe-gedit { position: absolute; top: 10px; right: 12px; font-size: 12px; color: var(--gold, #e3c27a); }
+
+/* ---- the editor: form left, large sticky map right ---- */
+.aoe .aoe-edhead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 12px; }
+.aoe .aoe-edhead h3 { margin: 0; padding: 0; border: 0; white-space: nowrap; }
+.aoe .aoe-name { flex: 1 1 260px; min-width: 0; max-width: 520px; font-size: 15px; padding: 7px 10px; box-sizing: border-box; }
+.aoe .aoe-cols { display: grid; grid-template-columns: minmax(0, 1fr) clamp(340px, calc(100vh - 190px), 760px); gap: 20px; align-items: start; }
+.aoe .aoe-form { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.aoe .aoe-sec { padding: 10px 12px; border: 1px solid var(--line, #3b382f); border-radius: 8px; background: rgba(0,0,0,.18); min-width: 0; }
+.aoe .aoe-sech { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 8px; }
+.aoe .aoe-sech b { color: var(--gold, #e3c27a); font-size: 13px; }
+.aoe .aoe-sech .muted { font-size: 12px; }
+.aoe .aoe-sech select { font-size: 12px; max-width: 12em; }
+.aoe .aoe-sech .aoe-link { margin-left: auto; }
+.aoe .aoe-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 8px; }
+.aoe .aoe-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.aoe .aoe-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border: 1px solid var(--line2, #575141); border-radius: 12px; font-size: 12px; background: rgba(0,0,0,.3); max-width: 100%; overflow-wrap: anywhere; }
+.aoe .aoe-chip b { color: var(--gold, #e3c27a); }
+
+/* aligned grids: colour · name · value · action columns */
+.aoe .aoe-grid { display: grid; align-items: center; gap: 6px 10px; justify-content: start; }
+.aoe .aoe-gp { grid-template-columns: 14px 9.5em minmax(0, 12em) 40px 40px; }
+.aoe .aoe-gr { grid-template-columns: 14px minmax(0, 14em) minmax(0, 6em) 40px 48px 40px 40px; }
+.aoe .aoe-xy { font-variant-numeric: tabular-nums; font-size: 13px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aoe .aoe-rname { width: 100%; min-width: 0; box-sizing: border-box; padding: 5px 8px; }
+.aoe .aoe-ib { display: inline-flex; align-items: center; justify-content: center; height: 36px; min-width: 36px; padding: 0 6px; box-sizing: border-box; cursor: pointer;
+  border: 1px solid var(--line2, #575141); border-radius: 6px; background: rgba(255,255,255,.04); color: inherit; font: inherit; font-size: 18px; line-height: 1; }
+.aoe .aoe-ib:hover { border-color: var(--gold, #e3c27a); }
+.aoe .aoe-ib.bad:hover { border-color: var(--bad, #ec6a55); color: var(--bad, #ec6a55); }
+
+/* timing: label left, the number + "s" right, one line each */
+.aoe .aoe-num { display: grid; grid-template-columns: minmax(0, 20em) auto; justify-content: start; align-items: center; gap: 10px; padding: 4px 0; font-size: 13px; }
+.aoe .aoe-num > span:last-child { white-space: nowrap; }
+.aoe .aoe-num input { width: 4.5em; text-align: right; padding: 4px 6px; box-sizing: border-box; }
+.aoe .uk-switch { display: flex; justify-content: flex-start; text-align: left; margin-top: 4px; border-image: none; text-shadow: none; white-space: normal; }
+.aoe .aoe-sec .uk-switch { width: 100%; }
+.aoe .uk-switch .uk-sl { flex: 1 1 auto; min-width: 0; align-items: flex-start; }
+
+/* the map column */
+.aoe .aoe-mapcol { position: sticky; top: 64px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.aoe .aoe-prev { width: 100%; aspect-ratio: 1 / 1; background: #111; border: 1px solid var(--line2, #444); border-radius: 8px; display: block; box-sizing: border-box; }
+.aoe div.aoe-prev { display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+.aoe .aoe-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; }
+.aoe .aoe-legend span { display: inline-flex; align-items: center; gap: 5px; }
+
+/* footers: the primary action first, Close, then Delete as a danger link on the right */
+.aoe .aoe-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line, #3b382f); }
+.aoe .aoe-del { margin-left: auto; }
+.aoe .aoe-link { background: none; border: 0; padding: 4px 0; color: #5aa9ff; text-decoration: underline; cursor: pointer; font: inherit; font-size: 13px; }
+.aoe .aoe-link.bad { color: var(--bad, #ec6a55); }
+
+/* ---- teams: collapsed cards, open = settings + role chips ---- */
+.aoe .aoe-tc { border: 1px solid var(--line, #3b382f); border-radius: 8px; margin-bottom: 8px; background: rgba(255,255,255,.02); }
+.aoe .aoe-tc.is-on { box-shadow: inset 3px 0 0 #5fd35f; }
+.aoe .aoe-tc.focus { border-color: var(--gold, #e3c27a); }
+.aoe .aoe-th { display: flex; align-items: center; justify-content: flex-start; gap: 10px; width: 100%; padding: 10px 12px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; min-width: 0; }
+.aoe .aoe-thg { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.aoe .aoe-thc { white-space: nowrap; font-size: 12px; letter-spacing: .02em; }
+.aoe .aoe-st { flex: none; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 10px; border: 1px solid var(--line2, #575141); color: var(--muted, #8e8879); }
+.aoe .aoe-st.on { color: #10210d; background: #5fd35f; border-color: #5fd35f; }
+.aoe .aoe-dirty { font-size: 11px; color: var(--gold, #e3c27a); white-space: nowrap; }
+.aoe .aoe-chev { flex: none; color: var(--muted, #8e8879); }
+.aoe .aoe-tb { padding: 2px 12px 12px; }
+.aoe .aoe-tf { display: grid; grid-template-columns: minmax(0, 22em) minmax(0, 14em) minmax(0, 22em); justify-content: start; gap: 10px 18px; align-items: end; margin-bottom: 12px; }
+.aoe .aoe-tf label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; min-width: 0; }
+.aoe .aoe-tf select { width: 100%; min-width: 0; padding: 5px 6px; box-sizing: border-box; }
+.aoe .aoe-inl { display: flex; gap: 6px; min-width: 0; }
+.aoe .aoe-inl select { flex: 1 1 auto; }
+.aoe .aoe-add { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 4px; padding-top: 10px; }
+.aoe .aoe-add select { min-width: 0; max-width: 100%; padding: 5px 6px; }
+.aoe .aoe-help { margin-top: 10px; }
+.aoe .aoe-help summary { cursor: pointer; font-size: 12px; color: var(--muted, #8e8879); }
+
+/* role chips */
+.aoe .aoe-roles { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 2px; }
+.aoe .aoe-rc { display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,.18); border-radius: 16px; padding: 1px 4px 1px 2px; background: rgba(0,0,0,.25); }
+.aoe .aoe-rc > button { display: inline-flex; align-items: center; gap: 5px; background: none; border: 0; padding: 4px 8px; min-height: 32px; cursor: pointer; color: inherit; font: inherit; font-size: 13px; }
+.aoe .aoe-rc .ic { font-size: 14px; }
+.aoe .aoe-rc small { opacity: .7; font-size: 11px; }
+.aoe .aoe-rc.role-tank { border-color: #f2c94c; } .aoe .aoe-rc.role-healer { border-color: #5fd35f; } .aoe .aoe-rc.role-dealer { border-color: #ff6b5e; } .aoe .aoe-rc.role-puller { border-width: 2px; }
+.aoe .aoe-rc select { max-width: 8em; font-size: 12px; }
+
+.aoe .aoe-help summary { padding: 6px 0; }
+@media (pointer: coarse) { .aoe .aoe-ib { height: 44px; min-width: 44px; } .aoe .aoe-rc > button { min-height: 44px; } }
+/* ---- phone / narrow ---- */
+@media (max-width: 1100px) { .aoe .aoe-cols { grid-template-columns: minmax(0, 1fr); } .aoe .aoe-mapcol { position: static; order: -1; } .aoe .aoe-prev { max-width: 520px; margin: 0 auto; } }
+@media (max-width: 760px) { .aoe .aoe-tf { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) {
+  .aoe .aoe-card, .aoe .aoe-ed { padding: 10px; }
+  .aoe .aoe-sec { padding: 8px; }
+  .aoe .aoe-gp { grid-template-columns: 12px minmax(0, 1fr) max-content 34px 34px; gap: 6px; justify-content: stretch; }
+  .aoe .aoe-gp .aoe-xy { font-size: 11px; }
+  .aoe .aoe-gr { grid-template-columns: 12px minmax(0, 1fr) 34px 40px 34px 34px; gap: 6px; }
+  .aoe .aoe-gr .aoe-xy { display: none; }
+  .aoe .aoe-ib { min-width: 34px; height: 34px; padding: 0 4px; }
+  .aoe .aoe-rc small { display: none; } .aoe .aoe-rc > button { padding: 4px 6px; }
+  .aoe .aoe-thg { display: none; }
+  .aoe .aoe-del { margin-left: 0; }
+}
+
+/* ---- the hunting spot map in AOE mode (index.html AOEMAP) ---- */
+.spm-aoe-pt span { display: inline-block; min-width: 18px; height: 18px; line-height: 18px; border-radius: 50%; text-align: center; font: 700 11px sans-serif; color: #000; border: 1px solid #000; }
+.spm-aoe-pt b { margin-left: 4px; font-size: 11px; color: #fff; text-shadow: 0 0 3px #000, 0 0 3px #000; white-space: nowrap; }
+.spm-aoe-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; border: 1px solid #000; vertical-align: middle; }
+.spm-bar [data-spmaoetool].on { outline: 2px solid #f2c94c; }
+.spm-bar [data-spmaoeroute].on { outline: 2px solid #fff; }
+.spm-bar .spm-aoe-routes { display: inline-flex; flex-wrap: wrap; gap: 4px; }

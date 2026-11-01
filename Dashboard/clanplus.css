@@ -1,0 +1,117 @@
+/* CLANPLUS-2026-10-30: Clan tab, phone first (skills, reputation, permissions + the squads / ranks overrides) */
+#tab-clan { overflow-x: hidden; }
+#tab-clan .cpx-top { margin: 2px 0 6px; }
+#tab-clan .cpx-note { font-size: 12px; margin-bottom: 8px; }
+#tab-clan .cpx-sub { margin: 10px 0 4px; font-weight: 700; color: var(--gold, #c9a54a); font-size: 13px; }
+#tab-clan .cpx-kind { margin: 6px 0; border: 1px solid rgba(255,255,255,.08); border-radius: 6px; padding: 4px 8px; }
+#tab-clan .cpx-kind > summary { cursor: pointer; padding: 4px 0; }
+#tab-clan .cpx-sk { padding: 8px 0; border-top: 1px solid rgba(255,255,255,.07); }
+#tab-clan .cpx-sk.foc { box-shadow: inset 3px 0 0 var(--gold, #c9a54a); padding-left: 8px; }
+#tab-clan .cpx-sk.far { opacity: .6; }
+#tab-clan .cpx-need { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; align-items: center; }
+#tab-clan .cpx-need .chip, #tab-clan .cpx-chips .chip { white-space: nowrap; }
+#tab-clan .cpx-act { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: space-between; margin-top: 4px; }
+#tab-clan .cpx-act button.ghost { opacity: .75; }
+#tab-clan .cpx-rr { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; border-top: 1px solid rgba(255,255,255,.06); }
+#tab-clan .cpx-rr > span:last-child { white-space: nowrap; text-align: right; }
+#tab-clan .cpx-rks { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 4px; margin: 6px 0; }
+#tab-clan .cpx-rk { position: relative; padding: 6px 0; display: flex; flex-direction: column; align-items: center; line-height: 1.1; min-width: 0; }
+#tab-clan .cpx-rk .muted { font-size: 10px; min-height: 11px; }
+#tab-clan .cpx-rk.on { outline: 2px solid var(--gold, #c9a54a); }
+#tab-clan .cpx-dot { position: absolute; top: 3px; right: 3px; width: 6px; height: 6px; border-radius: 50%; background: #f2c94c; }
+#tab-clan .cpx-pl { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 2px 10px; }
+#tab-clan .cpx-pv { display: flex; align-items: center; gap: 6px; padding: 4px 0; font-size: 13px; }
+#tab-clan .cpx-pv input { width: 18px; height: 18px; flex: none; }
+#tab-clan .cpx-chips { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; }
+#tab-clan .cpx-who > summary { cursor: pointer; font-size: 12px; }
+/* phones: the old wide tables + boxes on the Clan tab */
+@media (max-width: 640px) {
+  #tab-clan .cgrid, #tab-clan .cols { grid-template-columns: minmax(0, 1fr) !important; }
+  #tab-clan .box { padding: 8px; }
+  #tab-clan .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+  #tab-clan table.l2 { font-size: 12px; }
+  #tab-clan .rrrow { flex-wrap: wrap; gap: 4px; }
+  #tab-clan .scbar { flex-wrap: wrap; }
+  #tab-clan .casec > summary { padding: 8px 4px; }
+  #tab-clan .cpx-rk { padding: 8px 0; }
+}
+#tab-clan .cpx-act > .fit { white-space: normal; min-width: 0; flex: 1 1 60%; }
+#tab-clan .cpx-act > button { flex: none; }
+/* the Nobility ranks table (clanranks.js) has no .scroll wrapper: let it scroll inside its box on phones */
+@media (max-width: 640px) { #tab-clan table.crk-tbl { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; } }
+
+/* CLANTREE-2026-10-30 (owner's picture clan-1.jpg): Clan with Academy beside it, 2 Royal Guards under it, 2 Orders of Knights under each */
+#tab-clan .ct-cap { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 4px 0 8px; }
+#tab-clan .ctree { overflow: hidden; }
+#tab-clan .ctree ul { display: flex; justify-content: center; margin: 0; padding: 16px 0 0; position: relative; }
+#tab-clan .ctree > ul { padding-top: 0; }
+#tab-clan .ctree li { list-style: none; position: relative; padding: 16px 4px 0; text-align: center; flex: 1 1 0; min-width: 0; }
+#tab-clan .ctree > ul > li { padding-top: 0; }
+#tab-clan .ctree li::before, #tab-clan .ctree li::after { content: ''; position: absolute; top: 0; right: 50%; width: 50%; height: 16px; border-top: 1px solid rgba(201,165,74,.55); }
+#tab-clan .ctree li::after { right: auto; left: 50%; border-left: 1px solid rgba(201,165,74,.55); }
+#tab-clan .ctree li:only-child::before, #tab-clan .ctree li:only-child::after { display: none; }
+#tab-clan .ctree li:first-child::before, #tab-clan .ctree li:last-child::after { border: 0 none; }
+#tab-clan .ctree li:last-child::before { border-right: 1px solid rgba(201,165,74,.55); border-radius: 0 5px 0 0; }
+#tab-clan .ctree li:first-child::after { border-radius: 5px 0 0 0; }
+#tab-clan .ctree ul ul::before { content: ''; position: absolute; top: 0; left: 50%; height: 16px; border-left: 1px solid rgba(201,165,74,.55); }
+#tab-clan .ct-top { display: flex; align-items: center; justify-content: center; gap: 0; }
+#tab-clan .ct-side { width: 28px; border-top: 1px solid rgba(201,165,74,.55); flex: none; }
+#tab-clan .ct-box { position: relative; display: inline-block; vertical-align: top; max-width: 100%; border: 1px solid rgba(201,165,74,.7); border-radius: 4px; background: rgba(0,0,0,.25); text-align: left; }
+#tab-clan .ct-box.big { border-width: 2px; }
+#tab-clan .ct-box.off { opacity: .55; border-style: dashed; }
+#tab-clan .ct-box.open { max-width: 100%; }
+#tab-clan .ct-hd { all: unset; box-sizing: border-box; display: flex; flex-direction: column; gap: 1px; padding: 6px 10px; cursor: pointer; min-width: 0; }
+#tab-clan .ct-hd[disabled] { cursor: default; }
+#tab-clan .ct-hd b { font-size: 13px; white-space: nowrap; }
+#tab-clan .ct-box.big .ct-hd b { font-size: 16px; }
+#tab-clan .ct-nm, #tab-clan .ct-ln { font-size: 11px; opacity: .8; }
+#tab-clan .ct-add { position: absolute; top: -8px; right: -6px; background: #2f6b3a; color: #dfffe4; font: 700 11px sans-serif; padding: 1px 5px; border-radius: 8px; opacity: 1; }
+#tab-clan .ct-box.off .ct-add { opacity: 1; }
+#tab-clan .ct-mem { display: flex; flex-wrap: wrap; gap: 4px; padding: 0 8px 8px; max-width: 420px; }
+#tab-clan .ct-mem .chip.off { opacity: .55; }
+#tab-clan .cl-lv { padding: 8px 0; border-top: 1px solid rgba(255,255,255,.07); }
+#tab-clan .cl-lv.done { opacity: .6; }
+#tab-clan .cl-lv.next { box-shadow: inset 3px 0 0 var(--gold, #c9a54a); padding-left: 8px; opacity: 1; }
+#tab-clan .cl-need { display: flex; gap: 6px; align-items: baseline; padding: 1px 0; font-size: 13px; }
+#tab-clan .cl-need .fit { flex: none; }
+/* phones: the tree becomes an indented list with connector lines (no sideways page scroll) */
+@media (max-width: 640px) {
+  #tab-clan .ctree ul { display: block; padding: 0 0 0 14px; }
+  #tab-clan .ctree > ul { padding-left: 0; }
+  #tab-clan .ctree li { padding: 6px 0 0 12px; text-align: left; }
+  #tab-clan .ctree > ul > li { padding-left: 0; }
+  #tab-clan .ctree li::before { top: 0; left: 0; right: auto; width: 10px; height: 22px; border-top: 0; border-left: 1px solid rgba(201,165,74,.55); border-bottom: 1px solid rgba(201,165,74,.55); border-radius: 0 0 0 4px; }
+  #tab-clan .ctree li::after { top: 22px; left: 0; height: calc(100% - 22px); width: 0; border-top: 0; border-left: 1px solid rgba(201,165,74,.55); border-radius: 0; }
+  #tab-clan .ctree li:last-child::after { display: none; }
+  #tab-clan .ctree li:first-child::before, #tab-clan .ctree li:last-child::before { border-top: 0; border-right: 0; border-left: 1px solid rgba(201,165,74,.55); border-bottom: 1px solid rgba(201,165,74,.55); border-radius: 0 0 0 4px; }
+  #tab-clan .ctree > ul > li::before, #tab-clan .ctree > ul > li::after { display: none; }
+  #tab-clan .ctree ul ul::before { display: none; }
+  #tab-clan .ct-top { flex-direction: column; align-items: stretch; gap: 6px; }
+  #tab-clan .ct-side { display: none; }
+  #tab-clan .ct-box { display: block; }
+}
+
+/* CLANTABS-2026-10-30: tabs (a scrollable chip row on phones), two columns on wide screens, squad create form, skills filter, academy rows */
+#tab-clan .cpx-tabs { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 4px 0 8px; margin-bottom: 6px; position: sticky; top: 0; z-index: 3; background: var(--bg, #15140f); scrollbar-width: none; }
+#tab-clan .cpx-tabs::-webkit-scrollbar { display: none; }
+#tab-clan .cpx-tabs button { flex: none; min-height: 40px; padding: 6px 14px; border-radius: 20px; white-space: nowrap; }
+#tab-clan .cpx-tabs button.on { outline: 2px solid var(--gold, #c9a54a); }
+#tab-clan .cpx-tb { margin-left: 6px; font-size: 11px; opacity: .75; }
+#tab-clan .cpx-2col { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+@media (min-width: 1100px) { #tab-clan .cpx-2col { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
+#tab-clan .cpx-fil { display: flex; gap: 6px; margin: 4px 0 8px; }
+#tab-clan .cpx-fil button { min-height: 36px; padding: 4px 12px; }
+#tab-clan .cpx-fil button.on { outline: 2px solid var(--gold, #c9a54a); }
+#tab-clan .ct-mk { display: block; margin: 0 8px 8px; min-height: 34px; }
+#tab-clan .ct-box.form { opacity: 1; border-style: solid; }
+#tab-clan .ct-form { display: grid; gap: 6px; padding: 0 10px 10px; text-align: left; min-width: 220px; }
+#tab-clan .ct-form label { display: grid; gap: 2px; font-size: 12px; }
+#tab-clan .ct-form input, #tab-clan .ct-form select { min-height: 36px; width: 100%; box-sizing: border-box; }
+#tab-clan .ac-sw { display: flex; gap: 10px; align-items: center; margin: 4px 0 6px; }
+#tab-clan .ac-sw button { min-width: 64px; min-height: 40px; }
+#tab-clan .ac-sw button.on { background: #2f6b3a; }
+#tab-clan .ac-row { display: block; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.07); color: inherit; text-decoration: none; }
+#tab-clan .ac-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.12); margin: 4px 0; overflow: hidden; }
+#tab-clan .ac-bar i { display: block; height: 100%; background: var(--gold, #c9a54a); }
+#tab-clan .ac-l { font-size: 12px; }
+@media (max-width: 640px) { #tab-clan .ct-form { min-width: 0; } #tab-clan .cpx-tabs button { min-height: 44px; } }

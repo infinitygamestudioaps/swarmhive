@@ -2,6 +2,47 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.13.0 (2026-11-01)
+
+- Big update (2026-10-29 to 2026-11-01): crafter + clan bank, runner, academy route, restart-proof state, wall targeting, many fixes
+- State after a restart: a plan paused only because its party was switched off goes on at the same step as soon as the party is on again (any way: Start, a dashboard restart, a deploy) - the hive pause also remembers the running plans and checks them after the resume
+- Quests after a restart: a plan step takes over the quest the engine already resumed, and a plain !start never replaces the quest of the plan's current step
+- Walls: while hunting a chosen room / area, a monster behind a wall outside it is skipped for 10 min instead of walked to (no more pushing into the wall toward the next room), and 'attack first' never takes an unseen monster outside the room
+- SLOW HUNTING fixes itself: 0 kills in 5 min -> the party drops its targets -> the leader steps aside inside the room and hunts on -> after 20 min without a kill: fight off what is on the party, town, run the route again (max once per hour, never in raids / instances)
+- Fight off before leaving: before every .townname a character fights the monsters hitting or targeting it (healers keep healing), then waits until the server has it out of combat - it never stands still under attack, and the command is only sent when it can work
+- New combatInfo / partyCombatInfo: in combat or not, why, and when it is clear (own attack or a hit within 15 s, monsters targeting me, the combat flag), a party teleport waits until every member is out of combat in the server's view, new command !combat [name]
+- .townname success: the landing of every town is written down (Scripts/data/town_landings.json) - a .townname counts as done within 500 of its landing within 10 s, standing there already = no command, no more false 'did not move' reports
+- Crafter page (#/crafter): type the stock you want per shot (e.g. 50000 Soulshot A, 40000 Blessed Spiritshot C) and see live stock (bag + warehouse + clan warehouse), what is short, the Ore / crystals it takes, what is missing, and craft with one button
+- Clan bank + ledger: the crafter is the bank - every sale, crystallize, payment and deposit is booked, with the balance over time and sales per party on the Crafter page
+- The crafter sells and crystallizes everything you mark (Storage page, also from the clan warehouse, every 10 min), stays in its town (crafter mode: never levels or goes on supply runs) and crafts shots toward your targets
+- Shots from the crafter cost the normal NPC price, paid by the party leader to the bank (per party switch)
+- Runner: one character shuttles between the crafter and the parties - a party low on supplies calls it instead of going to town, it brings shots, takes loot / materials / letters back to the bank (never into areas far above its level: a member meets it at the landing), new 'Call the runner to this party' order in the party Commands menu
+- Auto-crystallize marks: on a character with the Crystallize skill (Bounty Hunter, Warsmith ...) tap a bag item -> 'Auto-crystallize this kind' - it crystallizes those kinds by itself when idle (never worn, enchanted, special or quest pieces)
+- Move to party: the character page has 'Move to party...' - into an existing party or its own new one (the new party gets the old one's settings), the bots switch party in game within a minute
+- Academy pipeline: Dark Elven mystics made, invited, funded and leveled 24/7 - after graduation everything goes to the bank, the character is deleted and a new one made
+- Academy route: weapon coupon at 6, Bones Tell The Future, Path of the Dark Wizard at 18 (1.37M exp), class change at 20, Dangerous Seduction at 21, Cruma Marshlands at 30-35, Cruma Tower floor 1 at 35-40, graduation at 40
+- Newbie Guide coupons work on this server: through 'Ask for help with a newbie item.', the server's own link texts, retried 30 s after a failure until it works, the shadow staff swapped in again when it runs out, the server's 'already got' answer is final (no retry loop)
+- Academy start adena: a pending same-town deposit no longer keeps the collector 'busy' (it paid nobody before)
+- Academy bags: at 80 % they go to Giran, sell the junk at the grocer first, then hand the rest to the bank - the plan goes on at the same step afterwards (a trip there no longer pauses it)
+- Academy fights: an academy nuker fights one attacker to the end instead of fleeing because monsters stand near
+- Death Penalty: the Recovery scroll is now also read in a fight (HP >= 50 %) - leveling characters are almost never out of combat
+- Plans: the idle watchdog runs an unfinished plan instead of plain leveling, no automatic supply run inside a quest / trip step, a plan start stops leveling that already ran, the route start's 'via' hops are read right ('Gludio -> DE Village' was split into 'Gludio -')
+- Quest dialogs: a quest NPC whose first page only offers 'Quest' is clicked through it once, then the dialogue chain goes on
+- NPC trips: an NPC within 12k of a town is walked to (no more asking a village's own gatekeeper for that village)
+- Party members: an in-game party member that belongs to another party in swarm.config.json no longer counts as a teammate (the leader stopped waiting for it)
+- Command queue (#/autoqueue): orders from the assistant queue per party, one at a time, and your own orders always win
+- Gear: full sets only (never a broken set), A grade and up needs your approval, a caster weapon only with a better Acumen line, sealed A pieces are bought and unsealed, the Gear up button hands spare jewelry around a party
+- Clan: clan level 7 + Royal Guard squads, the clan warehouse can be opened for chosen members (.clan allowh) and the allow list is read right
+- Hunting: one 12 h session per party then a Giran trip + supplies + back, exp lock shown as a padlock on the overview, the exp measurement survives deploys
+- Town: Giran is Giran everywhere, the outskirts too (Pushkin, Rupio, Kusto) - no more lost town trips there
+- AOE teams (#/aoe): several pullers with their own routes, a role per character, editable grounds, several rooms
+- Letters: the L2 Day letters exchange at Louie the Cat with a queue, rewards shown like raid drops
+- Epic raid prep: 'Get it' per member
+- Storage page: the sell list groups start folded (no more one huge list on top)
+- Add account: one 'same password for every line' field and login ranges like 'acc1-20' for several accounts at once
+- Board peek: !boardpeek <name> reads the Career / Subclass / Services pages without pressing anything
+- Fixes: idle parties restart, a loader on the dashboard, Frenzy kit optional for raids, the tank keeps its target, members attack as soon as the tank marked the target, set-bonus gear recommendations, bag worth without worn gear, quest dungeon open errors, seal stone / A-grade gear purchases, sitting less while hunting, escapes only when needed, Forge of the Gods safety, sell trips on order, letters handed during the Giran trip
+
 ## v1.12.9 (2026-10-29)
 
 - Party card: new 'Gear up' button - hand out spare jewelry between party members, take pieces from the collector (optionally unsealed at Pushkin), put them on, and give the replaced pieces back to the collector if you tick it

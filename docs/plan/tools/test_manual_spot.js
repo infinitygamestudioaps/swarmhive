@@ -219,7 +219,7 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(/if \(isLeader\(\) && levelTripCancelled\(\)\) \{ gkFail = 'the hunting spot was changed on the dashboard'/.test(src), 'gkTeleport refuses for a cancelled autolevel trip');
   const er = src.slice(src.indexOf('async function enterRoom'), src.indexOf('// --- JOINT RAID'));
   check(/if \(\(await teamRegroupBeforePort\(F\.name\)\) === 'interrupted' \|\| manualTripCheck/.test(er), 'enterRoom: the floor-teleporter hold answer counts (it was ignored)');
-  const ps = src.slice(src.indexOf('function pickSpot('), src.indexOf('function pickSpot(') + 1200);
+  const ps = src.slice(src.indexOf('function pickSpot('), src.indexOf('function pickSpot(') + 2000);   // (NEVERAUTO-2026-10-30 made the head longer)
   const fs1 = ps.indexOf('if (autoLvl.forceSpot) return autoLvl.forceSpot;'), ms1 = ps.indexOf('const ms = manualSpot(level, solo); if (ms) return ms;'), cz = ps.indexOf('const zones = customZones()');
   check(fs1 > 0 && ms1 > fs1 && cz > ms1, 'pickSpot: the dashboard choice comes before every automatic zone / datapack spot (only !dungeon / !assist come first)');
   const msrc = src.slice(src.indexOf('function manualSpot(level, solo)'), src.indexOf('// --- the dashboard choice takes effect at once'));

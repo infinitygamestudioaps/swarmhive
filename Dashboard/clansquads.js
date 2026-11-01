@@ -57,6 +57,9 @@
       if (!placeholder(ci.name) && !e.name) e.name = ci.name;
       if (+ci.level > e.level) e.level = +ci.level;
       e.carriers.push(c);
+      // CLANPLUS-2026-10-30 (owner: Chanter1 / Tank1 / Saint1 showed in the main clan AND under 'Left the clan'): the clan leader's own list
+      // is the truth while it is less than 2 h older than the freshest one; a character that left keeps a stale list in which it is still a member
+      if ((ci.members || []).length && ci.isLeader) e.leaderList = { members: ci.members, seenAt: String(ci.seenAt || ''), leader: ci.leader, rep: ci.rep, units: ci.units || [], name: ci.name };
       if ((ci.members || []).length && String(ci.seenAt || '') >= e.serverAt) {
         e.server = ci.members; e.serverAt = String(ci.seenAt || ''); e.leader = ci.leader || e.leader; if (ci.rep != null) e.rep = ci.rep;
         if (!placeholder(ci.name)) e.name = ci.name;
@@ -68,6 +71,8 @@
     // character's list for 4-14 min; until a fresh one arrives the page uses the last one (marked with its time)
     const last = opt.lastServer || {};
     Object.values(by).forEach(e => { const L = e.id && last[e.id]; if (!e.server && L && (L.members || []).length) { e.server = L.members; e.serverAt = String(L.seenAt || ''); e.leader = L.leader || e.leader; if (L.rep != null) e.rep = L.rep; if (!e.name && !placeholder(L.name)) e.name = L.name; e.units = L.units || []; if ((L.grades || []).length) { e.grades = L.grades; e.ranksAt = String(L.ranksAt || ''); } e.fromLast = true; } });
+    Object.values(by).forEach(e => { const L = e.leaderList; if (!L) return; const lt = Date.parse(L.seenAt) || 0, nt = Date.parse(e.serverAt) || 0;
+      if (!e.server || nt - lt < 2 * 3600000) { e.server = L.members; e.serverAt = L.seenAt; e.leader = L.leader || e.leader; if (L.rep != null) e.rep = L.rep; if (L.units.length) e.units = L.units; if (!placeholder(L.name)) e.name = L.name; } });
     const clans = Object.values(by).map(e => {
       const unknown = !e.server;
       const name = e.name || ('clan ' + (e.id || '?'));
@@ -84,6 +89,9 @@
         const out = { type: u.type, label: u.label, name: (s && s.name && !(u.type === 0)) ? s.name : (u.type === 0 ? name : ''), leader: (s && s.leader) || (u.type === 0 ? e.leader : ''),
           limit: e.level >= unlockLevel ? limitOf(levels, e.level, u.key) : 0, unlockLevel, locked: e.level < unlockLevel, created: u.type === 0 || !!s, members: mem };
         if (u.type === -1) out.members.forEach(m => { m.graduateAt = ACADEMY_GRAD; m.toGo = Math.max(0, ACADEMY_GRAD - m.level); });
+        // CAPTAIN-2026-10-30 (owner's clan window: Destroyer7 heads 1st Royal Guard, Destroyer6 is 2nd Royal Guard (1/1)): the game lists the captain IN his squad
+        // and counts him; he stays a main clan member as well
+        if (u.type !== 0 && u.type !== -1 && out.leader && !out.members.some(m => m.name === out.leader)) { const lm = server.find(m => m.name === out.leader); out.members.unshift(Object.assign(row(lm || { name: out.leader }), { captain: true })); }
         return out;
       });
       const total = { members: server.length, limit: squads.filter(s => s.created && !s.locked).reduce((a, s) => a + s.limit, 0) };
@@ -115,7 +123,8 @@
     const ac = academy ? `<div class="csq-acad">${bar(m.level, m.graduateAt)}<span class="muted">lvl ${m.level} / ${m.graduateAt}${m.toGo ? ` · ${m.toGo} to go` : ' · graduates at the 2nd class change'}${m.sponsor ? ' · sponsor ' + esc(m.sponsor) : ''}</span></div>` : '';
     return `<div class="csq-m"><div>${link} <span class="muted">lvl ${m.level}${m.cls ? ' ' + esc(m.cls) : ''}${m.party ? ' · party ' + esc(m.party) : ''}</span> ${extra}</div>${ac}</div>`;
   }
-  function html(view) {
+  function html(view, opts) {
+    opts = opts || {};
     const C = (view && view.clans) || [];
     if (!C.length) return '<div class="muted">No clan seen yet.</div>';
     const css = `<style>.csq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:8px}.csq-h{display:flex;justify-content:space-between;gap:6px;align-items:baseline;flex-wrap:wrap}
@@ -125,16 +134,16 @@
       if (c.unknown) return `<div class="box"><h3>Clan id ${esc(c.id)}</h3><div class="muted">No member list from the server for this clan yet (the clan leader asks every 10 min). Characters that still carry it: ${c.carriers.map(x => esc(x.name)).join(', ')}.</div></div>`;
       const head = `<div class="box"><div class="csq-h"><h3 style="margin:0">${esc(c.name)} <span class="muted">level ${c.level}</span></h3><span>${bar(c.total.members, c.total.limit)}<b>${c.total.members}</b> / ${c.total.limit} members</span></div>
         <div class="muted">Leader <b>${esc(c.leader || '?')}</b>${c.rep != null ? ' · ' + Number(c.rep).toLocaleString() + ' reputation' : ''} · server list ${esc(agoTxt(c.serverAt))}${c.fromLast ? ' (the last one — a fresh one comes within 15 min)' : ''}${c.ranksAt ? ' · ranks ' + esc(agoTxt(c.ranksAt)) : ' · ranks not read yet (the clan leader reads them every 30 min)'}</div></div>`;
-      const squads = `<div class="csq-grid" style="margin-top:8px">${c.squads.map(s => {
+      const squads = opts.noSquads ? '' : `<div class="csq-grid" style="margin-top:8px">${c.squads.map(s => {
         if (s.locked) return `<div class="box csq-lock"><div class="csq-h"><b>${esc(s.label)}</b><span class="muted">opens at clan level ${s.unlockLevel}</span></div></div>`;
         if (!s.created) return `<div class="box csq-lock"><div class="csq-h"><b>${esc(s.label)}</b><span class="muted">0 / ${s.limit} · not created yet</span></div><div class="muted">The clan leader creates it at a village master (Clan → ${s.type === -1 ? 'Clan Academy' : s.type < 1000 ? 'Royal Guard' : 'Order of Knights'}).</div></div>`;
         return `<div class="box"><div class="csq-h"><b>${esc(s.label)}${s.name && s.type !== 0 ? ' · ' + esc(s.name) : ''}</b><span>${bar(s.members.length, s.limit)}${s.members.length} / ${s.limit}</span></div>
           ${s.leader && s.type !== 0 ? `<div class="muted">Captain: ${esc(s.leader)}</div>` : ''}${s.type === -1 ? '<div class="muted">Graduation: at the 2nd class change (level 40) the member leaves the academy and the clan; the clan gets 190–650 reputation.</div>' : ''}
-          ${s.members.map(m => member(m, s.type === -1)).join('') || '<div class="muted">nobody</div>'}</div>`; }).join('')}</div>`;
-      const ranks = c.ranks.length ? `<div class="box" style="margin-top:8px"><h3>Ranks & permissions</h3>${c.ranks.map(r => `<div class="csq-m"><div><b>Rank ${esc(r.rank)}</b> <span class="muted">${r.who.length || r.members} member${(r.who.length || r.members) === 1 ? '' : 's'}${r.who.length ? ': ' + r.who.map(esc).join(', ') : ''}</span></div>
+          ${s.members.length > 8 ? `<details class="csq-fold"><summary class="muted">show all ${s.members.length} members</summary>${s.members.map(m => member(m, s.type === -1)).join('')}</details>` : (s.members.map(m => member(m, s.type === -1)).join('') || '<div class="muted">nobody</div>')}</div>`; }).join('')}</div>`;
+      const ranks = opts.noRanks ? '' : c.ranks.length ? `<div class="box" style="margin-top:8px"><h3>Ranks & permissions</h3>${c.ranks.map(r => `<div class="csq-m"><div><b>Rank ${esc(r.rank)}</b> <span class="muted">${r.who.length || r.members} member${(r.who.length || r.members) === 1 ? '' : 's'}${r.who.length ? ': ' + r.who.map(esc).join(', ') : ''}</span></div>
           <div class="csq-priv">${r.privBits == null ? '<span class="muted">privileges not read yet</span>' : r.privs.length ? r.privs.map(p => `<span class="chip">${esc(p)}</span>`).join('') : '<span class="muted">no privileges</span>'}</div></div>`).join('')}</div>`
         : `<div class="box muted" style="margin-top:8px">Ranks & permissions: not read yet. The clan leader reads every member's rank and privileges every 30 min (after the next swarm.js update).</div>`;
-      const left = c.left.length ? `<div class="box" style="margin-top:8px"><h3>Left the clan</h3><div class="muted" style="margin-bottom:4px">These characters still carry the clan in their own data, but the server's member list no longer has them.</div>${c.left.map(x => `<div class="csq-m"><a href="#/char/${encodeURIComponent(x.name)}"><b>${esc(x.name)}</b></a> <span class="muted">lvl ${x.level} ${esc(x.cls)}${x.party ? ' · party ' + esc(x.party) : ''} · ${esc(x.why)}</span></div>`).join('')}</div>` : '';
+      const left = c.left.length ? `<div class="box" style="margin-top:8px"><h3>Left the clan</h3><div class="muted" style="margin-bottom:4px">These characters are no longer clan members. An academy member leaves the clan automatically at the 2nd class change (that is the graduation; the clan gets reputation for it). To get them back as normal members: tick them under <b>Invites → Who gets invited</b> (the clan has room for ${Math.max(0, c.squads[0].limit - c.squads[0].members.length)} more in the main clan) and let them stand next to the clan leader.</div>${c.left.map(x => `<div class="csq-m"><a href="#/char/${encodeURIComponent(x.name)}"><b>${esc(x.name)}</b></a> <span class="muted">lvl ${x.level} ${esc(x.cls)}${x.party ? ' · party ' + esc(x.party) : ''} · ${esc(x.why)}</span></div>`).join('')}</div>` : '';
       return head + squads + ranks + left;
     }).join('');
   }

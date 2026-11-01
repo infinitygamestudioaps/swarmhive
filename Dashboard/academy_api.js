@@ -79,10 +79,20 @@ async function doSetup(ctx, acc, C) {
     const r = await require('./runstate_api').post(ctx, { party: name, on: true, by, send: true });
     out.push('run switch ' + (r && r.ok ? 'ON' : 'FAILED: ' + (r && r.error)));
   } catch (e) { out.push('run switch FAILED: ' + e.message); }
+  try {   // 5) ACADSTORE-2026-10-31 (owner: "level as fast as possible ... make sure you have spiritshots and full buffs. Also take 'Magnus Chant'
+          //    from giran"): its own party switches: supply watch (shots topped up when low) + the Giran store buffs (Magnus' Chant / Chant of Victory)
+    const PF = path.join(P(ctx).data, 'party_auto.json'), pa = readJ(PF, null);
+    if (pa && typeof pa === 'object') {
+      pa.parties = pa.parties && typeof pa.parties === 'object' ? pa.parties : {};
+      const cur = pa.parties[name] || {}, want = { supplyWatch: true, sell: true, storeMagnus: !!(C.buffs.on && C.buffs.magnus), storeCov: !!(C.buffs.on && C.buffs.cov) };
+      if (Object.keys(want).some(k => cur[k] !== want[k])) { pa.parties[name] = Object.assign({}, cur, want); writeAtomic(PF, JSON.stringify(pa, null, 1)); }
+      out.push(`party switches: supply watch ON, Magnus ${want.storeMagnus ? 'ON' : 'off'}, COV ${want.storeCov ? 'ON' : 'off'}`);
+    } else out.push('party switches: Scripts/data/party_auto.json missing');
+  } catch (e) { out.push('party switches FAILED: ' + e.message); }
   return out;
 }
 /** a fresh name list + the create script for the next character of this account */
-function makeCreate(ctx, acc, C, taken) {
+function makeCreate(ctx, acc, C, taken, del) {   // del: ACADLOOP-2026-10-31, ONLY AL.academyDeleteList (pipeline-made graduates)
   const AA = require('./addaccount_api');
   const names = AL.academyNames(C, ctx.rnd || Math.random, taken, Number(C.names.tries) || 6);
   const classes = AA.baseClasses(ctx), cls = classes.find(c => c.id === Number(C.classId)) || { race: C.race, id: C.classId, type: 'mystic' };
@@ -91,7 +101,7 @@ function makeCreate(ctx, acc, C, taken) {
   const mk = 'mkchar_' + String(acc.login).toLowerCase() + '.js';
   const rootFwd = String(ctx.ROOT).replace(/\\/g, '/');
   const stats = AA.BASE_STATS[cls.id] || AA.BASE_STATS[10];
-  fs.writeFileSync(path.join(ctx.ROOT, 'Scripts', mk), AA.buildCreateScript(rootFwd, String(acc.login).toLowerCase(), { race: cls.race, sex, classId: cls.id, stats, names, resultFile: 'Logs/academy_create_' + String(acc.login).toLowerCase() + '.json' }, names[0]));
+  fs.writeFileSync(path.join(ctx.ROOT, 'Scripts', mk), AA.buildCreateScript(rootFwd, String(acc.login).toLowerCase(), { race: cls.race, sex, classId: cls.id, stats, names, resultFile: 'Logs/academy_create_' + String(acc.login).toLowerCase() + '.json', del: Array.isArray(del) ? del : [] }, names[0]));
   return { names, mk };
 }
 async function reopenAs(ctx, acc, newName, mkFile) {
@@ -115,12 +125,16 @@ async function tick(ctx) {
     for (const acc of accs) {
       const login = String(acc.login).toLowerCase(), D = M.accounts[login] = M.accounts[login] || { made: 1 };
       const st = readJ(path.join(P(ctx).logs, `academy_${acc.character}.json`), null), cr = readJ(path.join(P(ctx).logs, `academy_create_${login}.json`), null);
+      // ACADLOOP-2026-10-31: what the create script marked for deletion (or found gone) never goes on a delete list again
+      if (cr && Array.isArray(cr.deleted) && cr.deleted.length) { const s = new Set((D.deleted || []).map(String)); cr.deleted.forEach(n => s.add(String(n))); D.deleted = [...s].slice(-200); }
+      if (cr && Array.isArray(cr.delFailed) && cr.delFailed.length) D.delFailed = cr.delFailed.slice(-20);
       const dec = AL.academyDecide(acc, st, cr, D, C);
       D.decision = dec.act; D.why = dec.why; D.character = acc.character;
       if (dec.act === 'wait' || dec.act === 'none') continue;
       if (acted.length) continue;                                         // one account action per tick
       if (dec.act === 'setup') {
         const r = await doSetup(ctx, acc, C); D.setupFor = String(acc.character); D.setupAt = iso(); D.setupResult = r.join('; ');
+        D.madeNames = [...new Set((D.madeNames || []).concat([String(acc.character)]))].slice(-200);   // ACADLOOP-2026-10-31: made by the pipeline = may be deleted after graduating
         log(ctx, `${login}/${acc.character}: setup — ${D.setupResult}`); acted.push(login);
       } else if (dec.act === 'rename') {
         log(ctx, `${login}: ${dec.why} — swarm.config.json + Settings\\${acc.config} follow`);
@@ -128,12 +142,21 @@ async function tick(ctx) {
         D.renamed = (D.renamed || []).concat([{ from: acc.character, to: dec.name, at: iso() }]).slice(-10); D.setupFor = '';
         log(ctx, `${login}: now ${dec.name} (open_account: ${out.replace(/\s+/g, ' ').slice(0, 120)})`); acted.push(login);
       } else if (dec.act === 'next') {
-        const { names, mk } = makeCreate(ctx, acc, C, taken);
-        try { fs.unlinkSync(path.join(P(ctx).logs, `academy_create_${login}.json`)); } catch (e) { }
         const old = String(acc.character);
+        D.history = (D.history || []).concat([{ graduated: old, at: iso() }]).slice(-200);   // ACADLOOP-2026-10-31: kept long (the delete list reads it)
+        const del = AL.academyDeleteList(D, C, []);
+        const { names, mk } = makeCreate(ctx, acc, C, taken, del);
+        try { fs.unlinkSync(path.join(P(ctx).logs, `academy_create_${login}.json`)); } catch (e) { }
         const out = await reopenAs(ctx, acc, names[0], mk);
-        D.made = (Number(D.made) || 1) + 1; D.history = (D.history || []).concat([{ graduated: old, at: iso() }]).slice(-20); D.setupFor = '';
-        log(ctx, `${login}: ${old} graduated — next academy character ${names[0]} (try names ${names.join(', ')}; character ${D.made} on this account; open_account: ${out.replace(/\s+/g, ' ').slice(0, 120)})`); acted.push(login);
+        D.made = (Number(D.made) || 1) + 1; D.setupFor = '';
+        log(ctx, `${login}: ${old} graduated — next academy character ${names[0]} (try names ${names.join(', ')}; character ${D.made} on this account; ${del.length ? 'marking for deletion: ' + del.join(', ') : 'nothing to delete'}; open_account: ${out.replace(/\s+/g, ' ').slice(0, 120)})`); acted.push(login);
+      } else if (dec.act === 'retry') {   // ACADLOOP-2026-10-31: the slots were full (graduates still in their deletion timer): try again
+        const del = AL.academyDeleteList(D, C, []);
+        const { names, mk } = makeCreate(ctx, acc, C, taken, del);
+        try { fs.unlinkSync(path.join(P(ctx).logs, `academy_create_${login}.json`)); } catch (e) { }
+        const out = await reopenAs(ctx, acc, names[0], mk);
+        D.setupFor = ''; D.retries = (Number(D.retries) || 0) + 1;
+        log(ctx, `${login}: ${dec.why} — new try as ${names[0]} (${del.length ? 'deleting ' + del.join(', ') : 'nothing new to delete'}; open_account: ${out.replace(/\s+/g, ' ').slice(0, 120)})`); acted.push(login);
       } else if (dec.act === 'logout') {
         try { await mcp(ctx, 'close_account', { config_path: path.join(P(ctx).settings, acc.config || '') }, 30000); } catch (e) { }
         D.loggedOutFor = String(acc.character); log(ctx, `${login}: ${dec.why}`); acted.push(login);
@@ -149,7 +172,7 @@ async function tick(ctx) {
 }
 function status(ctx) {
   const M = mgrRead(ctx), C = cfgOf(ctx);
-  return { ok: true, cfg: { on: C.on, classPlan: C.classPlan, funds: C.funds, end: C.end }, accounts: academyAccounts(ctx).map(a => {
+  return { ok: true, cfg: { on: C.on, coupons: C.coupons, classPlan: C.classPlan, funds: C.funds, end: C.end, buffs: C.buffs }, accounts: academyAccounts(ctx).map(a => {
     const login = String(a.login).toLowerCase(), D = M.accounts[login] || {}, st = readJ(path.join(P(ctx).logs, `academy_${a.character}.json`), null);
     return { login, character: a.character, status: st ? st.status : 'not started', text: st ? st.text : '', level: st ? st.level : null, decision: D.decision || '', why: D.why || '', made: D.made || 1, stopped: D.stopped || '', history: D.history || [] };
   }) };

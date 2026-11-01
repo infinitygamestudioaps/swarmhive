@@ -102,7 +102,7 @@ function translate(text) {
   const rules = [
     [/^(restock|supply|supplies|køb|buy supplies|shop scrolls|forsyninger)/, () => '!supply'],
     [/^(collect|collect adena|saml penge|penge)/, () => '!collect'],
-    [/^(park|parker|wait at( the)? (grocer|grocery|shop)|vent ved grocer) ?(grocer|warehouse|weapons|start)?/, (m) => '!park ' + (m[4] || 'grocer')],
+    [/^(park|parker|wait at( the)? (grocer|grocery|shop)|vent ved grocer)\b ?(grocer|warehouse|weapons|start)?/, (m) => '!park ' + (m[4] || 'grocer')],
     [/^(class ?change|klasseskift|change class|profession)/, () => '!classchange'],
     [/^(forward drop)\s+(on|off)$/, (m) => `!cabinet Forward Drop ${m[2]}`],
     [/^(auto ?level(ing)?|level(ing)?)\s+(stop|off)\b/, () => '!autolevel stop'],   // CMDFIX2-2026-10-12: "autolevel stop" STARTED leveling (the rule below matched first)
@@ -976,6 +976,49 @@ async function mcpCall(tool, args) {
   const res = await post({ jsonrpc: '2.0', id: 2, method: 'tools/call', params: { name: tool, arguments: args } });
   if (res.error) throw new Error(res.error.message || JSON.stringify(res.error));
   return (res.result.content || []).map(c => c.text).join('\n');
+}
+// CMSTATUS-2026-10-30 (owner: "why is it not saying that we are waiting for l2 to open"): what each "In game" switch is doing NOW, with the same
+// waits as docs/plan/tools/client_mode.ps1 (login run busy / L2Swarm < 3 min old / one try per 5 min / hook loop brake / one hooked client at a time)
+function clientModeStatus(modes) {
+  const L = path.join(__dirname, '..', 'Logs'), out = {}, now = Date.now();
+  const st = readJson(path.join(L, 'client_mode_state.json'), {}) || {};
+  const alive = (pid) => { if (!pid) return false; try { process.kill(+pid, 0); return true; } catch (e) { return e.code === 'EPERM'; } };   // l2.exe runs elevated: EPERM = it lives
+  const hm = (t) => { const d = new Date(t); return isNaN(d) ? '' : d.toTimeString().slice(0, 5); };
+  let lockPid = 0; try { lockPid = parseInt(fs.readFileSync(path.join(L, 'l2swarm_starting.lock'), 'utf8'), 10) || 0; } catch (e) { }
+  let ctl = []; try { const t = fs.readFileSync(path.join(L, 'l2swarm_ctl.log'), 'utf8'); ctl = t.slice(-60000).split(/\r?\n/); } catch (e) { }
+  let total = 0, opened = 0, startAt = 0, run = 'start';
+  for (const ln of ctl) {
+    const m = ln.match(/^(\S+ \S+) start: L2Swarm started .*logging in (\d+) accounts/), b = ln.match(/ brake: test login OK - logging the other (\d+) in/);
+    if (m) { total = +m[2]; opened = 0; run = 'start'; startAt = Date.parse(m[1].replace(' ', 'T')); }
+    else if (b) { total = +b[1]; opened = 0; run = 'brake'; }   // the reconnect brake re-logs the accounts the login server refused (same "opened" lines)
+    else if (/ start: opened /.test(ln)) opened++;
+  }
+  const loginBusy = alive(lockPid), young = startAt && now - startAt < 3 * 60000;
+  const runTxt = run === 'brake' ? `the reconnect brake is logging the accounts in again that the login server refused (${Math.min(opened, total)} of ${total})` : `L2Swarm is still logging the accounts in${total ? ` (${Math.min(opened, total)} of ${total} opened)` : ''}`;
+  let cmLog = []; try { cmLog = fs.readFileSync(path.join(L, 'client_mode.log'), 'utf8').slice(-30000).split(/\r?\n/).filter(Boolean); } catch (e) { }
+  const inGameOthers = Object.keys(modes).filter(k => modes[k] === 'ingame' && st[k] && alive(st[k].pid));
+  for (const name of Object.keys(modes)) {
+    const want = modes[name], s = st[name] || {}, up = alive(s.pid);
+    const last = cmLog.filter(l => l.includes(' ' + name + ':')).slice(-1)[0] || '';
+    let state, why;
+    if (want === 'ingame') {
+      if (up) {
+        let hb = 0; try { hb = fs.statSync(path.join(L, `swarm_state_${name}.json`)).mtimeMs; } catch (e) { }
+        const at = Date.parse(s.at || '') || 0;
+        if (at && hb > at && now - hb < 60000) { state = 'ingame'; why = `in game in its own client (l2.exe pid ${s.pid})`; }
+        else { state = 'starting'; why = `l2.exe started${at ? ' at ' + hm(at) : ''} (pid ${s.pid}) — logging in through the client; don't type for ~20 s`; }
+      } else if (loginBusy) { state = 'waiting'; why = `waiting: ${runTxt} — l2.exe opens right after that`; }
+      else if (young) { state = 'waiting'; why = `waiting: L2Swarm started at ${hm(startAt)} — l2.exe opens 3 min after the start (the logins settle first)`; }
+      else if (inGameOthers.some(k => k !== name)) { state = 'waiting'; why = `waiting: ${inGameOthers.filter(k => k !== name).join(', ')} already has the one hooked client L2Swarm allows`; }
+      else if (s.braked && now - Date.parse(s.braked) < 60 * 60000) { state = 'braked'; why = `paused: 3 tries within an hour failed (hook loop brake since ${hm(s.braked)}) — it tries again when the oldest try is an hour old`; }
+      else if (s.tried && now - Date.parse(s.tried) < 5 * 60000) { state = 'waiting'; why = `tried at ${hm(s.tried)} without a running client — next try at ${hm(Date.parse(s.tried) + 5 * 60000)}`; }
+      else { state = 'waiting'; why = 'waiting for the next check (every 2 min) to open l2.exe'; }
+      const stuck = !up && last.match(/^(\S+ (\d\d:\d\d)):\d\d hook \S+ client pid \d+ still not in game after 4 min/);
+      if (stuck && now - Date.parse(stuck[1].replace(' ', 'T')) < 30 * 60000) why += ` · the last client hung on "You are currently logging in" and was closed at ${stuck[2]}`;
+    } else { state = up ? 'closing' : 'oog'; why = up ? `closing its l2.exe (pid ${s.pid}) and logging in out of game` : 'out of game'; }
+    out[name] = { want, state, why, last };
+  }
+  return out;
 }
 // --- MCP call for ONE character by name, also when it is hooked (in-game mode) ------------------------------------------------------
 // Hook-mode audit 2026-10-07: L2Swarm's McpAccountResolver matches account_name against LoginName / User.Name / alias / ConfigPath;
@@ -2129,6 +2172,27 @@ const OQM = require('./orderqueue');
 const ORDERQ_LIVE = { on: false };
 const ORDERQ = OQM.create({ dir: () => process.env.SWARM_ORDERS_DIR || (process.env.SWARM_CMD_DIR ? path.join(CMD_DIR, 'orders') : (ORDERQ_LIVE.on ? path.join(LOGS, 'orders') : null)) });
 setInterval(() => { try { ORDERQ.tick(); } catch (e) { } }, 2000);
+// AUTOQUEUE-2026-10-30 (Dashboard/autoqueue.js, requirement docs/requirements/orders.md): automatic orders (Claude / scripts) wait in a lane per
+// party, one at a time; the owner's orders (every /api/command not from the queue) go out at once and pause the lanes they touch until done
+const AQM = require('./autoqueue');
+const AUTOQ = AQM.create({
+  file: path.join(LOGS, 'auto_queue.json'),
+  log: (t) => { try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), new Date().toISOString() + ' ' + t + '\r\n'); } catch (e) { } },
+  commandRun: (b) => commandRun(b),
+  post: (p, b) => fetch(SELF + p, { method: 'POST', headers: { 'x-key': KEY, 'content-type': 'application/json' }, body: JSON.stringify(b) }).then(r => r.json()).catch(e => ({ error: e.message })),
+  orderStatus: (id, names) => { try { return ORDERQ.status(id, names); } catch (e) { return []; } },
+  laneOf: (n) => { try { return teamMap()[n] || n; } catch (e) { return n; } },
+  itemJobState: (id) => { try { return String(JSON.parse(fs.readFileSync(path.join(LOGS, 'itemjobs', id + '_status.json'), 'utf8')).state || ''); } catch (e) { return ''; } },
+  handoverState: (id) => {
+    try {
+      const o = JSON.parse(fs.readFileSync(path.join(LOGS, 'handover', id + '.json'), 'utf8')), g = Object.keys(o.givers || {});
+      const s = g.map(n => { try { return String(JSON.parse(fs.readFileSync(path.join(LOGS, 'handover', id + '_' + n + '.json'), 'utf8')).state || ''); } catch (e) { return ''; } });
+      return s.length && s.every(x => x === 'done') ? 'done' : s.some(x => x === 'failed' || x === 'stopped') ? 'failed' : 'open';
+    } catch (e) { return ''; }
+  },
+});
+let AUTOQ_BUSY = false;
+setInterval(() => { if (AUTOQ_BUSY || !ORDERQ_LIVE.on) return; AUTOQ_BUSY = true; AUTOQ.tick().catch(e => console.error('autoqueue:', e.message)).finally(() => { AUTOQ_BUSY = false; }); }, 3000);
 // ACADEMY-2026-10-21 (Dashboard/academy_api.js): the academy manager every 30 s — set up a new academy character (approved class plan, party plan,
 // invite list, run switch), follow a renamed creation, and after a graduation close the account and make the next academy character on it
 const ACADEMY_CTX = () => ({ DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_FILE: SC.CONFIG_FILE, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun, mcpCall });
@@ -2173,6 +2237,9 @@ try { require('./view3d_api').startRecorder(readStates); } catch (e) { }
 { const mi = () => { try { require('./mobignore_api').tick({ DATA, LOGS, mcpCall }).catch(() => { }); } catch (e) { } }; setTimeout(mi, 30000); setInterval(mi, 120000); }
 // WHAUTO-2026-10-16: the clan warehouse defaults (sell / crystallize) - one order per round while the collector is idle in Giran (switch in Scripts/data/wh_auto.json, default off)
 setInterval(() => { try { require('./whauto_api').tick({ DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, commandRun }).catch(() => { }); } catch (e) { } }, 60000);
+// CRAFTERPAGE-2026-11-01: the crafter page's orders go through our own command queue / trade order API; the clan bank's adena sampled every 10 min
+function crafterPagePost(p, b) { return fetch(`http://127.0.0.1:${PORT}${p}`, { method: 'POST', headers: { 'x-key': KEY, 'content-type': 'application/json' }, body: JSON.stringify(b) }).then(r => r.json()).catch(e => ({ error: String(e && e.message || e) })); }
+setInterval(() => { try { require('./crafterpage_api').tick({ DATA, LOGS, readStates }); } catch (e) { } }, 600000);
 // AUTOFUND 2026-10-22 (owner: poor Flyt dwarves never got adena -> "Both"): Dashboard/autofund.js, fund_rules.json "share"; a hand-over order through our own /api/trade/order
 setInterval(() => { try {
   const tctx = { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap };
@@ -2495,7 +2562,8 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/liveparty.js' || url.pathname === '/liveparty.css' ||
         url.pathname === '/activity.js' || url.pathname === '/partystatus.js' || url.pathname === '/partystatus.css' ||   // PARTY STATUS 2026-10-09: shared activity line + Parties tab banner
         url.pathname === '/levelEta.js' ||
-        url.pathname === '/mapfloors.js' || url.pathname === '/clansquads.js' ||   // CLANSQUADS 2026-10-25: Clan tab squads / ranks / academy (public, no secrets)
+        url.pathname === '/mapfloors.js' || url.pathname === '/clansquads.js' ||
+        url.pathname === '/clanplus.js' || url.pathname === '/clanplus.css' ||   // CLANPLUS-2026-10-30: Clan tab skills you pick / reputation / permissions (public, no secrets)   // CLANSQUADS 2026-10-25: Clan tab squads / ranks / academy (public, no secrets)
         url.pathname === '/charfind.js' || url.pathname === '/charfind.css' ||   // CHARACTER FINDER 2026-10-14: header search for a character (public, no secrets)   // MAP FLOORS 2026-10-13: shared same-floor rule of every map (public, no secrets)
         url.pathname === '/uidialog.js' || url.pathname === '/uidialog.css' ||   // UIDIALOG 2026-10-10: the one shared dialog (confirm / alert / prompt), public, BEFORE the key check (phones over the LAN)
         false) {   // LEVEL ETA 2026-10-09: shared "next level in ~1h 25m" helper (Dashboard/levelEta.js, public, no secrets)
@@ -2536,6 +2604,10 @@ http.createServer(async (req, res) => {
     // RUN SWITCH 2026-10-13 (Dashboard/runstate_api.js): /runswitch.js|css (public) + GET/POST /api/runstate (key checked inside): the manual Start / Stop per
     // party / character (Scripts/data/run_state.json, read by swarm.js every 2 s; default OFF), Start / Stop also send !start / !stop to the party
     if (await require('./runstate_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun })) return;
+    // PARTYMOVE 2026-11-01 (owner: "Make so i can transfer characters between teams via Dashboard"): /partymove.js (public) + GET/POST /api/partymove
+    if (await require('./partymove_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_FILE: SC.CONFIG_FILE, reloadCfg: () => SC.reload(), allowed, json, send })) return;
+    // CRYMARK 2026-11-01 (owner: auto-crystallize marked items from a Crystallize character's own bag): GET/POST /api/crymarks
+    if (await require('./crymark_api').handle(req, res, url, { DATA, LOGS, ROOT, SETTINGS, allowed, json, send })) return;
     // PARTY PLAN 2026-10-13 (Dashboard/partyplan_api.js): /partyplan.js|css, /planlogic.js (public) + GET/POST /api/partyplans (key checked inside): the plan builder per party
     if (await require('./partyplan_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, commandRun })) return;
     // HEAL SCHEMES 2026-10-13 (Dashboard/healschemes_api.js): /healschemes.js|css, /heallogic.js (public) + GET/POST /api/healschemes (key checked inside):
@@ -2568,6 +2640,15 @@ http.createServer(async (req, res) => {
     // which monsters the Bounty Hunters spoil, by their spoil drops (Scripts/data/spoil_rules.json, read by swarm.js SPOIL every 10 s)
     if (await require('./spoilpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, mainLeader: MAIN_LEADER, allowed, json, send, viewerPos, mcpCallChar })) return;
     if (await require('./resrules_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send })) return;
+    // AOETEAM-2026-10-30 (Dashboard/aoeteam_api.js): /aoepage.js|css (public) + GET/POST /api/aoeteam (key checked inside): the AOE team per party
+    // (camp / healers / damage dealers / the pullers' route / mode tank | polearm; Scripts/data/aoe_teams.json, read by swarm.js AOETEAM every 5 s)
+    if (await require('./aoeteam_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, allowed, json, send })) return;
+    // L2DAY-2026-10-31 (Dashboard/l2day_api.js): /l2daypage.js|css (public) + GET /api/l2day (key checked inside): letters, words, exchange queue,
+    // rewards (Logs/l2day_rewards.log from swarm.js l2dayRun); queuing = /api/autoqueue '!l2day <word> <n> <mult>' (lane = the collector)
+    if (await require('./l2day_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json, send })) return;
+    // APPROVE-2026-10-30 (Dashboard/gearapproval_api.js, gear.md R7): GET/POST /api/gearapproval (key checked inside): the owner approves A grade and up
+    // per character (Scripts/data/gear_approved.json, read live by swarm.js FULLSET); waiting = the plan's "waits for your OK" lines
+    if (await require('./gearapproval_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, allowed, json, send })) return;
     // LOOT RULES 2026-10-13 (Dashboard/lootrules_api.js): /lootlogic.js (public: the decision logic) + GET/POST /api/lootrules (key checked inside): what a
     // party's loot does — hand it to a collector (clan leader / a character), keep it, only non-gear, keep S-grade / enchanted / special gear, never / always lists
     // (Scripts/data/loot_rules.json, read live by swarm.js; missing = OFF); the party settings popup's Loot section
@@ -2584,6 +2665,8 @@ http.createServer(async (req, res) => {
     if (await classrotApi().handle(req, res, url, { DATA, LOGS, readStates, allowed, json, send })) return;   // hot: a changed classrot_api.js / classrot_logic.js loads without a dashboard restart
     // OUR CRAFTER 2026-10-15 (Dashboard/crafter_api.js): /crafterpanel.js|css (public) + GET/POST /api/crafter (key checked inside): the Dwarf crafter that
     // keeps shots in stock and supplies parties first in their supply runs (Scripts/data/crafter_rules.json, read live by swarm.js CRAFT-PURE)
+    // CRAFTERPAGE-2026-11-01 (owner: stock targets + the clan bank ledger): /crafterpage.js (public) + GET/POST /api/crafterpage (key checked inside)
+    if (await require('./crafterpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, allowed, json, send, post: crafterPagePost })) return;
     if (await require('./crafter_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;   // CRAFTITEMS-2026-10-15: + body / mcpCallChar / commandRun (hand-ins, crystallize)
     // WHAUTO-2026-10-16 (Dashboard/whauto_api.js): GET/POST /api/whauto = default sell / crystallize per clan warehouse item; the tick below runs it
     if (await require('./whauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, allowed, json, send, commandRun })) return;
@@ -2760,7 +2843,19 @@ http.createServer(async (req, res) => {
     if (url.pathname === '/api/clan') {
       const CQF = path.join(DATA, 'clan_quests.json');
       if (req.method === 'POST') {
-        const b = await body(req); const cq0 = readJson(CQF, {}); cq0.clan = cq0.clan || {};
+        const b = await body(req);
+        // CLANPLUS-2026-10-30 (owner: "I also want to be able to create permissuons for clan via Dashboard"): the WANTED privileges per rank
+        // { action: 'privs', rank 1-9, bits (L2J CP_* mask) } -> Scripts/data/clan_privileges.json (atomic); the clan leader applies them in the game
+        if (b.action === 'privs') {
+          const r = Number(b.rank), bits = Number(b.bits);
+          if (!(r >= 1 && r <= 9) || !Number.isInteger(bits) || bits < 0 || bits > 0xFFFFFF) return json(res, 400, { error: 'rank 1-9 and a privilege mask are needed' });
+          const PF = path.join(DATA, 'clan_privileges.json'), P = readJson(PF, null) || { _note: 'Wanted clan privileges per rank (dashboard Clan tab -> Permissions per rank). bits = L2J H5 L2Clan CP_* mask. The clan leader applies them in the game (Alt+N -> Privileges).', ranks: {} };
+          P.ranks = P.ranks || {}; P.ranks[r] = { bits, at: new Date().toISOString(), by: 'dashboard' };
+          const tmp = PF + '.tmp'; fs.writeFileSync(tmp, JSON.stringify(P, null, 1)); fs.renameSync(tmp, PF);
+          try { fs.appendFileSync(path.join(LOGS, 'dashboard_commands.log'), new Date().toISOString() + ' clan privileges: rank ' + r + ' = ' + bits + '\r\n'); } catch (e) { }
+          return json(res, 200, { ok: true, rank: r, bits });
+        }
+        const cq0 = readJson(CQF, {}); cq0.clan = cq0.clan || {};
         try { fs.copyFileSync(CQF, path.join(ROOT, 'Settings', 'backup', 'clan_quests_' + Date.now() + '.json')); } catch (e) { }
         if (b.action === 'name') {
           const n = String(b.name || '').trim();
@@ -2862,7 +2957,15 @@ http.createServer(async (req, res) => {
       let rosterOut = roster;
       try { const sq = squads && squads.clans.find(k => !k.unknown && ((rClanId && k.id === rClanId) || (rClanName && k.name.toLowerCase() === rClanName)));
         if (sq) { const inSrv = new Set([].concat(...sq.squads.map(s => s.members.map(m => m.name)))); rosterOut = roster.filter(r => inSrv.has(r.name)); } } catch (e) { }
-      return json(res, 200, { state: st, quests: cq, leader: leaderName, leaderChar: lc, teams: Object.values(teams), bosses, roster: rosterOut, data: cd, clans, events, ccLeaders, cqProgress, sevenSigns, squads });
+      // CLANPLUS-2026-10-30: the clan leader's bag counts of the clan skill items (Logs/bag_<leader>.json) + the wanted privileges per rank
+      let leaderBag = {}; try { const ids = new Set(); ((cd && cd.skills) || []).forEach(s => (s.items || []).forEach(i => ids.add(+i.id)));
+        const bj = readJson(path.join(LOGS, 'bag_' + String(leaderName || '').replace(/[^A-Za-z0-9]/g, '') + '.json'), null), bl = bj ? (bj.items || bj) : [];
+        (Array.isArray(bl) ? bl : []).forEach(i => { const id = +i.id; if (ids.has(id)) leaderBag[id] = (leaderBag[id] || 0) + (+i.count || 0); }); } catch (e) { }
+      const privWanted = readJson(path.join(DATA, 'clan_privileges.json'), null);
+      // CLANTABS-2026-10-30: the clan leader's last squad results (swarm.js !clanunit: 'create guard "X" at <npc>: <server message>') + academy invites
+      let clanLog = []; try { const fd = fs.openSync(path.join(LOGS, 'clan.log'), 'r'), stl = fs.fstatSync(fd), nb = Math.min(stl.size, 120000), buf = Buffer.alloc(nb); fs.readSync(fd, buf, 0, nb, stl.size - nb); fs.closeSync(fd);
+        clanLog = buf.toString('utf8').split(/\r?\n/).filter(l => /create (guard|knight)|academy|invited/i.test(l)).slice(-40); } catch (e) { }
+      return json(res, 200, { state: st, quests: cq, leader: leaderName, leaderChar: lc, teams: Object.values(teams), bosses, roster: rosterOut, data: cd, clans, events, ccLeaders, cqProgress, sevenSigns, squads, leaderBag, privWanted, clanLog });
     }
     // RAID TEAM TEMPLATES (user 2026-10-07): GET /api/raidteam -> list; ?id=<npc id> -> the template + a proposed team from ALL our characters
     if (url.pathname === '/api/raidteam') {
@@ -3239,6 +3342,8 @@ http.createServer(async (req, res) => {
       { const v = get('spotEmptySec'); if (v !== undefined && v !== null && v !== '' && Number(v) > 0) t.spotEmptySec = Math.round(clamp(v, 10, 600, 150)); }
       // SOLOESC-2026-10-28 (Hero: "can we have escaping as an option?"): a solo character escapes from a fight that goes badly (default ON = the owner's 2026-10-08 rule)
       if (get('soloEscape') === false) t.soloEscape = false;
+      if (get('drainKit') === false) t.drainKit = false;     // DRAINWAY-2026-10-30: default ON = not stored
+      if (get('drainDuel') === false) t.drainDuel = false;
       ['maxAdds', 'expRange', 'hpAvgMin', 'noDeathMin', 'cooldownMin', 'helpHp'].forEach(k => { if (cur[k] !== undefined) t[k] = cur[k]; });   // expert fields: file only
       all[party] = t; all._updated = new Date().toISOString();
       fs.writeFileSync(TFILE, JSON.stringify(all, null, 1));
@@ -3361,9 +3466,9 @@ http.createServer(async (req, res) => {
         let ran = false;
         try { require('child_process').execFileSync('schtasks', ['/run', '/tn', 'L2Swarm MemWatch'], { stdio: 'ignore', windowsHide: true, timeout: 8000 }); ran = true; } catch (e) { ran = false; }
         if (!ran) warning = (warning ? warning + '; ' : '') + 'the Windows task "L2Swarm MemWatch" is not set up on this PC, so nothing applies it now — run SETUP_PC_ALWAYS_ON.cmd once (as administrator), then press the button again';
-        return json(res, 200, { modes: cur, warning, applied: ran });
+        return json(res, 200, { modes: cur, warning, applied: ran, status: clientModeStatus(cur) });
       }
-      return json(res, 200, { modes: cur });
+      return json(res, 200, { modes: cur, status: clientModeStatus(cur) });
     }
     if (url.pathname === '/api/zones' && req.method === 'POST') {
       const z = await body(req);
@@ -3566,8 +3671,21 @@ http.createServer(async (req, res) => {
       // command center 2026-10-08 (see commandPlan / commandRun above): one or many targets, '!' swarm / '/' L2Swarm / '@' account
       // commands, destructive ones need confirmDanger, dryRun returns the plan. Old callers ({ text | cmd, target }) work unchanged:
       // a solo character (no party) gets the order as normal chat, a hooked one is reached through its config file (mcpCallChar).
-      const r = await commandRun(await body(req));
+      const cb = await body(req), r = await commandRun(cb);
+      // AUTOQUEUE: an order that does not come from the queue = the owner's: the lanes it touches pause until it is finished
+      try {
+        if (ORDERQ_LIVE.on && !cb.dryRun && !/^autoqueue/i.test(String(cb.by || '')) && r && r.body && r.body.ok) {   // only the live server (sandbox tests never touch Logs)
+          const sends = r.body.sends || [];
+          AUTOQ.noteOwner({ cmd: r.body.command, orderIds: sends.map(s => s.orderId).filter(Boolean), names: [].concat(...sends.map(s => s.recipients || [s.to])).filter(Boolean) });
+        }
+      } catch (e) { console.error('autoqueue owner:', e.message); }
       return json(res, r.code || 200, r.body);
+    }
+    // AUTOQUEUE: GET = items + lanes; POST { cmd, targets, by, note, after, timeoutMs } (or { kind: 'upgrade' | 'trade', body }) = enqueue;
+    // POST { action: 'cancel' | 'runnow', id } / { action: 'clear', lane? }
+    if (url.pathname === '/api/autoqueue') {
+      if (req.method === 'GET') return json(res, 200, AUTOQ.view());
+      if (req.method === 'POST') { const b = await body(req); const r = b && b.action ? AUTOQ.action(b) : AUTOQ.enqueue(b || {}); return json(res, r.error ? 400 : 200, r); }
     }
     // the command catalog + who is who (command center): the page itself loads /commands.js; this tells it the server is new enough
     if (url.pathname === '/api/commands') {

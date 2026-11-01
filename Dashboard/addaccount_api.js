@@ -183,17 +183,43 @@ function buildCreateScript(rootFwd, login, c, name) {
   const L = ${JSON.stringify(login)}, NAME = ${JSON.stringify(name)}, ST = ${JSON.stringify(c.stats)};
   const NAMES = ${JSON.stringify(NAMES)}, FIRST = NAME, RES = ${JSON.stringify(c.resultFile ? rootFwd + '/' + c.resultFile : '')};
   let CUR = NAME, ni = 0, reason = -1;
-  const out = (o) => { if (!RES) return; try { File.WriteAllText(RES, JSON.stringify(Object.assign({ login: L, forChar: FIRST, at: new Date().toISOString() }, o))); } catch (e) { } };
+  // ACADLOOP-2026-10-31: DEL = graduated characters the academy pipeline itself made on this account (academy_logic academyDeleteList):
+  // each is marked for deletion at the character list (CharacterDelete 0x0D + its slot) before the new one is created; nothing else is deleted
+  const DEL = ${JSON.stringify(Array.isArray(c.del) ? c.del.filter(n => /^[A-Za-z0-9]{2,16}$/.test(String(n))) : [])};
+  const deleted = [], delFailed = []; let csi = null, csiAt = 0, delRes = null, delReason = -1, delDone = DEL.length === 0, di = 0;
+  const out = (o) => { if (!RES) return; try { File.WriteAllText(RES, JSON.stringify(Object.assign({ login: L, forChar: FIRST, at: new Date().toISOString(), deleted, delFailed }, o))); } catch (e) { } };
   const log = (t) => { try { File.AppendAllText(${JSON.stringify(rootFwd + '/Logs/create_chars.txt')}, new Date().toISOString() + ' [' + L + '] ' + t + '\\r\\n'); } catch (e) { } };
+  const u16 = (s) => { const a = []; for (let i = 0; i < s.length; i++) { const k = s.charCodeAt(i); a.push(k & 255, (k >> 8) & 255); } a.push(0, 0); return a; };
+  const findAll = (b, pat) => { const r = []; for (let i = 0; i + pat.length <= b.length; i++) { let ok = true; for (let k = 0; k < pat.length; k++) if (b[i + k] !== pat[k]) { ok = false; break; } if (ok) r.push(i); } return r; };
+  /** the slot of <name> in the character list: every entry is name, objId (4), account name -> the n-th account name = slot n; -1 = not listed */
+  const slotOf = (b, name) => { const lg = u16(L), nm = u16(name), logins = findAll(b, lg); const hits = findAll(b, nm).filter(i => logins.indexOf(i + nm.length + 4) >= 0); return hits.length === 1 ? logins.indexOf(hits[0] + nm.length + 4) : -1; };
+  const le32 = (v) => [v & 255, (v >> 8) & 255, (v >> 16) & 255, (v >> 24) & 255].map(x => ('0' + x.toString(16)).slice(-2)).join('');
   let result = null, tries = 0;
   try { Options.EnableJSOnIncomingPacket = true; } catch (e) { }
   globalThis.OnIncomingPacket = (p) => {
     try { const op = Number(p[2]) & 255;
-      if (op === 0x0f) result = 'OK';
+      if (op === 0x09) { const b = []; for (let i = 0; i < p.length; i++) b.push(Number(p[i]) & 255); csi = b; csiAt = Date.now(); }
+      else if (op === 0x1d) delRes = 'OK';
+      else if (op === 0x1e) { delRes = 'FAIL'; delReason = Number(p[3]) & 255; }
+      else if (op === 0x0f) result = 'OK';
       else if (op === 0x10) { result = 'FAIL'; reason = Number(p[3]) & 255; log('CharCreateFail for ' + CUR + ' reason ' + reason); } } catch (e) { }
   };
   for (let n = 0; n < 240; n++) {
     await sleep(5000);
+    if (!delDone) {
+      if (!csi) { if (n >= 6) { log('no character list seen in 30 s - nothing deleted'); delDone = true; } continue; }
+      if (di >= DEL.length) { delDone = true; log('deletion done: ' + (deleted.join(', ') || '-') + (delFailed.length ? '; refused: ' + delFailed.map(x => x.name + ' (' + x.reason + ')').join(', ') : '')); }
+      else {
+        const nm = DEL[di++], slot = slotOf(csi, nm);
+        if (slot < 0) { log(nm + ' is not in the character list (already deleted?)'); deleted.push(nm); continue; }
+        delRes = null; const at0 = csiAt;
+        try { Send.SendHex('0D' + le32(slot)); log('CharacterDelete sent: ' + nm + ' (slot ' + slot + ')'); } catch (e) { log('delete error ' + e); }
+        for (let w = 0; w < 20 && !delRes; w++) await sleep(500);
+        if (delRes === 'OK') { deleted.push(nm); log(nm + ' marked for deletion'); for (let w = 0; w < 20 && csiAt === at0; w++) await sleep(500); }
+        else { delFailed.push({ name: nm, reason: delRes === 'FAIL' ? delReason : 'no answer' }); log(nm + ' NOT deleted (' + (delRes === 'FAIL' ? 'reason ' + delReason : 'no answer') + ')'); }
+        continue;
+      }
+    }
     try { if (Me && Me.Name) { if (n === 0 || result) log('RESULT OK ' + Me.Name + ' (in game)'); if (RES && result) out({ result: 'ok', name: String(Me.Name) }); return; } } catch (e) { }
     if (result === 'OK') { log('RESULT OK ' + CUR + ' (created, waiting for the login)'); out({ result: 'ok', name: CUR }); result = 'DONE'; }
     if (result === 'DONE') continue;

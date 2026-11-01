@@ -1,6 +1,9 @@
 {
  "_about": "ACADEMY PIPELINE (owner 2026-10-21, ACADEMY-2026-10-21; guide docs/guide/pages/academy.md). An account added on the dashboard as 'Academy mage (automatic)' gets a random character (name + digits), goes to Giran with .giran, is invited into the clan ACADEMY by the clan leader, gets adena from the givers (fund round), buys its kit, levels 1-40 alone, changes class at 20 and 40 (the 2nd class change graduates it: the clan gets the Academy reputation), logs out, and the account makes the next academy character (until its character slots are full). Read live by swarm.js (academy steps) and Dashboard/academy_api.js (the manager). Edit by hand: the next characters use the new values.",
  "on": true,
+ "coupons": true,
+ "buffs": { "_about": "ACADSTORE-2026-10-31 (owner: 'make sure you have spiritshots and full buffs. Also take Magnus Chant from giran for 10 adena'): at the Giran start (start kit) and on every Giran supply run / rebuff trip the academy character buys these from a player buff store (sellers found by their title) for itself, at most storeMaxPrice adena per buff", "on": true, "magnus": true, "cov": true, "storeMaxPrice": 10 },
+ "_coupons": "ACADCOUPON-2026-10-31 (owner: 'Have You added the shadow item coupons for academy toons' -> 'Option 1'): true = new academy plans stop at a Newbie Guide at level 6 (5 weapon coupons -> 1 shadow weapon) and right after the 1st class change (jewelry coupon -> D shadow jewelry); free, worn only when better. false = off.",
  "race": 2,
  "classId": 38,
  "sexes": [0, 1],
@@ -24,6 +27,7 @@
   "start": [
    { "id": 2509, "name": "Spiritshot (No Grade)", "count": 5000, "npc": "Helvetia", "shots": true }
   ],
+  "_level20": "ACADROUTE-2026-11-01: a piece with equip is skipped when the worn piece of that slot is as good (the free shadow robe set from the guide's armor coupon); the weapon + the D spiritshots are still bought",
   "level20": [
    { "id": 1101, "name": "Tunic of Devotion", "count": 1, "equip": true },
    { "id": 1104, "name": "Stockings of Devotion", "count": 1, "equip": true },
@@ -33,10 +37,12 @@
   ]
  },
  "spots": {
-  "_about": "where it levels (party plan level steps; override = the owner accepted the level gap: Ant Nest monsters are 29-35)",
+  "_about": "where it levels (party plan level steps). ACADROUTE-2026-11-01 (owner's route, docs/plan/academy_route_owner.md): to20 = levels 1-20, to30 = 20-30 (the leader picks for the level), to35 = 30-35 Cruma Marshlands (datapack 'Cruma Tower (Lv30-35)'), to40 = 35-40 Cruma Tower floor 1 Porta rooms (level-40 monsters, the lowest on that floor; override = the owner accepted the level gap). to25 (Ant Nest) is no longer used by new plans.",
   "to20": { "mode": "auto" },
   "to25": { "mode": "manual", "kind": "rooms", "dungeon": "Ant Nest", "spot": "Ant Nest", "roomId": "antnest-1-straight-a", "override": true, "stay": true },
-  "to40": { "mode": "manual", "kind": "rooms", "dungeon": "Ant Nest", "spot": "Ant Nest", "roomId": "antnest-1-straight-b", "override": true, "stay": true }
+  "to30": { "mode": "auto" },
+  "to35": { "mode": "manual", "kind": "datapack", "spot": "Cruma Tower (Lv30-35)" },
+  "to40": { "mode": "manual", "kind": "rooms", "dungeon": "Cruma Tower", "spot": "Cruma Tower", "roomId": "cruma-1-right-c", "roomIds": ["cruma-1-right-c", "cruma-1-left-c", "cruma-1-right-h"], "order": "nearest", "override": true, "stay": true }
  },
  "huntRadius": 1000,
  "closestTarget": true,
@@ -44,6 +50,10 @@
   "_about": "after the 2nd class change: logout + the next academy character on the same account (newCharacter false = only log out)",
   "logout": true,
   "newCharacter": true,
-  "maxCharacters": 7
+  "maxCharacters": 7,
+  "_loop": "ACADLOOP-2026-10-31 (owner: 'after each academy toon graduate to deliver items to collector and all adena and items. Then log out ... Then set that character for deletion and create a new academy toon and do it over again ... It should run 24/7'): deliver = before the logout everything tradeable + all adena to the collector (Storage: collector, else the clan leader); deleteGraduate = the next create marks graduated pipeline characters for deletion (only characters this pipeline made, Logs/academy_manager.json madeNames) and maxCharacters no longer stops the loop; full slots = wait slotWaitMin and try again",
+  "deliver": true,
+  "deleteGraduate": true,
+  "slotWaitMin": 360
  }
 }

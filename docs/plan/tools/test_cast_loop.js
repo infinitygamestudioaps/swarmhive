@@ -122,7 +122,9 @@ const L = (o) => Object.assign({ id: 77, alive: true, fighting: true, hpPct: 100
 let t = M.assistChoose({ assist: true, leader: L({}), cur: null });
 check(t && t.id === 77 && t.why === 'assist', "the leader fights it -> assist (L2Swarm's FollowAtk did this)");
 t = M.assistChoose({ assist: true, leader: L({ fighting: false }), cur: null });
-check(t === null, 'the leader only SELECTED a monster (not fighting, full HP, not on us): wait for the tank');
+check(t === null, 'a monster that is not the leader\'s marked target (not fighting, full HP, not on us): nothing');
+t = M.assistChoose({ assist: true, leader: L({ fighting: false, marked: true }), cur: null });
+check(t && t.id === 77 && t.why === 'assist', 'MARKED-2026-10-30 (owner): the leader MARKED (selected) it -> attack at once, no wait for his Aggression / Hate Aura');
 t = M.assistChoose({ assist: true, leader: L({ fighting: false, hpPct: 80 }), cur: null });
 check(t && t.id === 77, 'the monster is already hurt -> assist');
 t = M.assistChoose({ assist: true, leader: L({ dist: 2500 }), cur: null });

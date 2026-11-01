@@ -183,9 +183,13 @@
     el.innerHTML = `<div class="fnd-hint">What the bots sell at a shop on every town visit. ✕ takes an item off the list (it is then kept, unless it is unused D / no-grade gear the bots sell by themselves — mark that one <i>Never sold</i> in the character's bag).</div>
       <input type="search" data-sellq="" value="${h(SP.sellQ || '')}" placeholder="Find an item on the list…" aria-label="find an item on the sell list" style="margin:4px 0;width:100%;max-width:340px">
       ${groups.map(([k, t]) => { const ids = (L[k] || []).filter(id => !q || nm(id).toLowerCase().includes(q));
-        return ids.length || k === 'all' ? `<details class="stg-sellgrp"${k === 'all' || q ? ' open' : ''}><summary><b>${h(t)}</b> <span class="muted">${ids.length}</span></summary>
+        // SELLFOLD-2026-11-01 (owner: "'sold by every bot' is on top and expanded it takes over the entire page"): every group starts folded; open
+        // while searching or after you opened it (kept across the page's re-renders and in this browser)
+        return ids.length || k === 'all' ? `<details class="stg-sellgrp" data-sellgrp="${h(k)}"${q || sellOpen()[k] ? ' open' : ''}><summary><b>${h(t)}</b> <span class="muted">${ids.length}</span></summary>
           <div style="display:flex;flex-wrap:wrap;gap:4px;margin:4px 0">${ids.map(id => `<span class="trd-chip" style="display:inline-flex;align-items:center;gap:4px">${icon(id)}${h(nm(id))}${L.noShop && L.noShop[id] ? ' <span class="muted" title="' + h(L.noShop[id]) + '">(no shop buys it)</span>' : ''}<button type="button" data-sellrm="${id}" data-sellscope="${h(k)}" title="Take ${h(nm(id))} off this list" aria-label="remove ${h(nm(id))}" style="min-width:32px;min-height:32px">✕</button></span>`).join('') || '<span class="muted">nothing</span>'}</div></details>` : ''; }).join('')}`;
+    el.querySelectorAll('details[data-sellgrp]').forEach(d => d.addEventListener('toggle', () => { if (q) return; const o = sellOpen(); if (d.open) o[d.dataset.sellgrp] = 1; else delete o[d.dataset.sellgrp]; try { localStorage.setItem('stgSellOpen', JSON.stringify(o)); } catch (e) { } }));
   }
+  function sellOpen() { if (!SP.sellOpen) { try { SP.sellOpen = JSON.parse(localStorage.getItem('stgSellOpen') || '{}') || {}; } catch (e) { SP.sellOpen = {}; } } return SP.sellOpen; }
   function renderNever() {
     const el = $id('stgNever'); if (!el) return;
     const N = obj(SP.cur.neverStore), names = (Array.isArray(N.names) ? N.names : []).join('\n');

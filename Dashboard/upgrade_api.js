@@ -34,6 +34,10 @@ async function planLine(ctx, name, L, use, overSafeOk) {
   const b = Object.assign(lineBody(name, L), { overSafeOk: !!overSafeOk });
   let p = await IP.plan(ctx, b); if (p.error) return p;
   const pick = {};
+  // NESTEDPICK-2026-10-30 (Chanter1's Homunkulus Acumen): a need that only appears after a pick (the crystals for the soul crystal exchange) is
+  // picked on the next pass; up to 3 passes, stop when nothing new is picked.
+  for (let pass = 0; pass < 3; pass++) {
+  const before = Object.keys(pick).length;
   for (const n of p.needs || []) {
     if (!n.ask || !(n.missing > 0)) continue;
     const o = n.options || {}, rest = n.missing;
@@ -43,7 +47,9 @@ async function planLine(ctx, name, L, use, overSafeOk) {
     else if (use.clan && Number(o.clan) > 0 && !use.buy) pick[n.id] = 'clan';
     else if (use.buy && o.buy) pick[n.id] = 'buy';
   }
-  if (Object.keys(pick).length) p = await IP.plan(ctx, Object.assign(b, { sources: pick }));
+  if (Object.keys(pick).length === before) break;
+  p = await IP.plan(ctx, Object.assign(b, { sources: Object.assign({}, pick) })); if (p.error) return p;
+  }
   return p;
 }
 async function planAll(ctx, b) {
@@ -58,9 +64,12 @@ async function planAll(ctx, b) {
     const res = [];
     for (const L of lines) {
       const p = await planLine(ctx, name, L, use, b.overSafeOk);
-      const us = L.unseal && !p.error ? unsealRow(ctx, Number((L.item || {}).id)) : null;   // GEARUPCOL-2026-10-29: the owner ticked "unseal first" -> Pushkin before it goes on
-      if (us) { const wi = p.steps.findIndex(s => /puts it on/.test(s.text || '')); p.steps.splice(wi >= 0 ? wi : p.steps.length, 0, { k: 'unseal', text: `unseal it at Pushkin (${IL.kmb(us.aa)} ${us.pay === 57 ? 'adena' : 'Ancient Adena'})` }); if (us.pay === 57) p.adena = (Number(p.adena) || 0) + us.aa; else (p.warn = p.warn || []).push(`needs ${IL.kmb(us.aa)} Ancient Adena in ${name}'s bag for the S-grade seal`); }
-      res.push(p.error ? { error: p.error, item: L.item } : { unseal: us, ok: p.ok, item: p.item, steps: p.steps.map(s => s.text), missing: p.missing.map(m => `${m.missing}× ${m.what}`), needs: p.needs,
+      const uw = L.unseal && typeof L.unseal === 'object' ? Number(L.unseal.id) || 0 : 0, us = L.unseal && !p.error ? unsealRow(ctx, Number((L.item || {}).id), uw || undefined) : null;   // GEARUPCOL-2026-10-29: the owner ticked "unseal first" -> Pushkin before it goes on; GEARUPCOL-2: the variant picked on the page (checked against unsealOptions)
+      if (L.unseal && !p.error && !us) { res.push({ error: uw ? 'that unseal choice does not fit this piece' : 'this piece cannot be unsealed', item: L.item }); continue; }
+      // GEARUPCOL-2: a line saved before the variant choice existed (no id) on a Heavy / Light / Robe piece = refused, never the Robe default
+      if (us && !uw && unsealOptions(ctx, Number((L.item || {}).id)).length > 1) { res.push({ error: 'choose which variant to unseal (Heavy / Light / Robe): open Gear up again and tick the piece', item: L.item }); continue; }
+      if (us) { const wi = p.steps.findIndex(s => /puts it on/.test(s.text || '')); p.steps.splice(wi >= 0 ? wi : p.steps.length, 0, { k: 'unseal', text: `unseal it at Pushkin → ${us.name} (${IL.kmb(us.aa)} ${us.pay === 57 ? 'adena' : 'Ancient Adena'})` }); if (us.pay === 57) p.adena = (Number(p.adena) || 0) + us.aa; else (p.warn = p.warn || []).push(`needs ${IL.kmb(us.aa)} Ancient Adena in ${name}'s bag for the S-grade seal`); }
+      res.push(p.error ? { error: p.error, item: L.item } : { unseal: us, wear: L.wear !== false, ok: p.ok, item: p.item, steps: p.steps.map(s => s.text), missing: p.missing.map(m => `${m.missing}× ${m.what}`), needs: p.needs,
         adena: p.adena, warn: p.warn, overSafe: p.overSafe, saOptions: (p.saOptions || []).map(s => ({ saId: s.saId, sa: s.sa, color: s.color, stage: s.stage })), enchantTo: p.enchantTo, saId: p.saId, chance: p.chance, finalId: p.finalId, offer: p.offer, augment: p.augment || null });
     }
     const C = await IP.charInfo(ctx, name, false);
@@ -106,7 +115,7 @@ async function start(ctx, b) {
       item: { src: r.item.src, id: r.item.id, objId: r.item.objId, enchant: r.item.enchant, name: r.item.name, kind: r.item.kind, grade: r.item.grade, offer: r.offer || null, char: r.item.char || '' },
       enchant: r.enchantTo > r.item.enchant ? { to: r.enchantTo, scroll: IL.scrollFor(r.item.kind || 'armor', r.item.grade, false) } : null,
       sa: r.saId ? fullSa(ctx, r) : null,
-      finalId: r.finalId, wear: true, augment: r.augment || null, unseal: r.unseal || null,
+      finalId: r.finalId, wear: r.wear !== false, augment: r.augment || null, unseal: r.unseal || null,   // EPICGET-2026-10-31: a line may stay in the bag (gear.md R7: a set goes on whole)
       needs: (r.needs || []).map(n => ({ id: n.id, what: n.what, need: n.need, from: n.from, buy: n.buy || null, choice: n.choice || '' })) }));
     const solo = when === 'solo' && !isLeaderName(ctx, o.name);
     const J = { id, doer: o.name, kind: 'upgrade', upgrade: { lines, collector: col && col !== o.name ? col : '', giveBack: !!b.giveBack && !!col && col !== o.name }, item: { name: `${lines.length} upgrade(s)`, id: 0 }, overSafeOk: !!b.overSafeOk,
@@ -159,24 +168,82 @@ function jobsFor(ctx, names) {
 // RECOMMEND-2026-10-25 (owner: "Upgrade under /char should show recommended items to upgrade or replace ... every warehouse, clan warehouse or
 // inventory ... also what is possible via Giran or trades, but warn about the cost"): per slot the best piece we HAVE (bag / own warehouse / clan
 // warehouse / another character's bag = a trade) and the best one to BUY or CRAFT, each only when it beats what is worn and fits level + type
-async function recommend(ctx, name) {
+async function recommend(ctx, name, setWant) {
   const D = await doll(ctx, name); if (!D || D.error) return D || { code: 500, error: 'no paperdoll' };
   const out = [];
+  // SETFIX-2026-10-29: armor is recommended as ONE whole set (set bonus), never piece by piece from different sets
+  const CI = await IP.charInfo(ctx, name, false), kit = charKit(ctx, CI), cands = {};
+  for (const sl of SET_SLOTS.concat('shield')) { const C = await slotCands(ctx, name, sl); if (C && !C.error) cands[sl] = C; }
+  const SP = setPlan(ctx, kit, D.level || CI.level, new Set((CI.bag || []).filter(r => r.eq).map(r => Number(r.id))), cands, setWant);
+  const setSlots = new Set(SP.mode === 'none' ? [] : SET_SLOTS.concat(SP.set && SP.set.rows.some(r => r.slot === 'shield' && r.c) ? ['shield'] : []));
+  if (SP.mode === 'pick') for (const r of SP.set.rows) { if (!r.c) continue;
+    const C = cands[r.slot], w = C.worn.slice().sort((a, b) => b.stat - a.stat)[0], i = r.c.item;
+    const o = { id: i.id, name: i.name, icon: i.icon, grade: i.grade, stat: i.stat, gain: i.gain, recommended: !!i.recommended, src: r.c.src, set: SP.set.name,
+      cost: r.c.kind === 'buy' ? Math.ceil((r.c.src.price || 0) * 1.2) : 0, trade: r.c.src.src === 'char' ? r.c.src.char : '', statName: i.statName, newName: i.newName, replaces: i.replaces, unseal: i.unseal, sealedNote: i.sealedNote };
+    out.push({ slot: r.slot, idx: 0, label: (DOLL_SLOTS.find(d => d[0] === r.slot) || [, r.slot])[1], set: SP.set.name, worn: w ? { name: w.name, enchant: w.enchant || 0, stat: w.stat, grade: w.grade, statName: w.statName } : null, plan: null,
+      have: r.c.kind === 'have' ? o : null, buy: r.c.kind === 'buy' ? o : null, craft: r.c.kind === 'craft' ? o : null }); }
   for (const s of D.slots || []) {
     if (s.blocked || s.idx > 0) continue;   // earrings / rings: one recommendation per kind
-    const C = await slotCands(ctx, name, s.slot); if (!C || C.error) continue;
-    const good = C.items.filter(i => i.better && i.levelOk && i.typeOk && !i.wornNow);
+    if (setSlots.has(s.slot)) continue;   // SETFIX: armor comes from the set plan above (or not at all: no mixed pieces)
+    const C = cands[s.slot] || await slotCands(ctx, name, s.slot); if (!C || C.error) continue;
+    const good = C.items.filter(i => i.better && i.gain > 0 && i.levelOk && i.typeOk && !i.wornNow).sort((a, b) => b.gain - a.gain);   // RECFIX: best gain first
     const pick = (re) => { for (const i of good) { const src = i.sources.filter(x => re.test(x.src)).sort((a, b) => (a.price || 0) - (b.price || 0))[0]; if (src) return { item: i, src }; } return null; };
     const have = pick(/^(bag|wh|clan|char)$/), buyS = pick(/^shop$/);
     const craftS = (() => { for (const i of good) { const src = i.sources.find(x => x.src === 'craft' && x.can); if (src) return { item: i, src }; } return null; })();   // only crafts with the materials there
     if (!have && !buyS && !craftS) continue;
-    const w = C.worn[0], row = (x) => x && { id: x.item.id, name: x.item.name, icon: x.item.icon, grade: x.item.grade, stat: x.item.stat, gain: x.item.stat - (w ? w.stat : 0), recommended: !!x.item.recommended, src: x.src,
-      cost: x.src.src === 'shop' ? Math.ceil((x.src.price || 0) * 1.2) : 0, trade: x.src.src === 'char' ? x.src.char : '' };
-    const beats = (x) => x && (!have || x.item.stat > have.item.stat);   // buy / craft only when better than what we already have
-    out.push({ slot: s.slot, idx: 0, label: s.label, worn: w ? { name: w.name, enchant: w.enchant || 0 } : null, have: row(have), buy: beats(buyS) ? row(buyS) : null, craft: beats(craftS) ? row(craftS) : null });
+    // RECFIX-2026-10-29: each option says what it replaces (name + stat) and what goes on (the unseal variant for a sealed piece) + the gear plan of the level grade
+    const w = C.worn.slice().sort((a, b) => b.stat - a.stat)[0], row = (x) => x && { id: x.item.id, name: x.item.name, icon: x.item.icon, grade: x.item.grade, stat: x.item.stat, gain: x.item.gain, recommended: !!x.item.recommended, src: x.src,
+      cost: x.src.src === 'shop' ? Math.ceil((x.src.price || 0) * 1.2) : 0, trade: x.src.src === 'char' ? x.src.char : '',
+      statName: x.item.statName, newName: x.item.newName, replaces: x.item.replaces, unseal: x.item.unseal, sealedNote: x.item.sealedNote };
+    const beats = (x) => x && (!have || x.item.gain > have.item.gain);   // buy / craft only when better than what we already have
+    out.push({ slot: s.slot, idx: 0, label: s.label, worn: w ? { name: w.name, enchant: w.enchant || 0, stat: w.stat, grade: w.grade, statName: w.statName } : null, plan: C.plan || null,
+      have: row(have), buy: beats(buyS) ? row(buyS) : null, craft: beats(craftS) ? row(craftS) : null });
   }
-  const C = await IP.charInfo(ctx, name, false);
-  return { ok: true, name, level: D.level || C.level || null, adena: C.adena || 0, slots: out };
+  const strip = (S) => S && { name: S.name, grade: S.grade, complete: S.complete, buy: S.buy, cost: S.cost, gain: S.gain, rows: S.rows.map(r => ({ slot: r.slot, state: r.state, name: r.name })) };
+  return { ok: true, name, level: D.level || CI.level || null, adena: CI.adena || 0, slots: out, armorSet: { mode: SP.mode, set: strip(SP.set), alts: (SP.alts || []).map(strip) } };
+}
+// SETFIX-2026-10-29 (owner: "in Lineage 2 all the grade C and up give different buffs for a set ... you recommend different items, that means you don't
+// get any set bonus at all"): every armor set (Scripts/data/gear_items.json sets: chest + legs + head + gloves + feet; the shield is an extra) of the
+// character's armor kind and level, each piece: worn | have (bag / warehouse / clan / a teammate) | craft | buy | missing; a sealed piece counts as its
+// unseal variant (sealed = no set bonus). keep = it wears a full set as good as the best complete one; pick = the best complete set (grade, fewest to
+// buy, P.Def, cost) or the owner's choice (?set=); near = no set can be completed (nothing recommended: no mixed pieces). Jewelry has no set bonus.
+const SET_SLOTS = ['chest', 'legs', 'head', 'gloves', 'feet'];
+/** every id of that slot in the armor set holding this piece (null = not in a set) */
+function setPieceIds(ctx, slot, id) { const S = armorSets(ctx).find(x => x.pieces[slot] && x.pieces[slot].map(Number).includes(Number(id))); return S ? S.pieces[slot].map(Number) : null; }
+let GSETS = null;
+function armorSets(ctx) { if (!GSETS) { const g = rj(path.join(ctx.DATA, 'gear_items.json'), {}) || {}; GSETS = (g.sets || []).filter(s => s && s.pieces && s.pieces.chest); } return GSETS; }
+function setPlan(ctx, kit, level, wornIds, cands, want) {
+  const RK = { have: 0, craft: 1, buy: 2 }, byId = {};
+  for (const [slot, C] of Object.entries(cands)) for (const i of C.items || []) {
+    if (!i.levelOk || !i.typeOk || i.wornNow) continue;
+    const have = i.sources.filter(x => /^(bag|wh|clan|char)$/.test(x.src)).sort((a, b) => (a.price || 0) - (b.price || 0))[0], craft = i.sources.find(x => x.src === 'craft' && x.can), buy = i.sources.filter(x => x.src === 'shop').sort((a, b) => (a.price || 0) - (b.price || 0))[0];
+    const e = have ? { kind: 'have', src: have } : craft ? { kind: 'craft', src: craft } : buy ? { kind: 'buy', src: buy } : null; if (!e) continue;
+    e.item = i; const k = slot + ':' + (i.unseal ? i.unseal.id : i.id); if (!byId[k] || RK[e.kind] < RK[byId[k].kind]) byId[k] = e;
+  }
+  const wStat = (sl) => Math.max(0, ...((cands[sl] && cands[sl].worn) || []).map(w => Number(w.stat) || 0)), wornTotal = SET_SLOTS.reduce((t, sl) => t + wStat(sl), 0);
+  const all = [];
+  for (const S of armorSets(ctx)) {
+    if (!IL.levelOk(S.grade, level)) continue;
+    const ch = IP.facts(ctx, Number(S.pieces.chest[0])) || {}, k = armorKind(ch.wtype, ch.name); if (kit.kind && k && k !== kit.kind) continue;
+    const slots = SET_SLOTS.filter(s => S.pieces[s]).concat(kit.shield && S.pieces.shield ? ['shield'] : []);
+    const rows = slots.map(s => { const ids = S.pieces[s].map(Number), wi = ids.find(id => wornIds.has(id));
+      if (wi) return { slot: s, state: 'worn', name: (IP.facts(ctx, wi) || {}).name };
+      const c = ids.map(id => byId[s + ':' + id]).filter(Boolean).sort((a, b) => RK[a.kind] - RK[b.kind])[0];
+      return c ? { slot: s, state: c.kind, c, name: c.item.newName || c.item.name } : { slot: s, state: 'missing', name: (IP.facts(ctx, ids[0]) || {}).name || 'item ' + ids[0] }; });
+    const req = rows.filter(r => r.slot !== 'shield');
+    all.push({ name: S.name, grade: S.grade, rows, complete: req.every(r => r.state !== 'missing'), full: req.every(r => r.state === 'worn'), worn: req.filter(r => r.state === 'worn').length,
+      buy: req.filter(r => r.state === 'buy').length, cost: rows.reduce((t, r) => t + (r.state === 'buy' ? Math.ceil((r.c.src.price || 0) * 1.2) : 0), 0),
+      stat: rows.reduce((t, r) => t + (r.c ? r.c.item.stat : 0), 0), gain: req.reduce((t, r) => t + (r.c ? Number(r.c.item.stat) || 0 : r.state === 'worn' ? wStat(r.slot) : 0), 0) - wornTotal });
+  }
+  if (!all.length) return { mode: 'none' };
+  const cur = all.filter(s => s.full).sort((a, b) => grRank(b.grade) - grRank(a.grade))[0] || null;
+  const done = all.filter(s => s.complete && !s.full && (s.gain > 0 || !cur)).sort((a, b) => grRank(b.grade) - grRank(a.grade) || a.buy - b.buy || b.worn - a.worn || b.stat - a.stat || a.cost - b.cost);
+  const chosen = want && done.find(s => s.name === want);
+  if (chosen) return { mode: 'pick', set: chosen, alts: done.filter(s => s !== chosen).slice(0, 5) };
+  if (cur && (!done.length || grRank(cur.grade) >= grRank(done[0].grade))) return { mode: 'keep', set: cur, alts: done.filter(s => grRank(s.grade) >= grRank(cur.grade)).slice(0, 5) };
+  if (done.length) return { mode: 'pick', set: done[0], alts: done.slice(1, 6) };
+  const near = all.slice().sort((a, b) => b.rows.filter(r => r.state !== 'missing').length - a.rows.filter(r => r.state !== 'missing').length || grRank(b.grade) - grRank(a.grade))[0];
+  return { mode: 'near', set: near, alts: [] };
 }
 function fullSa(ctx, r) {
   // the same SA record the single item job stores: the recipe for this weapon + the chosen SA, plus the weapon id
@@ -252,10 +319,22 @@ function unsealData(ctx) {
   try { const t = fs.statSync(f).mtimeMs; if (!UNS || t !== UNS_AT) { UNS = JSON.parse(fs.readFileSync(f, 'utf8').replace(/^\uFEFF/, '')); UNS_AT = t; } } catch (e) { UNS = UNS || {}; }
   return UNS;
 }
-function unsealRow(ctx, sealedId) {
-  const r = (unsealData(ctx).bySealed || {})[sealedId]; if (!r) return null;
-  const sgrade = r.list === 311262504 || r.list === 311262505, acc = r.list === 311262505 || r.list === 311262507;
-  return { id: Number(r.id), pay: Number(r.pay) || (sgrade ? 5575 : 57), aa: Number(r.aa) || 0, label: `Release the ${sgrade ? 'S' : 'A'}-grade ${acc ? 'accessory' : 'armor'} seal` };
+// GEARUPCOL-2-2026-10-29 (owner: "gloves, boots that get unsealed can both be light, heavy OR robe - you just list everything is robe?"): 24 sealed
+// A/S gloves + boots have THREE unsealed targets (byUnsealed, entries n / n+1 / n+2 = Heavy / Light / Robe); bySealed keeps only the last (Robe).
+const armorKind = (wtype, name) => /^HEAVY$/i.test(wtype || '') ? 'heavy' : /^LIGHT$/i.test(wtype || '') ? 'light' : /^MAGIC$/i.test(wtype || '') ? 'robe'
+  : /- Heavy Armor$/i.test(name || '') ? 'heavy' : /- Light Armor$|Leather/i.test(name || '') ? 'light' : /- Robe$|\b(Robe|Tunic|Stockings)\b/i.test(name || '') ? 'robe' : '';
+let UOPT = null, UOPT_AT = -1;
+function unsealOptions(ctx, sealedId) {
+  const D = unsealData(ctx); if (!UOPT || UOPT_AT !== UNS_AT) { UOPT = {}; UOPT_AT = UNS_AT; for (const [k, v] of Object.entries(D.byUnsealed || {})) (UOPT[v.sealed] = UOPT[v.sealed] || []).push(Object.assign({ id: Number(k) }, v)); }
+  return (UOPT[sealedId] || []).slice().sort((a, b) => (a.entry || 0) - (b.entry || 0)).map(r => { const sgrade = r.list === 311262504 || r.list === 311262505, acc = r.list === 311262505 || r.list === 311262507, F = IP.facts(ctx, r.id) || {}, many = (UOPT[sealedId] || []).length > 1;
+    return { id: r.id, name: F.name || ('item ' + r.id), kind: many ? armorKind('', F.name) : '', pay: Number(r.pay) || (sgrade ? 5575 : 57), aa: Number(r.aa) || 0, entry: Number(r.entry) || 0, label: `Release the ${sgrade ? 'S' : 'A'}-grade ${acc ? 'accessory' : 'armor'} seal` }; });
+}
+/** the unseal target of a sealed piece; want = an unsealed variant id (validated) | 'heavy' / 'light' / 'robe' | nothing (the one-target default) */
+function unsealRow(ctx, sealedId, want) {
+  const O = unsealOptions(ctx, sealedId); if (!O.length) return null;
+  if (typeof want === 'number' && want) return O.find(o => o.id === want) || null;
+  if (want && typeof want === 'string') { const k = O.find(o => o.kind === want); if (k) return k; }
+  const r = (unsealData(ctx).bySealed || {})[sealedId]; return O.find(o => r && o.id === Number(r.id)) || O[O.length - 1];
 }
 async function unsealList(ctx, name) {
   if (!NAME_RE.test(String(name || ''))) return { code: 400, error: 'Choose who unseals.' };
@@ -312,7 +391,8 @@ async function unsealStart(ctx, b) {
 // per character the gear plan's piece for every slot of that grade (Scripts/data/gear_rec/<classId>.json, Dashboard/gear_recommend.js) that it
 // does not wear yet, with a source: its own bag -> the clan warehouse (each piece once) -> a Giran shop; else listed as not available
 function preset(ctx, namesRaw, gradeRaw) {
-  const grade = ['D', 'C', 'B', 'A', 'S'].includes(String(gradeRaw).toUpperCase()) ? String(gradeRaw).toUpperCase() : 'C';
+  // RECFIX-2026-10-29: 'auto' (the page's default) = each character's LEVEL grade (GRADE_LEVEL: 61-75 A, 76+ S); was a fixed C for everybody
+  const auto = !gradeRaw || /^auto$/i.test(String(gradeRaw)), grade0 = GR_ORDER.slice(1).includes(String(gradeRaw).toUpperCase()) ? String(gradeRaw).toUpperCase() : 'C';
   const all = (IP.chars(ctx).chars || []), names = String(namesRaw || '').split(',').filter(n => NAME_RE.test(n)).slice(0, MAX_CHARS);
   const shopRows = [].concat(...IP.shops(ctx).shops.map(x => x.rows)).filter(r => !r.cost);
   const cs = rj(path.join(ctx.LOGS, 'clan_state.json'), {}) || {}, clanLeft = {};
@@ -325,15 +405,25 @@ function preset(ctx, namesRaw, gradeRaw) {
   const out = [];
   for (const name of names) {
     const ch = all.find(c => c.name === name); if (!ch) { out.push({ name, error: 'unknown character' }); continue; }
-    const rec = rj(path.join(ctx.DATA, 'gear_rec', `${ch.classId}.json`), null), G = rec && rec.grades && rec.grades[grade];
+    const rec = rj(path.join(ctx.DATA, 'gear_rec', `${ch.classId}.json`), null), grade = auto ? levelGrade(ch.level) : grade0, G = rec && rec.grades && rec.grades[grade];
     if (!G) { out.push({ name, error: `no ${grade}-grade gear plan for ${ch.cls || 'this class'}` }); continue; }
     const bag = rj(path.join(ctx.LOGS, `bag_${name}.json`), {}) || {}, items = Array.isArray(bag.items) ? bag.items : [];
     const worn = new Set(items.filter(r => r.eq || r.equipped).map(r => Number(r.id))), inBag = items.filter(r => !(r.eq || r.equipped));
     const lines = [], missing = [], have = [], usedBag = new Set();
+    // RECFIX-2026-10-29: a worn piece of a higher grade (or the same grade and at least the plan's stat) is kept — the plan never goes below what it wears
+    const wornF = items.filter(x => x.eq || x.equipped).map(x => IP.facts(ctx, Number(x.id))), inSlot = (F, s) => (F.slot === 'fullarmor' ? 'chest' : F.slot) === s;
+    const asGood = (WF, PF, ids) => ids.includes(WF.id) || ids.includes(Number(WF.base)) || grRank(WF.grade) > grRank(PF.grade) || (grRank(WF.grade) === grRank(PF.grade) && statOf(WF) >= statOf(PF));
+    const fullKept = (() => { const c = G.chest, WF = wornF.find(f => inSlot(f, 'chest') && (f.full || f.slot === 'fullarmor')); if (!WF) return null; if (!c || !c.id) return WF;
+      const PF = IP.facts(ctx, Number(c.id)), ps = statOf(PF) + (!PF.full && G.legs && G.legs.id ? statOf(IP.facts(ctx, Number(G.legs.id))) : 0);
+      return (setPieceIds(ctx, 'chest', Number(c.id)) || [Number(c.id)]).includes(WF.id) || grRank(WF.grade) > grRank(PF.grade) ? WF : null; })();   // SETFIX: a same-grade full armor of another set is replaced (set bonus)
     for (const [slot, r] of Object.entries(G)) {
-      const ids = [Number(r.id)].concat((r.alt || []).map(Number)).filter(Boolean); if (!ids.length) continue;
-      const pairs = /^(earring|ring)$/.test(slot) ? 2 : 1, wornN = items.filter(x => (x.eq || x.equipped) && ids.includes(Number(x.id))).length;
-      if (wornN >= pairs) { have.push(`${slot}: ${r.name}`); continue; }
+      let ids = [Number(r.id)].concat((r.alt || []).map(Number)).filter(Boolean); if (!ids.length) continue;
+      // SETFIX-2026-10-29: an armor slot only takes pieces of the plan piece's OWN set (the alts are other sets: mixing them loses the set bonus)
+      const setIds = SET_SLOTS.concat('shield').includes(slot) ? setPieceIds(ctx, slot, ids[0]) : null; if (setIds) ids = ids.filter(i => i === ids[0] || setIds.includes(i));
+      if (fullKept && /^(chest|legs)$/.test(slot)) { have.push(`${slot}: keeps ${fullKept.name} (as good as the plan's ${r.name})`); continue; }
+      const PF0 = IP.facts(ctx, ids[0]), good = wornF.filter(f => inSlot(f, slot) && (setIds ? ids.includes(f.id) || grRank(f.grade) > grRank(PF0.grade) : asGood(f, PF0, ids)));   // SETFIX: a same-grade piece of another set is replaced
+      const pairs = /^(earring|ring)$/.test(slot) ? 2 : 1, wornN = Math.min(pairs, good.length);
+      if (wornN >= pairs) { have.push(`${slot}: ${good.some(f => ids.includes(f.id)) ? r.name : 'keeps ' + good.map(f => f.name).join(' + ') + ' (as good as the plan)'}`); continue; }
       const F = IP.facts(ctx, ids[0]), base = { id: ids[0], name: r.name || F.name, icon: F.icon, grade: F.grade, slot, enchantTo: 0, saId: 0 };
       // never replace a worn Special Ability weapon of the same grade or higher (gear rule 2026-10-06)
       if (slot === 'weapon') { const ww = items.find(x => (x.eq || x.equipped) && IP.facts(ctx, Number(x.id)).kind === 'weapon'); const WF = ww ? IP.facts(ctx, Number(ww.id)) : null;
@@ -354,7 +444,7 @@ function preset(ctx, namesRaw, gradeRaw) {
     }
     out.push({ name, cls: ch.cls, level: ch.level, grade, lines, missing, have });
   }
-  return { ok: true, grade, chars: out };
+  return { ok: true, grade: auto ? 'auto' : grade0, chars: out };
 }
 // PAPERDOLL-2026-10-25 (owner: "select a character and then see their equipped items and click on each slot and select what I want based on what we
 // have and what we can create from Giran town ... I don't want to search around and remember all the different things we have"):
@@ -366,6 +456,49 @@ const DOLL_SLOTS = [['weapon', 'Weapon'], ['shield', 'Shield'], ['head', 'Head']
 const GRADE_RANK = { NONE: 0, D: 1, C: 2, B: 3, A: 4, S: 5, S80: 6, S84: 7 };
 const statOf = (F) => F.kind === 'weapon' ? Math.max(Number(F.pa) || 0, Number(F.ma) || 0) : F.kind === 'jewel' ? Number(F.md) || 0 : Number(F.pd) || 0;
 function recFor(ctx, classId) { const r = rj(path.join(ctx.DATA, 'gear_rec', `${classId}.json`), null); return (r && r.grades) || {}; }
+// RECFIX-2026-10-29 (owner: "The recommended upgrades are complete insane"; Tank1 SK lvl 75 got a C-grade "planned", a 2h Dragon Slayer next to
+// his shield and light gloves): the plan grade = the character's LEVEL grade (GRADE_LEVEL: 75 = A, 76+ = S), never below what it wears; weapons by
+// the class line (gear catalog kit: type, 1h / 2h; a shield wearer or a tank / dwarf line never gets a 2h); armor only of the character's kind
+// (doctrine column, else the worn chest); a sealed piece counts as its unseal variant of that kind (unsealOptions); gain = vs the worn piece.
+const GR_ORDER = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'], grRank = (g) => GR_ORDER.indexOf(String(g || 'NONE').toUpperCase());
+const levelGrade = (lvl) => { let g = 'NONE'; for (const k of GR_ORDER) if ((Number(lvl) || 0) >= (IL.GRADE_LEVEL[k] || 1)) g = k; return g; };
+/** heavy | light | robe | '' of a piece: chest / legs by the armor type, gloves / boots only by the A/S "- Heavy Armor / - Light Armor / - Robe" names */
+const pieceKind = (F) => /^(chest|legs|fullarmor)$/.test(F.slot || '') ? armorKind(F.wtype, '') : /- Heavy Armor$/i.test(F.name || '') ? 'heavy' : /- Light Armor( Use)?$/i.test(F.name || '') ? 'light' : /- Robe$/i.test(F.name || '') ? 'robe' : '';
+function charKit(ctx, C) {
+  let CAT = null, GP = null; try { GP = require('./gearpage_api')._t; CAT = GP.catalog(ctx.DIR); } catch (e) { }
+  let dl = null; try { const D = require('./gear_doctrine').load(ctx.DATA); dl = D && D.classes && D.classes[String(C.classId)]; } catch (e) { }
+  const line = Array.isArray(dl) ? dl[0] : '', col = Array.isArray(dl) ? dl[1] : '', c = CAT && CAT.byClass ? CAT.byClass[C.classId] || null : null, K = c && CAT.arch ? CAT.arch[c.arch] || null : null;
+  const worn = (C.bag || []).filter(r => r.eq), ch = worn.find(r => r.slot === 'chest' || r.slot === 'fullarmor');
+  const kind = /^heavy/.test(col) ? 'heavy' : col === 'light' ? 'light' : /^robe/.test(col) ? 'robe' : ch ? armorKind(ch.wtype, '') : '';
+  const shield = worn.some(r => r.slot === 'shield' && !/SIGIL/i.test(r.wtype || '')) || /^(tank|dwarf)$/.test(line) || /^heavyShield$/.test(col) || !!(K && K.one && K.sh);
+  return { CAT, GP, c, kind, line, shield };
+}
+/** '' = fits the character, else why not (2h next to a shield, not the class's weapon line, another armor kind) */
+function gearWhy(kit, F) {
+  if (F.slot === 'weapon' || F.slot === 'shield') {
+    const it = kit.CAT && (kit.CAT.items[F.base || F.id] || kit.CAT.items[F.id]);
+    if (F.slot === 'weapon' && ((it && it.two) || F.two) && kit.shield) return 'two-handed: not with a shield';   // SETFIX: F.two (gear_items) when the catalog lacks the piece
+    if (it && kit.c && kit.GP) { const f = kit.GP.fitOf(kit.CAT, kit.c, it, F.slot); if (!f.ok || !f.fit) return F.slot === 'weapon' ? 'not the class\'s weapon line' : 'not for this class'; }
+    return '';
+  }
+  const k = pieceKind(F); return k && kit.kind && k !== kit.kind ? `${k} armor (wears ${kit.kind})` : '';
+}
+/** the piece as it would be worn: a sealed one -> its unseal variant of the character's kind (null = no variant of that kind) */
+function asWorn(ctx, kit, id) {
+  const O = unsealOptions(ctx, id); if (!O.length) return { F: IP.facts(ctx, id), u: null };
+  const v = O.length > 1 ? (kit.kind ? O.find(o => o.kind === kit.kind) : unsealRow(ctx, id)) : O[0];
+  return v ? { F: IP.facts(ctx, v.id), u: v } : null;
+}
+/** the gear plan piece of the level grade for a slot vs the best worn piece: { id, name, grade, stat } | { same: true } | null (no plan) */
+function planOf(ctx, R, level, slot, w, wFull) {
+  const g = levelGrade(level), G = R[g] || {}, r = G[slot]; if (!r || !r.id) return null;
+  const ids = [Number(r.id)].concat((r.alt || []).map(Number)), PF = IP.facts(ctx, Number(r.id));
+  let ps = statOf(PF); if (slot === 'chest' && !PF.full && PF.slot !== 'fullarmor' && wFull && G.legs && G.legs.id) ps += statOf(IP.facts(ctx, Number(G.legs.id)));   // breastplate + gaiters vs a full-body piece
+  const P = { id: PF.id, name: r.name || PF.name, grade: PF.grade, stat: ps, levelGrade: g };
+  if (!w) return P;
+  if (ids.includes(Number(w.id)) || ids.includes(Number(w.base))) return { same: true, levelGrade: g };
+  const d = grRank(PF.grade) - grRank(w.grade); return d > 0 || (d === 0 && ps > w.stat) ? P : { same: true, levelGrade: g };
+}
 async function doll(ctx, name) {
   if (!NAME_RE.test(name)) return { code: 400, error: 'name?' };
   const C = await IP.charInfo(ctx, name, false); if (C.error) return C;
@@ -429,21 +562,37 @@ async function slotCands(ctx, name, slot) {
   const cr = await craftables(ctx);
   Object.keys(cr).forEach(pid => cr[pid].forEach(x => add(Number(pid), { src: 'craft', crafter: x.crafter, recipe: x.recipe, can: x.can, label: `craft: ${x.crafter}${x.can ? ' (materials for ' + x.can + ')' : ' (materials missing)'}` })));
   // what it wears there now, the class's gear plan, its weapon / armor type
-  const worn = (C.bag || []).filter(r => r.eq && fits(r)), wornBest = worn.reduce((m, r) => Math.max(m, statOf(r)), 0), wornIds = new Set(worn.map(r => r.id));
-  const R = recFor(ctx, C.classId), recIds = new Set(), recTypes = new Set();
+  const worn = (C.bag || []).filter(r => r.eq && fits(r)), wornIds = new Set(worn.map(r => r.id));
+  const R = recFor(ctx, C.classId), recIds = new Set(), recTypes = new Set(), kit = charKit(ctx, C);
   Object.values(R).forEach(G => Object.values(G || {}).forEach(x => { if (!x || !x.id) return; recIds.add(Number(x.id)); (x.alt || []).forEach(a => recIds.add(Number(a))); const f = IP.facts(ctx, Number(x.id)); if (f && fits(f) && f.wtype) recTypes.add(f.wtype); }));
+  // RECFIX-2026-10-29: the worn piece a candidate replaces (best worn; a full-body candidate replaces chest + legs), the candidate as worn (sealed -> variant)
+  const w0 = worn.slice().sort((a, b) => statOf(b) - statOf(a))[0] || null, wFull = !!(w0 && (w0.full || w0.slot === 'fullarmor'));
+  const legs = slot === 'chest' && !wFull ? (C.bag || []).filter(r => r.eq && r.slot === 'legs')[0] : null, sN = (F) => statName(F);
   const items = Object.values(by).map(({ F, src }) => {
-    const lvlOk = IL.levelOk(F.grade, C.level), typeOk = !F.wtype || !recTypes.size || recTypes.has(F.wtype);
-    return { id: F.id, name: F.name, icon: F.icon, grade: F.grade, wtype: F.wtype, sa: F.sa || '', base: F.base || 0, common: !!F.common, stat: statOf(F), pa: F.pa, ma: F.ma, pd: F.pd, md: F.md,
-      levelOk: lvlOk, typeOk, recommended: recIds.has(F.id) || (F.base && recIds.has(F.base)), wornNow: wornIds.has(F.id), better: statOf(F) > wornBest,
+    const A = asWorn(ctx, kit, F.id), NF = A ? A.F : F, nStat = statOf(NF), full = !!(NF.full || NF.slot === 'fullarmor');
+    const rep = w0 ? (full && legs ? { name: w0.name + ' + ' + legs.name, stat: statOf(w0) + statOf(legs) } : { name: w0.name, stat: statOf(w0) }) : (full && legs ? { name: legs.name, stat: statOf(legs) } : null);
+    const why = !A ? `sealed: no ${kit.kind} variant` : (kit.c || kit.kind ? gearWhy(kit, NF) || gearWhy(kit, F) : (!F.wtype || !recTypes.size || recTypes.has(F.wtype) ? '' : 'other type'));
+    const lvlOk = IL.levelOk(F.grade, C.level), typeOk = !why, gain = nStat - (rep ? rep.stat : 0);
+    return { id: F.id, name: F.name, icon: F.icon, grade: F.grade, wtype: F.wtype, sa: F.sa || '', base: F.base || 0, common: !!F.common, stat: nStat, sealedStat: A && A.u ? statOf(F) : undefined, pa: NF.pa, ma: NF.ma, pd: NF.pd, md: NF.md,
+      statName: sN(NF), newName: NF.name, unseal: A && A.u ? { id: A.u.id, name: A.u.name, kind: A.u.kind || '', pay: A.u.pay, aa: A.u.aa } : null,
+      sealedNote: A && A.u ? `sealed (no set bonus${statOf(F) < nStat ? `, ${sN(NF)} ${statOf(F)} until unsealed` : ''}) — unseal → ${A.u.name}` : '',
+      replaces: rep, gain, why, levelOk: lvlOk, typeOk, recommended: recIds.has(F.id) || (F.base && recIds.has(F.base)), wornNow: wornIds.has(F.id), better: gain > 0,
       sources: src.sort((a, b) => ['bag', 'wh', 'clan', 'char', 'shop', 'craft'].indexOf(a.src) - ['bag', 'wh', 'clan', 'char', 'shop', 'craft'].indexOf(b.src) || (b.enchant || 0) - (a.enchant || 0)).slice(0, 12) };
-  }).sort((a, b) => (b.typeOk - a.typeOk) || (b.levelOk - a.levelOk) || (b.recommended - a.recommended) || ((GRADE_RANK[b.grade] || 0) - (GRADE_RANK[a.grade] || 0)) || (b.stat - a.stat));
-  return { ok: true, name, slot, level: C.level, cls: C.cls, worn: worn.map(r => ({ id: r.id, name: r.name, enchant: r.enchant || 0, stat: statOf(r) })), items: items.slice(0, 80), more: Math.max(0, items.length - 80) };
+  }).sort((a, b) => (b.typeOk - a.typeOk) || (b.levelOk - a.levelOk) || (b.gain - a.gain) || (b.recommended - a.recommended) || ((GRADE_RANK[b.grade] || 0) - (GRADE_RANK[a.grade] || 0)));
+  const wR = w0 ? { id: w0.id, base: w0.base || 0, grade: w0.grade, stat: statOf(w0) } : null;
+  return { ok: true, name, slot, level: C.level, cls: C.cls, kind: kit.kind, shield: kit.shield, plan: planOf(ctx, R, C.level, slot, wR, wFull),
+    worn: worn.map(r => ({ id: r.id, name: r.name, enchant: r.enchant || 0, stat: statOf(r), grade: r.grade, statName: sN(r) })), items: items.slice(0, 80), more: Math.max(0, items.length - 80) };
 }
 // GEARUPCOL-2026-10-29 (owner: "from the party tab ... select what items the group should go get from collector ... unseal to x and equip and give back
 // items to collector that is no longer used"): GET /api/upgrade/collector?names=a,b -> the collector's spare gear (its bag report < 6 h; + the clan
 // warehouse when the collector is the clan leader, it stores there), each piece with what unsealing makes of it, the named members it beats the
 // weakest worn piece of that slot for (level + weapon / armor type fit), `to` = who gains most (greedy, each piece once). Read only; never +10.
+// GEARUPCOL-2-2026-10-29: helpers for the variant-aware collector rows (stat name, a stocked variant piece's kind, the "sealed" explanation)
+const statName = (F) => F.kind === 'weapon' ? (Number(F.ma) > Number(F.pa) ? 'M.Atk' : 'P.Atk') : F.kind === 'jewel' ? 'M.Def' : 'P.Def';
+function variantKind(ctx, id, name) { const r = (unsealData(ctx).byUnsealed || {})[id]; return r && unsealOptions(ctx, Number(r.sealed)).length > 1 ? armorKind('', name) : ''; }
+function sealedNote(ctx, F, u) { const a = statOf(F), b = statOf(IP.facts(ctx, u.id) || {}); return a < b ? `sealed (lower stats: ${statName(F)} ${a} instead of ${b}) — unseal for full stats` : 'sealed: can be worn as it is (same stats, no armor-set bonus) — unseal for the set bonus'; }
+/** a member's armor kind from the worn chest / legs (heavy | light | robe | '') */
+function wornKind(worn) { for (const s of ['chest', 'legs']) for (const w of worn[s] || []) { const k = armorKind(w.wtype, w.name); if (k) return k; } return ''; }
 function collectorStock(ctx, namesRaw) {
   const col = collectorName(ctx); if (!col) return { ok: true, collector: '', rows: [], why: 'no collector is switched on (Storage page -> Collector)' };
   const fresh = (j) => j && Array.isArray(j.items) && Date.now() - (Date.parse(j.at || '') || 0) <= 6 * 3600000, all = IP.chars(ctx).chars || [];
@@ -451,22 +600,38 @@ function collectorStock(ctx, namesRaw) {
   const add = (src, r) => { const ench = Number(r.enchant) || 0, u = unsealRow(ctx, Number(r.id)), F0 = IP.facts(ctx, Number(r.id)), F = /^(weapon|armor|jewel)$/.test(F0.kind || '') || !u ? F0 : IP.facts(ctx, u.id);
     if (!/^(weapon|armor|jewel)$/.test(F.kind || '') || ench >= 10) return;   // gear only, never +10
     for (let k = 0; k < (src === 'clan' ? Math.min(10, Number(r.count) || 1) : 1); k++) rows.push({ src, char: src === 'char' ? col : '', objId: src === 'char' ? Number(r.objId) || 0 : 0, id: Number(r.id), name: F0.name,
-      icon: F.icon, grade: F.grade, slot: F.slot === 'fullarmor' ? 'chest' : F.slot, wtype: F.wtype || '', enchant: ench, stat: statOf(F), unseal: u ? { id: u.id, name: IP.facts(ctx, u.id).name, pay: u.pay, aa: u.aa } : null, gains: [], to: '' }); };
+      icon: F.icon, grade: F.grade, slot: F.slot === 'fullarmor' ? 'chest' : F.slot, wtype: F.wtype || '', enchant: ench, stat: statOf(F), statName: statName(F), full: !!F.full || F.slot === 'fullarmor', unseal: u ? { id: u.id, name: u.name, pay: u.pay, aa: u.aa, kind: u.kind } : null,
+      opts: u ? unsealOptions(ctx, Number(r.id)) : [], kind: u ? '' : variantKind(ctx, Number(r.id), F0.name), sealedNote: u ? sealedNote(ctx, F, u) : '', gains: [], to: '' }); };
   const cb = rj(path.join(ctx.LOGS, `bag_${col}.json`), null);
   if (fresh(cb)) cb.items.filter(r => !r.eq && !r.equipped && !r.q && !r.quest).forEach(r => add('char', r));
   if (col === IP.clanLeader(ctx)) ((((rj(path.join(ctx.LOGS, 'clan_state.json'), {}) || {}).warehouse) || {}).items || []).forEach(r => add('clan', r));
   const mem = names.map(n => { const b = rj(path.join(ctx.LOGS, `bag_${n}.json`), null), worn = {};
-    if (fresh(b)) b.items.filter(r => r.eq || r.equipped).forEach(r => { const F = IP.facts(ctx, Number(r.id)), s = F.slot === 'fullarmor' ? 'chest' : F.slot; (worn[s] = worn[s] || []).push({ stat: statOf(F), wtype: F.wtype || '' }); });
-    return { name: n, level: (all.find(c => c.name === n) || {}).level, worn }; });
+    if (fresh(b)) b.items.filter(r => r.eq || r.equipped).forEach(r => { const F = IP.facts(ctx, Number(r.id)), s = F.slot === 'fullarmor' ? 'chest' : F.slot; (worn[s] = worn[s] || []).push({ stat: statOf(F), wtype: F.wtype || '', name: F.name || String(r.name || ''), enchant: Number(r.enchant) || 0, full: !!F.full || F.slot === 'fullarmor' }); });
+    // SETFIX-2026-10-29 (owner: "you are still recommending a 2h sword to a tank"): the member's kit (shield / tank line, class weapon line) like the Upgrade page
+    const ce = all.find(c => c.name === n) || {}, kit = charKit(ctx, { classId: ce.classId, bag: fresh(b) ? b.items.filter(r => r.eq || r.equipped).map(r => { const F = IP.facts(ctx, Number(r.id)); return { id: Number(r.id), eq: true, slot: F.slot, wtype: F.wtype }; }) : [] });
+    return { name: n, level: ce.level, worn, kind: wornKind(worn), kit }; });
   const low = (m, s) => { const L = (m.worn[s] || []).slice().sort((a, b) => a.stat - b.stat); return (/^(earring|ring)$/.test(s) && L.length < 2) || !L.length ? null : L[0]; };
+  // GEARUPCOL-2: a full-body piece replaces chest + legs (compare with both); legs never go to someone in a full-body piece (they were shown as "+107 on an empty slot")
+  const wornFor = (m, r) => { const w = low(m, r.slot); if (r.slot === 'legs' && (m.worn.chest || []).some(c => c.full)) return { blocked: true };
+    if (r.full && r.slot === 'chest') { const l = low(m, 'legs'); if (l && !(w && w.full)) return { name: (w ? w.name + ' + ' : '') + l.name, stat: (w ? w.stat : 0) + l.stat, enchant: 0, wtype: (w || l).wtype, legs: true }; } return w; };
   rows.sort((a, b) => b.stat - a.stat);
   for (const r of rows) {
-    r.gains = mem.map(m => { const w = low(m, r.slot); return { name: m.name, gain: r.stat - (w ? w.stat : 0), ok: IL.levelOk(r.grade, m.level) && (!r.wtype || !w || !w.wtype || w.wtype === r.wtype) }; })
-      .filter(g => g.ok && g.gain > 0).map(g => ({ name: g.name, gain: g.gain })).sort((a, b) => b.gain - a.gain);
+    // GEARUPCOL-2: per receiver the unseal variant of ITS armor kind (never another kind), the stat compare on that variant, the worn piece it replaces;
+    // a stocked piece of another kind (e.g. "... Gloves - Robe" for a heavy wearer) stays allowed but ranks after the kind matches
+    r.gains = mem.map(m => { const w = wornFor(m, r), many = r.opts.length > 1, v = !r.opts.length ? null : many ? (m.kind ? r.opts.find(o => o.kind === m.kind) : r.opts[0]) : r.opts[0];
+      if ((r.opts.length && !v) || (w && w.blocked)) return null;
+      if (/^(chest|legs)$/.test(r.slot) && armorKind(r.wtype, r.name) && m.kind && armorKind(r.wtype, r.name) !== m.kind) return null;   // a heavy chest / legs never to a robe wearer, also on an empty slot
+      const nF = v ? IP.facts(ctx, v.id) || {} : null, nStat = v ? statOf(nF) : r.stat, ws = w ? w.stat : 0;
+      return { name: m.name, gain: nStat - ws, sealedGain: r.stat - ws, match: many ? !!m.kind : !r.kind || !m.kind || r.kind === m.kind, kind: m.kind,
+        worn: w ? { name: w.name, enchant: w.enchant || 0, stat: w.stat } : null, newName: v ? v.name : r.name, newStat: nStat,
+        unseal: v ? { id: v.id, name: v.name, kind: v.kind, pay: v.pay, aa: v.aa } : null,
+        ok: IL.levelOk(r.grade, m.level) && (!r.wtype || !w || !w.wtype || w.wtype === r.wtype) && (!/^(weapon|shield)$/.test(r.slot) || !gearWhy(m.kit, v ? nF : IP.facts(ctx, r.id))) }; })   // SETFIX: no 2h next to a shield / tank, only the class's weapon line
+      .filter(g => g && g.ok && g.gain > 0).map(g => { delete g.ok; return g; }).sort((a, b) => (b.match - a.match) || (b.gain - a.gain));
     if (!r.gains.length) continue;
-    const m = mem.find(x => x.name === r.gains[0].name), w = low(m, r.slot), L = m.worn[r.slot] = m.worn[r.slot] || [];
-    r.to = m.name; if (w) L.splice(L.indexOf(w), 1); L.push({ stat: r.stat, wtype: r.wtype });   // the next piece sees this one as worn
+    const g0 = r.gains[0], m = mem.find(x => x.name === g0.name), w = low(m, r.slot), L = m.worn[r.slot] = m.worn[r.slot] || [];
+    r.to = m.name; r.unseal = g0.unseal || r.unseal; if (w) L.splice(L.indexOf(w), 1); L.push({ stat: g0.newStat, wtype: r.wtype, name: g0.newName, full: r.full }); if (r.full) m.worn.legs = [];   // the next piece sees this one as worn
   }
+  rows.forEach(r => { delete r.opts; });
   const use = rows.filter(r => r.gains.length);
   return { ok: true, collector: col, at: (cb && cb.at) || null, rows: use.slice(0, 60), more: Math.max(0, use.length - 60), idle: rows.length - use.length };
 }
@@ -502,8 +667,8 @@ async function handle(req, res, url, ctx) {
     if (sub === 'send' && req.method === 'POST') { out(await sendNow(ctx, b)); return true; }   // UPGQUEUE: a queued job now (party / solo) or cancel
     if (sub === 'jobs') { out(jobsFor(ctx, url.searchParams.get('names'))); return true; }
     if (sub === 'catalog') { out(await catalog(ctx)); return true; }   // MAKEPICK
-    if (sub === 'recommend') { out(await recommend(ctx, String(url.searchParams.get('name') || ''))); return true; }   // RECOMMEND
+    if (sub === 'recommend') { out(await recommend(ctx, String(url.searchParams.get('name') || ''), String(url.searchParams.get('set') || ''))); return true; }   // RECOMMEND
     out({ code: 404, error: 'unknown upgrade API' }); return true;
   } catch (e) { out({ code: 500, error: e.message }); return true; }
 }
-module.exports = { collectorStock, unsealList, unsealPlan, unsealStart, unsealRow, catalog, handle, planAll, start, status, collectorName, makePlan, makeStart, preset, doll, slotCands, sendNow, dispatchTick, dispatchStart, jobsFor, recommend, inGiran };
+module.exports = { collectorStock, unsealOptions, armorKind, unsealList, unsealPlan, unsealStart, unsealRow, catalog, handle, planAll, start, status, collectorName, makePlan, makeStart, preset, doll, slotCands, sendNow, dispatchTick, dispatchStart, jobsFor, recommend, inGiran, levelGrade };

@@ -324,7 +324,16 @@ function beginnerGet(ctx) {
     return { name: s.name, level: Number(s.level) || 0, classId: s.classId, cls: s.cls || '', party: s.party || '', gear: s.gear || {}, quests: q.quests || {}, online: s.ageSec != null && s.ageSec <= 60 }; });
   const plan = BL.planAll(chars, data, { expToNext: (l) => bar[l] || 0, itemStats: (n) => C.gstat[n] || null });
   plan.rows.forEach(r => { const c = chars.find(x => x.name === r.name); r.online = !!(c && c.online); });
-  return { ok: true, data, plan };
+  // ACADCOUPON-2026-10-31: the academy characters' automatic coupon runs (swarm.js acCouponStep -> Logs/acadcoupon_<Name>.json) + the switch
+  const acad = { on: true, chars: {} };
+  try { const j = readRaw(path.join(ctx.DATA, 'academy.json'), null) || {}, en = j.end || {}, bf = j.buffs || {}; acad.on = j.coupons !== false;
+    acad.loop = { deliver: en.deliver !== false, deleteGraduate: en.deleteGraduate !== false, slotWaitMin: Number(en.slotWaitMin) || 360, magnus: bf.on !== false && bf.magnus !== false, cov: bf.on !== false && bf.cov !== false, storeMaxPrice: bf.storeMaxPrice != null ? Number(bf.storeMaxPrice) : 10 }; } catch (e) { }   // ACADLOOP-2026-10-31
+  try {
+    const LOGS = ctx.LOGS || path.join(ctx.DATA, '..', '..', 'Logs');
+    fs.readdirSync(LOGS).filter(f => /^acadcoupon_[A-Za-z0-9]+\.json$/.test(f)).forEach(f => { const j = readRaw(path.join(LOGS, f), null); if (j && j.name) acad.chars[j.name] = { weapon: j.weapon || null, jewelry: j.jewelry || null }; });
+  } catch (e) { }
+  plan.rows.forEach(r => { if (acad.chars[r.name]) r.academy = acad.chars[r.name]; });
+  return { ok: true, data, plan, academy: acad };
 }
 
 // ---------------------------------------------------------------- server hook

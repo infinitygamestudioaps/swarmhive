@@ -21,7 +21,7 @@ t('a repair less than 3 min ago: not again', P.levelHealthDecide({ kills5: 0, mo
 t('kills fine: the count resets', P.levelHealthDecide({ kills5: 12, mobs: 20, atSpotMs: 10 * M, bad: 2 }).bad === 0);
 t('no monsters here (a slow respawn, not a stalled hunt): no repair', P.levelHealthDecide({ kills5: 0, mobs: 1, atSpotMs: 10 * M, bad: 2 }).bad === 0);
 t('the leader tells the whole party (swarm.levelfix) and every member clears its own state', /App\.emit\('swarm\.levelfix'/.test(SW) && /App\.on\('swarm\.levelfix', \(e\) => \{ try \{ if \(e\.source\.characterName !== CONFIG\.leader \|\| isLeader\(\)\) return; levelFixMine\(/.test(SW));
-t('the repair ends stale route walks, follow routes and drops a target stuck at 0 % HP', /function levelFixMine\(why\)[\s\S]{0,300}memberRouteStop\(\)[\s\S]{0,300}rgFollow\.pts = \[\][\s\S]{0,400}hpZeroKnown\(t\)\) \{ huntBlack\[/.test(SW) && /function hpZeroKnown\(m\)[^\n]*num\(m\.MaxHP !== undefined \? m\.MaxHP : m\.MaxHp\) > 0/.test(SW));
+t('the repair ends stale route walks, follow routes and drops a target stuck at 0 % HP', /function levelFixMine\(why(?:, dropTarget)?\)[\s\S]{0,900}memberRouteStop\(\)[\s\S]{0,300}rgFollow\.pts = \[\][\s\S]{0,400}hpZeroKnown\(t\)\) \{ huntBlack\[/.test(SW) && /function hpZeroKnown\(m\)[^\n]*num\(m\.MaxHP !== undefined \? m\.MaxHP : m\.MaxHp\) > 0/.test(SW));
 t('missing shots are named in the repair note', /NO SHOTS: buy shots from player shops/.test(SW));
 t('the card shows SLOW HUNTING (swarm_state levelHealth)', /levelHealth: \(typeof LH2 !== 'undefined'/.test(SW) && /<b>SLOW HUNTING<\/b>/.test(PS));
 // the related permanent fixes of the same day stay wired

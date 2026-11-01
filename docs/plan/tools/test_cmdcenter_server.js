@@ -73,7 +73,7 @@ async function t(name, fn) { try { await fn(); pass++; console.log('  ok  ' + na
   });
   await t('ALLOWED = exactly the !commands that Scripts_dev/swarm.js handles (minus internal !ready)', () => {
     const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
-    const inJs = new Set([...src.matchAll(/'(![a-z]+)'/g)].map(m => m[1]).filter(w => w !== '!ready'));
+    const inJs = new Set([...src.matchAll(/'(![a-z][a-z0-9]*)'/g)].map(m => m[1]).filter(w => w !== '!ready'));   // 2026-10-31: command words may hold digits (!l2day)
     const allowed = new Set(cat.j.allowed);
     // public package: the OWNER-ONLY orders (raid circuit / level lock / delevel / spoil-pair loot) leave commands.js through its PRIVATE blocks
     const OWNER_ONLY = fs.existsSync(path.join(ROOT, 'Dashboard', 'circuitpage.js')) ? [] : ['!levelto', '!lootgive', '!circuit', '!delevel'];

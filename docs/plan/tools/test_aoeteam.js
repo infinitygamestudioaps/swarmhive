@@ -1,0 +1,87 @@
+// OFFLINE TEST AOETEAM-2026-10-30 (owner: AOE team - camp / healers / damage dealers / the pullers' route, Tank AOE or Polearm AOE, a dedicated page).
+'use strict';
+const fs = require('fs'), path = require('path'), os = require('os');
+const ROOT = path.join(__dirname, '..', '..', '..');
+const SRC = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8'), PAGE = fs.readFileSync(path.join(ROOT, 'Dashboard', 'aoepage.js'), 'utf8'), IX = fs.readFileSync(path.join(ROOT, 'Dashboard', 'index.html'), 'utf8'), SRV = fs.readFileSync(path.join(ROOT, 'Dashboard', 'server.js'), 'utf8');
+let oks = 0, fails = 0; const check = (ok, w) => { if (ok) oks++; else fails++; console.log((ok ? 'ok   ' : 'FAIL ') + w); };
+const cut = (a, n) => SRC.slice(SRC.indexOf(a), SRC.indexOf(a) + (n || 4000));
+console.log('1) the API: AOE grounds (set up once) + teams (which party goes there)');
+const A = require(path.join(ROOT, 'Dashboard', 'aoeteam_api.js'));
+const ground = { name: 'Varka train', camp: { x: 123176, y: -46040, z: -2976 }, healers: { x: 123000, y: -46000 }, route: [{ x: 123500, y: -45500 }, { x: 124000, y: -45000 }], standMaxSec: 5 };
+const g = A.cleanGround(ground);
+check(g.ok && g.cfg.id === 'varka-train' && g.cfg.route.length === 2 && g.cfg.standMaxSec === 5 && g.cfg.speedBuffs === true && g.cfg.dealers === null, 'a ground saves (id from the name, speed buffs default ON, no dealer place = at the camp)');
+const gb = A.cleanGround({ route: [{ x: 1, y: 1 }] });
+check(!gb.ok && gb.errors.some(e => /name/.test(e)) && gb.errors.some(e => /Here we all stand/.test(e)) && gb.errors.some(e => /at least 2 points/.test(e)), 'refused: no name, no camp, a 1-point route');
+const tb = A.cleanTeam({ ground: 'nope', pullers: ['Nobody'] }, ['Tank1'], { 'varka-train': g.cfg });
+check(!tb.ok && tb.errors.some(e => /choose an AOE ground/.test(e)) && tb.errors.some(e => /not in this party/.test(e)), 'a team needs a real ground and pullers from its own party');
+check(A.norm({ teams: { Tank1: { on: true, mode: 'tank', camp: { x: 1, y: 2 }, route: [{ x: 1, y: 1 }, { x: 2, y: 2 }], pullers: ['Tank1'] } } }).teams.Tank1.ground === 'shaded-ground', 'the first version (places inside the team) is read as a ground');
+const sp = A.spotFor({ DATA: path.join(ROOT, 'Scripts', 'data') }, g.cfg);
+check(sp && sp.body.mode === 'manual' && sp.body.kind === 'field' && /varka/.test(sp.body.region), '"Send team": the camp of the ground -> the hunting spot it lies in (here a Varka field area)');
+const T = fs.mkdtempSync(path.join(os.tmpdir(), 'aoe_')); fs.mkdirSync(path.join(T, 'data')); fs.mkdirSync(path.join(T, 'Logs'));
+const ctx = { ROOT, DATA: path.join(T, 'data'), LOGS: path.join(T, 'Logs'), readStates: () => [{ name: 'Tank1', role: 'sk' }, { name: 'Destroyer1', role: 'destroyer' }], teamMap: () => ({ Tank1: 'Tank1', Destroyer1: 'Tank1' }) };
+const r1 = A.post(ctx, { ground }), r2 = A.post(ctx, { party: 'Tank1', team: { on: true, ground: r1.id, mode: 'polearm', pullers: ['Destroyer1'] } });
+const saved = JSON.parse(fs.readFileSync(path.join(T, 'data', 'aoe_teams.json'), 'utf8'));
+check(r1.ok && r2.ok && saved.v === 2 && saved.grounds['varka-train'] && saved.teams.Tank1.ground === 'varka-train' && saved.teams.Tank1.mode === 'polearm', 'saves v2: grounds.<id> + teams.<leader> { on, ground, mode, pullers }');
+check(A.post(ctx, { groundDelete: 'varka-train' }).code === 409, 'a ground a team still uses cannot be deleted');
+// AOEROLES-2026-10-30 (owner: several pullers' routes + a role per character) / AOEROOMS (edit an existing ground, several rooms)
+check(saved.grounds['varka-train'].routes.length === 1 && saved.grounds['varka-train'].routes[0].id === 'r1' && saved.grounds['varka-train'].routes[0].points.length === 2, 'the old single route is saved as Route 1 (routes[])');
+check(saved.teams.Tank1.roles && saved.teams.Tank1.roles.Destroyer1.role === 'puller' && saved.teams.Tank1.roles.Destroyer1.route === 'r1', 'the old pullers list becomes roles (puller on Route 1)');
+const two = Object.assign({}, ground, { id: 'varka-train', name: 'Varka train', route: undefined, routes: [{ id: 'r1', name: 'North', points: ground.route }, { id: 'r2', name: 'South', points: [{ x: 122500, y: -46500 }, { x: 122000, y: -47000 }] }] });
+const r3 = A.post(ctx, { ground: two });
+const s3 = JSON.parse(fs.readFileSync(path.join(T, 'data', 'aoe_teams.json'), 'utf8'));
+check(r3.ok && r3.id === 'varka-train' && Object.keys(s3.grounds).length === 1 && s3.grounds['varka-train'].routes.map(r => r.name).join() === 'North,South' && s3.teams.Tank1.ground === 'varka-train', 'editing an existing ground keeps its id (the team still points at it), 2 named routes saved');
+const r4 = A.post(ctx, { party: 'Tank1', team: { on: true, ground: 'varka-train', mode: 'tank', roles: { Tank1: { role: 'tank' }, Destroyer1: { role: 'puller', route: 'r2' } } } });
+const s4 = JSON.parse(fs.readFileSync(path.join(T, 'data', 'aoe_teams.json'), 'utf8'));
+check(r4.ok && s4.teams.Tank1.roles.Tank1.role === 'tank' && s4.teams.Tank1.roles.Destroyer1.route === 'r2' && s4.teams.Tank1.pullers.join() === 'Destroyer1', 'roles saved: tank at the camp, Destroyer1 pulls on route 2 (pullers derived)');
+const bad1 = A.cleanTeam({ ground: 'varka-train', roles: { Destroyer1: { role: 'puller', route: 'r9' }, Tank1: { role: 'boss' } } }, ['Tank1', 'Destroyer1'], s4.grounds);
+check(!bad1.ok && bad1.errors.some(e => /routes/.test(e)) && bad1.errors.some(e => /role must be/.test(e)), 'refused: a puller on a route the ground does not have, an unknown role');
+const bad2 = A.cleanTeam({ ground: 'varka-train', roles: { Tank1: { role: 'puller', route: 'r1' }, Destroyer1: { role: 'puller', route: 'r2' } } }, ['Tank1', 'Destroyer1'], s4.grounds);
+check(!bad2.ok && bad2.errors.some(e => /stay at the camp/.test(e)), 'refused: everyone pulls - someone must stay at the camp');
+const sg = A.suggestRoles([{ name: 'Tank1', role: 'sk' }, { name: 'Bishop1', role: 'bishop' }, { name: 'Destroyer1', role: 'destroyer' }], s4.grounds['varka-train']);
+check(sg.Tank1.role === 'puller' && sg.Bishop1.role === 'healer' && sg.Destroyer1.role === 'dealer', 'suggested roles from the classes: the tank pulls, healers heal, the rest deal damage');
+check(A.norm({ grounds: { a: { name: 'A', camp: { x: 1, y: 1 }, route: [{ x: 1, y: 1 }, { x: 2, y: 2 }] } } }).grounds.a.routes[0].name === 'Route 1', 'migration: a v2 ground with route[] reads as routes[Route 1]');
+{ const D = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'dungeon_rooms.json'), 'utf8').replace(/^﻿/, '')), cr = D.find(d => /Cruma/.test(d.name)), F = cr.floors[1], ra = F.rooms[0], rb = F.rooms[1];
+  const camp = { x: Math.round(rb.center ? rb.center[0] : rb.poly[0][0]), y: Math.round(rb.center ? rb.center[1] : rb.poly[0][1]) };
+  const gr = A.cleanGround({ name: 'Cruma set', camp, routes: [{ name: 'A', points: [camp, { x: camp.x + 50, y: camp.y }] }], rooms: [{ dungeon: cr.name, roomId: ra.id, name: ra.name }, { dungeon: cr.name, roomId: rb.id, name: rb.name }] });
+  check(gr.ok && gr.cfg.rooms.length === 2, 'several rooms are saved with the ground');
+  const sb = A.spotFor({ DATA: path.join(ROOT, 'Scripts', 'data') }, gr.cfg);
+  check(sb && sb.body.kind === 'rooms' && sb.body.roomId === rb.id && sb.body.roomIds.length === 2 && sb.body.roomIds[0] === rb.id, '"Send team there" sends every room (the camp room first = the anchor)');
+  check(!A.cleanGround({ name: 'x', camp, routes: [{ points: [camp, camp] }], rooms: [{ dungeon: 'A', roomId: 'a' }, { dungeon: 'B', roomId: 'b' }] }).ok, 'refused: rooms from two dungeons in one ground'); }
+try { fs.rmSync(T, { recursive: true, force: true }); } catch (e) { }
+console.log('2) the page + the hunting map in AOE mode');
+check(/AOE grounds/.test(PAGE) && /We all stand/.test(PAGE) && /Healers/.test(PAGE) && /Damage dealers/.test(PAGE) && /Pullers' route/.test(PAGE), 'AOE grounds: camp, healers, damage dealers, the route of the pullers');
+check(/data-aoetg=/.test(PAGE) && /data-aoetm=/.test(PAGE) && /data-aoerole=/.test(PAGE) && /data-aoesend=/.test(PAGE) && /suggestMode/.test(PAGE), 'teams: ground, mode (suggested from who is in it), a role per character, "Send team there"');
+check(/data-aoerroute=/.test(PAGE) && /data-aoeaddr/.test(PAGE) && /data-aoedelr=/.test(PAGE) && /data-aoerename=/.test(PAGE) && /data-aoesugg=/.test(PAGE), 'AOEROLES page: a puller picks its route; routes can be added / renamed / deleted; suggested roles');
+check(/data-aoeeditg=/.test(PAGE) && /data-aoeclearrooms/.test(PAGE) && /rooms: Array\.isArray\(w\.rooms\)/.test(PAGE), 'AOEROOMS page: edit the ground from the team row; rooms come back from the map and can be cleared');
+{ const CSS = fs.readFileSync(path.join(ROOT, 'Dashboard', 'aoepage.css'), 'utf8');
+  check(/hasTeam\(P\.leader\)/.test(PAGE) && /data-aoeaddteam/.test(PAGE) && /data-aoeexp=/.test(PAGE) && /data-aoeremove=/.test(PAGE), 'AOELOOK: only parties WITH an AOE team are listed (collapsible cards) + one "Add a team" picker');
+  check(/class="uk-switch" role="switch"/.test(PAGE) && /uk-btn primary" data-aoegsave/.test(PAGE) && /aoe-link bad aoe-del" data-aoegdel/.test(PAGE), 'AOELOOK: dashboard switches, Save = the primary button, Delete = a danger link');
+  check(/\.aoe \.aoe-gp \{ grid-template-columns/.test(CSS) && /\.aoe \.aoe-gr \{ grid-template-columns/.test(CSS) && /\.aoe-mapcol \{ position: sticky/.test(CSS) && /max-width: 1100px/.test(CSS), 'AOELOOK: places + routes in aligned grids, a large sticky map on desktop, one column on narrow screens'); }
+check(IX.includes('data-spmaoeroute') && IX.includes('data-spmaoenewroute') && IX.includes('SPM_AOE_COLS') && IX.includes('function spmAoeRoomsOut()') && IX.includes("SPK.forAoe ? 'aoe'") && /spmOpenDungeon\(R\[0\]\.dungeon\)/.test(IX), 'map picker: route selector + new route, a colour per route, the chosen rooms go back, the map opens on the ground\'s dungeon');
+check(PAGE.includes("'/api/partyspot'"), '"Send team there" sets the hunting spot of the party');
+check(PAGE.includes('openSpotPickerAoe') && IX.includes('window.openSpotPickerAoe = ') && IX.includes('function spmAoeTap(e)') && IX.includes('data-spmaoetool') && IX.includes('data-spmaoedone'), 'Pick on the map: the hunting spot map (dungeons / floors / rooms) with an AOE tool bar');
+check(IX.includes("k !== 'aoe') G[k].clearLayers()"), 'the AOE points stay on the map when it redraws');
+check(IX.includes('AoePage.route(kind, arg)') && IX.includes('src="/aoepage.js"') && IX.includes('data-spmaoe ') && SRV.includes("require('./aoeteam_api').handle"), 'index: #/aoe route + "AOE team…" in the hunting map; server: /api/aoeteam');
+console.log('3) the bots');
+check(cut('function aoeCfg()', 2200).includes('(j.grounds || {})[t.ground]') && cut('function aoeCfg()', 2200).includes('c.on === true && c.camp'), 'my party\'s team + its AOE ground (places + route) from aoe_teams.json, only when on and complete');
+const ac = cut('function aoeActive(c)', 600);
+check(/currentTownKey\(\) \|\| inRaid\(\) \|\| inst\.on/.test(ac) && /!runOn\(\)/.test(ac) && /< 6000/.test(ac), 'active only when the party runs, out of towns / raids / instances, near the camp');
+const pr = cut('async function aoePullRun(c)', 6000);
+check(/const route = aoeMyRoute\(c\);/.test(pr) && /for \(const p of route\)/.test(pr) && /state\.fleeUntil = now\(\) \+ 25000;/.test(pr) && /walkDirect\(/.test(pr), 'pullers run every point of THEIR route (no self-defence on the way) and back to the camp');
+{ const mr = cut('function aoeMyRoute(c)', 600), ro = cut('function aoeRoleOf(c, name)', 800), cf = cut('function aoeCfg()', 2200);
+  check(/c\.roles\[Me\.Name\]\.route/.test(mr) && /x\.id === want/.test(mr), 'AOEROLES swarm: a puller runs the route its role names');
+  check(/r\.role\)\) return r\.role/.test(ro) && /HEALER_ROLES\.test\(role\)/.test(ro), 'AOEROLES swarm: the owner\'s role first, else the class');
+  check(/c\.pullers = Object\.keys\(c\.roles\)\.filter/.test(cf) && /c\.routes = Array\.isArray\(c\.route\)/.test(cf), 'AOEROLES swarm: pullers come from the roles; the old route = Route 1');
+  check(/r === 'healer' \? c\.healers : r === 'dealer' \? c\.dealers : null\) \|\| c\.camp/.test(cut('function aoeMyPlace(c)', 300)), 'AOEROLES swarm: tank = camp, healer = healers\' place, damage dealer = dealers\' place'); }
+check(/num\(Me\.HpPercent\) < 25/.test(pr), 'only below 25 % HP a puller turns back early (survival)');
+check(/aoeSpeedUp\(\)/.test(pr) && /Dash\|Sprint\|Wind Walk\|Haste/.test(cut('async function aoeSpeedUp()', 600)) && /Haste Potion/.test(cut('async function aoeSpeedUp()', 900)), 'speed before each pull: own Dash / Sprint / Wind Walk / Haste, else a Haste Potion');
+check(/Ultimate Defen\[cs\]e/.test(pr) && /Aura of Hate\|Mass Hate\|Hate Aura/.test(pr) && /clearMaxSec/.test(pr), 'Tank AOE: Ultimate Defense + hate aura at the camp, fight until clear (max clearMaxSec), again');
+check(/standMaxSec/.test(pr) && /onMe\.length/.test(pr), 'Polearm AOE: stand until the fighters have the monsters (max standMaxSec), run again');
+const hs = cut('async function aoeHoldStep(c)', 2500);
+check(hs.includes('aoeMyPlace(c)') && hs.includes('Options.ActiveFollow = false'), 'everyone else holds its place, no follow');
+check(hs.includes('near >= 2) { AOE.fewAt = 0; if (!AOE.pole)') && hs.includes('now() - AOE.fewAt > 5000) { AOE.pole = false'), 'POLEDYN: the polearm for 2+ monsters on / next to a melee fighter, its own weapon for a single one');
+check(pr.includes("const iTank = ROLE_RE.tank.test(state.role || '');") && hs.includes("c.mode !== 'polearm' && iTankRole && mobs.length >= 2") && hs.includes("iTankRole = myRole === 'tank'"), 'AOEMIX: Tank AOE with polearm pullers - the character with the TANK role at the camp takes the pack, non-tank pullers hand it over');
+{ const pg = cut('async function aoePolearmGet(why)', 3000); check(pg.includes("e.info.t === 'POLE'") && pg.includes('gearOwnedFirst([p]') && pg.includes('buyGearPicks([p])') && pg.includes('not worn') && SRC.includes('aoePole = await aoePolearmGet(why)'), 'AOEPOLE: a melee member without a polearm gets one in Giran (owned first, else bought), kept in the bag'); }
+check(/aoe team: holding my place/.test(SRC) && /aoeSkipHeal\(t\)/.test(SRC), 'no assist chase while holding; healers never heal a puller out on his route (they would walk after him)');
+check(/if \(isLeader\(\) && leadMode\(\) && !solo && \(await aoeLeaderStep\(\)\)\)/.test(SRC), 'the leader\'s hunt loop: the AOE team owns the hunt at its camp');
+console.log(`\naoe team: ${oks} ok, ${fails} failed`); process.exit(fails ? 1 : 0);

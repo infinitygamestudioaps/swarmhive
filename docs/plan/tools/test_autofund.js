@@ -31,6 +31,14 @@ d = A.decide(cfg, scope, [st('Spoiler8', 55000, { task: 'regroup: supply run' })
 t('a character on a supply run / regroup is never interrupted', d.give && d.give.receiver === 'Spoiler14', d);
 d = A.decide(cfg, scope, [st('Spoiler8', 55000), st('Spoiler16', 8900000, { task: 'trade -> ' }), st('Spoiler7', 7500000)], new Set(), new Set(), {}, NOW);
 t('a giver in a trade is skipped', d.give && d.give.giver === 'Spoiler7', d);
-const fs = require('fs'); const SRV = fs.readFileSync(path.join(R, 'Dashboard', 'server.js'), 'utf8');
+// RESERVE-2026-11-01: a party with deposit.above 0 never deposits (Inspector1's 100M subclass money went to Dagger1 at 08:11)
+{ const dd = A.depositDecide({ on: true, above: 20000000, keep: 10000000, againMin: 120 }, [{ name: 'Inspector1', party: 'Inspector1', adena: 100000000, ageSec: 5 }], 'Dagger1', new Set(), { Inspector1: { above: 0 } }, {}, Date.now());
+  t('RESERVE: deposit.above 0 for a party = never a deposit (subclass money stays)', !dd, dd); }
+const fs0 = require('fs');
+const B = A.busyFromOrders([{ receiver: 'Dagger1', givers: ['Destroyer3'], sameTown: true, over: false }, { receiver: 'Bishop1', givers: ['Tank1'], over: false }, { receiver: 'X', givers: ['Y'], over: true }]);
+t('ACADFUND: a pending same-town deposit does not make the collector busy (giver is)', !B.has('Dagger1') && B.has('Destroyer3'), [...B]);
+t('ACADFUND: a normal open order makes receiver + giver busy, a finished one nobody', B.has('Bishop1') && B.has('Tank1') && !B.has('X') && !B.has('Y'), [...B]);
+t('ACADFUND: tick uses busyFromOrders, recentOrders reports sameTown', fs0.readFileSync(path.join(R, 'Dashboard', 'autofund.js'), 'utf8').includes('busy = busyFromOrders(') && fs0.readFileSync(path.join(R, 'Dashboard', 'tradepage_api.js'), 'utf8').includes("sameTown: o.sameTown === true"));
+const fs = require('fs'); const SRV =fs.readFileSync(path.join(R, 'Dashboard', 'server.js'), 'utf8');
 t('server.js runs it every 3 min through /api/trade/order', SRV.includes("require('./autofund').tick(") && SRV.includes('}, 180000);'));
 console.log(`${ok} passed, ${bad} failed`); process.exit(bad ? 1 : 0);

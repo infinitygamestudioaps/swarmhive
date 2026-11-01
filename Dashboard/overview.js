@@ -243,7 +243,7 @@
     const K = [
       ['profitH', 'Profit ' + per, ICO.profit, T.profitH, sign, T.profitH >= 0 ? 'good' : 'bad', `wallet ${sign(T.adenaH)} + loot worth ${short(T.lootH)}`],
       ['expH', 'Experience ' + per, ICO.exp, T.expH, short, 'gold', `${T.levels > 0 ? T.levels + ' level-ups · ' : ''}avg level ${T.avgLevel}`],
-      ['adena', 'Adena (all bags)', ICO.adena, T.adena, short, '', `wallet change ${sign(T.adenaH)} ${per}`],
+      ['adena', 'Adena coins (all bags)', ICO.adena, T.adena, short, '', `coins only · items in bags worth ${short(T.bagItems || 0)} (sellable ${short(T.bagSell || 0)}, worn gear not counted) · wallet ${sign(T.adenaH)} ${per}`],   // BAGWORTH-2026-10-29
       ['lootH', 'Loot worth ' + per, ICO.loot, T.lootH, short, '', 'at shop price, until sold'],
       ['costH', 'Costs ' + per, ICO.cost, T.costH, short, 'bad', `shots & potions ${short(T.useH)} · gear ${short(T.gearH)}`],
       ['killsH', 'Kills ' + per, ICO.kills, T.killsH, short, '', `${T.deaths} death${T.deaths === 1 ? '' : 's'} in ${S.hours === 1 ? 'the last hour' : '24 h'}`],
@@ -297,7 +297,7 @@
         const a = actOf(c.activity, c.task);
         return `<tr data-ovc="${h(c.name)}" style="animation-delay:${Math.min(i, 30) * 15}ms"><td><span class="ov-dot ${c.dead ? 'dead' : c.online ? '' : 'off'}"></span> ${cls(c)} <b>${h(c.name)}</b> ${IC(a.ic, '', a.n)} <span class="ov-badge">${h(c.party)}</span></td>
           <td data-l="Level">${c.level || '—'} <span class="ov-badge">${c.exp != null ? c.exp.toFixed(1) + '%' : ''}</span></td><td data-l="Next level"><span data-at="${c.eta && c.eta.status === 'ok' && c.eta.at ? c.eta.at : ''}"></span></td>
-          <td data-l="Exp / h">${c.expH != null ? short(c.expH) : '—'}${c.pctH != null ? ` <span class="ov-badge">${c.pctH}%</span>` : ''}</td><td data-l="Profit / h"><span class="${c.profitH >= 0 ? 'good' : 'bad'}">${sign(c.profitH)}</span></td>
+          <td data-l="Exp / h">${c.locked && !(Number(c.expH) > 0) ? `<span class="ov-badge" title="Block experience is ON at level ${c.locked} (Levels page): no exp on purpose">🔒 lvl ${c.locked}</span>` : c.expH != null ? short(c.expH) : '—'}${c.pctH != null ? ` <span class="ov-badge">${c.pctH}%</span>` : ''}</td><td data-l="Profit / h"><span class="${c.profitH >= 0 ? 'good' : 'bad'}">${sign(c.profitH)}</span></td>
           <td data-l="Loot / h">${short(c.lootH)}</td><td data-l="Costs / h"><span class="bad">${short(c.costH)}</span></td><td data-l="Adena">${short(c.adena)}</td><td data-l="Kills / h">${c.killsH != null ? c.killsH : '—'}</td><td data-l="Deaths">${c.deaths ? `<span class="bad">${c.deaths}</span>` : 0}</td></tr>`;
       }).join('')}</tbody></table></div>`);
       return;
@@ -335,7 +335,7 @@
     return `<div class="ov-p ${lvlUp ? 'lvl' : ''}" style="animation-delay:${Math.min(i, 20) * 35}ms">
       <div class="ov-ph" data-ovp="${h(p.leader)}" title="Open this party's page">${IC(a.ic, '', a.n)}<div style="min-width:0"><div class="n">${h(p.leader)}</div><div class="w">${h(a.n)}${p.where && p.where !== 'GENERALZONE' ? ' · ' + h(p.where) : ''}</div></div><span class="gap"></span>
         <span class="ov-badge ${p.online === p.n ? 'ok' : 'bad'}">${p.online}/${p.n}</span>${p.dead ? `<span class="ov-badge bad">${p.dead} dead</span>` : ''}<span class="ov-badge">lvl ${p.minLevel === Math.round(p.avgLevel) ? p.minLevel : p.minLevel + '–' + Math.max(...p.members.map(m => m.level || 0))}</span></div>
-      <div class="ov-nums">${N('Profit/h', sign(p.profitH), p.profitH >= 0 ? 'good' : 'bad')}${N('Exp/h', short(p.expH))}${N('Loot/h', short(p.lootH))}${N('Costs/h', short(p.costH), 'bad')}</div>
+      <div class="ov-nums">${N('Profit/h', sign(p.profitH), p.profitH >= 0 ? 'good' : 'bad')}${N('Exp/h', (() => { const lk = p.members.filter(m => m.locked); return !(Number(p.expH) > 0) && lk.length ? `<span title="Block experience is ON (Levels page): no exp on purpose">🔒 lvl ${Math.min(...lk.map(m => m.locked))}</span>` : short(p.expH); })())}${N('Loot/h', short(p.lootH))}${N('Costs/h', short(p.costH), 'bad')}</div>
       ${sparkSvg(p)}
       <div class="ov-next">${nx}<span>${p.killsH ? p.killsH + ' kills/h' : ''}${p.deaths ? ` · <span style="color:var(--bad)">${p.deaths} deaths</span>` : ''}</span></div>
       <div class="ov-ms">${p.members.map(m => `<div class="ov-m" data-ovc="${h(m.name)}" title="${h(m.cls)} · ${h(m.task)}">${ring(m)}<div class="mi"><div class="mn">${m.leader ? '<i>★</i> ' : ''}${h(m.name)} <i>${m.level || ''}</i></div>
@@ -350,7 +350,7 @@
   const SH = { el: null, kind: '', hours: 1, from: null, seq: 0, bag: '', all: false, bf: 'all' };   // OVBAG: bag = the character whose bag is open, all = "All bags", bf = all | sell
   const full = (n) => Math.round(Number(n) || 0).toLocaleString('en-US');
   const hm = (t) => { try { return new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
-  const TITLE = { profitH: ['Profit', ICO.profit], expH: ['Experience', ICO.exp], adena: ['Adena (all bags)', ICO.adena], lootH: ['Loot worth', ICO.loot], costH: ['Costs', ICO.cost], killsH: ['Kills & deaths', ICO.dead], online: ['Online', ICO.online] };
+  const TITLE = { profitH: ['Profit', ICO.profit], expH: ['Experience', ICO.exp], adena: ['Adena coins (all bags)', ICO.adena], lootH: ['Loot worth', ICO.loot], costH: ['Costs', ICO.cost], killsH: ['Kills & deaths', ICO.dead], online: ['Online', ICO.online] };
   const rowIn = (ic, name, sub, val, valSub) => `${ic ? IC(ic, 'ic') : '<span class="ic none"></span>'}<div class="m"><div class="n">${name}</div>${sub ? `<div class="d">${sub}</div>` : ''}</div><div class="v">${val}${valSub ? `<small>${valSub}</small>` : ''}</div>`;
   const row = (ic, name, sub, val, valSub) => `<li class="ovs-r">${rowIn(ic, name, sub, val, valSub)}</li>`;
   const rowB = (nm, ic, name, sub, val, valSub) => `<li class="ovs-li"><button type="button" class="ovs-r ovs-tap" data-ovbag="${h(nm)}">${rowIn(ic, name + '<span class="sr">, show the bag</span>', sub, val, valSub)}<span class="ovs-go" aria-hidden="true">›</span></button></li>`;   // OVBAG

@@ -571,10 +571,16 @@
       if (s.key === 'accessoryCoupon' && /^(do|optional)$/.test(s.verdict)) return `<button data-qp="bggo" data-name="${n}">Go to Newbie Guide</button><button data-qp="bglink" data-k="accessoryCoupon" data-l="coupon" data-name="${n}">Get coupon</button><button data-qp="bglink" data-k="accessoryCoupon" data-l="exchange" data-name="${n}">Open jewelry</button>`;
       return '';
     };
-    put(el, show.length ? `<div class="qp-cards">${show.map(r => `<div class="qp-card qp-bgrow"><b>${h(r.name)}</b> <small>${r.level} ${h(r.cls)}</small>${r.online ? '' : ' <small class="muted">offline</small>'}
+    // ACADCOUPON-2026-10-31: academy characters take both coupons by themselves (their plan's Newbie Guide stops); status per character
+    const AC = QP.bg.academy || { on: true, chars: {} };
+    const acLine = (r) => { const a = r.academy; if (!a) return ''; const one = (k, t) => a[k] ? `<div class="qp-bgstep"><span class="qp-b">auto</span> <b>${t}</b> <span class="muted qp-why">${h(a[k].status)}${a[k].text ? ': ' + h(a[k].text) : ''}</span></div>` : '';
+      return one('weapon', 'Academy: weapon coupons') + one('jewelry', 'Academy: jewelry coupon'); };
+    const acHead = `<div class="muted qp-fhelp">Academy characters take both coupons by themselves (a Newbie Guide stop at level 6 and right after the 1st class change; free, worn only when better): <b>${AC.on ? 'ON' : 'OFF'}</b> <small>(Scripts/data/academy.json "coupons")</small>${AC.loop ? `<br>Academy loop: deliver everything to the collector before logout <b>${AC.loop.deliver ? 'ON' : 'OFF'}</b> · delete graduates + make the next one 24/7 <b>${AC.loop.deleteGraduate ? 'ON' : 'OFF'}</b> (full slots: retry every ${h(AC.loop.slotWaitMin)} min) · Magnus' Chant <b>${AC.loop.magnus ? 'ON' : 'OFF'}</b> / Chant of Victory <b>${AC.loop.cov ? 'ON' : 'OFF'}</b> from buff stores, max ${h(AC.loop.storeMaxPrice)} adena each <small>(academy.json end / buffs)</small>` : ''}</div>`;
+    const acOnly = P.rows.filter(r => r.academy && !show.includes(r));
+    put(el, acHead + (acOnly.length ? `<div class="qp-cards">${acOnly.map(r => `<div class="qp-card qp-bgrow"><b>${h(r.name)}</b> <small>${r.level} ${h(r.cls)}</small>${acLine(r)}</div>`).join('')}</div>` : '') + (show.length ? `<div class="qp-cards">${show.map(r => `<div class="qp-card qp-bgrow"><b>${h(r.name)}</b> <small>${r.level} ${h(r.cls)}</small>${r.online ? '' : ' <small class="muted">offline</small>'}${acLine(r)}
         ${r.steps.filter(s => s.key !== 'tutorial' && s.verdict !== 'gone' && s.verdict !== 'no').map(s => `<div class="qp-bgstep"><span class="qp-b qp-bgv-${h(s.verdict)}" title="${h((BG_V[s.verdict] || [])[1] || '')}">${h((BG_V[s.verdict] || [s.verdict])[0])}</span> <b>${h(BG_T[s.key] || s.key)}</b> <span class="muted qp-why">${h(s.why)}</span>
           <div class="qp-fbtn">${btns(r, s)}</div></div>`).join('')}</div>`).join('')}</div>${rest ? `<div class="muted">${rest} other character${rest === 1 ? '' : 's'}: nothing left to do (past level 19 / 39 or class too high).</div>` : ''}`
-      : '<div class="muted">Nobody is in a beginner window right now.</div>');
+      : '<div class="muted">Nobody is in a beginner window right now.</div>'));
   }
   async function bgOrder(kind, name, b) {
     const D = QP.bg && QP.bg.data, S = (D && D.steps) || {};

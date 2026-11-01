@@ -95,6 +95,15 @@ function collector(ctx) {
   const name = String(c.name || clanLeaderOf(ctx) || '');
   return { name, cfg: c, clanLeader: clanLeaderOf(ctx) };
 }
+/** CRAFTRUN-2026-11-01 (owner: Crafter1 takes over all the selling and crystallizing; his clan warehouse withdraw works): who takes the marks
+ *  out of the clan warehouse, sells and crystallizes them = the crafter of Scripts/data/crafter.json (cwhWithdraw false = the clan leader as before) */
+function worker(ctx) {
+  const c = readJ(path.join(ctx.DATA, 'crafter.json'), {}) || {}, cl = clanLeaderOf(ctx);
+  const cr = NAME_RE.test(String(c.crafter || '')) ? String(c.crafter) : '';
+  return workerPick(cr, c.cwhWithdraw, cl);
+}
+/** pure: the clan warehouse worker */
+function workerPick(crafter, withdraw, clanLeader) { return crafter && withdraw !== false ? crafter : String(clanLeader || ''); }
 function stateFor(ctx, name) {
   let L = []; try { L = (ctx.readStates && ctx.readStates()) || []; } catch (e) { }
   return L.find(s => s && s.name === name) || readJ(path.join(ctx.LOGS, `swarm_state_${name}.json`), null);
@@ -106,10 +115,9 @@ async function tick(ctx, force) {
   try {
     const D = norm(readJ(fileOf(ctx), {})), S = readJ(stateOf(ctx), {}) || {};
     const wh = (readJ(path.join(ctx.LOGS, 'clan_state.json'), {}) || {}).warehouse || null;
-    const C = collector(ctx), CL = C.clanLeader;
+    const C = collector(ctx), CL = worker(ctx);   // CRAFTRUN-2026-11-01: the worker (the crafter) takes out, sells and crystallizes - not only the clan leader
     let who;
-    if (!CL) who = { ok: false, why: 'no clan leader known (only he can take items out of the clan warehouse)' };
-    else if (C.name && C.name !== CL) who = { ok: false, why: `the collector (${C.name}) is not the clan leader (${CL}): only the clan leader can take items out` };
+    if (!CL) who = { ok: false, why: 'no clan warehouse worker known (crafter.json crafter / the clan leader)' };
     else who = collectorFree(stateFor(ctx, CL), C.cfg, Date.now());
     const st = force ? Object.assign({}, S, { lastAt: 0 }) : S;
     const dec = decide(D, wh, st, who, Date.now());
@@ -122,7 +130,7 @@ async function tick(ctx, force) {
       if (!ctx.commandRun) err = 'the dashboard server has no command runner';
       else { const r = await ctx.commandRun({ cmd: '!whsell order', targets: ['chars:' + CL] }); sent = r && r.body ? r.body : r; if (sent && sent.error) err = String(sent.error); }
     } else {
-      const names = crafterNames(ctx), crafter = D.crafter && names.includes(D.crafter) ? D.crafter : names[0];
+      const names = crafterNames(ctx), crafter = D.crafter && names.includes(D.crafter) ? D.crafter : names.includes(CL) ? CL : names[0];
       if (!crafter) err = 'no crafter with the Crystallize skill is known';
       else { const r = await crafterApi().cwhCryOrder(ctx, { crafter, items: dec.items, confirm: true }); if (r && r.error) err = r.error; else sent = r; dec.crafter = crafter; }
     }
@@ -155,4 +163,4 @@ async function handle(req, res, url, ctx) {
   try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\twhauto\t${JSON.stringify(b).slice(0, 300)}\r\n`); } catch (e) { }
   ctx.json(res, 200, { ok: true, data: norm(a.data) }); return true;
 }
-module.exports = { handle, tick, norm, applyChange, decide, collectorFree, GIRAN };
+module.exports = { handle, tick, norm, applyChange, decide, collectorFree, workerPick, GIRAN };

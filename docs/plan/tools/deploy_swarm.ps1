@@ -64,6 +64,11 @@ if (-not $Force) {
             if ($why) { $busy += "$($s.name): $why" }
         } catch { }
     }
+    # ITEMJOBWAIT-2026-10-30 (the 21:01 deploy cut Chanter1's Homunkulus item job mid-run): a running item job (status file touched in the last
+    # 10 min, not done / failed) blocks the deploy like a live trade - the same rule as the dashboard restart script
+    foreach ($jf in @(Get-ChildItem (Join-Path $root 'Logs\itemjobs\*_status.json') -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-10) })) {
+        try { $j = Get-Content $jf.FullName -Raw | ConvertFrom-Json; if ("$($j.state)" -notmatch '^(done|failed|queued)$') { $busy += "item job $($jf.BaseName -replace '_status$','') ($($j.state))" } } catch { }
+    }
     if ($busy.Count) { Log ("ABORT: busy (live state) - " + (($busy | Select-Object -First 6) -join ' | ') + " - deploy after it, or use -Force."); exit 8 }
 }
 

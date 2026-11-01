@@ -50,6 +50,9 @@ const KINDS = [
     help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." },
   { key: 'swarmFight', char: false, group: 'combat', label: 'Fight with L2Swarm (Hive only travels)',
     help: "Off (default): Hive runs the fights. On: Hive still travels, picks the hunting spot, restocks, gears up and shows the dashboard. At the spot the leader only sets the combat zone and starts L2Swarm combat; the others follow him with L2Swarm Follow + Follow Attack. Hive picks no targets, makes no pairs and does not walk anyone back there. Skills and heals stay as you set them: with Hive picks my skills / Hive heals on, Hive still casts and heals on the monster L2Swarm picked; switch those off and your L2Swarm profiles (Combat Skills, Auto Skills) cast and heal. Raids, Kamaloka and other instances stay with Hive." },   // SWARMFIGHT-2026-10-16 (player Vykaax), default OFF
+  // RESTOPT-2026-10-30 (owner: "Sitting down should be an option" -> AskUserQuestion "Off by default, per party"): default OFF = never sits to rest
+  { key: 'rest', char: false, group: 'combat', label: 'Sit down to rest when HP / MP run low',
+    help: 'Off (default): nobody sits down to rest; the party keeps hunting (potions and healers keep it up). On: a character sits when its HP or MP drops below the numbers set here (never while a monster hits it, never in a town, a raid or while travelling) and stands up again when it reaches the "until" numbers, after 2 minutes at most, or the moment something attacks.' },
   // RECOMMEND-2026-10-23 (public tester: "just a toggle per party to recommend each other and keep it at 255"): default OFF
   { key: 'recommend', char: false, group: 'combat', label: 'Party members recommend each other',
     help: 'On: every character spends its daily recommendations on a teammate standing next to it (the one with the fewest first, never above 255), only when nobody fights. Off (default): nobody recommends.' },
@@ -255,6 +258,18 @@ function applyChange(data, b) {
     const t = amountsIn(b.defaultAmounts, 'all-parties amounts', errors);
     if (t !== undefined) { const Dd = Object.assign({}, J.default); if (t) Dd.amounts = t; else delete Dd.amounts; J.default = Dd; }
   }
+  if (b.restAt !== undefined) {   // RESTOPT-2026-10-30: { hpBelow, mpBelow, hpUntil, mpUntil } (whole %) | null = the built-in 40 / 20 -> 85 / 70
+    const P = Object.assign({}, obj(J.parties[party])), r = b.restAt;
+    if (r === null) delete P.restAt;
+    else {
+      const R = obj(r), out = {}, lim = { hpBelow: [1, 95], mpBelow: [0, 95], hpUntil: [5, 100], mpUntil: [0, 100] };
+      Object.keys(lim).forEach(k => { const v = Number(R[k]); if (!Number.isInteger(v) || v < lim[k][0] || v > lim[k][1]) errors.push(`rest ${k}: a whole number ${lim[k][0]}-${lim[k][1]}`); else out[k] = v; });
+      if (out.hpUntil !== undefined && out.hpBelow !== undefined && out.hpUntil <= out.hpBelow) errors.push('rest: "until HP" must be above "HP below"');
+      if (out.mpUntil !== undefined && out.mpBelow !== undefined && out.mpBelow > 0 && out.mpUntil <= out.mpBelow) errors.push('rest: "until MP" must be above "MP below"');
+      if (Object.keys(out).length === 4) P.restAt = out;
+    }
+    if (Object.keys(P).length) J.parties[party] = P; else delete J.parties[party];
+  }
   if (b.pshop !== undefined) {   // PSHOP-2026-10-15: this party's whole player-shop table (null = removed: the all-parties table / OFF)
     const t = pshopIn(b.pshop, errors);
     if (t !== undefined) { const P = Object.assign({}, obj(J.parties[party])); if (t) P.pshop = t; else delete P.pshop; if (Object.keys(P).length) J.parties[party] = P; else delete J.parties[party]; }
@@ -301,7 +316,7 @@ function post(ctx, b) {
       const hist = R.exists ? Gd.saveHistory(F, path.dirname(F), 50) : null;
       const txt = JSON.stringify(out, null, 1) + '\n';
       Gd.atomicWrite(F, txt);
-      const what = JSON.stringify({ party: b.party, values: b.values || {}, chars: b.chars || {}, amounts: b.amounts, defaultAmounts: b.defaultAmounts, defaultValues: b.defaultValues, pshop: b.pshop }).slice(0, 900);
+      const what = JSON.stringify({ party: b.party, values: b.values || {}, chars: b.chars || {}, amounts: b.amounts, defaultAmounts: b.defaultAmounts, defaultValues: b.defaultValues, pshop: b.pshop, restAt: b.restAt }).slice(0, 900);
       try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${isoNow()}\tpartyauto\tsave\t${by}: ${what}\r\n`); } catch (e) { }
       result = { code: 200, ok: true, rev: sha(txt), data: pautoNorm(out), history: hist ? path.basename(hist) : null };
     }, { who: 'partyauto save' });

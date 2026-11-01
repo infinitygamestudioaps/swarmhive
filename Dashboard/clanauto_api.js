@@ -16,7 +16,7 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const STATIC = { '/clanauto.js': 'application/javascript; charset=utf-8', '/clanauto.css': 'text/css; charset=utf-8' };
-const DEF = { invite: true, warehouseLook: true, skillLearn: true, skillFocus: true, questDispatch: true, questActivate: false, levelQuests: false, itemHandover: true };   // itemHandover: CLANHAND 2026-10-13
+const DEF = { invite: true, warehouseLook: true, skillLearn: true, skillFocus: true, questDispatch: true, questActivate: false, levelQuests: false, itemHandover: true, academyAuto: true };   // academyAuto: CLANTABS-2026-10-30 (owner: "auto invite new academy toons automatically"; swarm.js clanAutoFlag('academyAuto', true))   // itemHandover: CLANHAND 2026-10-13
 const KEYS = Object.keys(DEF).concat(['levelUp']);
 const LQ_FOR_LEVEL = { 2: 'bloodmark', 3: '501', 4: '503' };
 const cqFile = (ctx) => process.env.SWARM_CLANQUESTS_FILE || path.join(ctx.DATA, 'clan_quests.json');

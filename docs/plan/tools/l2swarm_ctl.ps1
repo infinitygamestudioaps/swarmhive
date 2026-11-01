@@ -96,6 +96,9 @@ function Reconnect-Brake {
         try { $accs = @(McpJson 'get_accounts_status' @{}) } catch { return }
         $ingame = InGameChars
         $off = @($accs | Where-Object { $_.config_path -and -not $_.is_logged_in -and ($ingame -notcontains (CharOfConfig $_.config_path)) })
+        # DUPOPEN-2026-10-30: a second copy of an account whose other copy IS in game is no lost character (it only hammers the login server)
+        $inLeaves = @($accs | Where-Object { $_.config_path -and $_.is_logged_in } | ForEach-Object { (Split-Path $_.config_path -Leaf).ToLower() })
+        $off = @($off | Where-Object { $inLeaves -notcontains (Split-Path $_.config_path -Leaf).ToLower() })
         if ($off.Count -lt 3) { if ($b.offlineSince -or $b.phase) { $b.offlineSince = $null; Brake-Set $b 'phase' ''; Brake-Set $b 'chars' @(); Brake-Save $b }; return }
         Brake-Set $b 'phase' 'watching'; Brake-Set $b 'chars' @($off | ForEach-Object { CharOfConfig $_.config_path })
         Brake-Set $b 'why' "$($off.Count) characters lost the connection - L2Swarm is reconnecting them by itself (the brake steps in after 3 min)"
@@ -135,6 +138,12 @@ function Reconnect-Brake {
 function Brake-Reopen {
     $b = Brake-Load
     if (-not $b.active -or -not @($b.closed).Count) { return }
+    # DUPOPEN-2026-10-30: drop the closed configs L2Swarm has open again by now (in game or reconnecting): opening them = a second copy
+    try { $openNow = @(@(McpJson 'get_accounts_status' @{}) | Where-Object { $_.config_path } | ForEach-Object { (Split-Path $_.config_path -Leaf).ToLower() })
+          $left = @(@($b.closed) | Where-Object { $openNow -notcontains (Split-Path $_ -Leaf).ToLower() })
+          if ($left.Count -ne @($b.closed).Count) { Log $ctlLog "brake: $(@($b.closed).Count - $left.Count) of the closed accounts are open again already - not opened twice" }
+          if (-not $left.Count) { Brake-Save ([pscustomobject]@{ active = $false; offlineSince = $null; round = 0; nextTry = $null; closed = @(); phase = ''; chars = @(); doneAt = (Get-Date).ToString('s') }); Log $ctlLog 'brake: done - everyone is back'; return }
+          $b.closed = $left } catch { }
     if (-not (Take-StartLock)) { return }
     $wait = [math]::Min(30, 3 * [math]::Pow(2, $b.round))
     try {
@@ -236,7 +245,9 @@ function Start-L2 {
     $extraFile = "$root\Settings\start_extra.txt"
     if (Test-Path $extraFile) {
         $extra = @(Get-Content $extraFile | ForEach-Object { $_.Trim() } | Where-Object { $_ -and (Test-Path $_) })
-        foreach ($e in $extra) { if ($configs -notcontains $e) { $configs = @($configs) + $e } }
+        # DUPOPEN-2026-10-30: by FILE NAME like the swarm.config.json list above - a full-path compare let the 35 academy / Flyt accounts in twice
+        # (C:\L2Swarm\... here, another spelling there): 114 opens for 79 logins, the second copies hammered the login server all morning
+        foreach ($e in $extra) { $leaf = (Split-Path $e -Leaf).ToLower(); if ($have -notcontains $leaf) { $configs = @($configs) + $e; $have += $leaf } }
     }
     # Settings\start_hold.txt: config file names (one per line, e.g. Mylogin39.xml) that are NOT logged in (2026-10-07: isolating a memory explosion)
     # AUTOSTARTOFF-2026-10-29: accounts switched off in swarm.config.json stay logged out, whichever list named them
@@ -283,8 +294,14 @@ function Open-Configs($configs) {
         } catch { Log $ctlLog "start: could not check for the default account: $_" }
     }
     $first = $true
+    # DUPOPEN-2026-10-30: never open a config twice - not twice in this list, and not when L2Swarm already has an account with that config file
+    # open (the brake's reopen ran Open-Configs for accounts whose first copy was back in game)
+    $openLeaves = @(); try { $openLeaves = @(@(McpJson 'get_accounts_status' @{}) | Where-Object { $_.config_path } | ForEach-Object { (Split-Path $_.config_path -Leaf).ToLower() }) } catch { }
     foreach ($c in $configs) {
         if (-not (My-L2Alive)) { Log $ctlLog "start: L2Swarm pid $($script:myL2) is gone (crash/restart) - this login run stops"; return }
+        $leaf = (Split-Path $c -Leaf).ToLower()
+        if ($openLeaves -contains $leaf) { Log $ctlLog "start: $(Split-Path $c -Leaf) is already open in L2Swarm - not opened twice"; continue }
+        $openLeaves += $leaf
         try { [void](Mcp 'open_account' @{ config_path = $c }); Log $ctlLog "start: opened $(Split-Path $c -Leaf)" } catch { Log $ctlLog "start: open $c failed: $_" }
         if ($first) { $first = $false; Start-Sleep 3; & $closeEmpty }
         Start-Sleep $loginGapSec

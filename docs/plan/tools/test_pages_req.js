@@ -33,5 +33,8 @@ secs.forEach(s => {
   t(/\*\*Must do/.test(s), `${head.slice(0, 60)}: Must do / must never do`);
   (head.match(/Dashboard\/[A-Za-z0-9_.]+\.(?:js|html)/g) || []).forEach(f => t(fs.existsSync(path.join(ROOT, f)), `${f} exists`));
 });
+// SELLFOLD-2026-11-01 (pages.md Storage: the sell list groups start folded)
+{ const sp = fs.readFileSync(path.join(ROOT, 'Dashboard', 'storagepage.js'), 'utf8');
+  t(/data-sellgrp="\$\{h\(k\)\}"\$\{q \|\| sellOpen\(\)\[k\] \? ' open' : ''\}/.test(sp) && !/k === 'all' \|\| q \? ' open'/.test(sp), 'Storage: "Sold by every bot" and the other sell-list groups start folded (open only while searching or when you opened them)'); }
 console.log(`\n${ok} ok, ${fail} FAIL`);
 process.exit(fail ? 1 : 0);

@@ -33,6 +33,13 @@ function decide(cfg, scope, states, busy, raidParties, mem, nowMs, mayGive) {
   for (const r of recv) { const g = givers.find(x => x.name !== r.name); if (g) return { give: { giver: g.name, receiver: r.name, amount: cfg.give }, why: `${r.name} has ${r.adena}, ${g.name} has ${g.adena}` }; }
   return { give: null, why: 'nobody rich enough is free (keeps ' + cfg.keep + ' after giving)' };
 }
+// ACADFUND-2026-10-31: the receiver of an open SAME-TOWN order is not busy - it only waits for the giver's next town visit (days). Two pending
+// deposits to Dagger1 (10-27, 10-30) kept the collector "busy" and no academy character got its start adena.
+function busyFromOrders(orders) {
+  const busy = new Set();
+  (orders || []).forEach(o => { if (!o || o.over) return; if (!o.sameTown) busy.add(o.receiver); (o.givers || []).forEach(g => busy.add(g)); });
+  return busy;
+}
 const RUN = { busy: false };
 async function tick(ctx) {
   if (RUN.busy) return; RUN.busy = true;
@@ -42,8 +49,8 @@ async function tick(ctx) {
     const scope = scopeNames(cfg, ctx.swarmCfg ? ctx.swarmCfg() : null); if (!scope.size) return;
     const states = (ctx.readStates ? ctx.readStates() : []).map(s => ({ name: s.name, adena: Number(s.adena) || 0, ageSec: Number(s.ageSec), dead: !!s.dead, party: s.party || s.leader || s.name, task: String(s.task || '') }));
     // open orders (the Trade page list): givers + receivers that are still busy
-    const busy = new Set();
-    try { (ctx.recentOrders ? ctx.recentOrders() : []).forEach(o => { if (!o.over) { busy.add(o.receiver); (o.givers || []).forEach(g => busy.add(g)); } }); } catch (e) { }
+    let busy = new Set();
+    try { busy = busyFromOrders(ctx.recentOrders ? ctx.recentOrders() : []); } catch (e) { }
     // live raid / Kamaloka parties never give (their leader writes Logs/raid_live_<leader>.json every few s)
     const raidParties = new Set();
     try { fs.readdirSync(ctx.LOGS).filter(f => /^(raid|kamaloka|epic)_live_.+\.json$/.test(f)).forEach(f => { const st = fs.statSync(path.join(ctx.LOGS, f)); if (Date.now() - st.mtimeMs < 120000) raidParties.add(f.replace(/^(raid|kamaloka|epic)_live_/, '').replace(/\.json$/, '')); }); } catch (e) { }
@@ -70,10 +77,29 @@ function depositDecide(dep, states, collector, busy, partyDep, mem, nowMs) {
     if (!s || s.name === collector || s.dead || Number(s.ageSec) > 60 || busy.has(s.name)) continue;
     const pd = (partyDep && partyDep[s.party || s.name]) || {}, above = Number(pd.above != null ? pd.above : dep.above), keep = Number(pd.keep != null ? pd.keep : dep.keep);
     if (!(above > 0) || Number(s.adena) <= above || nowMs - ((mem.dep || {})[s.name] || 0) < dep.againMin * 60000) continue;
-    const amount = Math.floor(Number(s.adena) - Math.max(0, keep)); if (amount < 1000000) continue;
+    // GEARKEEP-2026-10-30 (owner: "he should NOT hand over hes adena to dagger1!! Then he cant buy gear"): gear money stays. No deposit within
+    // 12 h of a leader's gear payment (!purse), and never below what the character's gear plan still needs.
+    if (s.pursePaidAt && nowMs - s.pursePaidAt < 12 * 3600000) continue;
+    const amount = Math.floor(Number(s.adena) - Math.max(0, keep, Number(s.gearNeed) || 0)); if (amount < 1000000) continue;
     return { giver: s.name, amount, why: `${s.name} has ${s.adena}, keeps ${keep} (above ${above})` };
   }
   return null;
+}
+/** GEARKEEP: when each character last got gear money from its leader (Logs/purse.log "X paid <Name> N for gear") */
+function purseTimes(ctx) {
+  const out = {}; let txt = ''; try { const fd = fs.openSync(path.join(ctx.LOGS, 'purse.log'), 'r'), st = fs.fstatSync(fd), n = Math.min(st.size, 200000), b = Buffer.alloc(n); fs.readSync(fd, b, 0, n, st.size - n); fs.closeSync(fd); txt = b.toString('utf8'); } catch (e) { return out; }
+  txt.split(/\r?\n/).forEach(l => { const m = l.match(/^(\S+Z) \[[^\]]+\] .* paid (\S+) [\d,]+ for gear/); if (m) { const at = Date.parse(m[1]); if (at > (out[m[2]] || 0)) out[m[2]] = at; } });
+  return out;
+}
+/** GEARKEEP: adena the character's gear plan (Logs/gear_plan_<Name>.json, < 24 h old) still needs: its own "all N planned pieces: X" + 300k supplies */
+function gearNeed(ctx, name) {
+  try {
+    const j = JSON.parse(fs.readFileSync(path.join(ctx.LOGS, 'gear_plan_' + name + '.json'), 'utf8').replace(/^﻿/, ''));
+    if (!(Date.now() - Date.parse(j.at) < 24 * 3600000)) return 0;
+    const m = String(j.why || '').match(/all \d+ planned pieces: ([\d,]+)/); if (m) return Number(m[1].replace(/,/g, '')) + 300000;
+    let c = 0; (j.planned || []).forEach(r => { if (r.status !== 'buy') return; const x = String(r.detail || '').match(/ (\d+) at /); if (x) c += Number(x[1]) * (r.slot === 'earring' || r.slot === 'ring' ? 2 : 1); });
+    return c ? c + 300000 : 0;
+  } catch (e) { return 0; }
 }
 async function depositTick(ctx) {
   const r = readJson(path.join(ctx.DATA, 'fund_rules.json'), {}) || {}, dep = Object.assign({}, DEP_DEF, r.deposit || {});
@@ -81,6 +107,7 @@ async function depositTick(ctx) {
   const c = (readJson(path.join(ctx.DATA, 'stash_rules.json'), {}) || {}).collector, cq = readJson(path.join(ctx.DATA, 'clan_quests.json'), {}) || {};
   const col = c && c.on === true ? String(c.name || (cq.clan && cq.clan.leader) || '') : ''; if (!col) return;
   const states = (ctx.readStates ? ctx.readStates() : []).map(s => ({ name: s.name, adena: Number(s.adena) || 0, ageSec: Number(s.ageSec), dead: !!s.dead, party: s.party || s.leader || s.name }));
+  const purseAt = purseTimes(ctx); states.forEach(s => { s.pursePaidAt = purseAt[s.name] || 0; s.gearNeed = gearNeed(ctx, s.name); });
   const busy = new Set(); try { (ctx.recentOrders ? ctx.recentOrders() : []).forEach(o => { if (!o.over) { busy.add(o.receiver); (o.givers || []).forEach(g => busy.add(g)); } }); } catch (e) { }
   const partyDep = {}; Object.entries(r.parties || {}).forEach(([k, v]) => { if (v && v.deposit) partyDep[k] = v.deposit; });
   const memF = path.join(ctx.LOGS, 'autofund.json'), mem = readJson(memF, {}) || {}; mem.dep = mem.dep || {};
@@ -99,4 +126,4 @@ function giverRule(ctx) {
   const col = c && c.on === true ? String(c.name || (cq.clan && cq.clan.leader) || '') : '';
   return (n) => !!col && n === col;
 }
-module.exports = { tick, decide, shareCfg, scopeNames, giverRule, depositDecide, DEP_DEF, DEF };
+module.exports = { tick, decide, busyFromOrders, shareCfg, scopeNames, giverRule, depositDecide, DEP_DEF, DEF };

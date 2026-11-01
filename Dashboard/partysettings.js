@@ -59,11 +59,13 @@
     { key: 'heals', char: true, def: true, group: 'combat', label: 'Hive heals', help: 'On: Hive heals the party (heal choice, group heals, cures, Recharge, Chant of Life, self heals). Off: Hive heals nobody — your L2Swarm profile (Auto Skills tab) heals, and Hive gives back any of your Auto Skills it had switched off.' },
     { key: 'potions', char: true, def: true, group: 'combat', label: 'Hive uses potions', help: "On: Hive drinks Healing and Mana Potions when HP or MP run low. Off: no potions by Hive (use L2Swarm's own potion settings or the server's .autohp / .automp)." },
     { key: 'swarmFight', char: false, group: 'combat', label: 'Fight with L2Swarm (Hive only travels)', help: "Off (default): Hive runs the fights. On: Hive still travels, picks the hunting spot, restocks, gears up and shows the dashboard. At the spot the leader only sets the combat zone and starts L2Swarm combat; the others follow him with L2Swarm Follow + Follow Attack. Hive picks no targets, makes no pairs and does not walk anyone back there. Skills and heals stay as you set them: with Hive picks my skills / Hive heals on, Hive still casts and heals on the monster L2Swarm picked; switch those off and your L2Swarm profiles (Combat Skills, Auto Skills) cast and heal. Raids, Kamaloka and other instances stay with Hive." },
+    // RESTOPT-2026-10-30 (owner: "Sitting down should be an option", AskUserQuestion "Off by default, per party")
+    { key: 'rest', char: false, group: 'combat', label: 'Sit down to rest when HP / MP run low', help: 'Off (default): nobody sits down to rest; the party keeps hunting (potions and healers keep it up). On: a character sits when its HP or MP drops below the numbers below (never while a monster hits it, in a town, a raid or while travelling) and stands up at the "until" numbers, after 2 minutes at most, or the moment something attacks.' },
     // SPOTLVL-2026-10-23: chosen spots above the safe level: off (default) = used, only a warning; on = waits for your OK (Override)
     { key: 'spotLevelCheck', char: false, group: 'combat', label: 'Ask me before hunting a chosen spot above our level', help: 'Off (default): a hunting spot you choose (party card, plan step, order) is always used, even when its monsters are above the safe level; the party only warns in party chat and on the party card. On: such a spot waits for your OK (the Override button on the party card) and the party hunts its automatic spot meanwhile.' }];
   const CB_SHORT = { skills: 'skills', heals: 'heals', potions: 'potions', swarmFight: 'L2Swarm fights' };
   const GMODES = ['collector', 'auto', 'list', 'none'];   // FUNDCOLLECTOR-2026-10-25: the collector is the default giver
-  const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary', assist: true, destroyerDrain: false, spotEmptySec: 0 };
+  const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary', assist: true, destroyerDrain: false, spotEmptySec: 0, soloEscape: true, drainKit: true, drainDuel: true };   // DRAINWAY-2026-10-30: + drainKit / drainDuel; soloEscape was missing here, so the page dropped it before saving
   const DESTS = [['auto', 'Clan if a member, else its own'], ['clan', 'Clan warehouse'], ['private', 'Its own warehouse']];
   const MODES = [['rules', 'Smart: materials, old gear, letters…'], ['all', 'Everything except what it uses'], ['off', 'Nothing']];
   const TRIGS = [['bag', 'When the bag holds more than … kinds'], ['weight', 'When it carries more than … % weight'], ['supply', 'Only during supply runs'], ['town', 'Whenever it is idle in its town']];
@@ -142,7 +144,8 @@
       const cp = {}, cc = {};
       cbKinds().forEach(k => { cp[k.key] = bool(P[k.key]); });
       M.forEach(n => { const C = obj(obj(d.chars)[n]); cc[n] = {}; cbKinds().forEach(k => { cc[n][k.key] = bool(C[k.key]); }); });
-      W.combat = { party: cp, chars: cc, allToo: false };   // SPOTLVL-2026-10-23: allToo = the level-check switch for every party without its own
+      const RA = obj(P.restAt);   // RESTOPT-2026-10-30: this party's own rest numbers ('' = the built-in 40 / 20 -> 85 / 70)
+      W.combat = { party: cp, chars: cc, allToo: false, restAt: { hpBelow: isSet(RA.hpBelow) ? String(RA.hpBelow) : '', mpBelow: isSet(RA.mpBelow) ? String(RA.mpBelow) : '', hpUntil: isSet(RA.hpUntil) ? String(RA.hpUntil) : '', mpUntil: isSet(RA.mpUntil) ? String(RA.mpUntil) : '' } };   // SPOTLVL-2026-10-23: allToo = the level-check switch for every party without its own
     }
     if (ok(D.res)) {   // RESURRECTION 2026-10-13: this party's own entry (null = not set: the all-parties / built-in default)
       const P = obj(obj(obj(D.res.data).parties)[L]), b = (v) => (typeof v === 'boolean' ? v : null);
@@ -355,10 +358,11 @@
     const c = PS.W.combat, K = cbKinds();
     const items = K.map(k => {
       const own = c.party[k.key] !== null && c.party[k.key] !== undefined, eff = cbParty(k.key), d = paDef(k.key);
-      const offTxt = { skills: "Off — your L2Swarm profile's Combat Skills fight", heals: "Off — your L2Swarm profile's Auto Skills heal", potions: 'Off — Hive drinks no potions', swarmFight: 'Off — Hive runs the fights', spotLevelCheck: 'Off — your chosen spot is always used (only a warning)' }[k.key] || 'Off';
-      const onTxt = (k.key === 'swarmFight' ? 'On — L2Swarm picks the monsters at the hunting spot' : k.key === 'spotLevelCheck' ? 'On — a spot above our level waits for your OK' : 'On — Hive does it') + (own ? '' : ' (the setting for all parties)');   // SWARMFIGHT: on = the profile
+      const offTxt = { skills: "Off — your L2Swarm profile's Combat Skills fight", heals: "Off — your L2Swarm profile's Auto Skills heal", potions: 'Off — Hive drinks no potions', swarmFight: 'Off — Hive runs the fights', spotLevelCheck: 'Off — your chosen spot is always used (only a warning)', rest: 'Off — never sits down, keeps hunting' }[k.key] || 'Off';
+      const onTxt = (k.key === 'swarmFight' ? 'On — L2Swarm picks the monsters at the hunting spot' : k.key === 'spotLevelCheck' ? 'On — a spot above our level waits for your OK' : k.key === 'rest' ? 'On — sits down when HP / MP are low' : 'On — Hive does it') + (own ? '' : ' (the setting for all parties)');   // SWARMFIGHT: on = the profile
       const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="combat.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
-      return item(sw('combat.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset + allLine('combat', k.key, eff, d));   // ALLPARTIES
+      const restNums = k.key === 'rest' && eff ? `<div class="ps-grid">${inp('combat.restAt.hpBelow', c.restAt.hpBelow, 'Sit when HP below %', { ph: '40', small: true })}${inp('combat.restAt.mpBelow', c.restAt.mpBelow, 'or MP below %', { ph: '20', hint: '0 = never for MP', small: true })}${inp('combat.restAt.hpUntil', c.restAt.hpUntil, 'Stand up at HP %', { ph: '85', small: true })}${inp('combat.restAt.mpUntil', c.restAt.mpUntil, 'and MP %', { ph: '70', small: true })}</div>` : '';   // RESTOPT-2026-10-30
+      return item(sw('combat.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset + restNums + allLine('combat', k.key, eff, d));   // ALLPARTIES
     }).join('');
     const rows = PS.M.map(n => { const ch = c.chars[n] || {};
       return `<div class="ps-mrow"><span class="ps-mn">${E(n)}${K.some(k => k.char !== false && ch[k.key] !== null && ch[k.key] !== undefined) ? ' <small>own</small>' : ''}</span>${K.filter(k => k.char !== false).map(k => {
@@ -543,7 +547,12 @@
         <div class="ps-what">${t.assist !== false ? 'On — the leader says which monster he picks; members walk in and hit it right away and drop it when it dies.' : 'Off — members only help when a monster hits the leader or a teammate.'}</div>
         <label class="ps-chk"><input type="checkbox" data-pschk="tactics.destroyerDrain"${t.destroyerDrain ? ' checked' : ''}> Destroyers lower their HP for Frenzy / Zealot (they hit each other)</label>
         <div class="ps-what">${t.destroyerDrain ? 'On — before a raid pull (and when Frenzy is ready again) destroyers hit each other down below 30 % HP, then fire Frenzy, Zealot, Guts. Healers wait.' : 'Off — destroyers never hit teammates; they use Frenzy / Zealot only when the fight itself brings their HP low.'}</div>`;
-      if (t.destroyerDrain) sum += ' · destroyer drain';
+      // DRAINWAY-2026-10-30 (owner): HOW the HP comes down - the Frenzy kit gear swap and / or hitting each other (both default ON)
+      if (t.destroyerDrain) body += `<div class="ps-indent"><label class="ps-chk"><input type="checkbox" data-pschk="tactics.drainKit"${t.drainKit !== false ? ' checked' : ''}> Use the Frenzy kit gear swap (HP swap)</label>
+        <div class="ps-what">${t.drainKit !== false ? 'On — first the low-max-HP gear, then the high-max-HP kit: the HP % drops without a single hit.' : 'Off — the Frenzy kit stays in the bag.'}</div>
+        <label class="ps-chk"><input type="checkbox" data-pschk="tactics.drainDuel"${t.drainDuel !== false ? ' checked' : ''}> Hit each other down to low HP</label>
+        <div class="ps-what">${t.drainDuel !== false ? 'On — what the gear swap did not do, the two destroyers do by hitting each other (one careful swing at a time).' : 'Off — destroyers never hit each other (high levels: they kill each other); the gear swap is all.'}</div></div>`;
+      if (t.destroyerDrain) sum += ' · destroyer drain' + (t.drainKit === false ? ' (no kit)' : '') + (t.drainDuel === false ? ' (no hitting)' : '');
       // SOLOESC-2026-10-28 (Hero): the solo escape is a choice (default ON)
       body += `<label class="ps-chk"><input type="checkbox" data-pschk="tactics.soloEscape"${t.soloEscape !== false ? ' checked' : ''}> Solo: escape when a fight goes badly</label>
         <div class="ps-what">${t.soloEscape !== false ? 'On — a character hunting alone below 50 % HP with 2+ monsters on it (or below 30 % still hit) uses crowd control, runs to a safe spot and goes to town.' : 'Off — a character hunting alone never runs away; it fights on with potions and heals.'}</div>`;
@@ -882,6 +891,7 @@
   // ============================================================================================ events
   function validate(path, raw) {
     delete PS.bad[path];
+    if (/^combat\.restAt\./.test(path)) { if (raw !== '' && !(/^\d{1,3}$/.test(raw) && Number(raw) <= 100)) PS.bad[path] = 'a whole number 0-100'; return; }   // RESTOPT-2026-10-30
     if (/^server./.test(path)) {   // SRVOPT-2026-10-21
       if (raw === '') return; const k = path.slice(7);
       const lim = { 'store.maxPrice': [0, 100000000], 'store.minLeftMin': [1, 720], 'station.x': [-400000, 400000], 'station.y': [-400000, 400000], 'station.z': [-30000, 30000], 'station.minBuffs': [1, 40], 'newbie.maxLevel': [1, 99], 'newbie.minBuffs': [1, 40], walkMax: [2000, 200000] }[k];
@@ -1136,6 +1146,7 @@
       PS.M.forEach(n => cbKinds().forEach(k => { const x = (a.chars[n] || {})[k.key], y = (b.chars[n] || {})[k.key]; if (x !== y) (chars[n] = chars[n] || {})[k.key] = y === undefined ? null : y; }));
       let rev = fresh.rev; try { const f2 = await fetchSrc('pauto'); if (ok(f2)) rev = f2.rev; } catch (e) { }
       const cbody = { party: PS.leader, values, chars, rev, by: 'party settings' };
+      if (J(a.restAt) !== J(b.restAt)) { const R = b.restAt, vals = ['hpBelow', 'mpBelow', 'hpUntil', 'mpUntil'].map(k => String(R[k] || '').trim()); cbody.restAt = vals.every(v => v === '') ? null : { hpBelow: Number(vals[0] || 40), mpBelow: Number(vals[1] || 20), hpUntil: Number(vals[2] || 85), mpUntil: Number(vals[3] || 70) }; }   // RESTOPT-2026-10-30
       if (b.allToo && cbKinds().some(k => k.key === 'spotLevelCheck')) cbody.defaultValues = { spotLevelCheck: !!cbParty('spotLevelCheck') };
       if (b.defs && Object.keys(b.defs).length) cbody.defaultValues = Object.assign({}, cbody.defaultValues || {}, b.defs);   // ALLPARTIES-2026-10-23   // SPOTLVL-2026-10-23: the all-parties setting
       const d = await call(SRC.pauto, { method: 'POST', body: JSON.stringify(cbody) });

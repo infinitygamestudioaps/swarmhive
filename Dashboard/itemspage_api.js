@@ -45,7 +45,7 @@ function facts(ctx, id) {
   const I = items(ctx)[String(id)] || [], C = catalog(ctx)[String(id)] || {};
   const grade = C.g || (I[3] !== '' && I[3] != null ? IL.GRADES[Number(I[3])] : 'NONE') || 'NONE';
   return { id: Number(id), name: C.n || I[0] || `item ${id}`, icon: I[1] || '', grade, slot: C.s || '', wtype: C.t || '', type: I[2] || '', kind: IL.kindOf(C.s), full: !!C.full || C.s === 'full',
-    price: C.p || 0, base: C.base || 0, sa: C.sa || '', common: /^Common Item/.test(C.n || I[0] || ''), pa: C.pa, ma: C.ma, pd: C.pd, md: C.md };
+    price: C.p || 0, base: C.base || 0, sa: C.sa || '', two: !!C.two, common: /^Common Item/.test(C.n || I[0] || ''), pa: C.pa, ma: C.ma, pd: C.pd, md: C.md };
 }
 function chars(ctx) {
   const st = ctx.readStates ? ctx.readStates() : [], by = {}; st.forEach(s => { by[s.name] = s; });
@@ -494,6 +494,17 @@ async function craftOrder(ctx, b) {
   return body && body.error ? { code: 500, error: body.error } : { ok: true };
 }
 
+// EQUIPVIEW-2026-10-30 (owner: "I wanna be able to click items to see their stats and set items"): GET /api/items/info?ids=1,2,3 ->
+// { items: { id: catalog row (stats, no drop list) }, sets: [ every armor set one of the ids belongs to: name, grade, type, pieces, bonus, shield, e6 ] }
+const setsCat = (ctx) => cached('sets', path.join(ctx.DIR, 'data', 'gear_catalog.json'), { sets: [] }, v => (v && v.sets) || []);
+function itemInfo(ctx, idsQ) {
+  const ids = String(idsQ || '').split(',').map(Number).filter(n => n > 0).slice(0, 120), C = catalog(ctx), S = setsCat(ctx), out = { items: {}, sets: [] };
+  const want = new Set(ids), seen = new Set();
+  S.forEach((s, i) => { const all = [].concat(...Object.values(s.pieces || {})); if (all.some(id => want.has(Number(id))) && !seen.has(i)) { seen.add(i); out.sets.push(Object.assign({ idx: i }, s)); } });
+  const need = new Set(ids); out.sets.forEach(s => Object.values(s.pieces || {}).forEach(L => L.forEach(id => need.add(Number(id)))));
+  need.forEach(id => { const r = C[id]; if (!r) return; const o = Object.assign({}, r); if (o.src) o.src = { ms: o.src.ms, sh: (o.src.sh || []).slice(0, 3) }; out.items[id] = o; });
+  return out;
+}
 async function handle(req, res, url, ctx) {
   const p = url.pathname;
   if (STATIC[p]) { res.writeHead(200, { 'Content-Type': STATIC[p], 'Cache-Control': 'no-cache' }); res.end(fs.readFileSync(path.join(ctx.DIR || __dirname, path.basename(p)))); return true; }
@@ -504,6 +515,7 @@ async function handle(req, res, url, ctx) {
   let b = {}; if (req.method === 'POST') { try { let t = ''; for await (const c of req) t += c; b = JSON.parse(t || '{}'); } catch (e) { out({ code: 400, error: 'bad JSON' }); return true; } }
   try {
     const sub = p.slice('/api/items/'.length);
+    if (sub === 'info') return out(itemInfo(ctx, q('ids'))), true;   // EQUIPVIEW-2026-10-30: stats + armor sets for the character page
     if (sub === 'chars') return out(chars(ctx)), true;
     if (sub === 'char') return out(Object.assign(await charInfo(ctx, q('name'), q('fresh') === '1'), { jobs: recentJobs(ctx, q('name')) })), true;
     if (sub === 'shops') return out(shops(ctx)), true;

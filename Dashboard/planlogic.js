@@ -81,7 +81,9 @@
         out.repeat = int(s.repeat, 1, 99) || 1; out.onFail = s.onFail === 'skip' ? 'skip' : 'stop'; break;
       case 'class': if (who.length) out.who = who; break;
       case 'town': out.town = TOWNS.find(t => t.toLowerCase() === String(s.town || '').toLowerCase().replace(/^\./, '')) || 'Giran'; break;
-      case 'academy': out.act = ['join', 'funds', 'buy', 'graduate'].includes(s.act) ? s.act : null; if (!out.act) return null; if (out.act === 'buy') out.set = /^[A-Za-z0-9_]{1,20}$/.test(String(s.set || '')) ? String(s.set) : 'start'; break;
+      case 'academy': out.act = ['join', 'funds', 'buy', 'graduate', 'coupon'].includes(s.act) ? s.act : null; if (!out.act) return null;
+        if (out.act === 'coupon') { out.which = s.which === 'jewelry' || s.which === 'armor' ? s.which : 'weapon'; out.onFail = 'skip'; }   // ACADCOUPON-2026-10-31 / ACADROUTE-2026-11-01 armor
+        if (out.act === 'buy') out.set = /^[A-Za-z0-9_]{1,20}$/.test(String(s.set || '')) ? String(s.set) : 'start'; break;
       case 'raid': out.boss = int(s.boss, 1, 9999999); if (!out.boss) return null; out.name = str(s.name, 80); { const l = int(s.level, 1, 99); if (l != null) out.level = l; } out.onFail = s.onFail === 'skip' ? 'skip' : 'stop'; break;
       default: break;
     }
@@ -150,7 +152,7 @@
       case 'gear': return 'Go to Giran and buy better gear';
       case 'raid': return `Fight the raid boss ${s.name || '#' + s.boss}${s.level ? ` (level ${s.level})` : ''}`;
       case 'wait': return `Wait for my order${s.note ? ` — ${s.note}` : ''}`;
-      case 'academy': return { join: 'Academy: go to Giran and get invited into the clan Academy', funds: 'Academy: get adena from the givers for the kit', buy: `Academy: buy the ${s.set === 'level20' ? 'level-20 kit (Devotion set, Common weapon, D spiritshots) and wear it' : 'start kit (No-Grade spiritshots)'}`, graduate: 'Academy: graduated — log out, the account makes the next academy character' }[s.act] || 'Academy step';
+      case 'academy': return { join: 'Academy: go to Giran and get invited into the clan Academy', funds: 'Academy: get adena from the givers for the kit', buy: `Academy: buy the ${s.set === 'level20' ? 'level-20 kit (Devotion set, Common weapon, D spiritshots) and wear it' : 'start kit (No-Grade spiritshots)'}`, graduate: 'Academy: graduated — log out, the account makes the next academy character', coupon: s.which === 'jewelry' ? 'Academy: Newbie Guide jewelry coupon -> D shadow jewelry (free), worn when better' : s.which === 'armor' ? 'Academy: Newbie Guide armor coupon -> shadow robe set (free, level 20-39), worn when better' : 'Academy: Newbie Guide weapon coupons -> a shadow weapon (free), worn when better' }[s.act] || 'Academy step';
       default: return '?';
     }
   }

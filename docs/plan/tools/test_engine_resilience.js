@@ -283,6 +283,11 @@ async function partG(SW) {
   // RUNSTATE (2026-10-13): an activity only resumes after a restart when the party is switched ON (default OFF = nothing resumes)
   fs.mkdirSync(path.join(overlay, 'Scripts', 'data'), { recursive: true });
   fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'run_state.json'), JSON.stringify({ v: 1, default: false, parties: { Crafter1: { on: true, at: new Date().toISOString(), by: 'test' } }, chars: {} }));
+  // 2026-11-01: the LIVE stash_rules.json made Crafter1 the collector (a town character) - this test's Crafter1 is a hunting leader: the
+  // sandbox gets the rules with the collector = the clan leader default ('')
+  { const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'stash_rules.json'), 'utf8')); live.collector = Object.assign({}, live.collector || {}, { name: '' }); fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'stash_rules.json'), JSON.stringify(live)); }
+  // ... and the live crafter_rules.json made him the clan crafter (crafter mode = never levels): not in this sandbox
+  { const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'crafter_rules.json'), 'utf8')); live.crafters = {}; fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'crafter_rules.json'), JSON.stringify(live)); }
   const runner = new Runner({ port, clock, overlay, isolate: ['Logs'], script: SW, allow: ['Crafter1', 'Spoiler1', 'Healer1'], logFile: path.join(tmp, 'runner.log'), root: ROOT.replace(/\//g, '\\'), geopath: true });
   await runner.start(); T1.setCur(runner);
   const world = new World(clock); world.sockets = new Set();

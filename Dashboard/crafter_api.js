@@ -302,7 +302,10 @@ async function handinGo(ctx, b) {
 async function cwhOrder(ctx, b) {
   if (b.confirm !== true) return { code: 409, error: 'confirm first (the page asks)', needConfirm: true };
   const crafter = String(b.crafter || ''); if (!NAME_RE.test(crafter)) return { code: 400, error: 'crafter?' };
-  const P = people(ctx), CL = P.clanLeader; if (!CL) return { code: 400, error: 'no clan leader known' };
+  // CRAFTRUN-2026-11-01: the clan warehouse worker (crafter.json crafter, cwhWithdraw not false) takes out himself - the clan leader only as before
+  const P = people(ctx); let CL = P.clanLeader;
+  try { const cj = JSON.parse(fs.readFileSync(path.join(ctx.DATA, 'crafter.json'), 'utf8').replace(/^﻿/, '')); if (cj && cj.crafter === crafter && cj.cwhWithdraw !== false) CL = crafter; } catch (e) { }
+  if (!CL) return { code: 400, error: 'no clan leader known' };
   const items = (Array.isArray(b.items) ? b.items : []).map(i => ({ id: Number(i && i.id), count: i && i.count === 'all' ? 'all' : Math.max(1, Math.round(Number(i && i.count) || 1)) })).filter(i => Number.isInteger(i.id) && i.id > 0);
   if (!items.length) return { code: 400, error: 'tick at least one item' };
   if (items.length > 40) return { code: 400, error: 'at most 40 kinds per order' };

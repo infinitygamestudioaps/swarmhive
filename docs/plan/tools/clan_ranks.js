@@ -125,7 +125,9 @@ function build() {
     const skills = (cd.skills || []).filter(s => Number(s.clanLevel) === lv);
     const ranks = {}; LOGIC.ROLES.forEach(r => { const pc = LOGIC.l2jBase(lv, r); if (pc != null) ranks[r] = { pc, rank: LOGIC.rankName(pc) }; });
     const liveText = live && live.levels[String(lv)] || null;
-    const nums = [L.sp, L.adena, L.reputation, L.members].filter(n => Number(n) > 0).map(n => Number(n).toLocaleString('en-US'));
+    // SERVERWINS-2026-10-30 (owner: "the server's actual behaviour wins"): the page is compared with the DATAPACK numbers (datapackMembers when the
+    // server was seen to accept less); L.members = what the server really accepts (serverVerified)
+    const nums = [L.sp, L.adena, L.reputation, L.datapackMembers != null ? L.datapackMembers : L.members].filter(n => Number(n) > 0).map(n => Number(n).toLocaleString('en-US'));
     const liveMatches = liveText ? nums.every(n => liveText.replace(/\s/g, '').includes(n.replace(/\s/g, ''))) && (L.items || []).every(it => liveText.toLowerCase().includes(String(it.name).toLowerCase().replace(/s$/, '').slice(0, 10))) : null;
     let itemSource = L.itemSource || null;
     if (lv === 3 && live) { const hint = live.hints.find(x => /Blood Mark/i.test(x)); if (hint) itemSource = `LIVE (village master page): ${hint}`; }
@@ -136,6 +138,7 @@ function build() {
         membersRule: Number(L.members) ? 'L2J L2Clan.levelUpClan: getMembersCount() >= N (academy + sub-units count); the LIVE page says "More than N" (exact edge not verified)' : null },
       itemSource,
       live: liveText ? { text: liveText, matchesDatapack: liveMatches } : null,
+      serverVerified: L.serverVerified || null,
       unlocks: {
         memberLimit: { main: lim.main, academy: lim.academy || 0, royalGuardsEach: lim.royalGuardsEach || 0, knightsEach: lim.knightsEach || 0, tag: 'DATAPACK' },
         features: (FEATURES[lv] || []).map(f => ({ what: f.what, source: f.src, tag: 'DATAPACK' })),

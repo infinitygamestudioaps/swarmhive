@@ -23,6 +23,7 @@ const blk = (b, e) => { const i = src.indexOf(b), j = src.indexOf(e, i + 1); if 
 const AL = require(path.join(DASH, 'academy_logic.js'));
 const PL = require(path.join(DASH, 'planlogic.js'));
 const CFG = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'academy.json'), 'utf8'));
+const CFGOFF = Object.assign({}, CFG, { end: Object.assign({}, CFG.end, { deleteGraduate: false }) });   // ACADLOOP-2026-10-31: the old stop path
 const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
 
 (async () => {
@@ -35,15 +36,28 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     check(new Set(names.map(x => x.toLowerCase())).size === 50 && !names.some(x => taken.has(x.toLowerCase())), 'random names: all different, never a taken one');
     const forced = AL.academyName({ names: { first: ['Nyx'], second: ['ara'], digitsMin: 2, digitsMax: 2 } }, seq([0, 0, 0.15, 0.25]), new Set(['nyxara12']));
     check(forced !== 'Nyxara12' && /^Nyxara\d\d$/.test(forced), `a taken name is skipped (${forced})`);
-    const plan = PL.normPlan(AL.academyPlan(CFG, 'Nyxara12'));
-    check(plan.steps.length === 10 && plan.on === true, 'the academy plan: 10 steps, used on Start');
-    check(plan.steps.map(s => s.kind + (s.act ? ':' + s.act : '')).join(' ') === 'academy:join academy:funds academy:buy level class academy:buy level level class academy:graduate', 'order: join, funds, buy, level 20, class, buy, level 25, level 40, class, graduate');
-    const lv = plan.steps.filter(s => s.kind === 'level');
-    check(lv.map(s => s.to).join(',') === '20,25,40' && lv[1].spot.kind === 'rooms' && lv[1].spot.roomId === 'antnest-1-straight-a' && lv[2].spot.roomId === 'antnest-1-straight-b', 'levels 20 / 25 / 40; Ant Nest entrance room, then the first big room');
-    check(lv[1].spot.override === true && lv[2].spot.override === true && lv[1].spot.stay === true, 'the Ant Nest steps keep the owner\'s level override + stay through planlogic');
-    check(plan.steps[2].set === 'start' && plan.steps[5].set === 'level20', 'buy sets: start / level20');
+    // ACADCOUPON-2026-10-31 (owner "Option 1"): coupons ON adds level 6 + weapon coupon (after the start kit) and the jewelry coupon (after the 1st
+    // class); the original 10-step pipeline is checked unchanged with coupons off, the coupon order in test_acad_coupon.js + below
+    // ACADROUTE-2026-11-01 (owner's route, docs/plan/academy_route_owner.md; requirement academy.md R6): quests 320 / 412 / 170 in level order,
+    // the weapon coupon at 6, the ARMOR coupon after the 1st class, Cruma Marshlands 30-35, Cruma Tower floor 1 Porta rooms 35-40
+    const planC = PL.normPlan(AL.academyPlan(CFG, 'Nyxara12'));
+    const sig = (p) => p.steps.map(s => s.id + (s.quest ? '=' + s.quest : s.to ? '=' + s.to : s.which ? '=' + s.which : '')).join(' ');
+    check(planC.steps.length === 20 && sig(planC) === 'acjoin acfunds acbuy1 aclv6=6 accpw=weapon aclv10=10 acq320=320 aclv18=18 acq412=412 aclv20=20 accls1 accpj=armor acbuy2 aclv21=21 acq170=170 aclv30=30 aclv35=35 aclv40=40 accls2 acgrad', 'ACADROUTE: the 20-step route in order (coupons on, the default): ' + sig(planC));
+    check(planC.steps.filter(s => s.kind === 'quest').every(s => s.onFail === 'skip' && s.mode === 'party'), 'ACADROUTE: every quest step is skipped when it fails (never blocks the plan), done by the character itself (its own party)');
+    const qmin = { 320: 10, 412: 18, 170: 21 }, ids = planC.steps.map(s => s.id);
+    check(planC.steps.filter(s => s.kind === 'quest').every(s => { const i = ids.indexOf(s.id), lvBefore = planC.steps.slice(0, i).filter(x => x.kind === 'level').pop(); return lvBefore && lvBefore.to >= qmin[s.quest]; }), 'ACADROUTE: each quest comes right after the level it needs (320 >= 10, 412 >= 18, 170 >= 21)');
+    const plan = PL.normPlan(AL.academyPlan(Object.assign({}, CFG, { coupons: false }), 'Nyxara12'));
+    check(plan.steps.length === 17 && plan.on === true && !plan.steps.some(s => s.act === 'coupon' || s.id === 'aclv6'), 'coupons off: 17 steps, no coupon steps, used on Start');
+    const lv = planC.steps.filter(s => s.kind === 'level'), L = (to) => lv.find(s => s.to === to);
+    check(L(35).spot.kind === 'datapack' && L(35).spot.spot === 'Cruma Tower (Lv30-35)', 'ACADROUTE: 30-35 = Cruma Marshlands (datapack "Cruma Tower (Lv30-35)")');
+    check(L(40).spot.kind === 'rooms' && L(40).spot.dungeon === 'Cruma Tower' && ['cruma-1-right-c', 'cruma-1-left-c', 'cruma-1-right-h'].every(r => L(40).spot.roomIds.includes(r)) && L(40).spot.override === true && L(40).spot.stay === true, 'ACADROUTE: 35-40 = Cruma Tower floor 1 Porta rooms (override + stay through planlogic)');
+    check(L(30).spot.mode === 'auto' && L(20).spot.mode === 'auto', 'ACADROUTE: 1-30 the leader picks a spot for the level');
+    check(planC.steps.find(s => s.id === 'acbuy1').set === 'start' && planC.steps.find(s => s.id === 'acbuy2').set === 'level20', 'buy sets: start / level20');
+    const DR = fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'dungeon_rooms.json'), 'utf8'); check(['cruma-1-right-c', 'cruma-1-left-c', 'cruma-1-right-h'].every(r => DR.includes('"' + r + '"')), 'ACADROUTE: the Cruma floor-1 rooms exist in dungeon_rooms.json');
+    const HS = fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'hunting_spots_h5.json'), 'utf8'); check(HS.includes('"Cruma Tower (Lv30-35)"'), 'ACADROUTE: the datapack spot "Cruma Tower (Lv30-35)" exists');
+    check([320, 412, 170].every(q => fs.existsSync(path.join(ROOT, 'Scripts', 'data', 'quests', q + '.json'))), 'ACADROUTE: quest data for 320 / 412 / 170 exists (the quest engine runs them)');
     check(PL.normStep({ id: 'x1', kind: 'academy', act: 'bogus' }) === null && PL.normStep({ id: 'x2', kind: 'academy', act: 'graduate' }).act === 'graduate', 'planlogic: academy acts checked');
-    check(/Academy: buy the level-20 kit/.test(PL.stepText(plan.steps[5], {})), 'planlogic: plain sentence for the academy steps');
+    check(/Academy: buy the level-20 kit/.test(PL.stepText(plan.steps.find(s => s.id === 'acbuy2'), {})), 'planlogic: plain sentence for the academy steps');
     // decisions
     const acc = { login: 'acad1', character: 'Nyxara12', academy: true, academyMage: true, config: 'Acad1.xml' };
     check(AL.academyDecide({ login: 'x', character: 'A' }, null, null, {}, CFG).act === 'none', 'decide: not an academy account -> nothing');
@@ -51,9 +65,12 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     check(AL.academyDecide(acc, null, null, {}, CFG).act === 'setup', 'decide: a new academy character -> setup');
     check(AL.academyDecide(acc, null, null, { setupFor: 'Nyxara12' }, CFG).act === 'wait', 'decide: set up, running -> wait');
     check(AL.academyDecide(acc, null, { result: 'ok', name: 'Velith345', forChar: 'Nyxara12' }, { setupFor: 'Nyxara12' }, CFG).act === 'rename', 'decide: created under another name -> rename');
-    check(AL.academyDecide(acc, null, { result: 'fail', slotsFull: true }, {}, CFG).act === 'slotsfull', 'decide: no free character slot -> slots full');
+    // ACADLOOP-2026-10-31 (owner: "do it over again ... 24/7"): with end.deleteGraduate (default ON) full slots wait + retry and there is no cap
+    // (test_academy_loop.js); the old stop is checked with the switch off
+    check(AL.academyDecide(acc, null, { result: 'fail', slotsFull: true }, {}, CFGOFF).act === 'slotsfull', 'decide: no free character slot -> slots full (deleteGraduate off)');
     check(AL.academyDecide(acc, { status: 'graduated', name: 'Nyxara12' }, null, { setupFor: 'Nyxara12', made: 1 }, CFG).act === 'next', 'decide: graduated -> the next character');
-    check(AL.academyDecide(acc, { status: 'graduated', name: 'Nyxara12' }, null, { setupFor: 'Nyxara12', made: 7 }, CFG).act === 'slotsfull', 'decide: 7 characters made -> stop');
+    check(AL.academyDecide(acc, { status: 'graduated', name: 'Nyxara12' }, null, { setupFor: 'Nyxara12', made: 7 }, CFGOFF).act === 'slotsfull', 'decide: 7 characters made -> stop (deleteGraduate off)');
+    check(AL.academyDecide(acc, { status: 'graduated', name: 'Nyxara12' }, null, { setupFor: 'Nyxara12', made: 7 }, CFG).act === 'next', 'decide: deleteGraduate on (default) -> no cap, the next character');
     check(AL.academyDecide(acc, { status: 'graduated', name: 'Nyxara12' }, null, { setupFor: 'Nyxara12' }, Object.assign({}, CFG, { end: { newCharacter: false } })).act === 'logout', 'decide: newCharacter false -> only log out');
     check(AL.academyDecide(acc, { status: 'graduated', name: 'Nyxara12' }, null, { setupFor: 'Nyxara12', stopped: 'x' }, CFG).act === 'none', 'decide: stopped on the dashboard -> nothing');
     check(AL.academyDecide(acc, { status: 'graduated', name: 'OldName' }, null, { setupFor: 'Nyxara12' }, CFG).act === 'wait', 'decide: an old graduate file of another name does not count');
@@ -78,7 +95,7 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     check(B.acadBuyNeed(sps, { 2509: 4200 }).act === 'have' && B.acadBuyNeed(sps, { 2509: 3000 }).count === 2000, 'shots: >= 80 % = enough, else top up');
     check(B.acadBuyNeed(staff, { 11732: 1 }).act === 'have' && B.acadBuyNeed(staff, {}).act === 'buy', 'weapon: an Atuba Hammer counts for the Staff of Life (alternative)');
     check(!B.acadGradDecide(39, [39, 40], 'MyClan').ok && B.acadGradDecide(40, [39, 40], '').ok, 'graduate: only after the 2nd class (Spellhowler)');
-    check(B.ACADEMY_ACTS.join() === 'join,funds,buy,graduate', 'the four academy acts');
+    check(B.ACADEMY_ACTS.join() === 'join,funds,buy,graduate,coupon', 'the academy acts (+ coupon, ACADCOUPON-2026-10-31)');
   }
 
   // ---------------------------------------------------------------------------------------------------------------- C add account
@@ -147,7 +164,7 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     let r = await AM.tick(ctx);
     check(r.acted && r.acted[0] === 'acad1', 'tick 1: the new academy account is set up');
     check(stubs.classpage.length === 1 && stubs.classpage[0].approve === true && stubs.classpage[0].confirm === true && stubs.classpage[0].plan.join() === '39,40' && stubs.classpage[0].name === 'Nyxara12', 'setup: class plan Dark Wizard > Spellhowler, APPROVED (the owner\'s pipeline order)');
-    check(stubs.partyplan.length === 1 && stubs.partyplan[0].action === 'set' && stubs.partyplan[0].party === 'Nyxara12' && stubs.partyplan[0].plan.on === true && stubs.partyplan[0].plan.steps.length === 10, 'setup: the academy party plan (10 steps, used on Start)');
+    check(stubs.partyplan.length === 1 && stubs.partyplan[0].action === 'set' && stubs.partyplan[0].party === 'Nyxara12' && stubs.partyplan[0].plan.on === true && stubs.partyplan[0].plan.steps.length === 20, 'setup: the academy party plan (20 steps: the owner\'s route with quests + coupon stops, used on Start)');
     check(stubs.runstate.length === 1 && stubs.runstate[0].party === 'Nyxara12' && stubs.runstate[0].on === true, 'setup: its run switch ON');
     const cq = JSON.parse(fs.readFileSync(path.join(DATA, 'clan_quests.json'), 'utf8'));
     check(cq.clan.inviteAllow.includes('Nyxara12') && cq.clan.inviteAllow.includes('Someone'), 'setup: on the clan invite list (the others kept)');
@@ -175,7 +192,8 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     check(a3.character === 'Takenot99' && AL.xmlSelected(fs.readFileSync(path.join(SET, 'Acad1.xml'), 'utf8')) === 'Takenot99' && calls.length === 2, 'renamed creation: swarm.config.json + XML follow the real name (close -> open)');
     r = await AM.tick(ctx);
     check(stubs.partyplan[stubs.partyplan.length - 1].party === 'Takenot99', 'renamed creation: the real name gets its setup');
-    // 4) slots full
+    // 4) slots full (deleteGraduate off = the old stop; on = wait + retry, test_academy_loop.js)
+    fs.writeFileSync(path.join(DATA, 'academy.json'), JSON.stringify(CFGOFF));
     calls.length = 0;
     fs.writeFileSync(path.join(LOGS, 'academy_create_acad1.json'), JSON.stringify({ result: 'fail', slotsFull: true, reason: 1 }));
     r = await AM.tick(ctx);

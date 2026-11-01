@@ -14,6 +14,9 @@
   try { const v = JSON.parse(localStorage.getItem('upgDraft') || '{}'); if (v.lines) S.lines = v.lines; if (Array.isArray(v.sel)) S.sel = new Set(v.sel); if (v.use) S.use = v.use; if (Array.isArray(v.jobs)) S.jobs = v.jobs; if (v.cur) S.cur = v.cur; } catch (e) { }
   const save = () => { try { localStorage.setItem('upgDraft', JSON.stringify({ lines: S.lines, sel: [...S.sel], use: S.use, jobs: S.jobs, cur: S.cur || '' })); } catch (e) { } };
   const $id = (i) => document.getElementById(i);
+  // LOADER-2026-10-29 (owner: "I did NOT know that it was loading. Please make a loader"): spinner + moving bar + the text, the seconds count up
+  const loader = (t, id, at) => `<div class="box u-load"${id ? ` id="${id}"` : ''} role="status" aria-live="polite"><span class="u-spin" aria-hidden="true"></span><span><b>Loading…</b> <span class="muted">${t}</span> <span class="muted" data-uload-t="${at || Date.now()}"></span></span><div class="u-lbar" aria-hidden="true"></div></div>`;
+  setInterval(() => { document.querySelectorAll('[data-uload-t]').forEach(e => { const s2 = Math.floor((Date.now() - Number(e.dataset.uloadT)) / 1000); e.textContent = s2 >= 2 ? `(${s2} s)` : ''; }); }, 1000);
   const h = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const kmb = (n) => { n = Number(n || 0); return n >= 1e9 ? (n / 1e9).toFixed(1) + 'bn' : n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1) + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'k' : String(n); };
   const call = async (u, body) => { if (typeof api === 'function') return api(u, body ? { method: 'POST', body: JSON.stringify(body) } : undefined);
@@ -28,7 +31,7 @@
     s.innerHTML = `<style>
       .upg .u-chips{display:flex;flex-wrap:wrap;gap:6px}.upg .u-chips button{min-height:40px}.upg button.on{outline:2px solid var(--gold,#c9a54a)}
       .upg .u-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:6px 0;border-top:1px solid rgba(255,255,255,.06)}.upg .u-row:first-child{border-top:0}
-      .upg .u-row .u-n{flex:1 1 160px;min-width:0}.upg select,.upg input{font-size:16px;min-height:40px}.upg .u-res{padding:6px 0;border-top:1px solid rgba(255,255,255,.06)}
+      .upg .u-row .u-n{flex:1 1 160px;min-width:0}.upg select,.upg input{font-size:16px;min-height:40px}.upg .u-res{padding:6px 0;border-top:1px solid rgba(255,255,255,.06)}.upg .u-load{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.upg .u-spin{width:18px;height:18px;flex:0 0 18px;border:3px solid rgba(227,194,122,.25);border-top-color:#e3c27a;border-radius:50%;animation:uSpin .8s linear infinite}.upg .u-lbar{flex:1 1 100%;height:4px;border-radius:2px;background:rgba(227,194,122,.12);overflow:hidden;position:relative}.upg .u-lbar:after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:40%;background:#e3c27a;border-radius:2px;animation:uBar 1.3s ease-in-out infinite}@keyframes uSpin{to{transform:rotate(360deg)}}@keyframes uBar{to{left:100%}}@media (prefers-reduced-motion:reduce){.upg .u-spin,.upg .u-lbar:after{animation:none}}
       .upg .u-src{display:flex;flex-direction:column;gap:6px}.upg .u-src button{text-align:left;min-height:44px}.upg .u-bad{color:var(--bad,#e66)}.upg .u-ok{color:var(--good,#6c6)}
       .upg .u-sticky{position:sticky;bottom:0;background:var(--bg,#16130f);padding:8px 0;display:flex;gap:6px;flex-wrap:wrap;z-index:2}
       .upg .u-sticky button{flex:1 1 140px;min-height:48px;font-size:16px}
@@ -40,6 +43,10 @@
       .upg .u-tl{font-size:12px;opacity:.7}.upg .u-tn{font-size:14px;line-height:1.2}.upg .u-tg{font-size:12px;opacity:.7}.upg .u-tp{font-size:12px;color:var(--good,#6c6)}
       .upg .u-cand{padding:8px 0;border-top:1px solid rgba(255,255,255,.08)}.upg .u-srcs{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
       .upg .u-srcs button{min-height:38px;font-size:13px;padding:3px 8px}.upg .u-s-shop{opacity:.9}.upg .u-s-craft{font-style:italic}
+      .upg .u-card{padding:8px 0;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:4px;min-width:0}.upg .u-card:first-of-type{border-top:0}
+      .upg .u-c1,.upg .u-c4{display:flex;gap:8px;align-items:center;min-width:0;cursor:pointer}.upg .u-c1>span,.upg .u-c4>span{min-width:0;overflow-wrap:anywhere}
+      .upg .u-c1 input,.upg .u-c4 input{min-height:auto;width:22px;height:22px;flex:0 0 22px;margin:0}.upg .u-c2{display:flex;gap:6px;align-items:center;min-width:0}
+      .upg .u-c2 select{flex:1 1 auto;min-width:0;max-width:100%}.upg .u-c3{font-size:14px;overflow-wrap:anywhere}.upg .u-c4{font-size:14px}
       .upg details.box>summary{cursor:pointer;min-height:40px;display:flex;align-items:center}
     </style><div class="whead"><h2>Upgrade gear</h2><span class="muted">several characters · several items · one trip to Giran each</span></div><div id="upBody"></div>`;
     (document.querySelector('main') || document.body).appendChild(s);
@@ -69,7 +76,7 @@
     const sel = [...S.sel];
     if (!S.pickOpen && sel.length) return `<div class="box"><h3>1. Who <span class="muted">${sel.length} chosen</span></h3>
       <div class="u-chips">${sel.map(n => `<span class="chip">${h(n)}</span>`).join('')}<button data-upick="1">Change</button></div>
-      <div class="u-row"><span class="u-n">Fill in the gear plan's pieces they do not wear yet:</span><select id="upGrade">${['D', 'C', 'B', 'A', 'S'].map(g => `<option ${(S.grade || 'C') === g ? 'selected' : ''}>${g}</option>`).join('')}</select><button data-upreset="1">Top ${h(S.grade || 'C')}-grade for their class</button></div>
+      <div class="u-row"><span class="u-n">Fill in the gear plan's pieces they do not wear yet:</span><select id="upGrade">${['auto', 'D', 'C', 'B', 'A', 'S'].map(g => `<option value="${g}" ${(S.grade || 'auto') === g ? 'selected' : ''}>${g === 'auto' ? 'their level' : g}</option>`).join('')}</select><button data-upreset="1">Top ${(S.grade || 'auto') === 'auto' ? 'grade for their level' : h(S.grade) + '-grade'} for their class</button></div>
       ${S.presetNote ? `<div class="muted" style="font-size:13px">${S.presetNote}</div>` : ''}</div>`;
     const parties = {}; S.chars.forEach(c => { (parties[c.party || c.name] = parties[c.party || c.name] || []).push(c); });
     return `<div class="box"><h3>1. Who gets upgrades <span class="muted">${sel.length} chosen</span></h3>
@@ -92,7 +99,7 @@
   }
   function dollHtml() {
     const D = S.doll; if (!S.cur) return '';
-    if (!D || D.name !== S.cur) return '<div class="box muted">loading what it wears…</div>';
+    if (!D || D.name !== S.cur) return loader('what it wears');
     if (D.error) return `<div class="box">${h(D.error)}</div>`;
     const L = S.lines[S.cur] || [];
     const tile = (s) => { const planned = L.find(l => l.slot === s.slot && (l.idx || 0) === s.idx), it = s.item, on = S.slot && S.slot.slot === s.slot && S.slot.idx === s.idx;
@@ -100,22 +107,22 @@
         <span class="u-tl">${h(s.label)}</span>${it ? `${icon(it.icon)}<span class="u-tn">${h(it.name.replace(/^Common Item - /, 'Common '))}${it.enchant ? ' <b>+' + it.enchant + '</b>' : ''}</span><span class="u-tg">${h(it.grade)}${it.sa ? ' · ' + h(it.sa) : ''}</span>` : `<span class="u-tn muted">${s.blocked ? h(s.blocked) : 'empty'}</span>`}
         ${planned ? `<span class="u-tp">→ ${h(planned.name)}${planned.enchantTo ? ' +' + planned.enchantTo : ''}</span>` : ''}</button>`; };
     return `<div class="box"><h3>What ${h(S.cur)} wears <span class="muted">tap a slot</span></h3><div class="u-doll">${D.slots.map(tile).join('')}</div>
-      <div class="u-row"><span class="u-n muted">Or fill every slot from the gear plan:</span><select id="upGrade">${['D', 'C', 'B', 'A', 'S'].map(g => `<option ${(S.grade || 'C') === g ? 'selected' : ''}>${g}</option>`).join('')}</select><button data-upreset="me">Top ${h(S.grade || 'C')} for ${h(S.cur)}</button><button data-upreset="party">… for the whole party</button></div>
+      <div class="u-row"><span class="u-n muted">Or fill every slot from the gear plan:</span><select id="upGrade">${['auto', 'D', 'C', 'B', 'A', 'S'].map(g => `<option value="${g}" ${(S.grade || 'auto') === g ? 'selected' : ''}>${g === 'auto' ? 'their level' : g}</option>`).join('')}</select><button data-upreset="me">Top ${(S.grade || 'auto') === 'auto' ? 'level grade' : h(S.grade)} for ${h(S.cur)}</button><button data-upreset="party">… for the whole party</button></div>
       ${S.presetNote ? `<div class="muted" style="font-size:13px">${S.presetNote}</div>` : ''}</div>`;
   }
   const SRCORDER = { bag: 0, wh: 1, clan: 2, char: 3, shop: 4, craft: 5 };
   function candHtml() {
     const C = S.cand; if (!S.slot || !S.cur) return '';
-    if (!C || C.loading) return '<div class="box muted" id="upCand">loading what we have for this slot…</div>';
+    if (!C || C.loading) return loader('what we have for this slot', 'upCand');
     if (C.error) return `<div class="box" id="upCand">${h(C.error)}</div>`;
     const F = S.cf = S.cf || { grade: '', have: false, other: false };
     const GR = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'], grades = [...new Set(C.items.map(i => i.grade))].sort((a, b) => GR.indexOf(a) - GR.indexOf(b));
     const list = C.items.filter(i => (!F.grade || i.grade === F.grade) && (F.other || i.typeOk) && (!F.have || i.sources.some(x => /^(bag|wh|clan|char)$/.test(x.src))));
     const w = C.worn[0];
-    const row = (i) => { const diff = w ? i.stat - w.stat : i.stat;
+    const row = (i) => { const diff = i.gain != null ? i.gain : w ? i.stat - w.stat : i.stat;   // RECFIX: gain vs the replaced piece (sealed = its variant)
       return `<div class="u-cand"><div>${icon(i.icon)} <b>${h(i.name)}</b> <span class="muted">${h(i.grade)}${i.wtype ? ' · ' + h(i.wtype.toLowerCase()) : ''}</span>
         ${i.stat ? ` <span class="${diff > 0 ? 'u-ok' : diff < 0 ? 'u-bad' : 'muted'}">${i.pa != null || i.ma != null ? `P.Atk ${i.pa || 0} / M.Atk ${i.ma || 0}` : i.pd ? `P.Def ${i.pd}` : `M.Def ${i.md}`} (${diff > 0 ? '+' : ''}${diff})</span>` : ''}
-        ${i.recommended ? '<span class="chip ok">gear plan</span>' : ''}${i.wornNow ? '<span class="chip">wears it</span>' : ''}${!i.levelOk ? '<span class="chip bad">level too low</span>' : ''}${!i.typeOk ? '<span class="chip">other type</span>' : ''}${i.common ? '<span class="chip">Common (no set bonus, no enchant)</span>' : ''}</div>
+        ${i.recommended ? '<span class="chip ok">gear plan</span>' : ''}${i.wornNow ? '<span class="chip">wears it</span>' : ''}${!i.levelOk ? '<span class="chip bad">level too low</span>' : ''}${!i.typeOk ? `<span class="chip">${h(i.why || 'other type')}</span>` : ''}${i.sealedNote ? `<span class="chip">${h(i.sealedNote)}</span>` : ''}${i.common ? '<span class="chip">Common (no set bonus, no enchant)</span>' : ''}</div>
         <div class="u-srcs">${i.sources.slice().sort((a, b) => SRCORDER[a.src] - SRCORDER[b.src]).map((s, k) => `<button data-ucand="${i.id}|${k}" class="u-s-${s.src}">${h(s.label)}</button>`).join('')}</div></div>`; };
     return `<div class="box" id="upCand"><h3>${h(S.slot.label)} for ${h(S.cur)}${w ? ` <span class="muted">now: ${h(w.name)}${w.enchant ? ' +' + w.enchant : ''}</span>` : ''}</h3>
       <div class="u-chips"><button class="${!F.grade ? 'on' : ''}" data-ucf="grade|">All grades</button>${grades.map(g => `<button class="${F.grade === g ? 'on' : ''}" data-ucf="grade|${g}">${g}</button>`).join('')}
@@ -126,44 +133,66 @@
   }
   // ---- RECOMMEND-2026-10-25 (owner: "it should show recommended items to upgrade or replace ... every warehouse, clan warehouse or inventory ...
   // also what is possible via Giran or trades, but should warn about cost for buying"): per slot the best piece we have / can buy / can craft ----
-  async function loadRec() { const n = S.cur; S.rec = { name: n, loading: true }; render();
-    try { const r = await call('/api/upgrade/recommend?name=' + encodeURIComponent(n)); if (S.cur === n) { S.rec = Object.assign({ name: n }, r); render(); } } catch (e) { S.rec = { name: n, error: e.message }; render(); } }
+  async function loadRec(setName) { const n = S.cur; S.rec = { name: n, loading: true, at: Date.now() }; render();
+    try { const r = await call('/api/upgrade/recommend?name=' + encodeURIComponent(n) + (setName ? '&set=' + encodeURIComponent(setName) : '')); if (S.cur === n) { S.rec = Object.assign({ name: n }, r); render(); } } catch (e) { S.rec = { name: n, error: e.message }; render(); } }
+  // SETFIX-2026-10-29 (owner: "C grade and up give set bonuses ... you recommend different items, no set bonus at all"): armor = ONE whole set
+  function setHtml(R) {
+    const A = R.armorSet; if (!A || A.mode === 'none' || !A.set) return '';
+    const st = { worn: '✓ wears it', have: 'we have it', craft: 'craft', buy: 'buy', missing: '✗ missing' };
+    const rows = A.set.rows.map(r => `<div class="muted" style="font-size:13px">${h(r.slot)}: ${h(r.name)} — <span class="${r.state === 'missing' ? 'u-bad' : r.state === 'worn' ? 'u-ok' : ''}">${st[r.state] || h(r.state)}</span></div>`).join('');
+    const head = A.mode === 'keep' ? `${h(S.cur)} wears the full <b>${h(A.set.name)}</b> set (${h(A.set.grade)}) — the armor stays as it is`
+      : A.mode === 'pick' ? `<b>${h(A.set.name)}</b> set (${h(A.set.grade)}): every piece of ONE set, for the set bonus${A.set.gain ? ' · ' + (A.set.gain > 0 ? '+' : '') + A.set.gain + ' P.Def in all' : ''}${A.set.buy ? ' · ' + A.set.buy + ' to buy (about ' + kmb(A.set.cost) + ' adena)' : ' · everything is owned'}`
+      : `No armor set can be completed for ${h(S.cur)} right now. Closest: <b>${h(A.set.name)}</b> (${h(A.set.grade)}). No single armor pieces are suggested, they would break the set bonus.`;
+    const alts = (A.alts || []).length ? `<div style="margin-top:4px"><span class="muted">Choose another set:</span> <select data-uset="1"><option value="">${A.mode === 'keep' ? 'keep ' : ''}${h(A.set.name)}</option>${A.alts.map(a => `<option value="${h(a.name)}">${h(a.name)} (${h(a.grade)}${a.buy ? ', ' + a.buy + ' to buy, ' + kmb(a.cost) : ', all owned'})</option>`).join('')}</select></div>` : '';
+    return `<div class="box"><h3>Armor set</h3><div style="font-size:14px">${head}</div>${rows}${alts}<div class="muted" style="font-size:12px;margin-top:4px">Jewelry has no set bonus, it is picked piece by piece.</div></div>`;
+  }
   function recHtml() {
     const R = S.rec; if (!S.cur || !R || R.name !== S.cur) return '';
-    if (R.loading) return '<div class="box muted">Looking through every bag, warehouse, the clan warehouse, Giran and our crafters…</div>';
+    if (R.loading) return loader('looking through every bag, warehouse, the clan warehouse, Giran and our crafters (takes a few seconds)', '', R.at);
     if (R.error) return `<div class="box">${h(R.error)}</div>`;
-    if (!R.slots.length) return `<div class="box"><h3>Recommended upgrades</h3><div class="muted">Nothing we have, can buy in Giran or can craft beats what ${h(S.cur)} wears for level ${R.level || '?'}. Tap a slot below to see everything anyway.</div></div>`;
+    if (!R.slots.length) return setHtml(R) + `<div class="box"><h3>Recommended upgrades</h3><div class="muted">Nothing we have, can buy in Giran or can craft beats what ${h(S.cur)} wears for level ${R.level || '?'}. Tap a slot below to see everything anyway.</div></div>`;
     const planned = (sl) => (S.lines[S.cur] || []).find(l => l.slot === sl && (l.idx || 0) === 0);
     const buyAll = R.slots.reduce((t, x) => t + (!x.have && x.buy ? x.buy.cost : 0), 0);
-    const opt = (x, k, kind) => x ? `<div class="u-row" style="border:0;padding:2px 0"><span class="u-n">${icon(x.icon)} ${h(x.name)} <span class="muted">${h(x.grade)}</span> <span class="u-ok">+${x.gain}</span>
-        ${x.recommended ? '<span class="chip ok">gear plan</span>' : ''}<br><span class="muted" style="font-size:13px">${kind === 'buy' ? '<span class="u-bad">costs ' + kmb(x.cost) + ' adena</span> · ' + h(x.src.label) : kind === 'craft' ? h(x.src.label) : x.trade ? 'trade from ' + h(x.trade) + "'s bag (free)" : h(x.src.label)}</span></span>
+    // RECFIX-2026-10-29: each option says what it replaces and what goes on (stat name + numbers; a sealed piece = its unseal variant), best gain first, never <= 0
+    const GRS = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'], sn = (x) => x.statName || 'P.Def';
+    const opt = (x, k, kind) => x && (x.gain > 0 || x.set) ? `<div class="u-row" style="border:0;padding:2px 0"><span class="u-n">${icon(x.icon)} ${h(x.name)} <span class="muted">${h(x.grade)}</span> ${x.gain > 0 ? '<span class="u-ok">+' + x.gain + '</span>' : '<span class="muted">' + x.gain + ' alone</span>'}${x.set ? ' <span class="chip ok">set: ' + h(x.set) + '</span>' : ''}
+        ${x.recommended ? '<span class="chip ok">gear plan</span>' : ''}<br><span class="muted" style="font-size:13px">${x.replaces ? 'replaces ' + h(x.replaces.name) + ' (' + sn(x) + ' ' + x.replaces.stat + ') → ' : 'on the empty slot: '}${h(x.newName || x.name)} (${sn(x)} ${x.stat})</span>
+        ${x.sealedNote ? `<br><span class="muted" style="font-size:13px">${h(x.sealedNote)}</span>` : ''}
+        <br><span class="muted" style="font-size:13px">${kind === 'buy' ? '<span class="u-bad">costs ' + kmb(x.cost) + ' adena</span> · ' + h(x.src.label) : kind === 'craft' ? h(x.src.label) : x.trade ? 'trade from ' + h(x.trade) + "'s bag (free)" : h(x.src.label)}</span></span>
         <button data-urec="${k}|${kind}">Add</button></div>` : '';
-    return `<div class="box"><h3>Recommended upgrades <span class="muted">${R.slots.length} slot(s)</span></h3>
+    const opts = (x, k) => [['have', x.have], ['buy', x.buy], ['craft', x.craft]].filter(o => o[1] && (o[1].gain > 0 || o[1].set)).sort((a, b) => b[1].gain - a[1].gain).map(o => opt(o[1], k, o[0])).join('');
+    const planTxt = (x) => { const P = x.plan, d = planned(x.slot), lowD = d && x.worn && x.worn.grade && GRS.indexOf(d.grade) < GRS.indexOf(x.worn.grade);
+      return (P ? (P.same ? ` <span class="muted">→ planned: what you wear is as good (${h(P.levelGrade)}-grade plan)</span>` : ` <span class="u-ok">→ planned: ${h(P.name)} (${h(P.grade)})</span>`) : '')
+        + (d && (!P || P.same || d.name !== P.name) ? ` <span class="${lowD ? 'u-bad' : 'muted'}">· in your order: ${h(d.name)}${d.grade ? ' (' + h(d.grade) + ')' : ''}${lowD ? ' — LOWER grade than what it wears, remove it' : ''}</span>` : ''); };
+    return setHtml(R) + `<div class="box"><h3>Recommended upgrades <span class="muted">${R.slots.length} slot(s)</span></h3>
       <div class="muted" style="font-size:13px;margin-bottom:4px">Better than what ${h(S.cur)} wears and fit for level ${R.level || '?'} — from every bag, warehouse and the clan warehouse first, then Giran and our crafters. ${buyAll ? '<span class="u-bad">Buying everything not owned: about ' + kmb(buyAll) + ' adena (' + h(S.cur) + ' has ' + kmb(R.adena) + ').</span>' : ''}</div>
-      ${R.slots.map((x, k) => { const p = planned(x.slot); return `<div class="u-res"><b>${h(x.label)}</b> <span class="muted">now: ${x.worn ? h(x.worn.name) + (x.worn.enchant ? ' +' + x.worn.enchant : '') : 'nothing'}</span>${p ? ` <span class="u-ok">→ planned: ${h(p.name)}</span>` : ''}
-        ${opt(x.have, k, 'have')}${opt(x.buy, k, 'buy')}${opt(x.craft, k, 'craft')}</div>`; }).join('')}</div>`;
+      ${R.slots.map((x, k) => `<div class="u-res"><b>${h(x.label)}</b> <span class="muted">now: ${x.worn ? h(x.worn.name) + (x.worn.enchant ? ' +' + x.worn.enchant : '') + (x.worn.grade ? ' (' + h(x.worn.grade) + ')' : '') : 'nothing'}</span>${planTxt(x)}
+        ${opts(x, k)}</div>`).join('')}</div>`;
   }
   // GEARUPCOL-2026-10-29: the collector's spare gear for this party (GET /api/upgrade/collector): tick, receiver (auto = gains most, or pick), unseal first
   async function loadCol() { const who = [...S.sel]; S.col = { loading: true }; render();
     try { S.col = await call('/api/upgrade/collector?names=' + encodeURIComponent(who.join(','))); (S.col.rows || []).forEach(r => { r.pick = false; r.un = false; }); } catch (e) { S.col = { error: e.message }; } render(); }
+  const colGain = (r) => (r.gains || []).find(x => x.name === r.to) || (r.gains || [])[0] || null;   // GEARUPCOL-2: the chosen receiver's data (variant, worn piece, stats)
   function colHtml() {
     const C = S.col; if (!S.party || !C) return '';
-    if (C.loading) return '<div class="box muted">looking at the collector\'s gear…</div>';
+    if (S.cur && (!S.rec || S.rec.name !== S.cur || S.rec.loading)) return '';   // LOADER-2026-10-29 (owner): not before the recommendations above have loaded
+    if (C.loading) return loader('the collector\'s gear');
     if (C.error || !C.collector) return `<div class="box"><h3>From the collector</h3><div class="muted">${h(C.error || C.why || 'no collector')}</div></div>`;
     const n = (C.rows || []).filter(r => r.pick && r.to).length;
     return `<div class="box" id="upCol"><h3>From the collector <span class="muted">${h(C.collector)} · ${(C.rows || []).length} piece(s) better than what someone here wears</span></h3>
-      ${(C.rows || []).map((r, k) => `<div class="u-row"><input type="checkbox" data-ucolt="${k}" ${r.pick ? 'checked' : ''} style="min-height:auto;width:22px;height:22px">
-        <span class="u-n">${icon(r.icon)} ${h(r.name)}${r.enchant ? ' <b>+' + r.enchant + '</b>' : ''} <span class="muted">${h(r.grade)} · ${r.src === 'clan' ? 'clan warehouse' : h(r.char) + "'s bag"}</span></span>
-        <select data-ucolto="${k}">${r.gains.map(g => `<option value="${h(g.name)}" ${g.name === r.to ? 'selected' : ''}>${h(g.name)} +${g.gain}</option>`).join('')}</select>
-        ${r.unseal ? `<label><input type="checkbox" data-ucolun="${k}" ${r.un ? 'checked' : ''} style="min-height:auto;width:20px;height:20px"> unseal first → ${h(r.unseal.name)} (${kmb(r.unseal.aa)} ${r.unseal.pay === 57 ? 'adena' : 'Ancient Adena'})</label>` : ''}</div>`).join('') || '<div class="muted">nothing the collector holds beats what they wear</div>'}
+      ${(C.rows || []).map((r, k) => { const g = colGain(r), u = g && g.unseal, sn = r.statName || 'P.Def', nm = u && !r.un ? r.name : (g ? g.newName : r.name), ns = u && !r.un ? r.stat : (g ? g.newStat : r.stat), gn = u && !r.un ? g.sealedGain : g.gain;   // GEARUPCOL-2-2026-10-29: one card per piece, the variant + the real upgrade for the chosen receiver
+        return `<div class="u-card"><label class="u-c1"><input type="checkbox" data-ucolt="${k}" ${r.pick ? 'checked' : ''}><span>${icon(r.icon)} <b>${h(r.name)}</b>${r.enchant ? ' <b>+' + r.enchant + '</b>' : ''} <span class="muted">${h(r.grade)} · ${r.src === 'clan' ? 'clan warehouse' : h(r.char) + "'s bag"}</span></span></label>
+        <div class="u-c2"><span class="muted">→</span> <select data-ucolto="${k}">${r.gains.map(x => `<option value="${h(x.name)}" ${x.name === r.to ? 'selected' : ''}>${h(x.name)} +${x.gain} (${x.worn ? 'replaces ' + h(x.worn.name) : 'empty slot'})${x.match ? '' : ' · other armor type'}</option>`).join('')}</select></div>
+        ${g ? `<div class="u-c3"><b>${h(g.name)}</b>: ${g.worn ? h(g.worn.name) + (g.worn.enchant ? ' +' + g.worn.enchant : '') + ` (${sn} ${g.worn.stat})` : 'empty slot'} → <b>${h(nm)}</b> (${sn} ${ns}) <span class="${gn > 0 ? 'u-ok' : 'u-bad'}">${gn > 0 ? '+' : ''}${gn}</span>${g.match ? '' : ' <span class="u-bad">(not ' + h(g.kind || 'its') + ' armor)</span>'}</div>` : ''}
+        ${u ? `<label class="u-c4"><input type="checkbox" data-ucolun="${k}" ${r.un ? 'checked' : ''}><span>unseal first → ${h(u.name)} (${kmb(u.aa)} ${u.pay === 57 ? 'adena' : 'Ancient Adena'})</span></label>${r.sealedNote ? `<div class="u-c3 muted">${h(r.sealedNote)}</div>` : ''}` : ''}</div>`; }).join('') || '<div class="muted">nothing the collector holds beats what they wear</div>'}
       <div class="u-row"><button data-ucoladd="1" ${n ? '' : 'disabled'}>Add ${n} ticked piece(s) to the order</button></div></div>`;
   }
-  function addPick(i, s, slot, idx, label) {
+  function addPick(i, s, slot, idx, label, extra) {
     if (s.src === 'craft') {   // a crafted piece: the crafter makes it and hands it over (Make several, prefilled)
       S.mk = { doer: s.crafter, q: '', item: { id: i.id, name: i.name, icon: i.icon, src: 'craft', recipe: s.recipe }, count: 1, to: 0, give: true, giveTo: [S.cur], plan: null, found: null };
       S.msg = `${i.name}: ${s.crafter} crafts it and hands it to ${S.cur} — check it in "Make several" below.`; render(); const el = $id('upMake'); if (el) el.scrollIntoView({ behavior: 'smooth' }); return;
     }
-    const line = { id: i.id, name: i.name, icon: i.icon, grade: i.grade, slot, idx, src: s.src, enchant: s.enchant || 0, objId: s.objId || 0, char: s.char || '', offer: s.offer || null, enchantTo: 0, saId: 0 };
+    const line = { id: i.id, name: i.name, icon: i.icon, grade: i.grade, slot, idx, src: s.src, enchant: s.enchant || 0, objId: s.objId || 0, char: s.char || '', offer: s.offer || null, enchantTo: 0, saId: 0 }; if (extra) Object.assign(line, extra);   // RECFIX: e.g. the unseal variant
     const L = S.lines[S.cur] = (S.lines[S.cur] || []).filter(l => !(l.slot === line.slot && (l.idx || 0) === line.idx));
     L.push(line); S.plan = null; S.slot = null; S.cand = null; S.msg = label ? label + ' added to the order (3).' : ''; save(); render();
   }
@@ -243,7 +272,7 @@
   // ---- augment picker (AUGMENT-2026-10-25: "let me select the life stone augmentation I want to aim for") ----
   const JEWEL = /earring|ring|necklace|neck/i;
   function augHtml(n, L) {
-    const A = S.aug; if (!A.stones) return '<div class="box muted">loading life stones…</div>';
+    const A = S.aug; if (!A.stones) return loader('life stones');
     const jewel = JEWEL.test(L.name), list = A.stones.filter(s => (s.kind === 'accessory') === jewel);
     const q = (A.q || '').toLowerCase(), opts = (A.opts || []).filter(o => !q || o.text.toLowerCase().includes(q)).slice(0, 80);
     return `<div class="box" style="margin:6px 0"><b>Augment ${h(L.name)}</b>
@@ -293,7 +322,7 @@
   function mkTypeOf(i) { return i.kind === 'weapon' ? (i.wtype || 'ETC') : i.kind === 'jewel' ? i.slot : (i.slot === 'chest' || i.slot === 'legs' || i.slot === 'fullarmor' ? (i.wtype || i.slot) + '' : i.slot); }
   function mkPickHtml() {
     const M = S.mk, C = S.cat;
-    if (!C) { mkCatalog(); return '<div class="muted">loading everything we can buy or craft…</div>'; }
+    if (!C) { mkCatalog(); return loader('everything we can buy or craft'); }
     if (C.error) return `<div class="u-bad">${h(C.error)}</div>`;
     const P = M.pk = M.pk || { kind: 'weapon', grade: '', type: '', src: '' };
     const inKind = C.items.filter(i => i.kind === P.kind);
@@ -359,7 +388,7 @@
     window.scrollTo(0, sy);
     if (S.focusQ) { const i = $id('upQ'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } S.focusQ = false; }
   }
-  function body() { return { orders: Object.keys(S.lines).filter(n => (S.lines[n] || []).length).map(n => ({ name: n, lines: S.lines[n].map(L => ({ item: { src: L.src, id: L.id, objId: L.objId || 0, enchant: L.enchant || 0, char: L.char || '', offer: L.offer || null }, enchantTo: Number(L.enchantTo) || 0, saId: Number(L.saId) || 0, augment: L.augment ? { stone: L.augment.stone, wanted: L.augment.wanted, max: L.augment.max } : null, unseal: !!L.unseal })) })), use: S.use, overSafeOk: S.overSafeOk, giveBack: !!S.giveBack }; }
+  function body() { return { orders: Object.keys(S.lines).filter(n => (S.lines[n] || []).length).map(n => ({ name: n, lines: S.lines[n].map(L => ({ item: { src: L.src, id: L.id, objId: L.objId || 0, enchant: L.enchant || 0, char: L.char || '', offer: L.offer || null }, enchantTo: Number(L.enchantTo) || 0, saId: Number(L.saId) || 0, augment: L.augment ? { stone: L.augment.stone, wanted: L.augment.wanted, max: L.augment.max } : null, unseal: L.unseal ? (L.unsealId ? { id: Number(L.unsealId) } : true) : false })) })), use: S.use, overSafeOk: S.overSafeOk, giveBack: !!S.giveBack }; }
   async function check() {
     S.busy = true; render();
     try { S.plan = await call('/api/upgrade/plan', body()); if (S.plan && S.plan.error) { S.msg = S.plan.error; S.plan = null; } else { S.msg = '';
@@ -394,7 +423,7 @@
   }
   // GEARUPCOL-2026-10-29: the gear plan's pieces (+ PARTYSPARE teammates' spare jewelry) for me / the whole party -> the draft order only
   async function presetFill(mode) {
-      const g = ($id('upGrade') || {}).value || S.grade || 'C'; S.grade = g;
+      const g = ($id('upGrade') || {}).value || S.grade || 'auto'; S.grade = g;   // RECFIX-2026-10-29: default = each character's level grade (was C for everybody)
       const me = S.chars.find(c => c.name === S.cur) || {}, who = mode === 'party' ? S.chars.filter(c => (c.party || c.name) === (me.party || S.cur)).map(c => c.name) : [S.cur];
       const r = await call(`/api/upgrade/preset?grade=${g}&names=${encodeURIComponent(who.join(','))}`);
       if (r.error) { S.msg = r.error; render(); return; }
@@ -413,7 +442,8 @@
     const t = e.target.closest('button'); if (!t) return; const d = t.dataset;
     if (d.upreset) { presetFill(d.upreset); return; }
     if (d.ucoladd) { (S.col.rows || []).filter(r => r.pick && r.to).forEach(r => { const L = S.lines[r.to] = S.lines[r.to] || [], idx = /^(earring|ring)$/.test(r.slot) ? Math.min(1, L.filter(l => l.slot === r.slot && l.fromCol).length) : 0;
-        const line = { id: r.id, name: r.unseal && r.un ? r.unseal.name : r.name, icon: r.icon, grade: r.grade, slot: r.slot, idx, src: r.src, enchant: r.enchant, objId: r.objId, char: r.char, offer: null, enchantTo: 0, saId: 0, unseal: !!(r.unseal && r.un), fromCol: true };
+        const g = colGain(r), u = (g && g.unseal) || r.unseal, un = !!(u && r.un);   // GEARUPCOL-2: the unseal variant of THIS receiver
+        const line = { id: r.id, name: un ? u.name : r.name, icon: r.icon, grade: r.grade, slot: r.slot, idx, src: r.src, enchant: r.enchant, objId: r.objId, char: r.char, offer: null, enchantTo: 0, saId: 0, unseal: un, unsealId: un ? u.id : 0, fromCol: true };
         const i = L.findIndex(l => l.slot === r.slot && (l.idx || 0) === idx); if (i >= 0) L.splice(i, 1, line); else L.push(line); });
       S.col.rows = S.col.rows.filter(r => !(r.pick && r.to)); S.giveBack = true; S.plan = null; S.msg = 'Added. "Give the replaced pieces back" is ticked — Check the plan, then Order it.'; save(); render(); return; }   // GEARUPCOL-2026-10-29
     if (d.umkk) { S.mk.pk.kind = d.umkk; S.mk.pk.grade = ''; S.mk.pk.type = ''; render(); return; }   // MAKEPICK
@@ -452,16 +482,17 @@
     if (d.ucheck) { check(); return; }
     if (d.ustart) { startAll(); return; }
     if (d.usend) { const [id, mode] = d.usend.split('|'); sendJob(id, mode); return; }   // UPGQUEUE
-    if (d.urec) { const [k, kind] = d.urec.split('|'), x = S.rec && S.rec.slots[Number(k)], o = x && x[kind]; if (o) addPick({ id: o.id, name: o.name, icon: o.icon, grade: o.grade }, o.src, x.slot, 0, o.name); return; }   // RECOMMEND
+    if (d.urec) { const [k, kind] = d.urec.split('|'), x = S.rec && S.rec.slots[Number(k)], o = x && x[kind]; if (o) addPick({ id: o.id, name: o.name, icon: o.icon, grade: o.grade }, o.src, x.slot, 0, o.name, o.unseal ? { unseal: true, unsealId: o.unseal.id, name: o.unseal.name } : null); return; }   // RECOMMEND; RECFIX-2026-10-29: a sealed pick is unsealed to the character's variant first
     if (d.uclear) { S.jobs = S.jobs.filter(j => !/^(done|failed)$/.test(j.state)); save(); render(); }
   }
   function onChange(e) {
     const t = e.target, d = t.dataset;
+    if (d.uset) { loadRec(t.value); return; }   // SETFIX: the owner picks another armor set
     if (d.uench) { const [n, i] = d.uench.split('|'); S.lines[n][Number(i)].enchantTo = Number(t.value); S.plan = null; save(); render(); return; }
     if (d.usa) { const [n, i] = d.usa.split('|'); S.lines[n][Number(i)].saId = Number(t.value); S.plan = null; save(); render(); return; }
     if (d.ucolt) { S.col.rows[Number(d.ucolt)].pick = t.checked; render(); return; }   // GEARUPCOL-2026-10-29
-    if (d.ucolun) { S.col.rows[Number(d.ucolun)].un = t.checked; return; }
-    if (d.ucolto) { S.col.rows[Number(d.ucolto)].to = t.value; return; }
+    if (d.ucolun) { S.col.rows[Number(d.ucolun)].un = t.checked; render(); return; }
+    if (d.ucolto) { S.col.rows[Number(d.ucolto)].to = t.value; render(); return; }   // GEARUPCOL-2: the variant + upgrade text follow the receiver
     if (t.id === 'upBack') { S.giveBack = t.checked; render(); return; }
     if (t.id === 'upSafe') { S.overSafeOk = t.checked; }
     if (d.umkdoer) { S.mk.doer = t.value; S.mk.found = null; S.mk.item = null; S.mk.plan = null; render(); return; }

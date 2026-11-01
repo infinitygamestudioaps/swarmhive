@@ -352,7 +352,11 @@ function build(ctx, hours) {
     dRows.push({ name: n, at: d.at, approx: !!d.approx, level: levelAt(n, d.at) ?? (states.find(c => c.name === n) || {}).level ?? null, x: P.x ?? null, y: P.y ?? null, z: P.z ?? null,
       task: rv.task || (d.src.find(x => x.task) || {}).task || '', killer: killerOf(n, d), resBy: rv.by || '', revivedAt: rv.at || null, town: !!rv.town, how: [...new Set(d.src.map(x => x.kind).concat(d.rev ? ['revive'] : []))] }); }
   R.det.set(hours, { deaths: dRows, loot: { items: lootItems, who: lootWho }, cost });
-  return { ok: true, at: now, hours, recordingSince: firstAt, total: agg(chars), parties: P, chars, soon, ups };
+  // BAGWORTH-2026-10-29 (owner: "it still says the wrong number in total adena worth in bags, you have still calculated the worn gear"): the tile is the COINS;
+  // next to it the worth of what lies IN the bags (bagOf: worn gear left out, shop sell price) and what of it can be sold
+  const total = agg(chars); total.bagItems = 0; total.bagSell = 0; total.bagChars = 0;
+  for (const c of chars) { let g = null; try { g = BAGNAME.test(c.name) ? bagOf(ctx, c.name) : null; } catch (e) { } if (g) { total.bagItems += g.items; total.bagSell += g.sellable; total.bagChars++; } }
+  return { ok: true, at: now, hours, recordingSince: firstAt, total, parties: P, chars, soon, ups };
 }
 
 async function handle(req, res, url, ctx) {

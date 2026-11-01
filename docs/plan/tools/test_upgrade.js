@@ -30,7 +30,7 @@ const t = (ok, what, info) => { console.log((ok ? 'ok   ' : 'FAIL ') + what + (!
   // ---- page + API wiring ----
   t(/\/api\/upgrade\/plan/.test(PAGE) && /\/api\/upgrade\/start/.test(PAGE) && /uiConfirm/.test(PAGE) && !/\bconfirm\(|alert\(|prompt\(/.test(PAGE.replace(/uiConfirm\(/g, '')), 'B1 the page plans, asks with the shared dialog, never a browser confirm');
   t(/the replaced pieces stay in this character's bag/.test(PAGE), 'B2 the page says the replaced pieces stay in the bag');
-  t(/data-ucoladd/.test(PAGE) && /\/api\/upgrade\/collector/.test(PAGE) && /id="upBack"/.test(PAGE) && /giveBack: !!S\.giveBack/.test(PAGE) && /unseal: !!L\.unseal/.test(PAGE), 'B4 GEARUPCOL From the collector: tick, receiver, unseal first, give back');
+  t(/data-ucoladd/.test(PAGE) && /\/api\/upgrade\/collector/.test(PAGE) && /id="upBack"/.test(PAGE) && /giveBack: !!S\.giveBack/.test(PAGE) && /unseal: L\.unseal \? \(L\.unsealId \? \{ id: Number\(L\.unsealId\) \}/.test(PAGE), 'B4 GEARUPCOL From the collector: tick, receiver, unseal first, give back');
   t(/UpgradePage\.partyButton\(leader\)/.test(fs.readFileSync(path.join(ROOT, 'Dashboard', 'index.html'), 'utf8')) && /#\/upgrade\/party:/.test(PAGE) && !/presetFill\('party'\)[^\n]*\/api\/upgrade\/start/.test(PAGE), 'B5 the party card opens #/upgrade/party:<leader>; it only fills the draft');
   t(/data-uuse=/.test(PAGE) && /use\.wh && Number\(o\.wh\)/.test(API), 'B3 materials only from the sources the owner ticked');
   // ---- server (live data, mocked orders) ----
@@ -137,9 +137,85 @@ const t = (ok, what, info) => { console.log((ok ? 'ok   ' : 'FAIL ') + what + (!
     const bad = await U.slotCands(ctx, rich[0].name, 'tail'); t(bad.code === 400, 'F5 an unknown slot is refused');
     // RECOMMEND-2026-10-25: per slot only pieces that beat what is worn and fit level + type; buy / craft only when better than what we have
     const R = await U.recommend(ctx, rich[0].name);
-    t(R.ok && Array.isArray(R.slots) && R.slots.every(s => (s.have || s.buy || s.craft) && [s.have, s.buy, s.craft].filter(Boolean).every(x => x.gain > 0)), 'H1 recommendations only beat what is worn', R.slots && R.slots.slice(0, 3));
+    t(R.ok && Array.isArray(R.slots) && R.slots.every(s => (s.have || s.buy || s.craft) && [s.have, s.buy, s.craft].filter(Boolean).every(x => x.gain > 0 || x.set)), 'H1 recommendations only beat what is worn (SETFIX: a set piece is judged with its whole set)', R.slots && R.slots.slice(0, 3));
     t(R.slots.every(s => !s.buy || (s.buy.src.src === 'shop' && s.buy.cost > 0)) && R.slots.every(s => !s.craft || (s.craft.src.src === 'craft' && s.craft.src.can)), 'H2 buy = a Giran shop with its price; craft only with the materials there');
     t(R.slots.every(s => !s.have || !s.buy || s.buy.stat > s.have.stat), 'H3 buying is only suggested when it beats what we have');
+    // SETFIX-2026-10-29 (owner: "you recommend different items, that means you don't get any set bonus at all" / "still a 2h sword to a tank")
+    const ARM = /^(chest|legs|head|gloves|feet)$/;
+    for (const c of rich.slice(0, 6)) {
+      const R2 = await U.recommend(ctx, c.name), arm = R2.slots.filter(s => ARM.test(s.slot)), sets = new Set(arm.map(s => s.set));
+      t(R2.armorSet && arm.every(s => s.set) && sets.size <= 1 && (!arm.length || R2.armorSet.mode === 'pick'), `L1 ${c.name}: armor only as ONE whole set (${R2.armorSet && R2.armorSet.mode} ${R2.armorSet && R2.armorSet.set ? R2.armorSet.set.name : ''})`, arm.map(s => s.slot + ':' + s.set));
+      const wp = R2.slots.find(s => s.slot === 'weapon'), CI = await A.charInfo(ctx, c.name, false);
+      const shield = (CI.bag || []).some(r => r.eq && r.slot === 'shield'), two = [wp && wp.have, wp && wp.buy, wp && wp.craft].filter(Boolean).some(x => A.facts(ctx, x.id).two);
+      t(!(shield && two), `L2 ${c.name}: no two-handed weapon next to a shield`);
+    }
+    t(/SETFIX[^\n]*\n[^\n]*const ce = all\.find[^\n]*kit = charKit\(/.test(API) && /!gearWhy\(m\.kit, /.test(API), 'L3 the collector list checks each member\'s kit (no 2h next to a shield / tank, the class weapon line)');
+    t(/const loader = \(t, id, at\)/.test(PAGE) && /class="u-spin"/.test(PAGE) && /if \(R\.loading\) return loader\(/.test(PAGE) && /S\.rec\.loading\)\) return '';   \/\/ LOADER/.test(PAGE), 'L5 LOADER: a spinner while loading; the collector box waits for the recommendations');
+    t(/function setHtml\(R\)/.test(PAGE) && /data-uset/.test(PAGE) && /No single armor pieces are suggested/.test(PAGE), 'L4 page: the Armor set box, another set to choose, no single pieces when no set can be completed');
+  }
+  // ---- GEARUPCOL-2-2026-10-29 (owner: "gloves, boots that get unsealed can both be light, heavy OR robe — you just list everything is robe?"): variants per receiver ----
+  { const U2 = require(path.join(ROOT, 'Dashboard', 'upgrade_api.js')), os = require('os'), T = fs.mkdtempSync(path.join(os.tmpdir(), 'gearupcol2_'));
+    try {
+      ['Scripts/data', 'Logs'].forEach(d => fs.mkdirSync(path.join(T, d), { recursive: true }));
+      fs.copyFileSync(path.join(ROOT, 'Scripts', 'data', 'unseal_h5.json'), path.join(T, 'Scripts', 'data', 'unseal_h5.json'));
+      const names = ['ColX', 'HeavyGuy', 'RobeGuy', 'LightGuy'], at = new Date().toISOString(), W = (f, o) => fs.writeFileSync(path.join(T, f), JSON.stringify(o));
+      W('swarm.config.json', { accounts: names.map(n => ({ character: n, party: 'HeavyGuy' })) });
+      W('Scripts/data/stash_rules.json', { collector: { on: true, name: 'ColX' } });
+      const it = (id, objId, eq) => ({ id, objId, count: 1, eq: !!eq, q: false });
+      W('Logs/bag_ColX.json', { at, name: 'ColX', items: [it(5290, 1), it(5767, 2), it(388, 3)] });   // Sealed DC Gloves, DC Gloves - Robe, DC Gaiters (heavy legs)
+      W('Logs/bag_HeavyGuy.json', { at, name: 'HeavyGuy', items: [it(365, 11, 1), it(49, 12, 1)] });   // DC Breastplate (no legs) + Gloves
+      W('Logs/bag_RobeGuy.json', { at, name: 'RobeGuy', items: [it(2407, 21, 1), it(49, 22, 1)] });   // DC Robe (full body) + Gloves
+      W('Logs/bag_LightGuy.json', { at, name: 'LightGuy', items: [it(2385, 31, 1), it(2454, 32, 1)] });   // DC Leather Armor + Karmian Gloves
+      const c2 = { DIR: path.join(ROOT, 'Dashboard'), DATA: path.join(T, 'Scripts', 'data'), LOGS: path.join(T, 'Logs'), ROOT: T, readStates: () => names.map(n => ({ name: n, level: 70 })) };
+      const O = U2.unsealOptions(c2, 5290);
+      t(O.length === 3 && O.map(o => o.kind).join() === 'heavy,light,robe' && new Set(O.map(o => o.entry)).size === 3, 'J1 5290 Sealed Dark Crystal Gloves has 3 unseal targets (heavy / light / robe, own multisell entries)', O);
+      t(U2.unsealRow(c2, 5290, 'heavy').id === 5765 && U2.unsealRow(c2, 5290, 5766).id === 5766 && U2.unsealRow(c2, 5290, 5293) === null && U2.unsealRow(c2, 5290).id === 5767, 'J2 unsealRow: wanted kind / variant id (validated) / one-target default');
+      const CS = U2.collectorStock(c2, 'HeavyGuy,RobeGuy,LightGuy'), sg = CS.rows.find(r => r.id === 5290), rb = CS.rows.find(r => r.id === 5767), gt = CS.rows.find(r => r.id === 388);
+      const gH = sg && sg.gains.find(g => g.name === 'HeavyGuy'), gR = sg && sg.gains.find(g => g.name === 'RobeGuy'), gL = sg && sg.gains.find(g => g.name === 'LightGuy');
+      t(gH && gH.unseal.id === 5765 && /Heavy/.test(gH.newName) && gR && gR.unseal.id === 5767 && /Robe/.test(gR.newName) && gL && gL.unseal.id === 5766, 'J3 the sealed gloves: Heavy variant for the heavy wearer, Robe for the robe, Light for the light one', sg && sg.gains);
+      t(gH && gH.worn && gH.worn.name === 'Gloves' && gH.worn.stat === 13 && gH.newStat === 46 && gH.gain === 33 && sg.statName === 'P.Def' && /sealed/.test(sg.sealedNote), 'J4 a row carries worn name + stat, the new piece name + stat, the gain, the sealed note', gH);
+      t(sg && sg.unseal && sg.unseal.id === (sg.gains.find(g => g.name === sg.to) || {}).unseal.id && !('un' in sg) && !sg.pick, 'J5 the row unseal = the chosen receiver\'s variant; unseal is never on by default (the page starts it OFF)', sg);
+      t(rb && rb.gains[0].name === 'RobeGuy' && rb.gains[0].match && rb.gains.filter(g => !g.match).every(g => g.name !== 'RobeGuy'), 'J6 a stocked "- Robe" piece ranks the robe wearer first; other kinds only after it, flagged', rb && rb.gains);
+      t(gt && gt.gains.every(g => g.name === 'HeavyGuy'), 'J7 heavy legs never go to a robe / light wearer (nor next to a full-body robe)', gt && gt.gains);
+    } finally { try { fs.rmSync(T, { recursive: true, force: true }); } catch (e) { } }
+    t(/data-ucolto[^\n]*replaces /.test(PAGE) && /unseal first → \$\{h\(u\.name\)\}/.test(PAGE) && /ucolto[^\n]*render\(\)/.test(PAGE) && /\/api\/upgrade\/collector[^\n]*r\.pick = false; r\.un = false/.test(PAGE), 'J8 page: receiver options "+gain (replaces …)", unseal label = the receiver\'s variant, receiver change re-renders, unseal OFF by default');
+    t(/class="u-c1"><input type="checkbox" data-ucolt/.test(PAGE) && /class="u-c4"><input type="checkbox" data-ucolun/.test(PAGE) && /unsealId: un \? u\.id/.test(PAGE), 'J9 page: tick + unseal tick inside clickable labels (no orphan checkbox); the line carries the variant id');
+    t(/unsealRow\(ctx, Number\(\(L\.item \|\| \{\}\)\.id\), uw \|\| undefined\)/.test(API) && /that unseal choice does not fit this piece/.test(API), 'J10 plan/start use the variant the page sent, checked against unsealOptions');
+    t(/ijBuyAt\(\{ npc: 'Pushkin'[^\n]*num\(l\.unseal\.id\)/.test(SW) && /x\.products\.some\(p => p\.id === num\(id\)\)/.test(SW), 'J11 the bot picks Pushkin\'s multisell entry by the variant\'s item id');
+  }
+  // ---- RECFIX-2026-10-29 (owner: "The recommended upgrades are complete insane"): a Tank1-like fixture (Shillien Knight 33, shield, heavy, lvl 75) ----
+  { const U3 = require(path.join(ROOT, 'Dashboard', 'upgrade_api.js')), os = require('os'), T = fs.mkdtempSync(path.join(os.tmpdir(), 'recfix_'));
+    try {
+      ['Scripts/data/gear_rec', 'Logs'].forEach(d => fs.mkdirSync(path.join(T, d), { recursive: true }));
+      ['unseal_h5.json', 'gear_doctrine.json', path.join('gear_rec', '33.json')].forEach(f => fs.copyFileSync(path.join(ROOT, 'Scripts', 'data', f), path.join(T, 'Scripts', 'data', f)));
+      const W = (f, o) => fs.writeFileSync(path.join(T, f), JSON.stringify(o)), at = new Date().toISOString(), it = (id, objId, eq) => ({ id, objId, count: 1, eq: !!eq, q: false });
+      W('swarm.config.json', { accounts: [{ character: 'ShadeFix', party: 'ShadeFix' }] });
+      // worn: Sirra's Blade, DC Shield, DC Helmet, Doom Plate Armor (full), Doom Gloves / Boots - Heavy; bag: Dragon Slayer + Sword of Ipos (2h), Sealed Tallum Plate,
+      // Sealed DC Gloves (3 variants), Sealed Gauntlets of Nightmare, DC Gloves - Robe, Drake Leather Gloves, DC Leather Armor (light chest), Sealed Boots of Nightmare
+      W('Logs/bag_ShadeFix.json', { at, name: 'ShadeFix', items: [it(8678, 1, 1), it(641, 2, 1), it(512, 3, 1), it(2381, 4, 1), it(5722, 5, 1), it(5738, 6, 1),
+        it(81, 11), it(8679, 12), it(5293, 13), it(5290, 14), it(5313, 15), it(5767, 16), it(2461, 17), it(2385, 18), it(5314, 19)] });
+      W('Logs/bag_ShadeLow.json', { at, name: 'ShadeLow', items: [it(8678, 1, 1), it(512, 3, 1), it(2381, 4, 1), it(5722, 5, 1), it(5738, 6, 1)] });
+      const c3 = { DIR: path.join(ROOT, 'Dashboard'), DATA: path.join(T, 'Scripts', 'data'), LOGS: path.join(T, 'Logs'), ROOT: T, readJson: ctx.readJson,
+        readStates: () => [{ name: 'ShadeFix', level: 75, classId: 33, cls: 'Shillien Knight', ageSec: 999 }] };
+      const cand = {}; for (const s of ['weapon', 'head', 'chest', 'gloves', 'feet']) cand[s] = await U3.slotCands(c3, 'ShadeFix', s);
+      const ok2h = (cand.weapon.items || []).filter(i => i.typeOk && [81, 8679].includes(i.id));
+      t(cand.weapon.ok && cand.weapon.shield && !ok2h.length && cand.weapon.items.filter(i => [81, 8679].includes(i.id)).every(i => /two-handed/.test(i.why)), 'K1 a shield user gets no 2h weapon candidate (Dragon Slayer / Sword of Ipos: "two-handed")', cand.weapon.items && cand.weapon.items.map(i => [i.name, i.typeOk, i.why]));
+      t(U3.levelGrade(75) === 'A' && U3.levelGrade(76) === 'S' && U3.levelGrade(61) === 'A' && U3.levelGrade(60) === 'B', 'K2 level grade: 61-75 A, 76+ S, 60 B');
+      const GR = ['NONE', 'D', 'C', 'B', 'A', 'S', 'S80', 'S84'], plans = ['weapon', 'head', 'chest', 'gloves', 'feet'].map(s => [s, cand[s].plan, cand[s].worn[0]]);
+      t(plans.every(([, P, w]) => P && (P.same || GR.indexOf(P.grade) >= GR.indexOf(w.grade))) && cand.weapon.plan.same && cand.head.plan.same && cand.chest.plan.grade === 'A' && cand.gloves.plan.grade === 'A', 'K3 planned = the A plan (lvl 75), never below the worn grade; Sirra / DC Helmet = "as good"', plans);
+      const gl = cand.gloves.items, ft = cand.feet.items, sdc = gl.find(i => i.id === 5290), snm = gl.find(i => i.id === 5313), sbn = ft.find(i => i.id === 5314);
+      t(gl.filter(i => i.typeOk).every(i => !/- (Light Armor|Robe)/.test(i.newName)) && !gl.find(i => i.id === 5767).typeOk && ft.filter(i => i.typeOk).every(i => !/- (Light Armor|Robe)/.test(i.newName)), 'K4 gloves / boots candidates: heavy (or kindless) only, a "- Robe" piece is "other type"', gl.map(i => [i.name, i.newName, i.typeOk]));
+      t(sdc && sdc.unseal && /Heavy/.test(sdc.unseal.name) && /Heavy/.test(sdc.newName) && /unseal → .*Heavy/.test(sdc.sealedNote) && snm && /Heavy/.test(snm.unseal.name) && sbn && /Heavy/.test(sbn.unseal.name), 'K5 sealed pieces with variants unseal to the HEAVY one, said in the note', [sdc, snm, sbn].map(i => i && [i.unseal, i.sealedNote]));
+      t(sdc && sdc.replaces && sdc.replaces.name === 'Doom Gloves - Heavy Armor' && sdc.replaces.stat === 44 && sdc.gain === sdc.stat - 44 && sdc.statName === 'P.Def', 'K6 a candidate says what it replaces (name + stat) and gains on the variant', sdc);
+      t(!cand.chest.items.find(i => i.id === 2385).typeOk, 'K7 a light chest is not offered to a heavy wearer');
+      const R3 = await U3.recommend(c3, 'ShadeFix'), all = [].concat(...R3.slots.map(s => [s.have, s.buy, s.craft].filter(Boolean)));
+      t(R3.ok && all.every(x => x.gain > 0 && x.replaces && x.newName) && !all.some(x => [81, 8679, 5767, 2385].includes(x.id)) && R3.slots.every(s => s.plan && (s.plan.same || GR.indexOf(s.plan.grade) >= GR.indexOf(s.worn.grade))), 'K8 recommend: gain > 0 with "replaces", no 2h / robe / light piece, plan >= worn grade', R3.slots.map(s => [s.slot, s.plan, s.have && s.have.name]));
+      W('swarm.config.json', { accounts: [{ character: 'ShadeLow', party: 'ShadeLow' }] });
+      const P4 = U3.preset(Object.assign({}, c3, { readStates: () => [{ name: 'ShadeLow', level: 75, classId: 33 }] }), 'ShadeLow', 'C'), P5 = U3.preset(Object.assign({}, c3, { readStates: () => [{ name: 'ShadeLow', level: 75, classId: 33 }] }), 'ShadeLow', 'auto');
+      const l4 = (P4.chars[0] || {}).lines || [], l5 = (P5.chars[0] || {}).lines || [];
+      t(P4.ok && !(P4.chars[0] || {}).error && !l4.some(l => /^(weapon|head|chest|legs|gloves|feet)$/.test(l.slot)) && (P5.chars[0] || {}).grade === 'A' && !l5.some(l => GR.indexOf(l.grade) < GR.indexOf('A') && /^(weapon|head|chest|legs|gloves|feet)$/.test(l.slot)), 'K9 preset: a C fill never replaces B/A gear; "auto" = the level grade (A at 75)', { c: l4.map(l => l.name), auto: l5.map(l => l.name), notes: P5.chars[0] });
+    } finally { try { fs.rmSync(T, { recursive: true, force: true }); } catch (e) { } }
+    t(/planned: what you wear is as good/.test(PAGE) && /replaces ' \+ h\(x\.replaces\.name\)/.test(PAGE) && /unsealId: o\.unseal\.id/.test(PAGE) && /\['auto', 'D', 'C', 'B', 'A', 'S'\]/.test(PAGE), 'K10 page: "as good" / "replaces … →" text, a sealed Add carries the variant, grade default = their level');
   }
   console.log(fails ? `\n${fails} FAILED` : '\nall checks passed');
   process.exit(fails ? 1 : 0);

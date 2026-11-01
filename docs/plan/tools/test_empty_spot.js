@@ -37,6 +37,7 @@ check(/emptyZoneMark\(sp/.test(chunk) && /autoLvl\.bad\[spotKeyOf\(sp\)\] = now\
 check(/teamKillTimes/.test(chunk) && /mobSeenAt/.test(chunk), 'a team kill or a monster seen restarts the clock');
 check(/if \(t\) \{ autoLvl\.mobSeenAt = now\(\);/.test(src), 'huntTarget finding a monster stamps mobSeenAt');
 check(loopAt > 0 && loopAt < src.indexOf('Videre til næste område'), 'it runs before the 10-min window check');
+check(/if \(sp && mark && atPickedSpot\) \{/.test(chunk) && !/atPickedSpot && !htHolds\('move on'\)/.test(chunk), 'EMPTYHT-2026-10-29: the 12 h hunting session never holds an EMPTY spot (owner: "Leave empty spots")');
 
 console.log(fails ? `\n${fails} check(s) FAILED` : '\nall checks passed');
 process.exit(fails ? 1 : 0);

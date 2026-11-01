@@ -136,6 +136,7 @@
           <textarea id="aaBulk" rows="6" spellcheck="false" autocapitalize="off" placeholder="login1;password1;Charname1;;tank&#10;login2;password2;Charname2;Charname1;healer"></textarea></label>
         <div class="muted">Party empty = the character leads a new party (others in the list may name it). Role empty = auto. Lines starting with # are skipped.
           A password with <code>;</code> in it works when the line has all 5 fields.</div>
+        <label>Same password for every line (optional) <input type="password" id="aaBPw" autocomplete="new-password" spellcheck="false" autocapitalize="off" placeholder="then a line is just the login, or a range like mylogin82-20"></label>
         <label class="chk"><input type="checkbox" id="aaBAcad"${I.academy && I.academy.on !== false ? '' : ' disabled'}> Academy mages (automatic): the lines are just <code>login;password</code> — every account gets a random academy character and runs by itself</label>
         <label class="chk"><input type="checkbox" id="aaBNewOn"> These characters do not exist yet — create them all as:</label>
         <div id="aaBNewWrap" hidden>${newCharBlock('aaB')}</div>
@@ -202,10 +203,28 @@
     await post({ accounts: [r], loginNow: id('aaNow').checked }, 'aaAdd');
     r.password = null; id('aaPw').value = '';
   }
+  /** SAMEPW-2026-10-31: the bulk text + one shared password -> "login;password" lines. "mylogin82-20" = mylogin82 ... mylogin101 (max 200); lines with ';' or a
+   *  tab stay as they are; '#' lines stay; no shared password = the text unchanged */
+  function bulkExpand(text, pw) {
+    if (!pw) return text;
+    const out = [];
+    String(text || '').replace(/\r/g, '').split('\n').forEach(l => {
+      const s = l.trim();
+      if (!s || s.startsWith('#') || /[;\t]/.test(s)) { out.push(l); return; }
+      const m = s.match(/^([A-Za-z][A-Za-z_]*)(\d+)\s*-\s*(?:[A-Za-z_]*)(\d+)$/);
+      if (m && +m[3] >= +m[2] && +m[3] - +m[2] < 200) { for (let i = +m[2]; i <= +m[3]; i++) out.push(m[1] + i + ';' + pw); return; }
+      s.split(/[\s,]+/).filter(Boolean).forEach(x => out.push(x + ';' + pw));
+    });
+    return out.join('\n');
+  }
   async function submitBulk(dry) {
     if (A.busy) return;
-    const t = id('aaBulk').value; id('aaBErr').textContent = '';
+    // SAMEPW-2026-10-31 (owner: "ADD Them and create the characters I don't want to do this manually", mylogin82-20 academy accounts): one password
+    // field for every line; a line without ';' is a login (or a range "mylogin82-20") and gets that password here in the browser, before the POST
+    const pwAll = id('aaBPw') ? id('aaBPw').value : '';
+    const t = bulkExpand(id('aaBulk').value, pwAll); id('aaBErr').textContent = '';
     if (!t.trim()) { id('aaBErr').textContent = 'Paste one account per line first.'; return; }
+    if (!pwAll && t.split('\n').some(l => l.trim() && !l.trim().startsWith('#') && !/[;\t]/.test(l))) { id('aaBErr').textContent = 'A line has no password: fill in "Same password for every line" or write login;password.'; return; }
     const acad = id('aaBAcad') && id('aaBAcad').checked;   // ACADEMY-2026-10-21
     const nw = !acad && id('aaBNewOn').checked ? { race: +id('aaBRace').value, sex: +id('aaBSex').value, classId: id('aaBClass').value === '' ? '' : +id('aaBClass').value } : null;
     if (nw && nw.classId === '') { id('aaBErr').textContent = 'Start class: pick one.'; return; }
@@ -219,7 +238,7 @@
     body.bulk = null;
     if (!dry) {
       // the list held passwords: empty it; lines that failed come back WITHOUT their password (type it again)
-      const lines = t.replace(/\r/g, '').split('\n'); id('aaBulk').value = '';
+      const lines = t.replace(/\r/g, '').split('\n'); id('aaBulk').value = ''; if (id('aaBPw')) id('aaBPw').value = '';
       const failed = ((d && d.results) || []).filter(x => x.status === 'error').map(x => lines[(x.line || 0) - 1]).filter(Boolean).map(l => {
         const f = l.split(/;|\t/); if (acad) return f[0] + ';'; if (f.length >= 5) return [f[0], '', f[f.length - 3], f[f.length - 2], f[f.length - 1]].join(';'); return [f[0], ''].concat(f.slice(2)).join(';'); });
       if (failed.length) { id('aaBulk').value = failed.join('\n'); id('aaBErr').textContent = 'The lines that failed are back in the list without their password: fix them, type the password again, press Add all.'; }
