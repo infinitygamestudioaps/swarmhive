@@ -132,5 +132,9 @@ check(/'join', 'funds', 'buy', 'graduate', 'coupon'\]\.includes\(s\.act\)/.test(
 { const i = SRC.indexOf('function acCouponFinal('); const F = new Function(SRC.slice(i, SRC.indexOf('\n', i)) + '\nreturn acCouponFinal;')();
   check(F('Your already got your newbie weapon!') && !F('') && !F('Come back at level 20'), 'COUPONFINAL: the guide\'s "already got" answer is final');
   check(SRC.includes("acSet(which, got.final ? 'unavailable' : 'failed', got.why)") && !new Function(pure + '\nreturn acRetryDecide;')()({ academy: true, on: true, win: true, status: 'unavailable', lastAt: 0, now: 1e12, fightFreeMs: 1e9 }).go, 'COUPONFINAL: an unavailable coupon is stored as such and never retried'); }
+// ARMORNEVER-2026-11-02: no armor coupon after the weapon coupon on L2Toggle - skipped at once, no trip, no retry loop
+{ const i = SRC.indexOf('function acArmorNever('); const A = new Function(SRC.slice(i, SRC.indexOf('\n', i)) + '\nreturn acArmorNever;')();
+  check(A('armor', { weapon: { status: 'done' } }) && !A('armor', { weapon: { status: 'failed', text: 'trip: stopped' } }) && !A('weapon', { weapon: { status: 'done' } }) && !A('armor', {}), 'ARMORNEVER: armor coupon impossible once the weapon coupon is done; otherwise tried');
+  check(/if \(acArmorNever\(which, acRead\(\)\)\) \{ acSet\(which, 'unavailable'/.test(SRC), 'ARMORNEVER: the coupon step stores it as unavailable before any trip'); }
 console.log(`acad coupon: ${ok} ok, ${bad} failed`);
 process.exit(bad ? 1 : 0);

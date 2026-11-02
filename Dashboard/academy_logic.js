@@ -10,7 +10,7 @@ const DEF = {
   on: true, coupons: true /* ACADCOUPON-2026-10-31 */, race: 2, classId: 38, sexes: [0, 1], classPlan: [39, 40], role: 'nuker',
   names: { first: ['Nyx', 'Vel', 'Mor', 'Kael', 'Shad', 'Drav', 'Zar', 'Vex'], second: ['ara', 'eth', 'iel', 'ora', 'yn', 'ith'], digitsMin: 2, digitsMax: 4, tries: 6 },
   funds: { target: 2000000, need: 900000, waitMin: 45 },
-  buy: { start: [], level20: [] },
+  buy: { start: [], level18: [], level20: [] },
   spots: { to20: { mode: 'auto' }, to25: { mode: 'auto' }, to30: { mode: 'auto' }, to35: { mode: 'auto' }, to40: { mode: 'auto' } },   // ACADROUTE-2026-11-01: + to30 / to35
   end: { logout: true, newCharacter: true, maxCharacters: 7, deliver: true, deleteGraduate: true, slotWaitMin: 360 },   // ACADLOOP-2026-10-31
   buffs: { on: true, magnus: true, cov: true, storeMaxPrice: 10 },   // ACADSTORE-2026-10-31 (owner: "Magnus Chant from giran for 10 adena")
@@ -80,6 +80,8 @@ function academyPlanSteps(cfg) {
     { id: id('lv10'), kind: 'level', to: 10, spot: sp.to20 || { mode: 'auto' } },
     quest('q320', 320, 'Bones Tell The Future', 'adena for shots (Tetrarch Kaitar, Dark Elven Village); skipped when it fails'),
     { id: id('lv18'), kind: 'level', to: 18, spot: sp.to20 || { mode: 'auto' } },
+    // ACADARMOR18-2026-11-02 (owner: "yes" to armor before Path Of The Dark Wizard - deaths there in starter gear)
+    { id: id('buy18'), kind: 'academy', act: 'buy', set: 'level18', note: 'Devotion robe set + Leather Helmet (no grade) before quest 412' },
     quest('q412', 412, 'Path Of The Dark Wizard', '1,368,386 exp + 163,800 adena (Varika, Altar of Rites); skipped when it fails'),
     { id: id('lv20'), kind: 'level', to: 20, spot: sp.to20 || { mode: 'auto' } },
     { id: id('cls1'), kind: 'class', note: '1st class (approved academy class plan)' },

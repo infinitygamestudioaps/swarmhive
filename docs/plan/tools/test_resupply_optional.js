@@ -72,7 +72,7 @@ else { const ASK = lineOf('function rcSupplyAsk(low)');
   const run = async (file, opt) => { const W = world(file), steps = [];
     Object.assign(W.env, { leadMode: () => true, isLeader: () => true, soloChar: () => false, currentTownKey: () => 'Giran', lastSupplyAtGet: () => 0, teamNames: () => ['Bishop1'],
       teamStep: async (id, what) => { steps.push(what); return { got: { Bishop1: { name: 'Bishop1', msg: 'bought 3 Scroll of Recovery (D)' } } }; }, DPCOV: { staggerMs: 9000 }, VIT: { staggerMs: 9000 },
-      logError: (w, e) => W.calls.push('ERR ' + w + ' ' + e.message), supplyJunkGrades: () => [], storeBuyBuff: async () => ({ why: 'x' }), STORE_COV: {}, STORE_MAGNUS: {},
+      logError: (w, e) => W.calls.push('ERR ' + w + ' ' + e.message), supplyJunkGrades: () => [], storeBuyBuff: async () => ({ why: 'x' }), STORE_COV: {}, STORE_MAGNUS: {}, storeChantPick: (c, m) => m ? 'magnus' : (c ? 'cov' : null),
       soStoreAddOn: async () => { }, SayToParty: (m) => W.said.push(m) });
     const f = new Function('env', 'with (env) {\n' + HOST + '\n' + GS + '\nreturn giranServices;\n}')(W.env);
     const line = await f('at the Giran regroup', opt); return { W, steps, line }; };

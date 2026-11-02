@@ -36,9 +36,27 @@ t('a giver in a trade is skipped', d.give && d.give.giver === 'Spoiler7', d);
   t('RESERVE: deposit.above 0 for a party = never a deposit (subclass money stays)', !dd, dd); }
 const fs0 = require('fs');
 const B = A.busyFromOrders([{ receiver: 'Dagger1', givers: ['Destroyer3'], sameTown: true, over: false }, { receiver: 'Bishop1', givers: ['Tank1'], over: false }, { receiver: 'X', givers: ['Y'], over: true }]);
-t('ACADFUND: a pending same-town deposit does not make the collector busy (giver is)', !B.has('Dagger1') && B.has('Destroyer3'), [...B]);
+t('ACADFUND + SAMETOWNGIVER: a pending same-town order makes nobody busy (it only waits for a town visit)', !B.has('Dagger1') && !B.has('Destroyer3'), [...B]);
 t('ACADFUND: a normal open order makes receiver + giver busy, a finished one nobody', B.has('Bishop1') && B.has('Tank1') && !B.has('X') && !B.has('Y'), [...B]);
 t('ACADFUND: tick uses busyFromOrders, recentOrders reports sameTown', fs0.readFileSync(path.join(R, 'Dashboard', 'autofund.js'), 'utf8').includes('busy = busyFromOrders(') && fs0.readFileSync(path.join(R, 'Dashboard', 'tradepage_api.js'), 'utf8').includes("sameTown: o.sameTown === true"));
 const fs = require('fs'); const SRV =fs.readFileSync(path.join(R, 'Dashboard', 'server.js'), 'utf8');
 t('server.js runs it every 3 min through /api/trade/order', SRV.includes("require('./autofund').tick(") && SRV.includes('}, 180000);'));
+// IDLEGIVER-2026-11-02: a bank parked with "waiting for orders" gives; a real order / trade still counts as busy
+t('IDLEGIVER: "waiting for orders" is idle', !A.busyTask('waiting for orders since 11:58 (order:town-Giran)') && A.busyTask('trade: handing over to X') && A.busyTask('order: supply run'));
+{ const cfg = Object.assign({}, A.DEF, { on: true }), scope = new Set(['Nuker21']);
+  const st = [{ name: 'Nuker21', adena: 1531, ageSec: 5, task: 'plan blocked' }, { name: 'Crafter1', adena: 342882785, ageSec: 1, task: 'waiting for orders since 11:58 (order:town-Giran)' }];
+  const d = A.decide(cfg, scope, st, new Set(), new Set(), { recv: {} }, Date.now(), n => n === 'Crafter1');
+  t('IDLEGIVER: the parked bank pays the broke academy character', d.give && d.give.giver === 'Crafter1' && d.give.receiver === 'Nuker21', d); }
+// DEPOSITKEEP-2026-11-02 (tester: leader top-up 100M, "never give away under 300M"; a party gave 700M and kept 16M)
+{ const r = { defaults: { leaderTarget: 100000000, memberTarget: 3000000 }, parties: {}, chars: {} }, g = { keepAtLeast: 300000000, targetOf: A.fundTargetOf(r, '') };
+  const dep = { on: true, above: 20000000, keep: 10000000, againMin: 120 };
+  const d = A.depositDecide(dep, [{ name: 'Lead', party: 'Lead', adena: 716000000, ageSec: 5, gearNeed: 6000000 }], 'Bank', new Set(), {}, { dep: {} }, Date.now(), g);
+  t('DEPOSITKEEP: the 700M leader keeps 300M ("Always keeps at least"), not 16M', d && d.amount === 416000000, d);
+  t('DEPOSITKEEP: 125M under the 300M floor gives nothing', !A.depositDecide(dep, [{ name: 'Lead', party: 'Lead', adena: 125000000, ageSec: 5 }], 'Bank', new Set(), {}, { dep: {} }, Date.now(), g));
+  const g2 = { keepAtLeast: 0, targetOf: A.fundTargetOf(r, '') };
+  t('DEPOSITKEEP: the leader top-up target (100M) is kept too', A.depositKeep(10000000, { name: 'Lead', party: 'Lead' }, g2) === 100000000 && A.depositKeep(10000000, { name: 'Mem', party: 'Lead' }, g2) === 10000000);
+  const r3 = { defaults: { leaderTarget: 8000000 }, parties: { Lead: { leaderTarget: 50000000 } }, chars: { Lead: { target: 70000000 } } };
+  t('DEPOSITKEEP: target = own > party > default (as the Adena page shows)', A.fundTargetOf(r3, '')('Lead', 'Lead') === 70000000 && A.fundTargetOf({ defaults: { leaderTarget: 8000000 }, parties: { Lead: { leaderTarget: 50000000 } }, chars: {} }, '')('Lead', 'Lead') === 50000000);
+  t('DEPOSITKEEP: without the new argument the old keep still works', A.depositDecide(dep, [{ name: 'Lead', party: 'Lead', adena: 100000000, ageSec: 5 }], 'Bank', new Set(), {}, { dep: {} }, Date.now()).amount === 90000000);
+  t('DEPOSITKEEP: depositTick passes keepAtLeast + the targets', fs0.readFileSync(path.join(R, 'Dashboard', 'autofund.js'), 'utf8').includes('depositDecide(dep, states, col, busy, partyDep, mem, Date.now(), keepG)')); }
 console.log(`${ok} passed, ${bad} failed`); process.exit(bad ? 1 : 0);

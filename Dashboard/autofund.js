@@ -19,15 +19,18 @@ function scopeNames(cfg, swarmCfg) {
   return new Set(acc.filter(a => a && a.character && (cfg.scope === 'all' || a.clanAcademy || a.academy || a.academyMage)).map(a => String(a.character)));
 }
 /** pure: states [{ name, adena, ageSec, dead, party }], busy Set (names in an open order), raidParties Set, memory { recv: { name: ms } } -> { give: { giver, receiver, amount } | null, why } */
+// IDLEGIVER-2026-11-02: "waiting for orders" is IDLE, not busy - the old /order/ match kept the parked bank (Crafter1, 343M) from ever giving,
+// and no academy character got adena for the level-20 kit (885-8,500 adena, the kit ~25,000)
+function busyTask(t) { t = String(t || ''); return /supply|regroup|trade|handover|gear|order/i.test(t.replace(/waiting for orders[^|]*/i, '')); }
 function decide(cfg, scope, states, busy, raidParties, mem, nowMs, mayGive) {
   // never in the middle of a supply run / regroup / trade / hand-over (2026-10-22: a hand-over interrupted Spoiler10's supply run - no gear bought)
-  const live = states.filter(s => s && scope.has(s.name) && Number(s.ageSec) <= 60 && !s.dead && !/supply|regroup|trade|handover|gear|order/i.test(s.task || ''));
+  const live = states.filter(s => s && scope.has(s.name) && Number(s.ageSec) <= 60 && !s.dead && !busyTask(s.task));
   const recv = live.filter(s => Number(s.adena) < cfg.below && !busy.has(s.name) && nowMs - ((mem.recv || {})[s.name] || 0) > cfg.againMin * 60000)
     .sort((a, b) => Number(a.adena) - Number(b.adena));
   if (!recv.length) return { give: null, why: 'nobody below ' + cfg.below + ' adena (or all were helped lately)' };
   // FUNDCOLLECTOR-2026-10-25 (owner: "not auto selected ... only the collector role should hand them out, or selectable"): with a giver rule
   // (mayGive) the giver comes from ALL characters the rule allows (the collector is not in the academy scope); without one: the old richest-in-scope
-  const pool = mayGive ? states.filter(s => s && Number(s.ageSec) <= 60 && !s.dead && !/supply|regroup|trade|handover|gear|order/i.test(s.task || '') && mayGive(s.name)) : live;
+  const pool = mayGive ? states.filter(s => s && Number(s.ageSec) <= 60 && !s.dead && !busyTask(s.task) && mayGive(s.name)) : live;
   const givers = pool.filter(s => !busy.has(s.name) && !raidParties.has(s.party || s.name) && Number(s.adena) - cfg.give >= cfg.keep)
     .sort((a, b) => Number(b.adena) - Number(a.adena));
   for (const r of recv) { const g = givers.find(x => x.name !== r.name); if (g) return { give: { giver: g.name, receiver: r.name, amount: cfg.give }, why: `${r.name} has ${r.adena}, ${g.name} has ${g.adena}` }; }
@@ -37,7 +40,9 @@ function decide(cfg, scope, states, busy, raidParties, mem, nowMs, mayGive) {
 // deposits to Dagger1 (10-27, 10-30) kept the collector "busy" and no academy character got its start adena.
 function busyFromOrders(orders) {
   const busy = new Set();
-  (orders || []).forEach(o => { if (!o || o.over) return; if (!o.sameTown) busy.add(o.receiver); (o.givers || []).forEach(g => busy.add(g)); });
+  // SAMETOWNGIVER-2026-11-02: a same-town order only waits for the receiver's town visit (hours) - its giver (the bank) stays free to pay others
+  // (one open order to an academy character out in the field blocked every academy payment: Nuker34 at 2,979 adena could not buy the kit)
+  (orders || []).forEach(o => { if (!o || o.over || o.sameTown) return; busy.add(o.receiver); (o.givers || []).forEach(g => busy.add(g)); });
   return busy;
 }
 const RUN = { busy: false };
@@ -71,7 +76,20 @@ async function tick(ctx) {
 // a character (never the collector) with more than `above` gets ONE same-town hand-over order of everything above `keep` to the collector; it
 // hands it over the next time it stands idle in the collector's town (no trip for it). One new order per tick; the same character again after againMin.
 const DEP_DEF = { on: false, above: 20000000, keep: 10000000, againMin: 120 };
-function depositDecide(dep, states, collector, busy, partyDep, mem, nowMs) {
+// DEPOSITKEEP-2026-11-02 (tester: "I have it set to top a party leader up to 100m, and party leader should never give away if they are under
+// 300m" - "one of my parties just gave 700m to the collector and kept 16m"): the deposit only looked at deposit.keep (default 10M) and ignored the
+// Adena page's "Always keeps at least" (givers.keepAtLeast) and the character's own top-up target. Now it keeps the HIGHEST of: the deposit keep
+// (party / global), "Always keeps at least", the character's top-up target (char > party > default; leader / member / clan leader), its gear need.
+/** pure: what a depositor keeps. g = { keepAtLeast, targetOf(name) -> number } */
+function depositKeep(keep, s, g) { g = g || {}; let t = 0; try { t = Number(g.targetOf ? g.targetOf(s.name, s.party) : 0) || 0; } catch (e) { } return Math.max(0, Number(keep) || 0, Number(g.keepAtLeast) || 0, t, Number(s.gearNeed) || 0); }
+/** the top-up target the Adena page shows for a character (fund_rules chars / parties / defaults) */
+function fundTargetOf(r, clanLeader) {
+  const d = r.defaults || {}, P = r.parties || {}, C = r.chars || {}, has = v => v !== undefined && v !== null && v !== '' && isFinite(Number(v));
+  return (name, party) => { const c = C[name] || {}; if (has(c.target)) return Number(c.target); if (clanLeader && name === clanLeader && has(d.clanLeaderTarget)) return Number(d.clanLeaderTarget);
+    const p = P[party || name] || {}; if (name === (party || name)) return has(p.leaderTarget) ? Number(p.leaderTarget) : (has(d.leaderTarget) ? Number(d.leaderTarget) : 0);
+    return has(p.memberTarget) ? Number(p.memberTarget) : (has(d.memberTarget) ? Number(d.memberTarget) : 0); };
+}
+function depositDecide(dep, states, collector, busy, partyDep, mem, nowMs, g) {
   if (!dep.on || !collector) return null;
   for (const s of states.slice().sort((a, b) => Number(b.adena) - Number(a.adena))) {
     if (!s || s.name === collector || s.dead || Number(s.ageSec) > 60 || busy.has(s.name)) continue;
@@ -80,8 +98,8 @@ function depositDecide(dep, states, collector, busy, partyDep, mem, nowMs) {
     // GEARKEEP-2026-10-30 (owner: "he should NOT hand over hes adena to dagger1!! Then he cant buy gear"): gear money stays. No deposit within
     // 12 h of a leader's gear payment (!purse), and never below what the character's gear plan still needs.
     if (s.pursePaidAt && nowMs - s.pursePaidAt < 12 * 3600000) continue;
-    const amount = Math.floor(Number(s.adena) - Math.max(0, keep, Number(s.gearNeed) || 0)); if (amount < 1000000) continue;
-    return { giver: s.name, amount, why: `${s.name} has ${s.adena}, keeps ${keep} (above ${above})` };
+    const kept = depositKeep(keep, s, g), amount = Math.floor(Number(s.adena) - kept); if (amount < 1000000) continue;
+    return { giver: s.name, amount, why: `${s.name} has ${s.adena}, keeps ${kept} (above ${above})` };
   }
   return null;
 }
@@ -111,7 +129,8 @@ async function depositTick(ctx) {
   const busy = new Set(); try { (ctx.recentOrders ? ctx.recentOrders() : []).forEach(o => { if (!o.over) { busy.add(o.receiver); (o.givers || []).forEach(g => busy.add(g)); } }); } catch (e) { }
   const partyDep = {}; Object.entries(r.parties || {}).forEach(([k, v]) => { if (v && v.deposit) partyDep[k] = v.deposit; });
   const memF = path.join(ctx.LOGS, 'autofund.json'), mem = readJson(memF, {}) || {}; mem.dep = mem.dep || {};
-  const d = depositDecide(dep, states, col, busy, partyDep, mem, Date.now()); if (!d) return;
+  const keepG = { keepAtLeast: Number((r.givers || {}).keepAtLeast) || 0, targetOf: fundTargetOf(r, String((cq.clan && cq.clan.leader) || '')) };   // DEPOSITKEEP
+  const d = depositDecide(dep, states, col, busy, partyDep, mem, Date.now(), keepG); if (!d) return;
   const o = await ctx.post('/api/trade/order', { receiver: col, sel: {}, adena: { [d.giver]: d.amount }, confirm: true, sameTown: true, note: `adena to the collector (automatic): ${d.why}` });
   try { fs.appendFileSync(path.join(ctx.LOGS, 'autofund.log'), `${new Date().toISOString()} DEPOSIT ${d.giver} -> ${col} ${d.amount} adena: ${o && o.ok ? 'order ' + o.id + ' sent (same town)' : 'NOT sent - ' + ((o && o.error) || 'no answer')} (${d.why})\r\n`); } catch (e) { }
   if (o && o.ok) { mem.dep[d.giver] = Date.now(); try { fs.writeFileSync(memF, JSON.stringify(mem, null, 1)); } catch (e) { } }
@@ -126,4 +145,4 @@ function giverRule(ctx) {
   const col = c && c.on === true ? String(c.name || (cq.clan && cq.clan.leader) || '') : '';
   return (n) => !!col && n === col;
 }
-module.exports = { tick, decide, busyFromOrders, shareCfg, scopeNames, giverRule, depositDecide, DEP_DEF, DEF };
+module.exports = { tick, decide, busyTask, busyFromOrders, shareCfg, scopeNames, giverRule, depositDecide, depositKeep, fundTargetOf, DEP_DEF, DEF };

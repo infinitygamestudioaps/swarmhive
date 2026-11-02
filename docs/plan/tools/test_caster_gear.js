@@ -47,7 +47,7 @@ t('doer: hand-over order from the holder', /CHARSRC-2026-10-23[\s\S]{0,900}giver
   const h = holdersOf({ LOGS: dir }, 4630, 'Me');
   t('holders: another character, not me, not worn, not stale', h.length === 1 && h[0].name === 'Holder' && h[0].count === 1 && h[0].rows[0].objId === 11); }
 // Magnus' Chant
-t('Magnus: store buff in supply runs + rebuff trips + party switch', SW.includes('const STORE_MAGNUS = { id: 1413') && /pautoOn\('storeMagnus'\) && currentTownKey\(\) === 'Giran'/.test(SW) && SW.includes("storeMagnus: { char: false") && SW.includes("(pautoOn('storeCov') || pautoOn('storeMagnus'))"));
+t('Magnus: store buff in supply runs + rebuff trips + party switch', SW.includes('const STORE_MAGNUS = { id: 1413') && /chantS === 'magnus' && currentTownKey\(\) === 'Giran'/.test(SW) && SW.includes("storeChantPick(pautoOn('storeCov'), pautoOn('storeMagnus'))") && SW.includes("storeMagnus: { char: false") && SW.includes("(pautoOn('storeCov') || pautoOn('storeMagnus'))"));
 t('Magnus: dashboard switch', rd('Dashboard/partyauto_api.js').includes("key: 'storeMagnus'") && rd('Dashboard/partysettings.js').includes("storeMagnus: \"Magnus' Chant\""));
 const PA = JSON.parse(rd('Scripts/data/party_auto.json'));
 t('Magnus ON for the nuker parties (owner data; not in the public package)', !(PA.parties || {}).Tank2 || ['Tank2', 'Tank3', 'Char1'].every(L => PA.parties[L] && PA.parties[L].storeMagnus === true));

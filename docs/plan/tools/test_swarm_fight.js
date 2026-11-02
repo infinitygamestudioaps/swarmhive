@@ -86,7 +86,7 @@ H.file = {}; H.t += 2500; check(S.swarmFightNow() === false && H.notes.some(m =>
 check(src.includes("function hiveSkillsOn() { return hiveSw().skills !== false; }"), "SFTARGET: the switch only hands the targets to L2Swarm; skills follow the Hive picks my skills switch");
 check(/c\.mode = \/\^\(auto\|on\)\$\/[^\n]+\n  try \{ if \(\(!leader \|\| leader === CONFIG\.leader\) && swarmFightOn\(\)\) c\.mode = 'off'; \}/.test(src), 'hunting pairs OFF with the switch on');
 const loop = fnBody('async function autoLevelLoop(solo)');
-check(/const sfMode = [^\n]+swarmFightOn\(\) && !sfExcluded\(\) && !solo/.test(loop) && /if \(sfMode\) \{ const sk = sfLeaderTick\(\);/.test(loop), 'leader: the hunting step runs sfLeaderTick with the switch on');
+check(/const sfMode = [^\n]+sfOwnsCombat\(\)/.test(loop) && /function sfOwnsCombat\(\) \{ try \{ return isLeader\(\) && swarmFightOn\(\) && !sfExcluded\(\);/.test(src) && /if \(sfMode\) \{ const sk = sfLeaderTick\(\);/.test(loop), 'leader (also a solo character, SFSOLO 2026-11-02): the hunting step runs sfLeaderTick with the switch on');
 check(/if \(!sfMode && \(!cur \|\| cur\.IsDead \|\| !lastTarget \|\| killed\)\) \{/.test(loop), 'leader: no Hive target pick / engage / pull route / walk back / wander with the switch on');
 check(/const cur = !sfMode && lastTarget && mobById\(lastTarget\);/.test(loop), 'leader: no Hive reach checks / unstick on a Hive target');
 const i0 = loop.indexOf('if (sfMode) { const sk'), i1 = loop.indexOf('moveOnWhy(', i0), i2 = loop.indexOf('multiTick(autoLvl.spot', i0), i3 = loop.indexOf('occupiedCheck(', i0);

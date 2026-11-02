@@ -2,6 +2,25 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.13.1 (2026-11-02)
+
+- Tester fixes + academy fixes (2026-11-02)
+- Sitting: with 'Sit down to rest' OFF nobody stays seated - a seated bot stands up by itself (also when attacked or when a move is refused), every attack stands up first, and L2Swarm's own sit-with-the-leader option follows the switch
+- Solo escape: 'Solo: escape when a fight goes badly' OFF is obeyed in every party setup (it was read under the wrong party name and fell back to ON), and a character in an in-game party with others is no longer 'solo'
+- Solo fights: monsters that only stand nearby never make a solo bot flee - it flees only from 2+ attackers below 50 % HP or below 30 % while still hit, and after a flee it fights only what hits it for 90 s (no more run away / re-engage until dead)
+- Fight with L2Swarm: now also works for solo characters - L2Swarm's own combat really runs (Combat on, the hunting zone set and kept), so every monster of the zone is taken
+- with the switch off Hive's notes name the monsters it skips as too high
+- Raid minions: a minion of a living raid boss is never a hunting target, also when the boss is out of view at that moment
+- Geodata: fights, deaths and resurrections no longer teach false 'walls' (they blocked routes, e.g. Devil's Isle Caves 'NO PATH')
+- Plans: a 1st-class 'Path of/to' quest step is skipped when the class already changed (also while the step runs)
+- Adena share: a collector / bank parked with 'waiting for orders' counts as idle and gives the academy share again, and a hand-over waiting for a town visit never blocks the bank
+- Gear-up: every piece a giver has for a bot comes in ONE trade (was one trade per piece - 11 trades for jewels + armor + weapon)
+- Deposit: an automatic hand-over to the collector always keeps the highest of the party's keep, 'Always keeps at least' and the leader's top-up target (it gave 700M and kept 16M)
+- Soul crystals: 'Get crystals' first takes owned crystals from distributors / the collector / the clan warehouse (highest stage that fits), then buys stage 7-10 at the Giran luxury shop with the bag's D/C/B crystals, the free stage-0 last (each source switchable on the Crystals page)
+- Store chants: Magnus' Chant and Chant of Victory replace each other on this server - only the wanted one is bought (casters with Magnus on: Magnus), no more buying both in turn
+- Academy: the armor coupon is skipped at once on servers where it shares the weapon coupon's once-only flag
+- the Devotion robe set + Leather Helmet are bought at level 18, before Path of the Dark Wizard
+
 ## v1.13.0 (2026-11-01)
 
 - Big update (2026-10-29 to 2026-11-01): crafter + clan bank, runner, academy route, restart-proof state, wall targeting, many fixes

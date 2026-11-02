@@ -22,7 +22,7 @@ const C = S.SOLOSAFE;
   let d = S.soloFleeDecide({ hp: 49, hitAgo: 300, attackers: 3, near: 8, atkHp: 80 }, C);
   check(d.act === 'escape', `incident (HP 49 %, 3 attackers, 8 near) -> escape (${d.why})`);
   d = S.soloFleeDecide({ hp: 45, hitAgo: 300, attackers: 1, near: 4, atkHp: 80 }, C);
-  check(d.act === 'escape', 'HP 45 %, 1 attacker but 4 monsters near -> escape');
+  check(d.act === '', 'HP 45 %, 1 attacker but 4 monsters near -> fight on (SOLOFLEE-2026-11-02, Vykaax: monsters merely near never cause a flee)');
   d = S.soloFleeDecide({ hp: 45, hitAgo: 300, attackers: 1, near: 1, atkHp: 80 }, C);
   check(d.act === '', `HP 45 %, one monster -> fight on with potions (${d.why})`);
   d = S.soloFleeDecide({ hp: 25, hitAgo: 300, attackers: 1, near: 1, atkHp: 60 }, C);

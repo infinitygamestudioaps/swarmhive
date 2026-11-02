@@ -4403,7 +4403,15 @@ function findPathNow(pt) { return null; }
 // packet: the SERVER walks the character to the monster (same fix as Cruma Tower). Every former Attack( call uses it.
 let ownAtkAt = 0;                                                  // BOARDCOMBAT-2026-10-22: my own last attack (the server keeps the combat stance ~15 s after it)
 const srvAtkLast = { id: 0, at: 0 };   // ORDERFLOOD-2026-10-24: the same attack within 600 ms is dropped (46k orders in 5 min ran the agent 22 min behind)
-function srvAttack(id) { const o = num(id); if (!o) return; { const m = mobById(o); if (m && !canSee(m)) { wallRefused('attacking', m); if (roomTargetDecide({ visible: false, inPoly: huntPolyHas(m) }) === 'drop') roomTargetDrop(o, m); else wallApproach(o, m); return; } } if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return; srvAtkLast.id = o; srvAtkLast.at = now(); ownAtkAt = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.Attack(o); } catch (e) { } }
+// SITFIX-2026-11-02 (Vykaax: the party sat for 30 min, every attack "You cannot move while sitting", L2Swarm blacklisted the monsters): stand up first.
+// SOLOFLEE-2026-11-02 (Vykaax: "runs away for a second, then re-engages, then runs away, repeat until dead"): right after a solo flee only a monster
+// that hits / targets me is fought, nothing new is pulled until the recovery time is over (srvAttackPre)
+function srvAttackPre(o) {
+  try { if (Me.IsSitting || (typeof rest !== 'undefined' && rest.sitting)) standUp(); } catch (e) { }
+  try { if (typeof SOLO !== 'undefined' && soloRecoverHold(now(), SOLO.recoverUntil, o === num(lastAttackerOnMe.id) && now() - lastAttackerOnMe.at < 8000)) return false; } catch (e) { }
+  return true;
+}
+function srvAttack(id) { const o = num(id); if (!o) return; if (!srvAttackPre(o)) return; { const m = mobById(o); if (m && !canSee(m)) { wallRefused('attacking', m); if (roomTargetDecide({ visible: false, inPoly: huntPolyHas(m) }) === 'drop') roomTargetDrop(o, m); else wallApproach(o, m); return; } } if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return; srvAtkLast.id = o; srvAtkLast.at = now(); ownAtkAt = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.Attack(o); } catch (e) { } }
 
 function num(v) { return typeof v === 'bigint' ? Number(v) : (Number(v) || 0); }
 
@@ -9064,7 +9072,7 @@ setInterval(() => {
     note(`alone in a fight: ${ap.why} — escaping`);
   }
     aloneFight.lastAt = now();
-    try { if (soloChar() && partyTactics(CONFIG.leader).soloEscape === false) return; } catch (e) { }   // SOLOESC-2026-10-28: a solo character with "Solo: escape" OFF fights on
+    try { if (soloEscapeOff()) return; } catch (e) { }   // SOLOESC-2026-10-28 / ESCOFF-2026-11-02: "Solo: escape" OFF = no automatic escape here either (party or solo)
     escapeFight('alone in a fight').catch(e => logError('escape fight', e));
   } catch (e) { }
 }, 2000);
@@ -12975,14 +12983,22 @@ App.on('swarm.gearask', (e) => {
     const d = e.data || {}, S = gearSources();
     if (!state.role || !d.rid || !d.from || d.from === Me.Name || !CONFIG.roster[d.from]) return;
     const dist = gdIsDistributor(), bags = S.bags, clan = S.clan && Me.Name === clanLeaderName();
-    if (!dist && !bags && !clan) return;
+    // SOULSRC-2026-11-02: the collector also gives soul crystals (even with the bag source off)
+    let isColl = false; try { isColl = !!collectorMine(); } catch (e) { }
+    const isCr = (x) => { try { return soulIsCrystalId(num(x)); } catch (e) { return false; } };   // (the offline gear tests lift this handler alone)
+    const okGive = (cr, s) => { try { return soulGiverOk(cr, s, dist, isColl); } catch (e) { return true; } };
+    const soulAsk = (d.ids || []).some(it => isCr(it.id));
+    if (!dist && !bags && !clan && !(isColl && soulAsk)) return;
     if (currentTownKey() !== 'Giran' || Me.IsDead || IsInCombat) return;
     for (const it of (d.ids || [])) {
       const id = num(it.id); if (!id) continue;
+      if (isColl && !dist && !bags && isCr(id) && gdBagFree(id) - gdReserved(id) > 0) { GD.res[d.rid] = { id, n: 1, for: d.from, src: 'bag', until: now() + 20000, sealed: false, pay: 0, payN: 0 }; App.emit('swarm.gearoffer', { rid: d.rid, by: Me.Name, src: 'bag', id, sealed: false }); return; }
       // GDMINE-2026-10-30 (Destroyer1 + Destroyer2 passed the same sealed Majestic Gauntlets / Boots back and forth): a piece my own open gear-up plan needs is not spare
       const mine = GD.mine && now() - GD.mine.at < 30 * 60000 && GD.mine.ids.has(num(id));
       const src = (dist || bags) && !mine && gdBagFree(id) - gdReserved(id) > 0 ? (dist ? 'dist' : 'bag') : clan && gdClanCount(id) - gdReserved(id) > 0 ? 'clan' : '';
       if (!src) continue;
+      // SOULSRC-2026-11-02: a soul crystal in a plain character's bag is one it levels - only distributors, the collector and the clan warehouse give crystals
+      if (!okGive(isCr(id), src)) continue;
       GD.res[d.rid] = { id, n: 1, for: d.from, src, until: now() + 20000, sealed: !!it.sealed, pay: num(it.pay), payN: num(it.payN) };
       App.emit('swarm.gearoffer', { rid: d.rid, by: Me.Name, src, id, sealed: !!it.sealed });
       return;
@@ -12992,12 +13008,59 @@ App.on('swarm.gearask', (e) => {
 App.on('swarm.gearoffer', (e) => { try { const d = e.data || {}; if (GD.offers[d.rid]) GD.offers[d.rid].push(d); } catch (er) { } });
 App.on('swarm.gearaccept', (e) => {
   try {
-    const d = e.data || {}, r = GD.res[d.rid]; if (!r) return;
+    const d = e.data || {};
+    // GEARBATCH-2026-11-02 (tester Vykaax: "each bot makes 11!!! individual trades for 5x jewels, 5x armor, and 1x weapon"): an accept may carry
+    // several reservations (rids) of ONE giver for one receiver -> one delivery (one hand-over, the hand-over machinery splits at HOV_CFG.batch)
+    if (Array.isArray(d.rids)) {
+      const mine = [];
+      d.rids.forEach(rid => { const r = GD.res[rid]; if (!r) return; if (d.by !== Me.Name) { delete GD.res[rid]; return; } r.until = now() + gearSources().reserveMs; mine.push({ rid, r }); });
+      if (mine.length) gdDeliverMany(mine).catch(er => logError('gear deliver batch', er));
+      return;
+    }
+    const r = GD.res[d.rid]; if (!r) return;
     if (d.by !== Me.Name) { delete GD.res[d.rid]; return; }
     r.until = now() + gearSources().reserveMs;
     gdDeliver(d.rid, r).catch(er => logError('gear deliver', er));
   } catch (er) { logError('gearaccept', er); }
 });
+/** GEARBATCH: pure - one giver's reserved pieces for one receiver -> { clan: [{ id, count }], bag: [{ id, count, stack }], adena } (bag rows are
+ *  matched to distinct bag objIds by gdBagRows) */
+function gdBatchItems(list) {
+  const clan = [], bag = []; let adena = 0;
+  (list || []).forEach(({ r }) => {
+    const its = [{ id: num(r.id), count: 1 }].concat(r.sealed && num(r.pay) === 5575 && num(r.payN) > 0 ? [{ id: 5575, count: num(r.payN), stack: true }] : []);
+    if (r.sealed && num(r.pay) === 57) adena += num(r.payN);
+    its.forEach(it => { const dst = r.src === 'clan' ? clan : bag; const same = it.stack ? dst.find(x => x.id === it.id) : null; if (same) same.count += it.count; else dst.push(Object.assign({}, it)); });
+  });
+  return { clan, bag, adena };
+}
+/** GEARBATCH: pure - bag rows [{ objId, id, name, count, equipped }] + wanted [{ id, count, stack }] -> hand-over rows (a different objId per piece) */
+function gdBagRows(bag, want) {
+  const used = new Set(), rows = [], missing = [];
+  (want || []).forEach(it => {
+    const row = (bag || []).find(b => num(b.id) === it.id && !b.equipped && !used.has(num(b.objId)));
+    if (!row) { missing.push(it.id); return; }
+    if (!it.stack) used.add(num(row.objId));
+    rows.push({ objId: num(row.objId), id: it.id, name: String(row.name || ''), count: it.stack ? it.count : 1, stack: !!it.stack });
+  });
+  return { rows, missing };
+}
+async function gdDeliverMany(list) {
+  const to = list[0].r.for, B = gdBatchItems(list), rids = list.map(x => x.rid);
+  note(`[gear] giving ${to} ${list.length} piece(s) in one go (${list.map(x => x.r.id).join(', ')}) (reservations ${rids.join(', ')})`, true);
+  if (B.clan.length) { try { await whClanFor(to, B.clan.filter(i => i.id !== 5575 || gdClanCount(5575) >= i.count), 'gear-up batch ' + rids[0]); } catch (e) { logError('gear clan batch', e); } }
+  if (B.bag.length || B.adena) {
+    const g = gdBagRows(hovBag(), B.bag);
+    if (g.missing.length) note(`[gear] not in my bag any more: ${g.missing.join(', ')} (the others go)`, true);
+    if (g.rows.length || B.adena) {
+      const hid = 'gd_' + String(to).toLowerCase() + '_' + Date.now().toString(36);
+      try { File.WriteAllText(HOV_DIR + '\\' + hid + '.json', JSON.stringify({ id: hid, receiver: to, batch: HOV_CFG.batch, givers: { [Me.Name]: { items: g.rows, adena: B.adena } }, by: Me.Name, why: 'gear-up distributor batch (' + rids.join(',') + ')', at: new Date().toISOString() })); } catch (e) { logError('gear hand-over batch', e); }
+      try { App.emit('swarm.hovcall', { id: hid }); } catch (e) { }
+      hovCommand(['!handover', hid]);
+    }
+  }
+  setTimeout(() => { rids.forEach(rid => { delete GD.res[rid]; }); }, 10 * 60000);
+}
 async function gdDeliver(rid, r) {
   const items = [{ id: r.id, count: 1 }].concat(r.sealed && r.pay === 5575 && r.payN > 0 ? [{ id: 5575, count: r.payN }] : []);   // a sealed S piece: its Ancient Adena too
   const adena = r.sealed && r.pay === 57 ? r.payN : 0;
@@ -13015,6 +13078,10 @@ async function gdDeliver(rid, r) {
   }
   setTimeout(() => { delete GD.res[rid]; }, 10 * 60000);
 }
+/** GEARBATCH: pure - the best offer for one piece (unsealed first, then a distributor, a spare bag piece, the clan warehouse) | null */
+function gdBestOffer(offers) { const rank = { dist: 0, bag: 1, clan: 2 }; const L = (offers || []).slice().sort((a, b) => ((a.sealed ? 1 : 0) - (b.sealed ? 1 : 0)) || ((rank[a.src] || 0) - (rank[b.src] || 0))); return L[0] || null; }
+/** GEARBATCH: pure - [{ rid, by }] -> { giver: [rids] } (one accept, so one hand-over, per giver) */
+function gdGroupAccepts(choices) { const g = {}; (choices || []).forEach(c => { if (c && c.by && c.rid) (g[c.by] = g[c.by] || []).push(c.rid); }); return g; }
 /** asker side, in Giran, before buying: fill the planned picks from my warehouse, then from the givers. -> report lines */
 async function gearOwnedFirst(picks, why) {
   const S = gearSources(), out = [], open = () => picks.filter(p => !p.bought && !p.owned);
@@ -13030,24 +13097,35 @@ async function gearOwnedFirst(picks, why) {
         (r.got || []).forEach(g => { const p = open().find(x => x.id === num(g.id)); if (p && num(g.got) > 0) { p.bought = true; p.owned = 'own warehouse'; out.push(`${p.info.n}: from my warehouse`); } }); } catch (e) { logError('gear own warehouse', e); }
     }
   }
-  // 2) the givers (distributors, the clan leader): one piece at a time, reserved by the giver
+  // 2) the givers (distributors, the clan leader), reserved by the giver.
+  // GEARBATCH-2026-11-02 (tester Vykaax: 11 single trades per bot): every open piece is asked for AT ONCE, the best offer per piece is picked, and
+  // each giver gets ONE accept with all its pieces for me -> one hand-over per giver (split by the hand-over machinery at its batch size). A
+  // piece that does not arrive is bought as before; the others are not lost.
   if ((S.dist && S.names.length) || S.bags || S.clan) {
-    for (const p of open()) {
-      const rid = String(Me.Name).toLowerCase() + '_' + p.id + '_' + Date.now().toString(36);
+    const asks = [];
+    open().forEach((p, i) => {
+      const rid = String(Me.Name).toLowerCase() + '_' + p.id + '_' + Date.now().toString(36) + i;
       const ids = [{ id: p.id }];
       if (S.unseal) { const u = unsealData(), rr = (u.byUnsealed || {})[p.id]; if (rr) { const c = gdUnsealCost(rr.sealed); if (c && (c.pay !== 57 || itemCount(57) >= c.count)) ids.push({ id: rr.sealed, sealed: true, pay: c.pay, payN: c.count }); } }
-      GD.offers[rid] = [];
+      GD.offers[rid] = []; asks.push({ p, rid });
       try { App.emit('swarm.gearask', { rid, from: Me.Name, ids }); } catch (e) { }
-      const t0 = now(); while (now() - t0 < S.askMs && GD.offers[rid].length < 3) await sleep(400);
-      const offers = GD.offers[rid].slice(); delete GD.offers[rid];
-      if (!offers.length) continue;
-      const rank = { dist: 0, bag: 1, clan: 2 };   // a distributor, then another character's spare piece, then the clan warehouse
-      offers.sort((a, b) => (a.sealed - b.sealed) || ((rank[a.src] || 0) - (rank[b.src] || 0)));
-      const o = offers[0], getId = num(o.id), c0 = bagCount(getId);
-      try { App.emit('swarm.gearaccept', { rid, by: o.by, to: Me.Name }); } catch (e) { }
-      note(`[gear] ${p.info.n}: ${o.by} gives it (${o.src === 'clan' ? 'clan warehouse' : o.src === 'dist' ? 'distributor' : 'spare piece in its bag'}${o.sealed ? ', sealed' : ''}) instead of buying`);
-      const tw = now(); while (bagCount(getId) <= c0 && now() - tw < S.waitMs) await sleep(3000);
-      if (bagCount(getId) <= c0) { out.push(`${p.info.n}: ${o.by} did not hand it over in ${Math.round(S.waitMs / 60000)} min - buying it`); continue; }
+    });
+    { const t0 = now(); while (now() - t0 < S.askMs && asks.some(a => GD.offers[a.rid].length < 3)) await sleep(400); }
+    const picked = [];
+    asks.forEach(a => { const o = gdBestOffer(GD.offers[a.rid] || []); delete GD.offers[a.rid]; if (o) picked.push({ p: a.p, rid: a.rid, o, getId: num(o.id) }); });
+    // the bag count before anything arrives, per item id (two of the same ring: wait for both)
+    const base = {}; picked.forEach(x => { if (base[x.getId] === undefined) base[x.getId] = bagCount(x.getId); });
+    const groups = gdGroupAccepts(picked.map(x => ({ rid: x.rid, by: x.o.by })));
+    Object.keys(groups).forEach(by => { try { App.emit('swarm.gearaccept', { rids: groups[by], by, to: Me.Name }); } catch (e) { } });
+    picked.forEach(x => note(`[gear] ${x.p.info.n}: ${x.o.by} gives it (${x.o.src === 'clan' ? 'clan warehouse' : x.o.src === 'dist' ? 'distributor' : 'spare piece in its bag'}${x.o.sealed ? ', sealed' : ''}) instead of buying`));
+    if (picked.length) note(`[gear] ${picked.length} piece(s) from ${Object.keys(groups).length} giver(s): one hand-over per giver`);
+    const need = {}; picked.forEach(x => { need[x.getId] = (need[x.getId] || 0) + 1; });
+    { const tw = now(); while (now() - tw < S.waitMs && Object.keys(need).some(id => bagCount(num(id)) - base[id] < need[id])) await sleep(3000); }
+    const got = {}; Object.keys(need).forEach(id => { got[id] = Math.max(0, bagCount(num(id)) - base[id]); });
+    for (const x of picked) {
+      const p = x.p, o = x.o, getId = x.getId;
+      if (!(got[getId] > 0)) { out.push(`${p.info.n}: ${o.by} did not hand it over in ${Math.round(S.waitMs / 60000)} min - buying it`); continue; }
+      got[getId]--;
       if (!o.sealed) { p.bought = true; p.owned = o.by; out.push(`${p.info.n}: from ${o.by}`); continue; }
       // a sealed piece: I unseal it myself at Pushkin
       // UNSEALWAIT-2026-10-30: the walk to Pushkin was cut off by the next hand-over (Destroyer1: 3 tries in 8 ms, 'Pushkin not in sight'); wait until
@@ -22403,6 +22481,16 @@ setInterval(() => {
     // (no party chat line: the party card shows SLOW HUNTING; a line every 3 min was noise)
   } catch (e) { logError('level health', e); }
 }, LEVELHEALTH.everyMs);
+/** RAIDKEEP-KNOWN: pure - living bosses from raid_status (by id/name) within 6000 of `me` at their datapack spawn: [{ x, y, z, name, mins }] */
+function rkKnownPick(status, bosses, me, minionsOf) {
+  const out = []; Object.keys(status || {}).forEach(k => { const s = status[k] || {}; if (s.alive !== true) return;
+    const b = (bosses || []).find(x => String(x.id) === String(k) || x.name === s.name); if (!b || !(num(b.x) || num(b.y))) return;
+    if (Math.hypot(num(b.x) - num(me.X), num(b.y) - num(me.Y)) > 6000 || Math.abs(num(b.z) - num(me.Z)) > 1500) return;
+    out.push({ x: num(b.x), y: num(b.y), z: num(b.z), name: String(b.name), mins: minionsOf(b.name) || [] }); });
+  return out;
+}
+const RKK = { at: 0, st: {} };
+function rkKnownBosses(me) { if (now() - RKK.at > 60000) { RKK.at = now(); try { RKK.st = raidStatusRead() || {}; } catch (e) { } } let L = []; try { L = raidDb(); } catch (e) { } return rkKnownPick(RKK.st, L, me, minionNames); }
 const RAIDKEEP_R = 3000;   // RAIDKEEP-2026-10-24: a living raid boss's minions (by name) within this of it are no hunting target (outside a raid)
 function huntTarget(cx, cy, radius) {
   const L = Me.Level;
@@ -22410,7 +22498,7 @@ function huntTarget(cx, cy, radius) {
   // SOLO PULL DISCIPLINE (2026-10-09): alone, only a monster that at most 1 other aggressive monster would join, not next to a raid boss spot,
   // and never above my level + 1
   const solo = soloChar(), sMobs = solo ? soloMobList() : null, sRaids = solo ? soloRaidSpots() : null;
-  let sSkipped = 0, sWhy = '';
+  let sSkipped = 0, sWhy = ''; const lvHigh = {};   // SKIPSAY-2026-11-02: monster kinds left alone as too high (name -> level)
   // SOLOUSER-2026-10-14 (owner: "Nuker19 is just walking back and forth without attacking anything": lvl 25 alone in the user's Cruma Marshlands
   // areas, every monster 27-29 refused by the solo +1 level rule): a spot the USER chose only WARNS (warn-never-refuse) — up to my level + 6 there
   const userSpot = !!(autoLvl.spot && autoLvl.spot.manual), lvlAbove = userSpot ? 6 : SOLOSAFE.levelAbove, uFall = [];
@@ -22418,7 +22506,10 @@ function huntTarget(cx, cy, radius) {
   // RAIDKEEP-2026-10-24 (owner: "Spoiler6 is taking on a raid boss alone??? He had minions??" — the lvl 47 duo auto-levelled in Cruma's Ossiud room
   // and killed Archon Suscepter's minions 80 from the boss): outside a raid, no target that is a living raid boss's minion (within RAIDKEEP_R of
   // it). Other monsters near the boss are fine. A spot the USER chose only warns (warn-never-refuse).
-  const rkBosses = []; if (!inRaid()) { try { snapMobs().forEach(b => { if (!b.IsDead && isRaidBossMob(b)) rkBosses.push({ x: num(b.X), y: num(b.Y), z: num(b.Z), name: String(b.Name), mins: minionNames(b.Name) || [] }); }); } catch (e) { } }
+  const rkBosses = []; if (!inRaid()) { try { snapMobs().forEach(b => { if (!b.IsDead && isRaidBossMob(b)) rkBosses.push({ x: num(b.X), y: num(b.Y), z: num(b.Z), name: String(b.Name), mins: minionNames(b.Name) || [] }); }); } catch (e) { }
+    // RAIDKEEP-KNOWN-2026-11-02 (Nuker33 lvl 21 died to a Sukar Wererat Priest 480 from the living Sukar Wererat Chief - the boss was not in the
+    // snapshot at that moment): a boss raid_status.json knows as ALIVE counts at its spawn point too
+    try { rkKnownBosses(meSnap()).forEach(b => { if (!rkBosses.some(x => x.name === b.name)) rkBosses.push(b); }); } catch (e) { } }
   // (owner 2026-10-24: "You DONT have to skip targets 1200 around raid boss JUST the raid boss and raid minions") — the boss itself is ignoredMob already
   const rkNear = (mb) => rkBosses.find(b => Math.abs(num(mb.Z) - b.z) < 600 && b.mins.includes(String(mb.Name)) && Math.hypot(num(mb.X) - b.x, num(mb.Y) - b.y) < RAIDKEEP_R);
   snapMobs().forEach(mb => {
@@ -22428,7 +22519,7 @@ function huntTarget(cx, cy, radius) {
     if (Math.abs((mb.Z || meSnap().Z) - meSnap().Z) > CONFIG.rest.zLimit) return;     // anden etage
     let lvl = npcLevel(mb.NpcId !== undefined ? mb.NpcId : mb.Id);
     if (lvl === undefined) lvl = Number(mb.Level) || 0;
-    if (lvl && (lvl > L + (userSpot ? 6 : 3) || lvl < L - 8)) return no(mb);
+    if (lvl && (lvl > L + (userSpot ? 6 : 3) || lvl < L - 8)) { if (lvl > L) lvHigh[String(mb.Name)] = lvl; return no(mb); }   // SKIPSAY: named in the notes
     const d = Math.hypot(mb.X - meSnap().X, mb.Y - meSnap().Y);
     if (Math.hypot(mb.X - cx, mb.Y - cy) > radius) return;
     if (autoLvl.spot && autoLvl.spot.poly && autoLvl.spot.poly.length >= 3 && !((autoLvl.spot.room || autoLvl.spot.area) ? nearPolygon(mb.X, mb.Y, autoLvl.spot.poly, 100) : inPolygon(mb.X, mb.Y, autoLvl.spot.poly))) return;   // outside the drawn area / the room (ROOM POLYS PATCH: +100 for rooms)
@@ -22441,7 +22532,7 @@ function huntTarget(cx, cy, radius) {
     if (geoBlockedAt(mb.X, mb.Y, mb.Z, 150)) return no(mb);                 // stands in a learned BLOCKED spot (we got stuck there, 2026-10-09)
     if (autoLvl.spot && autoLvl.spot.floor && isFinite(mb.Z) && (mb.Z < autoLvl.spot.floor.zMin - 150 || mb.Z > autoLvl.spot.floor.zMax + 150)) return;   // another floor (spot editor)
     if (solo) {   // 2026-10-10: every solo monster is checked (was: only ones nearer than the best so far) so huntSkip knows them all
-      if (lvl && lvl > L + lvlAbove) return no(mb);
+      if (lvl && lvl > L + lvlAbove) { lvHigh[String(mb.Name)] = lvl; return no(mb); }   // SKIPSAY
       if (userSpot && lvl && lvl > L + SOLOSAFE.levelAbove && now() - (soloSafe.userLvlNoteAt || 0) > 600000) { soloSafe.userLvlNoteAt = now(); note(`solo: WARNING — ${mb.Name} (lvl ${lvl}) is ${lvl - L} levels above me; attacking it anyway because you chose this spot`, true); }
       {
         const pk = soloPullOk({ id: num(mb.objId), x: num(mb.X), y: num(mb.Y), z: num(mb.Z) }, sMobs, { raids: sRaids }, SOLOSAFE);
@@ -22464,6 +22555,9 @@ function huntTarget(cx, cy, radius) {
   huntSkip.ids = skip; huntSkip.ok = okIds; huntSkip.at = now();
   // SOLO STALL (user 2026-10-12: "Dagger1 keeps going to a hunting spot and standing still for hours"): count how long the solo safety has refused EVERY monster in sight
   if (solo) { if (!best && sSkipped) { if (!soloSafe.refuseSince) soloSafe.refuseSince = now(); soloSafe.refused = sSkipped; } else if (best) soloSafe.refuseSince = 0; }
+  // SKIPSAY-2026-11-02 (tester Vykaax: "Ol Mahum Commander is being ignored ... it actively targets the Captain"): Hive's own picking leaves monsters
+  // above its level limit alone on purpose (party +3 / chosen spot +6, alone +1) - say which ones and why, at most every 10 min
+  try { const s = skipSayText(lvHigh, L, solo, userSpot); if (s && now() - (soloSafe.lvlSayAt || 0) > 600000) { soloSafe.lvlSayAt = now(); note(s, true); } } catch (e) { }
   if (solo && !best && sSkipped && now() - soloSafe.pullNoteAt > 120000) { soloSafe.pullNoteAt = now(); note(`solo: ${sSkipped} monster(s) left alone (would pull more than 1 other), e.g. ${sWhy}`); }
   return best;
 }
@@ -22883,7 +22977,74 @@ function soulResult(id) {
   if (id === 974 || id === 976 || id === 977) note(`soul crystal: ${r}${c ? " (" + c.color + " stage " + c.stage + ")" : ""}`, true);
 }
 /** At Gideon (Oren): get a crystal in my colour (quest 350 is started on the way; "Quit" is never clicked). */
+// ===== SOULSRC (2026-11-02, tester Vykaax: "Can it take crystals from the distributors/collector? ... Would rather buy them from the Luxury shop
+// by purchasing with c/d/b grade crystals OR let it grab lvl 8-10 soul crystals from distributor/collector. not much point leveling the crystals
+// 0 to 8 manually"): '!soul get' / the Crystals page "Get crystals" takes a crystal in this order (Crystals page -> "Where crystals come from",
+// soul_plan.json sources { own, buy, free }, missing = all ON):
+//   1) OWNED: my bag, then the gear-up givers (distributors, the collector, the clan warehouse) through the GEARDIST ask / offer / reserve / accept
+//      machinery (one hand-over per giver), the highest stage that fits first - never a crystal another character levels (a plain bag is not a
+//      source for crystals: only distributors / the collector / the clan warehouse);
+//   2) BUY at the Giran luxury shop (Alexandria "Purchase Specialty Items.": stage 7-10 for D / C / B crystals) - only with crystals already in MY bag;
+//   3) the FREE stage-0 crystal from Gideon (Oren) last.
+// SOULSRC-PURE-BEGIN (no host calls: docs/plan/tools/test_soul_sources.js runs this block in node)
+/** soul_plan.json (parsed) -> { own, buy, free } (missing / not false = ON) */
+function soulSrcCfg(plan) { const s = (plan && typeof plan === 'object' && plan.sources && typeof plan.sources === 'object') ? plan.sources : {}; return { own: s.own !== false, buy: s.buy !== false, free: s.free !== false }; }
+/** the crystal ids to ask for, highest stage first: colour, stages maxStage..1 (maxStage default 10, capped 10) */
+function soulWantIds(ids, color, maxStage) { const L = (ids && ids[color]) || []; const top = Math.min(10, num(maxStage) > 0 ? num(maxStage) : 10); const out = []; for (let st = top; st >= 1; st--) if (L[st]) out.push(L[st]); return out; }
+/** the best luxury-shop exchange I can pay from my bag: offers [{ id, name, cost:[{id,count}], ... }] + bag { id: count } -> offer | null */
+function soulBuyPick(offers, wantIds, bag) {
+  const rank = {}; (wantIds || []).forEach((id, i) => { rank[id] = i; });
+  return (offers || []).filter(o => o && rank[num(o.id)] !== undefined && Array.isArray(o.cost) && o.cost.length && o.cost.every(c => num((bag || {})[num(c.id)]) >= num(c.count)))
+    .sort((a, b) => rank[num(a.id)] - rank[num(b.id)])[0] || null;
+}
+/** giver side: may this character hand out a soul crystal? only a distributor, the collector or the clan warehouse (src 'clan') */
+function soulGiverOk(isCrystal, src, isDist, isCollector) { return !isCrystal || src === 'clan' || isDist || isCollector; }
+// SOULSRC-PURE-END
+function soulSources() { let p = null; try { p = soulFileCached('plan', `${__DIR__}\\Scripts\\data\\soul_plan.json`); } catch (e) { } return soulSrcCfg(p); }
+function soulMaxStage() { try { const T = soulTarget(); if (T && T.now && num(T.now.stage) > 0) return num(T.now.stage); } catch (e) { } return 10; }
+async function soulToGiran(why) { if (currentTownKey() === 'Giran') return true; lastTownCmd = 0; await townCommand(why, 'Giran'); await sleep(5000); sendAppearing(why); return currentTownKey() === 'Giran'; }
+/** 1) a crystal from the givers (GEARDIST machinery) -> 'got ...' | '' */
+async function soulFromOwned(col) {
+  const S = gearSources(); if (!((S.dist && S.names.length) || S.clan || S.bags)) return '';
+  if (!(await soulToGiran('soul crystal from the givers'))) return '';
+  const ids = soulWantIds(SOUL_IDS, col, soulMaxStage()); if (!ids.length) return '';
+  const rid = String(Me.Name).toLowerCase() + '_soul_' + Date.now().toString(36); GD.offers[rid] = [];
+  try { App.emit('swarm.gearask', { rid, from: Me.Name, ids: ids.map(id => ({ id })) }); } catch (e) { }
+  { const t0 = now(); while (now() - t0 < S.askMs && GD.offers[rid].length < 3) await sleep(400); }
+  const offers = (GD.offers[rid] || []).slice(); delete GD.offers[rid];
+  // highest stage first, then the GEARDIST order (distributor > bag > clan warehouse)
+  const o = offers.sort((a, b) => (ids.indexOf(num(a.id)) - ids.indexOf(num(b.id)))).filter((x, i, L) => num(x.id) === num(L[0].id));
+  const best = gdBestOffer(o); if (!best) return '';
+  const id = num(best.id), base = bagCount(id);
+  try { App.emit('swarm.gearaccept', { rids: [rid], by: best.by, to: Me.Name }); } catch (e) { }
+  note(`soul crystal: ${best.by} gives me ${(soulCrystalOf(id) || {}).color} stage ${(soulCrystalOf(id) || {}).stage} (${best.src === 'clan' ? 'clan warehouse' : 'from its bag'})`, true);
+  { const t0 = now(); while (now() - t0 < Math.min(S.waitMs, 240000) && bagCount(id) <= base) await sleep(3000); }
+  if (bagCount(id) > base) { soulLog(`got ${col} stage ${(soulCrystalOf(id) || {}).stage} from ${best.by}`); return `got ${col} stage ${(soulCrystalOf(id) || {}).stage} from ${best.by}`; }
+  soulLog(`${best.by} did not hand over the crystal in time`); return '';
+}
+/** 2) buy at the luxury shop with crystals from my bag -> 'bought ...' | '' */
+async function soulBuyLuxury(col) {
+  let M = {}; try { M = JSON.parse(File.ReadAllText(`${__SCRIPTS__}\\data\\giran_market.json`).replace(/^﻿/, '')) || {}; } catch (e) { return ''; }
+  const pos = {}; (M.npcs || []).forEach(n => { if (n && n.name && !pos[n.name]) pos[n.name] = { x: num(n.x), y: num(n.y) }; });
+  const offers = (M.offers || []).filter(o => o && o.kind === 'exchange' && soulIsCrystalId(o.id));
+  const pick = soulBuyPick(offers, soulWantIds(SOUL_IDS, col, soulMaxStage()), bagCounts()); if (!pick) return '';
+  if (!(await soulToGiran('soul crystal from the luxury shop'))) return '';
+  const market = { npc: pick.npc, x: num(pick.x) || (pos[pick.npc] || {}).x || 0, y: num(pick.y) || (pos[pick.npc] || {}).y || 0, path: pick.path || [], kind: pick.kind, listId: pick.listId, entry: pick.entry };
+  let r = { ok: false, why: '?' }; try { r = await ijBuyAt(market, num(pick.id), 1, `soul_${String(Me.Name).toLowerCase()}`); } catch (e) { r = { ok: false, why: String(e.message || e) }; }
+  try { Send.RequestBuySellUIClose(); } catch (e) { }
+  const cost = pick.cost.map(c => `${c.count} ${c.name}`).join(' + ');
+  soulLog(r.ok ? `bought ${pick.name} at ${pick.npc} for ${cost}` : `${pick.name} at ${pick.npc}: ${r.why}`);
+  return r.ok && bagCount(num(pick.id)) > 0 ? `bought ${pick.name} (${cost})` : '';
+}
 async function soulGetCrystal() {
+  // SOULSRC: owned crystals first, then the luxury shop, the free stage-0 crystal from Gideon last
+  if (!myCrystals().length && num(Me.Level) >= SOUL.minLevel && soulPref(Me.Name) !== 'off') {
+    const SS = soulSources(), col = soulPref(Me.Name); let got = '';
+    if (SS.own) { try { got = await soulFromOwned(col); } catch (e) { logError('soul from owned', e); } }
+    if (!got && SS.buy) { try { got = await soulBuyLuxury(col); } catch (e) { logError('soul luxury buy', e); } }
+    if (got && soulQuestStarted() !== false) return got;            // quest 350 runs: done (else Gideon starts it below)
+    if (!got && !SS.free) return 'no crystal from the givers or the luxury shop (the free Gideon crystal is switched off)';
+  }
   const haveOne = myCrystals().length > 0;
   if (haveOne && soulQuestStarted() !== false) return 'have one';   // with a crystal but WITHOUT quest 350 (bought / traded / warehouse): Gideon starts the quest (2026-10-12)
   if (num(Me.Level) < SOUL.minLevel) return `level ${Me.Level}: crystals from level ${SOUL.minLevel}`;
@@ -22938,7 +23099,9 @@ App.on('swarm.soulres', (e) => { try { if (isLeader() && mateMsg(e)) soulRes.got
 async function leadSoulGet() {
   if (!isLeader()) return;
   if (autoLvl.active) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
-  if (!(await teamTeleport(SOUL.town, 'soul crystals'))) { note('soul: could not get the team to Oren', true); return; }
+  // SOULSRC-2026-11-02: with the givers / luxury shop on, the team gathers in Giran (Gideon's free crystal: each one goes to Oren itself if needed)
+  const soulTown = (() => { const SS = soulSources(); return SS.own || SS.buy ? 'Giran' : SOUL.town; })();
+  if (!(await teamTeleport(soulTown, 'soul crystals'))) { note(`soul: could not get the team to ${soulTown}`, true); return; }
   const order = {}; teamNames().forEach((n, i) => { order[n] = i + 1; });
   soulRes.got = {};
   App.emit('swarm.soulget', { leader: Me.Name, order });
@@ -25928,7 +26091,7 @@ async function craftTick(manual, onlyKey) {
     for (let i = 0; i < max; i++) {
       if (interrupted(g0) || Me.IsDead || IsInCombat) { why = 'interrupted (a more important task)'; break; }
       if (num(Me.MP) < rec.mp) {                                          // wait for MP (sitting regenerates faster), max 4 min
-        try { if (!Me.IsSitting) RunCommand('/sit'); } catch (e) { }
+        try { if (!Me.IsSitting) RunCommand('/sit'); rest.sitting = true; } catch (e) { }   // SITFIX: Hive's own sit (the sit guard leaves it)
         const t0 = now(); while (num(Me.MP) < Math.min(num(Me.MaxMP), rec.mp * 3) && now() - t0 < 240000 && !interrupted(g0) && !IsInCombat) await sleep(2000);
         standUp(); await sleep(1200);
         if (num(Me.MP) < rec.mp) { why = `not enough MP (${num(Me.MP)} of ${rec.mp})`; break; }
@@ -28807,11 +28970,17 @@ function sharedJsonUpdate(file, fn) {
   return null;
 }
 /** our route walk gave up stuck here: count it (2 episodes = every route avoids it) */
+/** FIGHTSTALL-2026-11-02: no learned wall from a stall in a fight or around a death (mine or a teammate's) */
+function geoLearnSkip(o) { return !!(o && (o.dead || o.inCombat || o.mateDead)); }
 function geoBlockLearn(why, target) {
   // GEARFIX-2026-10-24 (Giran: ~80 learned 'blocked' spots on open streets, 247 episodes on the start square): a stall in a town is follow / NPC /
   // crowd, never a wall; the learned walls closed the start square for the path finder ("no wall-free route to 80675,150464"). Towns walk their
   // recorded routes / street graphs, so nothing is learned there.
   try { if (currentTownKey()) return null; } catch (e) { }
+  // FIGHTSTALL-2026-11-02 (Devil's Isle: 74 learned spots since 10-25 on the only way from the landing to the caves - the duos stalled there while
+  // fighting the island's monsters and resurrecting a dead healer; "no way through" for every spoil duo): a stall in a fight / around a death is
+  // the fight, never a wall - nothing is learned then
+  try { let mateDead = false; teamNames().forEach(n => { const lp = livePos[n]; if (lp && lp.IsDead && now() - lp.at < 15000) mateDead = true; }); if (geoLearnSkip({ dead: Me.IsDead, inCombat: combatInfo().in, mateDead })) return null; } catch (e) { }
   const r = sharedJsonUpdate(GEO_BLOCKED_FILE(), (doc) => geoBlockMerge(doc, { x: num(Me.X), y: num(Me.Y), z: num(Me.Z), by: Me.Name, at: now(), why, target: target ? { x: Math.round(target.x), y: Math.round(target.y) } : null }));
   if (r && r.became) { geoBlk.at = 0; note(`navigation: ${P(r.point.x, r.point.y)} is now a BLOCKED spot for every route and hunt (stuck here ${r.point.episodes}x: ${r.point.hits.map(h => h.by).filter((v, i, a) => a.indexOf(v) === i).join(', ')}) — Scripts/data/geo_blocked.json`, true); }
   return r;
@@ -32519,7 +32688,7 @@ async function autoLevelLoop(solo) {
           // plain square (cached: a no-op unless the party tactics size changed or something moved it)
           center = autoLvl.spot.center; radius = (autoLvl.spot.radius || 3000) * (autoLvl.spot.noScale ? 1 : zoneScale() * tacticsZoneScale());
           if (!(autoLvl.spot.poly && autoLvl.spot.poly.length >= 3) && !autoLvl.spot.zmap) {
-            try { const side = autoLvl.spot.square || Math.max(radius, 3000 * zoneScale()); if (combatSquare(side, center.x, center.y, center.z || Me.Z) && autoLvl.zone) autoLvl.zone.r = Math.round(side); } catch (e) { logError('combat zone', e); }
+            try { const side = autoLvl.spot.square || Math.max(radius, 3000 * zoneScale()); if (combatSquare(side, center.x, center.y, center.z || Me.Z) && autoLvl.zone) autoLvl.zone.r = Math.round(side); if (!SF.zone || SF.zone.kind === 'square') sfZoneSet({ kind: 'square', r: side, x: center.x, y: center.y, z: center.z || Me.Z }); } catch (e) { logError('combat zone', e); }   // SFSOLO: the zone the fight phase keeps
           }
           break zoneSetup;
         }
@@ -32546,17 +32715,17 @@ async function autoLevelLoop(solo) {
             const sp = autoLvl.spot, outer = sp.poly.map(p => [Math.round(p.x), Math.round(p.y)]);
             const inner = (sp.holes || []).filter(h => h && h.length >= 3).map(h => h.map(p => [Math.round(p.x), Math.round(p.y)]))
               .concat((sp.circles || []).filter(c => c && c.r > 0).map(c => Array.from({ length: 16 }, (_, k) => [Math.round(c.x + Math.cos(k * Math.PI / 8) * c.r), Math.round(c.y + Math.sin(k * Math.PI / 8) * c.r)])));
-            SetCombatPolygon(outer, inner); zoneCache.last = null;
+            SetCombatPolygon(outer, inner); zoneCache.last = null; sfZoneSet({ kind: 'poly', outer, inner });   // SFSOLO
             usedMap = true;
             note(`autolevel: hunting inside the drawn area of ${sp.name} (${outer.length} corners, ${inner.length} exclusions)`, !solo);
           } catch (e) { logError('combat polygon', e); }
         }
         // local fallback inside a dungeon room: L2Swarm's combat stays inside that room's outline (2026-10-08 21:50)
         if (localFb && localFb.poly && typeof SetCombatPolygon === 'function') {
-          try { SetCombatPolygon(localFb.poly.map(p => [Math.round(p.x), Math.round(p.y)]), []); zoneCache.last = null; usedMap = true; note(`autolevel: local fallback — hunting inside ${localFb.name}`, !solo); } catch (e) { logError('local fallback polygon', e); }
+          try { SetCombatPolygon(localFb.poly.map(p => [Math.round(p.x), Math.round(p.y)]), []); zoneCache.last = null; sfZoneSet({ kind: 'poly', outer: localFb.poly.map(p => [Math.round(p.x), Math.round(p.y)]), inner: [] });   /* SFSOLO */ usedMap = true; note(`autolevel: local fallback — hunting inside ${localFb.name}`, !solo); } catch (e) { logError('local fallback polygon', e); }
         }
-        if (zmapPath && !usedMap) { try { if (File.Exists(zmapPath)) { zoneCache.last = null; LoadCombatMap(zmapPath); Options.CombatZoneType = CombatZoneTypes.Map; usedMap = true; note(`autolevel: hunting inside the drawn zone ${autoLvl.spot.zmap}`, !solo); } else note(`autolevel: zone file ${zmapPath} is missing — using the square`, true); } catch (e) { logError('zmap', e); } }
-        if (!usedMap) { try { combatSquare(sqSide(), center.x, center.y, center.z || Me.Z); } catch (e) { logError('combat zone', e); } }   // radius unchanged for small teams (user 2026-10-04 23:52)
+        if (zmapPath && !usedMap) { try { if (File.Exists(zmapPath)) { zoneCache.last = null; LoadCombatMap(zmapPath); sfZoneSet({ kind: 'map', path: zmapPath });   /* SFSOLO */ Options.CombatZoneType = CombatZoneTypes.Map; usedMap = true; note(`autolevel: hunting inside the drawn zone ${autoLvl.spot.zmap}`, !solo); } else note(`autolevel: zone file ${zmapPath} is missing — using the square`, true); } catch (e) { logError('zmap', e); } }
+        if (!usedMap) { try { combatSquare(sqSide(), center.x, center.y, center.z || Me.Z); sfZoneSet({ kind: 'square', r: sqSide(), x: center.x, y: center.y, z: center.z || Me.Z }); } catch (e) { logError('combat zone', e); } }   // SFSOLO: the zone the fight phase keeps   // radius unchanged for small teams (user 2026-10-04 23:52)
         autoLvl.zone = { x: Math.round(center.x), y: Math.round(center.y), r: Math.round(usedMap ? radius : sqSide()), name: localFb ? localFb.name : autoLvl.spot ? autoLvl.spot.name : 'local', zmap: usedMap && !localFb ? autoLvl.spot.zmap : null };   // dashboard party map
         if (localFb) {
           // the dashboard labels it "local fallback" (user 2026-10-08 21:50); a room: its polygon, the members get it via swarm.room
@@ -32658,7 +32827,7 @@ async function autoLevelLoop(solo) {
       if (!IsEnabled) EnableBot();
       if (!IsInCombat) startCombatG();
       // SWARMFIGHT-2026-10-16: the switch on = L2Swarm's combat hunts in the zone set above; Hive only counts kills and keeps the spot checks below
-      const sfMode = (() => { try { return swarmFightOn() && !sfExcluded() && !solo; } catch (e) { return false; } })();
+      const sfMode = (() => { try { return sfOwnsCombat(); } catch (e) { return false; } })();   // SFSOLO-2026-11-02: also a character alone (was: && !solo)
       if (sfMode) { const sk = sfLeaderTick(); if (sk) { kills += sk; for (let i = 0; i < sk; i++) autoLvl.killTimes.push(now()); multiKill(autoLvl.spot); } lastTarget = 0; }
       // OWNFIGHT-2026-10-26 (tester Hero: "hive combat turned off ... character runs to mob, hits it 2-3 times, then runs away for some distance and then goes
       // back"): with "Hive picks my skills" OFF, L2Swarm's own combat fights; while it is on a monster Hive never picks another one or walks to the centre /
@@ -32939,6 +33108,14 @@ const PAIR_DEALERS = ROLE_RE.pairDealers;   // ROLE KINDS: the old list + melee,
 const PAIR_BUFFERS = ROLE_RE.pairBuffers;   // unchanged: /^(doomcryer|warcryer|buffer)$/
 const tactFile = { at: 0, all: {} };
 /** My party's tactics (key = party leader name), defaults filled in and clamped. */
+const ESCOFF = { at: 0, j: {} };
+/** ESCOFF-2026-11-02: is "Solo: escape when a fight goes badly" switched OFF for me? (fresh file read every 5 s, every party key I may belong to) */
+function soloEscapeOff() {
+  if (now() - ESCOFF.at > 5000) { ESCOFF.at = now(); try { const j = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\party_tactics.json`)).replace(/^﻿/, '')); ESCOFF.j = j && typeof j === 'object' ? j : {}; } catch (e) { } }
+  const keys = new Set([CONFIG.leader, teamOf(Me.Name), Me.Name]);
+  try { if (IsPartyLeader) keys.add(Me.Name); (hostSnap.party() || PartyList).forEach(p => { if (p.IsLeader) keys.add(String(p.Name)); }); } catch (e) { }
+  return soloEscapeOffDecide([...keys].filter(Boolean).map(k => (ESCOFF.j[k] || {}).soloEscape).concat([(ESCOFF.j._defaults || {}).soloEscape]));
+}
 function partyTactics(leader) {
   if (now() - tactFile.at > 60000) {
     tactFile.at = now();
@@ -35639,6 +35816,34 @@ async function escortGoToOwner(owner) {
 // HVIL  —  alle sætter sig ved lav HP/MP når intet slår dem, og rejser sig når de er friske eller angribes
 // ---------------------------------------------------------------------------
 const rest = { sitting: false, since: 0 };
+// SITFIX-2026-11-02 (Vykaax, 1.13.0: "this whole party is sitting down ... why??" - the sit switch OFF, the party still sat 30 min until he stood
+// them up; every attack / move "You cannot move while sitting", L2Swarm blacklisted the monsters as unreachable). Hive's own rest obeys the switch;
+// the rest came from outside (L2Swarm's FollowPartyLeaderSit, a client sit) and nothing stood them up. Pure: why to stand up now ('' = stay)
+function sitGuardDecide(o) {
+  if (!o.sitting) return '';
+  if (o.cannotMoveMsg) return 'a move was refused while sitting';
+  if (o.attacked) return 'attacked while sitting';
+  if (!o.hiveSit && !o.restOn) return 'sitting although "Sit down to rest" is off';
+  if (!o.hiveSit && o.partyCombat) return 'the party is fighting';
+  if (!o.hiveSit && o.sitMs > 120000) return 'sitting 2 min without a rest of my own';
+  return '';
+}
+const SITG = { since: 0, said: 0 };
+setInterval(() => {
+  try {
+    if (!state.role || !IsCharacterReady() || Me.IsDead || handsOffMe()) return;
+    const RR = restRule(), sitting = !!Me.IsSitting;
+    if (!RR.on) { try { if (Options.FollowPartyLeaderSit) Options.FollowPartyLeaderSit = false; } catch (e) { } }   // L2Swarm's own "sit when the leader sits"
+    if (!sitting) { SITG.since = 0; return; }
+    if (!SITG.since) SITG.since = now();
+    let pc = false; try { pc = partyCombatInfo().in; } catch (e) { }
+    const why = sitGuardDecide({ sitting, hiveSit: !!rest.sitting, restOn: !!RR.on, attacked: now() - lastAttackerOnMe.at < 5000, partyCombat: pc, sitMs: now() - SITG.since,
+      cannotMoveMsg: !!(lastSysMsg && now() - lastSysMsg.at < 6000 && /cannot move while sitting/i.test(String(lastSysMsg.text || ''))) });
+    if (!why) return;
+    rest.byHold = false; standUp(); try { RunCommand('/stand'); } catch (e) { } rest.sitting = false; SITG.since = 0;
+    if (now() - SITG.said > 60000) { SITG.said = now(); note(`standing up: ${why}`); }
+  } catch (e) { logError('sit guard', e); }
+}, 3000);
 setInterval(() => {
   if (!state.role || !IsCharacterReady() || Me.IsDead) return;
   if (handsOffMe()) return;                                          // HANDSOFF-2026-10-26: no Hive rest (sit / stand)
@@ -35682,7 +35887,7 @@ setInterval(() => {
 setInterval(() => {
   if (!soloChar() || !IsCharacterReady() || Me.IsDead || currentTownKey() || inRaid() || inst.on || state.escaping || ESC.on || state.gkBusy || tradeState) return;
   if (now() - SOLO.fleeAt < 3000 || now() - lastAttackerOnMe.at > SOLOSAFE.hitMs || Me.HpPercent >= SOLO.fleeBelow) return;
-  try { if (partyTactics(CONFIG.leader).soloEscape === false) return; } catch (e) { }   // SOLOESC-2026-10-28 (Hero): party setting, default ON
+  try { if (soloEscapeOff()) return; } catch (e) { }   // SOLOESC-2026-10-28 (Hero): party setting, default ON - ESCOFF-2026-11-02: every party key, fresh
   let attackers = 0, near = 0;
   try { escAttackers().forEach(a => { if (a.cc) return; if (a.targetsMe || a.hitMe) attackers++; if (a.dist <= SOLOSAFE.nearR && (a.targetsMe || a.hitMe || (a.aggr > 0 && a.dist <= a.aggr + 150))) near++; }); } catch (e) { }   // SOLONEAR-2026-10-28
   const atk = mobById(lastAttackerOnMe.id);
@@ -35694,7 +35899,7 @@ setInterval(() => {
   SOLO.fleeAt = now(); SOLO.flees = SOLO.flees.filter(t => now() - t < 300000); SOLO.flees.push(now());
   note(`solo: ${d.why} — escaping (CC, run to a safe spot, .townname / Scroll of Escape)`, true);
   stopCombatG();
-  escapeFight(`solo: ${d.why}`).catch(e => logError('solo escape', e));
+  escapeFight(`solo: ${d.why}`).then(r => { if (r !== 'town' && r !== 'soe') SOLO.recoverUntil = now() + 90000; }).catch(e => logError('solo escape', e));   // SOLOFLEE-2026-11-02: no re-engage for 90 s
 }, 1000);
 
 // ---------------------------------------------------------------------------
@@ -36996,12 +37201,17 @@ async function planStepLevel(step) {
 }
 /** QUESTADOPT: does the plan take over a quest run that is already going (the same quest)? */
 function planQuestAdopt(running, runningId, id) { return !!running && Number(runningId) === Number(id) && Number(id) > 0; }
+/** PATHDONE: a 1st-class "Path Of/To ..." quest is impossible once the character left its base class (H5 base class ids) */
+function planPathQuestGone(name, classId) { return /^Path (of|to) /i.test(String(name || '').trim()) && [0, 10, 18, 25, 31, 38, 44, 49, 53, 123, 124].indexOf(Number(classId)) < 0; }
 async function planStepQuest(step, prog) {
   const id = num(step.quest), team = [Me.Name].concat(teamNames()), rep = Math.max(1, num(step.repeat) || 1);
   const scope = step.mode === 'solo' ? (step.who && step.who.length ? step.who.filter(n => team.indexOf(n) >= 0) : team) : [Me.Name];
   if (!scope.length) return { fail: `${(step.who || []).join(', ')} ${step.who && step.who.length === 1 ? 'is' : 'are'} not online in the party` };
   const stepAt = Date.parse(prog.stepAt || '') || now();
   prog.base = prog.base || {};
+  // PATHDONE-2026-11-02 (13 academy Dark Wizards hunted quest 412 Path Of The Dark Wizard for hours after the board class change at level 20 -
+  // a 1st-class path quest can never be finished once the class changed): skip it at once
+  { const q0 = qeQuest(id); if (planPathQuestGone(String((q0 && q0.name) || step.name || ''), num(Me.ClassId))) return { ok: true, skipped: true, result: 'skipped: a class path quest, but I already have my 1st class' }; }
   if (!prog.started) {                                                  // a new step: remember the runs so far (a restart keeps them)
     scope.forEach(n => { const r = planQuestRec(n, id); prog.base[n] = num(r && r.runs); });
     const q = qeQuest(id), oneTime = q && !qeRepeatable(q);
@@ -37037,6 +37247,8 @@ async function planStepQuest(step, prog) {
   for (;;) {
     await sleep(5000);
     const why = planInterrupted(); if (why) return { interrupted: why };
+    // PATHDONE-RUNNING-2026-11-02 (Nuker27 died on quest 412 as a Dark Wizard: the class changed while the step ran): stop at once
+    { const q1 = qeQuest(id); if (planPathQuestGone(String((q1 && q1.name) || step.name || ''), num(Me.ClassId))) { try { qeStopReq('class changed: path quest impossible'); } catch (e) { } return { ok: true, skipped: true, result: 'skipped: my class changed while the path quest ran' }; } }
     const res = scope.map(n => ({ n, j: planQuestJudge(planQuestRec(n, id), prog.base[n], Math.max(stepAt, num((prog.since || {})[n]))), rec: planQuestRec(n, id) }));
     if (res.every(r => r.j === 'done')) return { ok: true, result: `quest ${id} done${scope.length > 1 || scope[0] !== Me.Name ? ' by ' + scope.join(', ') : ''}` };
     const open = res.filter(r => r.j === 'running' || r.j === 'none');
@@ -37453,8 +37665,9 @@ function acStoreMode(m) { return isAcademy() ? null : m; }
 async function acadStoreBuffs(why) {
   const B = acadCfg().buffs, out = [];
   if (!B.on || currentTownKey() !== 'Giran') return '';
-  try { if (B.magnus) { const r = await storeBuyBuff(STORE_MAGNUS.id, null, "Magnus' Chant", acStoreOpt({ titleRe: STORE_MAGNUS.titleRe })); out.push("Magnus' Chant: " + r.why); } } catch (e) { logError('academy magnus', e); }
-  try { if (B.cov) { const r = await storeBuyBuff(STORE_COV.id, null, 'Chant of Victory', acStoreOpt({})); out.push('Chant of Victory: ' + r.why); } } catch (e) { logError('academy cov', e); }
+  const pick = storeChantPick(!!B.cov, !!B.magnus);   // CHANTPICK: one of the two, never both (they replace each other)
+  try { if (pick === 'magnus') { const r = await storeBuyBuff(STORE_MAGNUS.id, null, "Magnus' Chant", acStoreOpt({ titleRe: STORE_MAGNUS.titleRe })); out.push("Magnus' Chant: " + r.why); } } catch (e) { logError('academy magnus', e); }
+  try { if (pick === 'cov') { const r = await storeBuyBuff(STORE_COV.id, null, 'Chant of Victory', acStoreOpt({})); out.push('Chant of Victory: ' + r.why); } } catch (e) { logError('academy cov', e); }
   if (out.length) academyLog(`store buffs (${why}): ${out.join('; ')}`);
   return out.join('; ');
 }
@@ -37669,6 +37882,8 @@ async function acGetCoupon(ref, which) {
   // once-only flag for it too): the server's "already got" answer is final = 'unavailable', never retried every 30 s
   return { ok: false, final: acCouponFinal(t), why: `no coupon came (once per character, or the window does not fit${t ? ': "' + t + '"' : ''})` };
 }
+/** ARMORNEVER: the armor coupon is impossible once the weapon coupon was taken (st = acadcoupon_<Name>.json) */
+function acArmorNever(which, st) { const w = (st && st.weapon) || {}; return which === 'armor' && (w.status === 'done' || /coupon\(s\) already in the bag|got \d+ coupon/.test(String(w.text || ''))); }
 /** COUPONFINAL: the guide's answer says this character can never get it */
 function acCouponFinal(text) { return /already (got|received|have)|only once/i.test(String(text || '')); }
 /** exchange ONE coupon for the product at the guide's list -> { ok, why } */
@@ -37755,6 +37970,9 @@ async function acCouponStep(which) {
   if (!isAcademy()) return { ok: true, skipped: true, result: 'not an academy character' };
   if (!C.coupons) { acSet(which, 'off', 'switched off (academy.json coupons)'); return { ok: true, skipped: true, result: 'coupons switched off' }; }
   if (done) return { ok: true, result: `${which} coupon already done` };
+  // ARMORNEVER-2026-11-02 (Nuker38 + Nuker35: L2Toggle's armor coupon shares the weapon coupon's once-only flag - "Your already got your newbie
+  // weapon!", sometimes with no page at all = a 30 s retry loop): a character that took the weapon coupons never gets the armor coupon - skipped at once
+  if (acArmorNever(which, acRead())) { acSet(which, 'unavailable', 'L2Toggle: the armor coupon shares the weapon coupon\'s once-only flag (weapon coupon already taken)'); return { ok: true, skipped: true, result: 'armor coupon: not available after the weapon coupon (L2Toggle)' }; }
   const w = acWindow(which, num(Me.Level), num(Me.ClassId));
   if (!w.ok) { acSet(which, 'skipped', w.why); return { ok: true, skipped: true, result: `${which} coupon: ${w.why}` }; }
   if (ACC.busy) return { ok: true, skipped: true, result: 'a coupon run is already busy' };
@@ -40898,13 +41116,16 @@ let lastAttackerOnMe = { id: 0, at: 0 };
 // WHOLE TEAM BEFORE ANY TRIP (user 2026-10-05): after every L2Swarm restart the accounts log in one by one (20 s apart, ~4 min). The leader
 // only saw the few already in his party and travelled alone (.gludin + gatekeeper while 6-8 teammates stayed in Giran, 01:44 and 06:17).
 const scriptStartAt = Date.now();
+/** SOLOPARTY-2026-11-02: others in my IN-GAME party (a tester's party of 8 whose names the roster does not know counted as 8 "solo" characters
+ *  that each ran away on their own) */
+function soloPartyOthers() { let n = 0; try { (hostSnap.party() || PartyList).forEach(p => { if (String(p.Name) !== String(Me.Name)) n++; }); } catch (e) { } return n; }
 function rosterTeam() { return Object.keys(CONFIG.roster).filter(n => n !== Me.Name && teamOf(n) === teamOf(Me.Name)); }
 // a SOLO character = nobody else on my roster team (Dagger1, user 2026-10-07: he levels alone). Cached 30 s.
 const SOLO = { levelsBelow: 3, restBelow: 50, fleeBelow: 50, leaveBelow: 30, at: 0, v: false, fleeAt: 0, flees: [] };
 // (2026-10-09: the answer is only cached once my role is known — right after a script start state.role is still empty, soloChar() said
 // false for 30 s and Dagger1 picked a spot for his FULL level (14:56 "lvl 45: Sel Mahum ... area 5") instead of 3 below)
 function soloChar() {
-  if (now() - SOLO.at > 30000) { let v = false; try { v = leadMode() && !!state.role && rosterTeam().length === 0; } catch (e) { v = false; } SOLO.v = v; SOLO.at = state.role ? now() : 0; }
+  if (now() - SOLO.at > 30000) { let v = false; try { v = leadMode() && !!state.role && rosterTeam().length === 0 && soloPartyOthers() === 0; } catch (e) { v = false; } SOLO.v = v; SOLO.at = state.role ? now() : 0; }
   return SOLO.v;
 }
 
@@ -40924,12 +41145,19 @@ function soloChar() {
 //     24 h (spot_learned.json 'solo' section: soloDeathMark / soloDeathSkips).
 //  3) soloPullOk: attack a monster only when at most 1 OTHER aggressive monster has it inside its own aggro range (+100) and it is not within
 //     1500 of a raid boss spot; soloRestOk: sit down only with no aggressive monster within 1200 (else walk out first); potions below 60 %.
-var SOLOSAFE = { fleeHp: 50, fleeAttackers: 2, fleeNear: 4, nearR: 900, leaveHp: 30, finishAtkHp: 20, hitMs: 4000, againMs: 20000,
+// SOLOFLEE-2026-11-02 (Vykaax: "instead of fighting it chickens out and runs away"): monsters merely standing near never cause a flee any more
+// (was 4) - only 2+ attackers below 50 % or below 30 % still hit (the ACADFIGHT rule for every solo character)
+var SOLOSAFE = { fleeHp: 50, fleeAttackers: 2, fleeNear: 99, nearR: 900, leaveHp: 30, finishAtkHp: 20, hitMs: 4000, againMs: 20000,
   maxAbove: 1, avgAbove: 2, avgMaxAbove: 3, maxDens: 0.65, maxPack: 2, maxLandingAggr: 1, maxRouteMax: 6, raidDist: 1500,
   pullOthers: 1, pullAggroCap: 1000, pullPad: 100, pullZ: 400, raidPullDist: 1500, levelAbove: 1,
   restClear: 1200, restMoveGapMs: 15000, potBelow: 60, potGapMs: 10000, deathSkipMs: 24 * 3600e3, scriptFight: true };
 /** o = { hp, hitAgo, attackers (monsters targeting / hitting me, not CC'd), near (aggressive or on me, within nearR, not CC'd), atkHp (HP % of the
  *  one that hit me last), sinceEsc (ms since my last escape ended) } -> { act: 'escape' | '', why } */
+/** SOLOFLEE-2026-11-02: after a solo flee nothing new is attacked until recoverUntil - only the monster hitting me (no flip-flop) */
+function soloRecoverHold(t, recoverUntil, isMyAttacker) { return !!recoverUntil && t < recoverUntil && !isMyAttacker; }
+/** ESCOFF-2026-11-02: the party's "Solo: escape" switch, looked up under EVERY key the character can belong to (its swarm.config party, its
+ *  CONFIG.leader, its in-game party leader) - a member unknown to the roster read its OWN name and fell back to ON. offs = [false/true/undefined] */
+function soloEscapeOffDecide(vals) { return (vals || []).some(v => v === false); }
 function acadFleeCfg(academy, cfg) { return academy ? Object.assign({}, cfg, { fleeNear: 99 }) : cfg; }   // ACADFIGHT-2026-11-01
 function soloFleeDecide(o, cfg) {
   const c = cfg || SOLOSAFE, hp = Math.round(Number(o.hp) || 0);
@@ -41047,6 +41275,7 @@ function soloMobList() {
 function soloRaidSpots() { try { return (autoLvl.spot && autoLvl.spot.area && autoLvl.spot.area.raids) || []; } catch (e) { return []; } }
 /** solo + autolevel at a hunting spot: the script picks the targets (nnFight + soloPullOk), not L2Swarm's own combat (which takes anything) */
 function soloScriptFight() {
+  try { if (sfOwnsCombat()) return false; } catch (e) { }   // SFSOLO-2026-11-02: Fight with L2Swarm = L2Swarm's own combat picks the targets, also alone
   try { return !!(SOLOSAFE.scriptFight && soloChar() && state.mode === 'autolevel' && !currentTownKey() && !isHealerRole() && !inRaid() && !inst.on); } catch (e) { return false; }
 }
 /** may I sit down here? Not with an aggressive monster within 1200: walk out of its reach first (safe spot, else away), max every 15 s */
@@ -42993,8 +43222,9 @@ async function giranServices(why, opt) {
     const sr = await teamStep(`${Date.now()}sl`, 'sellrun', 9000 * order.length + 300000, { order, grades: supplyJunkGrades() });
     const ss = Object.values(sr.got || {}).filter(a => a && /^sold [1-9]/.test(String(a.msg || ''))).map(a => `${a.name}: ${a.msg}`); if (ss.length) out.push('sold: ' + ss.join(', '));
   } catch (e) { logError('giran services sell', e); } }
-  if (pautoOn('storeCov')) { try { const c = await storeBuyBuff(STORE_COV.id, acStoreMode('Party'), 'Chant of Victory', acStoreOpt({})); out.push('Chant of Victory: ' + c.why); } catch (e) { logError('dpcov cov', e); } }   // ACADSTORE-2026-10-31
-  if (pautoOn('storeMagnus')) { try { const c = await storeBuyBuff(STORE_MAGNUS.id, acStoreMode('Party'), "Magnus' Chant", acStoreOpt({ titleRe: STORE_MAGNUS.titleRe })); out.push("Magnus' Chant: " + c.why); } catch (e) { logError('magnus', e); } }   // MAGNUS-2026-10-23
+  const chantR = storeChantPick(pautoOn('storeCov'), pautoOn('storeMagnus'));   // CHANTPICK-2026-11-02: never both
+  if (chantR === 'cov') { try { const c = await storeBuyBuff(STORE_COV.id, acStoreMode('Party'), 'Chant of Victory', acStoreOpt({})); out.push('Chant of Victory: ' + c.why); } catch (e) { logError('dpcov cov', e); } }   // ACADSTORE-2026-10-31
+  if (chantR === 'magnus') { try { const c = await storeBuyBuff(STORE_MAGNUS.id, acStoreMode('Party'), "Magnus' Chant", acStoreOpt({ titleRe: STORE_MAGNUS.titleRe })); out.push("Magnus' Chant: " + c.why); } catch (e) { logError('magnus', e); } }   // MAGNUS-2026-10-23
   try { await soStoreAddOn(out, 'rebuff trip'); } catch (e) { logError('store add-on', e); }   // STOREADD-2026-10-22
   if (pautoOn('vitality')) { try {
     const runId = `${Date.now()}vt`, vr = await teamStep(runId, 'vitalityrun', VIT.staggerMs * order.length + 180000, { order });
@@ -43209,6 +43439,11 @@ const STORE_COV = { id: 1363, titleRe: /\bcov\b|victory/i, minLeftSec: 3600, max
 function STORE_LOG() { return SWARM_ROOT + '\\Logs\\buff_store.log'; }
 // MAGNUS-2026-10-23 (owner: "the nuker parties are not buying 'Chant of Magus' from town, that is the most insane buff for mages and casters, it gives even
 // more casting speed"): Magnus' Chant 1413 from a Doomcryer buff store (Tullock sold it on page 1, 2026-10-18) for the whole party, party switch storeMagnus
+// CHANTPICK-2026-11-02 (19 of 20 academy nukers without Magnus' Chant, Nuker32 - whose CoV buy failed - the only one with it): on L2Toggle
+// Chant of Victory and Magnus' Chant replace each other (buff_store.log Nuker21 12:25-12:35: CoV, Magnus, CoV, Magnus, CoV - the last buy
+// wins, every Giran visit). Only ONE of the two is bought: Magnus' Chant when it is wanted (casters: the owner's academy rule / the party's
+// storeMagnus switch), else Chant of Victory. Pure: -> 'magnus' | 'cov' | null
+function storeChantPick(wantCov, wantMagnus) { return wantMagnus ? 'magnus' : (wantCov ? 'cov' : null); }
 const STORE_MAGNUS = { id: 1413, titleRe: /\bcov\b|victory|magnus|magus|chant|\bdc\b|doom/i };
 function storeBuffLeft(id) { let left = 0; try { BuffsList.forEach(b => { if (num(b.Id) === id) left = Math.max(left, num(b.RemainTime)); }); } catch (e) { } return left; }
 function storeSellers(re, range) {
@@ -43508,12 +43743,13 @@ async function leadSupply(why, opts) {
     }
     // 5d. STORE BUFFS (BUFFSTORE-2026-10-19, owner: "maybe even take COV before you enter the catacomb, it's barely any adena"): with the party switch on,
     //     the leader buys Chant of Victory for the WHOLE party (target 'Party', no range limit) from a player buff store near the Giran landing
-    if (pautoOn('storeCov') && currentTownKey() === 'Giran' && !hurry()) {
+    const chantS = storeChantPick(pautoOn('storeCov'), pautoOn('storeMagnus'));   // CHANTPICK-2026-11-02: CoV and Magnus' Chant replace each other
+    if (chantS === 'cov' && currentTownKey() === 'Giran' && !hurry()) {
       pstStep('supply', 'Chant of Victory');
       try { const r = await storeBuyBuff(STORE_COV.id, acStoreMode('Party'), 'Chant of Victory', acStoreOpt({})); res.push('Chant of Victory: ' + r.why); note(`[supply] Chant of Victory: ${r.why}`, true); } catch (e) { logError('store buff', e); }   // ACADSTORE-2026-10-31: academy = self, cheap cap
       T.mark('cov', now());
     }
-    if (pautoOn('storeMagnus') && currentTownKey() === 'Giran' && !hurry()) {   // MAGNUS-2026-10-23: Magnus' Chant (casting speed) for the whole party
+    if (chantS === 'magnus' && currentTownKey() === 'Giran' && !hurry()) {   // MAGNUS-2026-10-23: Magnus' Chant (casting speed) for the whole party
       pstStep('supply', "Magnus' Chant");
       try { const r = await storeBuyBuff(STORE_MAGNUS.id, acStoreMode('Party'), "Magnus' Chant", acStoreOpt({ titleRe: STORE_MAGNUS.titleRe })); res.push("Magnus' Chant: " + r.why); note(`[supply] Magnus' Chant: ${r.why}`, true); } catch (e) { logError('store buff magnus', e); }   // ACADSTORE-2026-10-31
     }
@@ -44661,9 +44897,45 @@ function swarmFightNow() {
   try { if (state.gkBusy || state.escaping || (typeof memberRoute !== 'undefined' && memberRoute.id && memberRoute.busy)) return false; } catch (e) { }   // ROUTESTALE-2026-10-23: only a walk that RUNS takes the member back from L2Swarm (a stale id kept Hive in control)
   return now() < SF.until && SF.leader === CONFIG.leader;
 }
+// SFSOLO-2026-11-02 (tester Vykaax, solo vRunner lvl 20 at Abandoned Camp: "Ol Mahum Commander is being ignored ... with Hive enabled and using Swarm
+// OR Hive combat" + "when using Swarm combat through Hive the combat polygon is not actually showing up and the bot's Combat is not actually enabled"):
+// the switch skipped SOLO characters (sfMode had !solo) and a solo character's StartCombat was swapped for the Hive script fight (soloScriptFight:
+// StopCombat + Hive's own picks with the solo level / pull limits). Now the switch counts for a character alone too: the leader of the party (or
+// the solo character) owns L2Swarm's combat in the fight phase - StartCombat for real, Hive picks nothing - and the combat zone Hive set at the
+// spot is put back every SF_ZONE_MS (the player's L2Swarm may show no zone / Off after a reload or a hand-made change).
+const SF_ZONE_MS = 60000;
+/** the fight phase is L2Swarm's own combat on THIS window (leader or solo; members only follow + follow attack) */
+function sfOwnsCombat() { try { return isLeader() && swarmFightOn() && !sfExcluded(); } catch (e) { return false; } }
+/** SFZONE pure: re-apply the zone Hive chose? z = { kind, at } (at = last apply), cur = L2Swarm's zone type now ('' unknown) */
+function sfZoneDue(z, cur, t) {
+  if (!z || !z.kind) return false;
+  if (cur && /^off$/i.test(cur)) return true;                          // L2Swarm shows no zone at all: at once
+  return t - (z.at || 0) >= SF_ZONE_MS;
+}
+/** SKIPSAY pure: the note for monster kinds Hive's own picking leaves alone as too high (hi = { name: level }), '' = none */
+function skipSayText(hi, L, solo, userSpot) {
+  const ks = Object.keys(hi || {}); if (!ks.length) return '';
+  const lim = solo ? (userSpot ? 6 : 1) : (userSpot ? 6 : 3);
+  const list = ks.sort((a, b) => hi[b] - hi[a]).slice(0, 4).map(k => `${k} (${hi[k]})`).join(', ');
+  return `hunt: left alone as too high for Hive's own picking at lvl ${L} (max +${lim}${userSpot ? ', your spot' : ''}): ${list}${ks.length > 4 ? ' ...' : ''} - one that attacks is fought back; with "Fight with L2Swarm" on, L2Swarm's own combat picks the targets instead`;
+}
+/** remember the zone the hunting step set (poly / map / square) so the fight phase can keep it */
+function sfZoneSet(z) { try { SF.zone = Object.assign({}, z, { at: now() }); } catch (e) { } }
+function sfZoneKeep() {
+  const z = SF.zone; let cur = ''; try { cur = String(Options.CombatZoneType || ''); } catch (e) { cur = ''; }
+  if (!sfZoneDue(z, cur, now())) return false;
+  try {
+    if (z.kind === 'poly' && typeof SetCombatPolygon === 'function') SetCombatPolygon(z.outer, z.inner || []);
+    else if (z.kind === 'map' && z.path && File.Exists(z.path)) { LoadCombatMap(z.path); Options.CombatZoneType = CombatZoneTypes.Map; }
+    else if (z.kind === 'square') { zoneCache.last = null; combatSquare(z.r, z.x, z.y, z.z); }
+    if (cur && /^off$/i.test(cur)) note(`Fight with L2Swarm: L2Swarm had no combat zone - the ${z.kind === 'square' ? 'hunting square' : 'drawn area'} is set again`, true);
+  } catch (e) { logError('sf zone keep', e); }
+  z.at = now(); return true;
+}
 /** leader, every hunting step with the switch on: L2Swarm combat on, the phase stamped, kills counted from the target L2Swarm picked; returns new kills */
 function sfLeaderTick() {
   SF.until = now() + 12000; SF.leader = String(Me.Name);
+  try { sfZoneKeep(); } catch (e) { }
   try { if (!IsEnabled) EnableBot(); if (!IsInCombat) startCombatG(); } catch (e) { }
   let k = 0;
   try {

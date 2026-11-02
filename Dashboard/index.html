@@ -782,8 +782,9 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
   </section>
   <section id="tab-crystals" class="win" hidden>
     <div class="whead"><h2>Soul crystals</h2><span class="muted" id="scInfo"></span></div>
-    <div style="margin-bottom:4px"><b>Soul crystals: from level 40 (the lowest crystal monsters are level 40). Free from Gideon in Oren (!soul get).</b></div>
+    <div style="margin-bottom:4px"><b>Soul crystals: from level 40 (the lowest crystal monsters are level 40). "Get crystals" (!soul get): owned crystals first, then the luxury shop, the free one from Gideon (Oren) last.</b></div>
     <div class="muted" style="margin-bottom:8px">Each character levels the crystal for the weapon special ability (SA) it needs. Targets come from the special abilities table + the plan below (Scripts/data/soul_plan.json, read live by the bots). "no report yet" = no Logs/soul_&lt;name&gt;.json yet (appears after the next deploy).</div>
+    <div class="box" id="scSources" style="margin-bottom:10px"></div>
     <div id="scTeams" style="display:grid;gap:10px;min-width:0"></div>
     <details class="box" style="margin-top:10px"><summary><b>Stock</b> <span class="muted">(finished crystals stored by everyone)</span></summary><div id="scStock" style="margin-top:6px"></div></details>
     <details class="box" style="margin-top:10px"><summary><b>Special abilities table</b></summary>
@@ -4617,6 +4618,12 @@ function renderSoul(force) {
   if (force) { $('scTeams')._last = null; $('scTeams').innerHTML = ''; }
   patch($('scTeams'), order.map(L => L ? scTeam(L, groups[L]) : `<div class="box"><h3>Not in a party</h3>${scTableHtml(groups[L])}</div>`).join('') || '<div class="muted">no characters</div>');
   $('scInfo').textContent = SCDIRTY ? 'unsaved plan changes' : '';
+  // SOULSRC-2026-11-02: where "Get crystals" takes a crystal from (soul_plan.json sources, missing = all ON), in this order
+  { const S = SCPLAN.sources || {}, on = (k) => S[k] !== false;
+    patch($('scSources'), `<b>Where crystals come from</b> <span class="muted">("Get crystals" tries them in this order)</span><div style="display:grid;gap:2px;margin-top:4px">` +
+      `<label class="chk"><input type="checkbox" data-scsrc="own" ${on('own') ? 'checked' : ''}> 1. Owned crystals: distributors, the collector, the clan warehouse (highest stage that fits first)</label>` +
+      `<label class="chk"><input type="checkbox" data-scsrc="buy" ${on('buy') ? 'checked' : ''}> 2. Buy stage 7-10 at the Giran luxury shop (Alexandria) with the D / C / B crystals in the character's own bag</label>` +
+      `<label class="chk"><input type="checkbox" data-scsrc="free" ${on('free') ? 'checked' : ''}> 3. The free stage-0 crystal from Gideon (Oren)</label></div>`); }
   const cnt = {}, want = [];
   Object.values(SOUL.live || {}).forEach(L => (L.done || []).forEach(d => { const k = d.color + '|' + d.stage; cnt[k] = (cnt[k] || 0) + 1; }));
   Object.entries(SCPLAN.teams).forEach(([L, tp]) => (tp.stock || []).forEach(s => want.push(`<div>${scChip(s.color, s.stage)} <span class="muted">party ${esc(L)}${s.note ? ' — ' + esc(s.note) : ''}</span></div>`)));
@@ -4660,6 +4667,8 @@ $('tab-crystals').addEventListener('click', async (e) => {
 $('tab-crystals').addEventListener('change', (e) => {
   const t = e.target, d = t.dataset; if (!SCPLAN) return;
   if (d.sclevel) { scTP(d.sclevel).level = t.checked; SCDIRTY = true; renderSoul(true); }
+  if (d.scsrc) { const prev = SCPLAN.sources; SCPLAN.sources = Object.assign({}, prev || {}, { [d.scsrc]: t.checked });
+    saveSoul(`crystal source ${d.scsrc}: ${t.checked ? 'on' : 'off'}`).then(ok => { if (!ok) { SCPLAN.sources = prev; renderSoul(true); } }); }
   if (d.scsa) { SCSEL[d.scsa] = { sa: t.value, w: '' }; renderSoul(true); }
   if (d.scw) (SCSEL[d.scw] = SCSEL[d.scw] || {}).w = t.value;
   if (d.scst && t.tagName === 'SELECT') { const [L, i, k] = d.scst.split('|'); scTP(L).stock[+i][k] = t.value; SCDIRTY = true; renderSoul(true); }
