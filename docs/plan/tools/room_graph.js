@@ -471,8 +471,8 @@ if (require.main === module) {
     // walk links (stairs / ramps / walk-in) from the geodata; NPC links stay as floor_links.js wrote them
     const wl = walkLinks(d);
     d.floors.forEach(F => { F.links = (F.links || []).filter(l => l.kind !== 'walk' || l.source !== 'room_graph'); });
-    d.entryLinks = (d.entryLinks || []).filter(l => l.source !== 'room_graph');
-    wl.forEach(l => { const L = Object.assign({}, l, { source: 'room_graph' }); if (l.from >= 0) d.floors[l.from].links.push(Object.assign({ }, L)); else d.entryLinks.push(L); });
+    d.entryLinks = (d.entryLinks || []).filter(l => l.source !== 'room_graph' || l.manual);   // FOGCHANDRA-2026-11-05: manual entries (verified:false) stay
+    wl.forEach(l => { const L = Object.assign({}, l, { source: 'room_graph' }); if (l.from >= 0) d.floors[l.from].links.push(Object.assign({ }, L)); else if (!d.entryLinks.some(m => m.manual && m.to === l.to)) d.entryLinks.push(L); });
     // special points per floor
     const pts = d.floors.map(() => []);
     d.floors.forEach((F, fi) => {

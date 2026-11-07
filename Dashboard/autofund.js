@@ -41,7 +41,7 @@ function decide(cfg, scope, states, busy, raidParties, mem, nowMs, mayGive) {
 function busyFromOrders(orders) {
   const busy = new Set();
   // SAMETOWNGIVER-2026-11-02: a same-town order only waits for the receiver's town visit (hours) - its giver (the bank) stays free to pay others
-  // (one open order to an academy character out in the field blocked every academy payment: Nuker34 at 2,979 adena could not buy the kit)
+  // (one open order to an academy character out in the field blocked every academy payment: Myroth8363 at 2,979 adena could not buy the kit)
   (orders || []).forEach(o => { if (!o || o.over || o.sameTown) return; busy.add(o.receiver); (o.givers || []).forEach(g => busy.add(g)); });
   return busy;
 }

@@ -1,65 +1,396 @@
-{
- "_about": "AOE grounds + teams (dashboard #/aoe, Dashboard/aoeteam_api.js); read live by swarm.js AOETEAM. grounds.<id> = { name, camp, healers, dealers, route[], standMaxSec, clearMaxSec, speedBuffs, tag }; teams.<leader> = { on, ground, mode tank|polearm, pullers[] }",
- "v": 2,
- "grounds": {
-  "fog-first-room": {
-   "name": "FOG First room",
-   "id": "fog-first-room",
-   "camp": {
-    "x": 179084,
-    "y": -117074,
-    "z": -3850
-   },
-   "healers": {
-    "x": 178924,
-    "y": -117178,
-    "z": -3850
-   },
-   "dealers": {
-    "x": 179128,
-    "y": -117074,
-    "z": -3850
-   },
-   "route": [
-    {
-     "x": 179256,
-     "y": -117142,
-     "z": -3850
+﻿{
+  "_about": "AOE grounds + teams (dashboard #/aoe, Dashboard/aoeteam_api.js); read live by swarm.js AOETEAM. grounds.<id> = { name, camp, healers, dealers, routes[{ id, name, points }] (route = routes[0].points), standMaxSec, clearMaxSec, speedBuffs, tag }; teams.<leader> = { on, ground, mode tank|polearm, roles { <char>: { role tank|healer|dealer|puller, route } }, pullers[] }",
+  "v": 2,
+  "grounds": {
+    "fog-first-room": {
+      "name": "FOG First room",
+      "id": "fog-first-room",
+      "camp": {
+        "x": 179084,
+        "y": -117074,
+        "z": -3850
+      },
+      "healers": {
+        "x": 178924,
+        "y": -117178,
+        "z": -3850
+      },
+      "dealers": {
+        "x": 179128,
+        "y": -117074,
+        "z": -3850
+      },
+      "route": [
+        {
+          "x": 179256,
+          "y": -117142,
+          "z": -3850
+        },
+        {
+          "x": 179476,
+          "y": -117082,
+          "z": -3850
+        },
+        {
+          "x": 179440,
+          "y": -116874,
+          "z": -3850
+        },
+        {
+          "x": 179296,
+          "y": -116790,
+          "z": -3850
+        },
+        {
+          "x": 178964,
+          "y": -116962,
+          "z": -3850
+        },
+        {
+          "x": 179052,
+          "y": -117150,
+          "z": -3850
+        }
+      ],
+      "standMaxSec": 4,
+      "clearMaxSec": 120,
+      "speedBuffs": true,
+      "tag": true,
+      "at": "2026-10-30T22:55:45.392Z",
+      "by": "dashboard (AOE page)",
+      "routes": [
+        {
+          "id": "r1",
+          "name": "Route 1",
+          "points": [
+            {
+              "x": 179256,
+              "y": -117142,
+              "z": -3850
+            },
+            {
+              "x": 179476,
+              "y": -117082,
+              "z": -3850
+            },
+            {
+              "x": 179440,
+              "y": -116874,
+              "z": -3850
+            },
+            {
+              "x": 179296,
+              "y": -116790,
+              "z": -3850
+            },
+            {
+              "x": 178964,
+              "y": -116962,
+              "z": -3850
+            },
+            {
+              "x": 179052,
+              "y": -117150,
+              "z": -3850
+            }
+          ]
+        }
+      ]
     },
-    {
-     "x": 179476,
-     "y": -117082,
-     "z": -3850
+    "fog-destroyer3-camp": {
+      "name": "FOG Destroyer3 camp (owner 2026-11-04)",
+      "id": "fog-destroyer3-camp",
+      "camp": {
+        "x": 179304,
+        "y": -116968,
+        "z": -3616
+      },
+      "healers": {
+        "x": 179224,
+        "y": -116968,
+        "z": -3616
+      },
+      "dealers": {
+        "x": 179304,
+        "y": -116968,
+        "z": -3616
+      },
+      "routes": [
+        {
+          "id": "r1",
+          "name": "east 200",
+          "points": [
+            {
+              "x": 179504,
+              "y": -116968,
+              "z": -3616
+            },
+            {
+              "x": 179304,
+              "y": -116968,
+              "z": -3616
+            }
+          ]
+        },
+        {
+          "id": "r2",
+          "name": "west 200",
+          "points": [
+            {
+              "x": 179104,
+              "y": -116968,
+              "z": -3616
+            },
+            {
+              "x": 179304,
+              "y": -116968,
+              "z": -3616
+            }
+          ]
+        }
+      ],
+      "route": [
+        {
+          "x": 179504,
+          "y": -116968,
+          "z": -3616
+        },
+        {
+          "x": 179304,
+          "y": -116968,
+          "z": -3616
+        }
+      ],
+      "rooms": [],
+      "areaIds": [],
+      "standMaxSec": 4,
+      "clearMaxSec": 120,
+      "speedBuffs": true,
+      "tag": true,
+      "at": "2026-11-04T13:34:28.794Z",
+      "by": "owner: Destroyer3 stands here, 1-2 Titans pu"
     },
-    {
-     "x": 179440,
-     "y": -116874,
-     "z": -3850
-    },
-    {
-     "x": 179296,
-     "y": -116790,
-     "z": -3850
-    },
-    {
-     "x": 178964,
-     "y": -116962,
-     "z": -3850
-    },
-    {
-     "x": 179052,
-     "y": -117150,
-     "z": -3850
+    "fog-l2-aoe": {
+      "name": "FOG level 2 AOE room (owner 2026-11-04)",
+      "id": "fog-l2-aoe",
+      "camp": {
+        "x": 186560,
+        "y": -110000,
+        "z": -5888
+      },
+      "healers": {
+        "x": 186560,
+        "y": -110000,
+        "z": -5888
+      },
+      "dealers": {
+        "x": 186560,
+        "y": -110000,
+        "z": -5888
+      },
+      "routes": [
+        {
+          "id": "r1",
+          "name": "Route 1 (south-east)",
+          "points": [
+            {
+              "x": 186744,
+              "y": -110440,
+              "z": -5888
+            },
+            {
+              "x": 186920,
+              "y": -111304,
+              "z": -5888
+            },
+            {
+              "x": 187416,
+              "y": -111208,
+              "z": -5888
+            },
+            {
+              "x": 187416,
+              "y": -110904,
+              "z": -5888
+            },
+            {
+              "x": 187240,
+              "y": -110760,
+              "z": -5888
+            },
+            {
+              "x": 186568,
+              "y": -109992,
+              "z": -5888
+            }
+          ]
+        },
+        {
+          "id": "r2",
+          "name": "Route 2 (north-east)",
+          "points": [
+            {
+              "x": 187448,
+              "y": -109256,
+              "z": -5888
+            },
+            {
+              "x": 187112,
+              "y": -108840,
+              "z": -5888
+            },
+            {
+              "x": 186600,
+              "y": -108872,
+              "z": -5888
+            },
+            {
+              "x": 186520,
+              "y": -109080,
+              "z": -5888
+            },
+            {
+              "x": 186456,
+              "y": -109720,
+              "z": -5888
+            },
+            {
+              "x": 186504,
+              "y": -109944,
+              "z": -5888
+            }
+          ]
+        },
+        {
+          "id": "r3",
+          "name": "Route 3 (west)",
+          "points": [
+            {
+              "x": 185592,
+              "y": -109192,
+              "z": -5888
+            },
+            {
+              "x": 185160,
+              "y": -109960,
+              "z": -5888
+            },
+            {
+              "x": 184968,
+              "y": -110440,
+              "z": -5888
+            },
+            {
+              "x": 185592,
+              "y": -110744,
+              "z": -5888
+            },
+            {
+              "x": 185976,
+              "y": -110520,
+              "z": -5888
+            },
+            {
+              "x": 186328,
+              "y": -110120,
+              "z": -5888
+            },
+            {
+              "x": 186552,
+              "y": -110008,
+              "z": -5888
+            }
+          ]
+        }
+      ],
+      "route": [
+        {
+          "x": 186744,
+          "y": -110440,
+          "z": -5888
+        },
+        {
+          "x": 186920,
+          "y": -111304,
+          "z": -5888
+        },
+        {
+          "x": 187416,
+          "y": -111208,
+          "z": -5888
+        },
+        {
+          "x": 187416,
+          "y": -110904,
+          "z": -5888
+        },
+        {
+          "x": 187240,
+          "y": -110760,
+          "z": -5888
+        },
+        {
+          "x": 186568,
+          "y": -109992,
+          "z": -5888
+        }
+      ],
+      "ownerRoutes": true,
+      "standMaxSec": 8,
+      "clearMaxSec": 120,
+      "speedBuffs": true,
+      "tag": true,
+      "at": "2026-11-04T20:05:52.1271359Z",
+      "by": "owner recorded 3 runner routes with Destroyer3 20:54-21:01",
+      "campOnLeader": true
     }
-   ],
-   "standMaxSec": 4,
-   "clearMaxSec": 120,
-   "speedBuffs": true,
-   "tag": true,
-   "at": "2026-10-30T22:55:45.392Z",
-   "by": "dashboard (AOE page)"
-  }
- },
- "teams": {},
- "_updated": "2026-10-30T22:55:45.392Z"
+  },
+  "teams": {
+    "Destroyer3": {
+      "on": false,
+      "mode": "polearm",
+      "ground": "fog-l2-aoe",
+      "roles": {
+        "Destroyer4": {
+          "role": "puller",
+          "route": "r1"
+        },
+        "Destroyer5": {
+          "role": "puller",
+          "route": "r2"
+        },
+        "Destroyer6": {
+          "role": "puller",
+          "route": "r3"
+        },
+        "Bishop2": {
+          "role": "healer"
+        },
+        "Chanter2": {
+          "role": "healer"
+        },
+        "Destroyer3": {
+          "role": "dealer"
+        },
+        "Destroyer7": {
+          "role": "dealer"
+        },
+        "Destroyer8": {
+          "role": "dealer"
+        },
+        "Spoiler1": {
+          "role": "dealer"
+        }
+      },
+      "pullers": [
+        "Destroyer4",
+        "Destroyer5",
+        "Destroyer6"
+      ],
+      "at": "2026-11-04T20:05:52.2055797Z",
+      "by": "owner: assign 3 runners, run back and forth",
+      "_offWhy": "owner 2026-11-05: team to a safe spot + teleport to town (Spoiler1 in Goddard), then back in together"
+    }
+  },
+  "_updated": "2026-11-04T20:05:52.2055797Z"
 }

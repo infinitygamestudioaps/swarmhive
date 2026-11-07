@@ -195,22 +195,72 @@ function buildCreateScript(rootFwd, login, c, name) {
   const slotOf = (b, name) => { const lg = u16(L), nm = u16(name), logins = findAll(b, lg); const hits = findAll(b, nm).filter(i => logins.indexOf(i + nm.length + 4) >= 0); return hits.length === 1 ? logins.indexOf(hits[0] + nm.length + 4) : -1; };
   const le32 = (v) => [v & 255, (v >> 8) & 255, (v >> 16) & 255, (v >> 24) & 255].map(x => ('0' + x.toString(16)).slice(-2)).join('');
   let result = null, tries = 0;
-  try { Options.EnableJSOnIncomingPacket = true; } catch (e) { }
+  // RECREATE-2026-11-03 (live: all 5 group-1 graduates "no character list seen in 30 s" - the old graduate still exists on the account, so
+  // L2Swarm logged straight into the game with him (SelectedCharacter not found = slot 1) and the script took Me.Name for success): in game as
+  // anyone but the new character = back to the character list (RequestRestart 0x57, every 20 s), only the new name counts as done, the list
+  // is waited for 2 min (not 30 s), and the new character is selected by its slot when L2Swarm does not enter with it
+  let rs = 0, rsAt = 0, noList = 0, okTicks = 0;
+  const gameAct = (inGame) => !inGame ? 'none' : (NAMES.indexOf(inGame) >= 0 ? 'done' : 'restart');
+  // RECREATE2-2026-11-03 (live: "in game as Nyxara05 - back to the character list (RequestRestart, try 8)" - L2Swarm re-logged the graduate within
+  // a second each time: the account was never reloaded ("Account configuration is already loaded"), so its LIVE SelectedCharacter was still the
+  // graduate): the script points the live option at the new name, and acts INSIDE the character-list packet (0x09), before L2Swarm selects:
+  // mark the graduates for deletion, then CharacterCreate at once; after the create the live option names the new character, so the next list
+  // (RequestRestart) enters with it
+  const selNew = (n) => { try { if (Options.SelectedCharacter !== n) { Options.SelectedCharacter = n; log('live SelectedCharacter -> ' + n); } } catch (e) { } };
+  selNew(CUR);
+  // RECREATE4-2026-11-03 (root cause of RECREATE2/3: OnIncomingPacket was defined but Options.EnableJSOnIncomingPacket was never switched on, so
+  // the character list (0x09) never reached the script - the in-session switch of the transfer (Dashboard/server.js buildSwitchScript, live since
+  // 2026-10-07) sets it): the hook is ON for the create window and back to its old value at the end
+  let jsOld = null; try { jsOld = Options.EnableJSOnIncomingPacket; Options.EnableJSOnIncomingPacket = true; log('packet hook on (EnableJSOnIncomingPacket)'); } catch (e) { log('cannot switch on EnableJSOnIncomingPacket: ' + e); }
+  const jsBack = () => { try { if (jsOld !== null) { Options.EnableJSOnIncomingPacket = jsOld; jsOld = null; } } catch (e) { } };
+  // the CharacterSelect packet of the in-session switch (0x12 + slot + 0000 + 3 x int32 0), sent FIRST inside the list, before L2Swarm selects
+  const selHex = (slot) => '12' + le32(slot) + '0000' + le32(0) + le32(0) + le32(0);
+  // RECREATE3-2026-11-03 (live 15:50Z: every RequestRestart = "Account disconnected" -> "Connected" 1 s later = L2Swarm's AUTO-RECONNECT does a full
+  // re-login with slot 1, and the character-list packet never reaches a script): AutoReconnect is OFF only for the create window (so after the
+  // restart the account stays out of the game and the blind create below - the 11-02 proven way - can run), and ALWAYS back ON afterwards
+  let arOld = null; const arOff = () => { try { if (arOld === null) arOld = Options.AutoReconnect; Options.AutoReconnect = false; } catch (e) { } };
+  const arBack = () => { try { if (arOld !== null) { Options.AutoReconnect = arOld; log('AutoReconnect back ' + arOld); arOld = null; } } catch (e) { } jsBack(); };
+  globalThis.OnBeforeScriptStop = () => arBack();
+  const delSent = {}; let fastAt = 0;
+  const fastList = (b) => {
+    try {
+      DEL.forEach(nm => { if (delSent[nm]) return; const s = slotOf(b, nm); if (s >= 0) { delSent[nm] = 1; Send.SendHex('0D' + le32(s)); log('CharacterDelete sent at the list: ' + nm + ' (slot ' + s + ')'); } });
+      // already created (an earlier list): enter with it - RECREATE4: our CharacterSelect by slot goes FIRST (the 2026-10-07 transfer way), the live
+      // option names it too, so L2Swarm's own select ~0.4 s later picks the same character
+      { const sNew = slotOf(b, CUR); if (sNew >= 0) { selNew(CUR); try { Send.SendHex(selHex(sNew)); log('CharacterSelect sent at the list: ' + CUR + ' (slot ' + sNew + ')'); } catch (e) { log('select error ' + e); } if (result !== 'DONE') { result = 'OK'; } return; } }
+      if (result === 'FAIL' || result === 'DONE' || Date.now() - fastAt < 15000) return;
+      fastAt = Date.now(); Send.NewCharacter(); Send.CharacterCreate(CUR, ${c.race}, ${c.sex}, ${c.classId}, ST[0], ST[1], ST[2], ST[3], ST[4], ST[5], 0, 0, 0); tries++;
+      log('CharacterCreate sent at the list: ' + CUR + ' (try ' + tries + ')');
+    } catch (e) { log('list action error ' + e); }
+  };
   globalThis.OnIncomingPacket = (p) => {
     try { const op = Number(p[2]) & 255;
-      if (op === 0x09) { const b = []; for (let i = 0; i < p.length; i++) b.push(Number(p[i]) & 255); csi = b; csiAt = Date.now(); }
+      if (op === 0x09) { const b = []; for (let i = 0; i < p.length; i++) b.push(Number(p[i]) & 255); csi = b; csiAt = Date.now(); fastList(b); }
       else if (op === 0x1d) delRes = 'OK';
       else if (op === 0x1e) { delRes = 'FAIL'; delReason = Number(p[3]) & 255; }
-      else if (op === 0x0f) result = 'OK';
+      else if (op === 0x0f) { result = 'OK'; selNew(CUR); }
       else if (op === 0x10) { result = 'FAIL'; reason = Number(p[3]) & 255; log('CharCreateFail for ' + CUR + ' reason ' + reason); } } catch (e) { }
   };
   for (let n = 0; n < 240; n++) {
     await sleep(5000);
+    let inGame = ''; try { inGame = Me && Me.Name ? String(Me.Name) : ''; } catch (e) { }
+    const ga = gameAct(inGame);
+    if (ga === 'restart') {
+      // RECREATE3: max 8 restarts, 45 s apart (30 x 20 s flooded the account's log with 28k script-thread errors in 15 s)
+      if (rs >= 8) { arBack(); log('RESULT FAIL could not get back to the character list (still in game as ' + inGame + ')'); out({ result: 'fail', name: CUR, reason: 'in game as ' + inGame }); return; }
+      // THREADFLOOD-2026-11-03: a RequestRestart while the account still walks a path left L2Swarm's shared 'Script Path' worker crashing ~15,000x
+      // a minute and froze 13 OTHER characters' walks / town ports - first stop every walk + combat of this account, 3 s settle, then restart
+      if (Date.now() - rsAt > 45000) { try { StopCombat(); } catch (e) { } try { Send.StopMove(); } catch (e) { } try { if (typeof StopPoints === 'function') StopPoints(); } catch (e) { } try { RunCommand('/stoppoints'); } catch (e) { } await sleep(3000); }
+      if (Date.now() - rsAt > 45000) { rsAt = Date.now(); rs++; csi = null; arOff(); try { Send.SendHex('57'); log('in game as ' + inGame + ' - back to the character list (RequestRestart, try ' + rs + ', AutoReconnect off)'); } catch (e) { log('restart error ' + e); } }
+      continue;
+    }
     if (!delDone) {
-      if (!csi) { if (n >= 6) { log('no character list seen in 30 s - nothing deleted'); delDone = true; } continue; }
+      if (!csi) { noList++; if (noList >= 24) { log('no character list seen in 2 min - nothing deleted'); delDone = true; } continue; }
       if (di >= DEL.length) { delDone = true; log('deletion done: ' + (deleted.join(', ') || '-') + (delFailed.length ? '; refused: ' + delFailed.map(x => x.name + ' (' + x.reason + ')').join(', ') : '')); }
       else {
-        const nm = DEL[di++], slot = slotOf(csi, nm);
+        const nm = DEL[di++];
+        if (delSent[nm]) { if (deleted.indexOf(nm) < 0) deleted.push(nm); continue; }   // RECREATE2: already marked at the list
+        const slot = slotOf(csi, nm);
         if (slot < 0) { log(nm + ' is not in the character list (already deleted?)'); deleted.push(nm); continue; }
         delRes = null; const at0 = csiAt;
         try { Send.SendHex('0D' + le32(slot)); log('CharacterDelete sent: ' + nm + ' (slot ' + slot + ')'); } catch (e) { log('delete error ' + e); }
@@ -220,15 +270,19 @@ function buildCreateScript(rootFwd, login, c, name) {
         continue;
       }
     }
-    try { if (Me && Me.Name) { if (n === 0 || result) log('RESULT OK ' + Me.Name + ' (in game)'); if (RES && result) out({ result: 'ok', name: String(Me.Name) }); return; } } catch (e) { }
-    if (result === 'OK') { log('RESULT OK ' + CUR + ' (created, waiting for the login)'); out({ result: 'ok', name: CUR }); result = 'DONE'; }
-    if (result === 'DONE') continue;
-    if (result === 'FAIL' && reason !== 1 && ni + 1 < NAMES.length) { ni++; CUR = NAMES[ni]; result = null; tries = 0; log('trying the next name: ' + CUR); }
-    if (result === 'FAIL' || tries >= 6) { log('RESULT FAIL ' + CUR + ' was refused (' + (reason === 1 ? 'no free character slot' : 'name taken or not allowed') + '): pick another name on the dashboard'); out({ result: 'fail', name: CUR, reason, slotsFull: reason === 1 }); return; }
+    if (ga === 'done') { arBack(); log('RESULT OK ' + inGame + ' (in game)'); if (RES) out({ result: 'ok', name: inGame }); return; }
+    if (result === 'OK') { selNew(CUR); arBack(); log('RESULT OK ' + CUR + ' (created, waiting for the login)'); out({ result: 'ok', name: CUR }); result = 'DONE'; }   // RECREATE3: reconnect ON again = L2Swarm logs the NEW one in
+    if (result === 'DONE') {
+      okTicks++;
+      if (okTicks % 3 === 0 && csi) { const s = slotOf(csi, CUR); if (s >= 0) { try { Send.CharSelected(s); log('selecting ' + CUR + ' (slot ' + s + ')'); } catch (e) { log('select error ' + e); } } }
+      continue;
+    }
+    if (result === 'FAIL' && reason !== 1 && ni + 1 < NAMES.length) { ni++; CUR = NAMES[ni]; result = null; tries = 0; selNew(CUR); log('trying the next name: ' + CUR); }
+    if (result === 'FAIL' || tries >= 6) { arBack(); log('RESULT FAIL ' + CUR + ' was refused (' + (reason === 1 ? 'no free character slot' : 'name taken or not allowed') + '): pick another name on the dashboard'); out({ result: 'fail', name: CUR, reason, slotsFull: reason === 1 }); return; }
     if (n === 0) log('waiting for the character list to create ' + CUR);
     try { const NAME = CUR; Send.NewCharacter(); await sleep(1500); Send.CharacterCreate(NAME, ${c.race}, ${c.sex}, ${c.classId}, ST[0], ST[1], ST[2], ST[3], ST[4], ST[5], 0, 0, 0); tries++; log('CharacterCreate sent: ' + NAME + ' (try ' + tries + ')'); } catch (e) { log('error ' + e); }
   }
-  log('RESULT FAIL timeout');
+  arBack(); log('RESULT FAIL timeout');
 })();
 `;
 }

@@ -20,7 +20,9 @@
   /** the big toggle for a party card (put it first in the card's button row) */
   function partyButton(leader) {
     const p = party(leader), on = !!(p && p.on);
-    return `<button class="runsw ${on ? 'on' : 'off'}" data-runsw="party" data-name="${E(leader)}" data-on="${on ? 0 : 1}" title="${on ? 'Running — Stop: the party stops and does nothing on its own until Start' : 'Stopped — Start: switch the party on and start ' + E(p && p.plan ? p.plan.text : 'its activity')}">${on ? '■ Stop' : '▶ Start'}</button>`;
+    const hold = !!(p && p.hold);   // HOLD-2026-11-04: the big "stand still and fight" button next to Start / Stop
+    return `<button class="runsw ${on ? 'on' : 'off'}" data-runsw="party" data-name="${E(leader)}" data-on="${on ? 0 : 1}" title="${on ? 'Running — Stop: the party stops and does nothing on its own until Start' : 'Stopped — Start: switch the party on and start ' + E(p && p.plan ? p.plan.text : 'its activity')}">${on ? '■ Stop' : '▶ Start'}</button>`
+      + `<button class="runsw ${hold ? 'on' : 'off'}" data-holdsw="${E(leader)}" data-on="${hold ? 0 : 1}" style="font-weight:700" title="${hold ? 'HOLD is ON — click: normal automation again' : 'HOLD: the party stands still where it is and fights (no trips, teleports, pulls, hand-overs, jobs); healers keep healing'}">${hold ? '✋ HOLD ON' : '✋ HOLD'}</button>`;
   }
   /** the fixed-height state line under the party head */
   function partyLine(leader) {
@@ -122,7 +124,13 @@
       try { document.dispatchEvent(new CustomEvent('runswitch', { detail: r.state })); } catch (e) { }
     } finally { BUSY = false; }
   }
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', (e) => {   // HOLD-2026-11-04: one click, no dialog - "!hold" / "!hold off" to the whole party
+    const hb = e.target.closest('[data-holdsw]');
+    if (hb) { e.stopPropagation(); e.preventDefault(); const on = hb.dataset.on === '1', leader = hb.dataset.holdsw;
+      hb.disabled = true; hb.textContent = on ? '✋ HOLD ON' : '✋ HOLD';
+      Promise.resolve(call('/api/command', { method: 'POST', body: JSON.stringify({ cmd: on ? '!hold' : '!hold off', targets: ['party:' + leader], confirm: true, by: 'dashboard HOLD button' }) }))
+        .catch(() => { }).finally(() => { hb.disabled = false; });
+      return; }
     const b = e.target.closest('[data-runsw]'); if (!b) return;
     e.stopPropagation(); e.preventDefault();
     toggle(b.dataset.runsw, b.dataset.name || '', b.dataset.on === '1');

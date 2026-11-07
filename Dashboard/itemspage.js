@@ -532,7 +532,7 @@
   // piece at +10 or higher is SHOWN (locked: the hive never takes +10 or higher out of a warehouse), it only cannot be picked
   const lockedE = () => false;   // PLUS10PICK-2026-10-25 (owner: "Offcause you should be allowed to do it, but NEVER automatically"): pickable, with the extra +10 tick
   const plus10 = (r) => r && r.src !== 'bag' && (Number(r.enchant) || 0) >= 10;
-  async function loadChars() { try { const d = await api('/api/items/chars'); if (d && !d.error) { E.chars = d; if (!E.pick) { const cl = (d.chars || []).find(c => c.clanLeader); E.pick = E.who || (cl && cl.name) || ''; if (E.pick) loadPick(); } } } catch (e) { } render(); }
+  async function loadChars() { try { const d = await api('/api/items/chars'); if (d && !d.error) { E.chars = d; if (!E.pick) { const cl = (d.chars || []).find(c => c.bank) || (d.chars || []).find(c => c.clanLeader); E.pick = E.who || (cl && cl.name) || ''; if (E.pick) loadPick(); } } } catch (e) { } render(); }
   async function loadPick() {
     if (!E.pick) return; const nm = E.pick;
     let d = null; try { d = await api('/api/items/char?name=' + encodeURIComponent(nm)); } catch (e) { d = { error: e.message }; }
@@ -553,7 +553,7 @@
   const selCount = () => selRows().reduce((n, r) => n + Math.min(E.sel[r.key], r.max), 0);
   function builder() {
     const C = (E.chars && E.chars.chars) || [];
-    const who = `<div class="itp-step"><span class="itp-num">1</span> Who enchants?</div><div class="enp-who">${C.filter(c => c.online || c.name === E.pick || c.clanLeader).map(c => `<button type="button" class="itp-chip${c.name === E.pick ? ' on' : ''}" data-enpwho="${h(c.name)}">${h(c.name)}${c.clanLeader ? ' ' + gim('icon/accessory_pledge_cap1_i00') : ''}</button>`).join('') || '<span class="muted">Loading…</span>'}</div>`;
+    const who = `<div class="itp-step"><span class="itp-num">1</span> Who enchants?</div><div class="enp-who">${C.filter(c => c.online || c.name === E.pick || c.clanLeader || c.bank).map(c => `<button type="button" class="itp-chip${c.name === E.pick ? ' on' : ''}" data-enpwho="${h(c.name)}">${h(c.name)}${c.clanLeader ? ' ' + gim('icon/accessory_pledge_cap1_i00') : ''}</button>`).join('') || '<span class="muted">Loading…</span>'}</div>`;
     if (!E.pick) return who;
     const modes = `<div class="itp-filters">${[['have', 'Items we have'], ['buy', '🛒 Buy in a shop'], ['unseal', '🔓 Unseal']].map(([k, t]) => `<button type="button" class="itp-chip${E.src === k ? ' on' : ''}" data-enpsrc="${k}">${t}</button>`).join('')}</div>`;
     if (E.src === 'buy') return who + modes + buyBuilder();

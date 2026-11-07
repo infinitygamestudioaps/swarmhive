@@ -105,6 +105,9 @@ function cleanGround(g) {
   out.standMaxSec = intIn(T.standMaxSec, 4, 1, 20, 'Pullers stand at most (s)', errors);
   out.clearMaxSec = intIn(T.clearMaxSec, 120, 20, 300, 'The tank waits for the kill at most (s)', errors);
   out.speedBuffs = T.speedBuffs !== false; out.tag = T.tag !== false;
+  // PULLROOM-2026-11-04 (owner: "if you combine more rooms then the runner can run into that room fast and back"): extra dungeon rooms a puller
+  // may run into (the camp room is always allowed); room ids from dungeon_rooms.json
+  out.pullRooms = (Array.isArray(T.pullRooms) ? T.pullRooms : []).map(String).filter(r => /^[a-z0-9][a-z0-9-]{1,60}$/.test(r)).slice(0, 12);
   return errors.length ? { ok: false, errors } : { ok: true, cfg: out };
 }
 function cleanTeam(t, members, grounds) {

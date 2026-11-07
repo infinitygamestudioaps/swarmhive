@@ -26,7 +26,9 @@ function norm(j) {
   const o = obj(j), items = {};
   Object.keys(obj(o.items)).forEach(k => { const v = obj(o.items[k]), id = Number(k); if (Number.isInteger(id) && id > 0 && ACTS.includes(v.act)) items[id] = { act: v.act, name: String(v.name || '').slice(0, 80) }; });
   const every = Math.round(Number(o.everyMin));
-  return { v: 1, on: o.on === true, crafter: NAME_RE.test(String(o.crafter || '')) ? String(o.crafter) : '', everyMin: every >= 10 && every <= 1440 ? every : 30, items };
+  const cp = Math.round(Number(o.cleanPct));
+  return { v: 1, on: o.on === true, crafter: NAME_RE.test(String(o.crafter || '')) ? String(o.crafter) : '', everyMin: every >= 10 && every <= 1440 ? every : 30, items,
+    cleanup: o.cleanup !== false, cleanPct: cp >= 50 && cp <= 95 ? cp : 85 };   // CWHCLEAN-2026-11-03: default ON (24/7)
 }
 /** apply a POST body to the settings -> { data } | { error } */
 function applyChange(D, b) {
@@ -41,6 +43,8 @@ function applyChange(D, b) {
     }
   }
   if (typeof b.on === 'boolean') d.on = b.on;
+  if (typeof b.cleanup === 'boolean') d.cleanup = b.cleanup;                                   // CWHCLEAN-2026-11-03
+  if (b.cleanPct !== undefined) { const p = Math.round(Number(b.cleanPct)); if (!(p >= 50 && p <= 95)) return { error: 'clean-up target 50 - 95 %' }; d.cleanPct = p; }
   if (b.crafter !== undefined) { const c = String(b.crafter || ''); if (c && !NAME_RE.test(c)) return { error: 'crafter?' }; d.crafter = c; }
   if (b.everyMin !== undefined) { const e = Math.round(Number(b.everyMin)); if (!(e >= 10 && e <= 1440)) return { error: 'every 10 - 1440 minutes' }; d.everyMin = e; }
   return { data: d };
@@ -68,6 +72,45 @@ function decide(D, wh, st, who, nowMs) {
     if (L.length) return { act, items: L.map(x => ({ id: x.id, count: x.count, name: x.name })), why: `${L.length} kind${L.length === 1 ? '' : 's'} to ${act === 'sell' ? 'sell' : 'crystallize'}` };
   }
   return { act: '', items: [], why: 'nothing with a default is in the clan warehouse (as last seen)' };
+}
+// CWHCLEAN-2026-11-03 (owner: "Of course crafter1 needs to take crap out of warehouse automatically" - the clan warehouse filled up with what the
+// bank stores): with the warehouse full (wh_full.json clan.full / a refused deposit) or near its learned slot limit, the bank takes JUNK out and
+// sells it until the warehouse is under cleanPct % of the limit - independent of the default-marks switch (24/7). Junk = the sell list / marks,
+// no-grade equipment, D-grade equipment no gear plan needs; never enchanted, soul crystals, keep marks, crystallize marks (crystallized instead),
+// quest / event / clan items (other Etc items only when they are on the sell list). Lowest shop value first.
+/** pure: is a clean-up due? -> { due, limit, target, kinds, why }. full = wh_full clan entry, wh = warehouse look, st = state, pct = target % */
+function cleanupDue(full, wh, st, pct, nowMs) {
+  const kinds = wh && Array.isArray(wh.items) ? new Set(wh.items.map(i => Number(i.id))).size : 0, S = obj(st);
+  const fullNow = !!(full && full.full === true && (Date.parse(full.at || '') || 0) >= (Number(S.cleanAt) || 0) - 60000);
+  let limit = Math.max(Number(S.cwhLimit) || 0, fullNow ? kinds : 0);
+  if (!limit) return { due: false, limit: 0, target: 0, kinds, why: 'the clan warehouse limit is not known yet (it was never full)' };
+  const target = Math.floor(limit * Math.min(95, Math.max(50, Number(pct) || 85)) / 100);
+  if (!fullNow && kinds < Math.ceil(limit * 0.95)) return { due: false, limit, target, kinds, why: `clan warehouse ${kinds} of ~${limit} kinds - no clean-up needed` };
+  if (nowMs - (Number(S.cleanAt) || 0) < 3 * 60000) return { due: false, limit, target, kinds, why: 'a clean-up order was sent less than 3 min ago' };
+  return { due: true, limit, target, kinds, why: `clan warehouse ${fullNow ? 'FULL' : 'nearly full'} (${kinds} of ~${limit} kinds) - clean up to ${target}` };
+}
+const CWH_NEVER = /Soul Crystal|L2Day|Letter|Coupon|Shadow |Apprentice|Newbie|Blood Mark|Alliance Manifesto|Seal of Aspiration|Coin of Luck|Ancient Adena|Seal Stone|Clan |Lineage|Event|Tutorial|Quest/i;
+/** pure: which kinds the bank takes out and sells -> [{ id, count, name, why }] (at most max kinds). o = { info(id) -> { type, grade, price },
+ *  sellIds Set, keepIds Set, cryIds Set, neededIds Set, max } - grade: 0 none, 1 D */
+function cleanupPick(wh, o) {
+  const by = {}; (wh && wh.items || []).forEach(i => {
+    const id = Number(i.id); if (!id) return;
+    const k = by[id] = by[id] || { id, count: 0, name: String(i.name || 'item ' + id), ench: 0 };
+    k.count += Math.max(1, Number(i.count) || 1); k.ench = Math.max(k.ench, Number(i.enchant) || 0);
+  });
+  const out = [];
+  Object.keys(by).forEach(k => {
+    const r = by[k], id = r.id, inf = (o.info && o.info(id)) || {};
+    if (r.ench > 0 || o.keepIds.has(id) || o.cryIds.has(id) || /^\+\d/.test(r.name)) return;
+    if (o.sellIds.has(id)) { out.push({ id, count: r.count, name: r.name, why: 'sell list', rank: 0, price: Number(inf.price) || 0 }); return; }
+    if (CWH_NEVER.test(r.name)) return;
+    const eq = inf.type === 'Weapon' || inf.type === 'Armor';
+    if (!eq) return;                                                       // other Etc items: only when they are on the sell list
+    if (Number(inf.grade) === 0) { out.push({ id, count: r.count, name: r.name, why: 'no-grade equipment', rank: 1, price: Number(inf.price) || 0 }); return; }
+    if (Number(inf.grade) === 1 && !o.neededIds.has(id)) out.push({ id, count: r.count, name: r.name, why: 'D-grade equipment no gear plan needs', rank: 2, price: Number(inf.price) || 0 });
+  });
+  out.sort((a, b) => a.rank - b.rank || a.price - b.price || a.name.localeCompare(b.name));
+  return out.slice(0, Math.max(1, Number(o.max) || 40)).map(x => ({ id: x.id, count: x.count, name: x.name, why: x.why }));
 }
 /** is the clan leader / collector free? s = his swarm_state, coll = stash_rules collector */
 function collectorFree(s, coll, nowMs) {
@@ -108,6 +151,21 @@ function stateFor(ctx, name) {
   let L = []; try { L = (ctx.readStates && ctx.readStates()) || []; } catch (e) { }
   return L.find(s => s && s.name === name) || readJ(path.join(ctx.LOGS, `swarm_state_${name}.json`), null);
 }
+/** CWHCLEAN host: the data the pure pick needs */
+function cleanupInputs(ctx, D) {
+  const IT = readJ(path.join(__dirname, 'data', 'items.json'), {}) || {}, CA = (readJ(path.join(__dirname, 'data', 'gear_catalog.json'), {}) || {}).items || {};
+  const info = (id) => { const I = IT[String(id)] || [], C = CA[String(id)] || {}; return { type: I[2] || '', grade: I[3] === '' || I[3] == null ? -1 : Number(I[3]), price: Number(C.p) || 0 }; };
+  const SL = readJ(path.join(ctx.DATA, 'sell_list.json'), {}) || {}, bank = (readJ(path.join(ctx.DATA, 'crafter.json'), {}) || {}).bank || '';
+  const sellIds = new Set([].concat(Array.isArray(SL.all) ? SL.all : [], bank && Array.isArray(SL[bank]) ? SL[bank] : []).map(Number));
+  Object.keys(D.items).forEach(k => { if (D.items[k].act === 'sell') sellIds.add(Number(k)); });
+  const cryIds = new Set(Object.keys(D.items).filter(k => D.items[k].act === 'cry').map(Number));
+  const keepIds = new Set((Array.isArray(SL.keep) ? SL.keep : []).map(Number));
+  const neededIds = new Set();
+  const addRec = (o) => { if (o && typeof o === 'object') { if (Number(o.id)) neededIds.add(Number(o.id)); (Array.isArray(o.alt) ? o.alt : []).forEach(a => neededIds.add(Number(a && a.id || a))); Object.keys(o).forEach(k => { if (o[k] && typeof o[k] === 'object') addRec(o[k]); }); } };
+  try { fs.readdirSync(path.join(ctx.DATA, 'gear_rec')).filter(f => /\.json$/.test(f)).forEach(f => { const j = readJ(path.join(ctx.DATA, 'gear_rec', f), {}); addRec(((j || {}).grades || {}).D); }); } catch (e) { }
+  try { const A = readJ(path.join(ctx.DATA, 'academy.json'), {}) || {}; Object.keys(A.buy || {}).forEach(k => { (Array.isArray(A.buy[k]) ? A.buy[k] : []).forEach(r => { if (Number(r.id)) neededIds.add(Number(r.id)); }); }); } catch (e) { }
+  return { info, sellIds, cryIds, keepIds, neededIds };
+}
 let busy = false;
 async function tick(ctx, force) {
   if (busy) return { act: '', why: 'busy' };
@@ -119,6 +177,27 @@ async function tick(ctx, force) {
     let who;
     if (!CL) who = { ok: false, why: 'no clan warehouse worker known (crafter.json crafter / the clan leader)' };
     else who = collectorFree(stateFor(ctx, CL), C.cfg, Date.now());
+    // CWHCLEAN-2026-11-03: a full / nearly full clan warehouse is cleaned first - whatever the default-marks switch says
+    if (D.cleanup && wh && who && who.ok) {
+      const fullJ = (readJ(path.join(ctx.LOGS, 'wh_full.json'), {}) || {}).clan || null;
+      const cd = cleanupDue(fullJ, wh, S, D.cleanPct, Date.now());
+      if (cd.limit) S.cwhLimit = Math.max(Number(S.cwhLimit) || 0, cd.limit);
+      S.clean = { at: new Date().toISOString(), why: cd.why };
+      if (cd.due) {
+        const pick = cleanupPick(wh, Object.assign(cleanupInputs(ctx, D), { max: Math.min(40, Math.max(1, cd.kinds - cd.target)) }));
+        if (pick.length && ctx.commandRun) {
+          const F = process.env.SWARM_WHSELL_FILE || path.join(ctx.LOGS, 'whsell_order.json');
+          writeJ(F, { items: pick.map(i => ({ id: i.id, count: 'all' })), sell: true, at: new Date().toISOString(), by: 'whauto-cleanup' });
+          const r = await ctx.commandRun({ cmd: '!whsell order', targets: ['chars:' + CL] }), sent = r && r.body ? r.body : r;
+          S.cleanAt = Date.now();
+          const msg = `CLEAN-UP: ${CL} takes out and sells ${pick.length} junk kind(s) (${cd.why}): ${pick.slice(0, 8).map(i => i.name).join(', ')}${pick.length > 8 ? ' ...' : ''}`;
+          S.last = { at: new Date().toISOString(), act: 'clean', ok: !(sent && sent.error), msg: (sent && sent.error ? 'FAILED: ' + sent.error + ' - ' : '') + msg.slice(0, 380) };
+          writeJ(stateOf(ctx), S); log(ctx, S.last.msg);
+          return { act: 'clean', items: pick, why: cd.why, ok: !(sent && sent.error) };
+        }
+        S.clean.why = cd.why + (pick.length ? ' - no command runner' : ' - nothing in it counts as junk (sell list / no-grade / unneeded D-grade)');
+      }
+    }
     const st = force ? Object.assign({}, S, { lastAt: 0 }) : S;
     const dec = decide(D, wh, st, who, Date.now());
     S.check = { at: new Date().toISOString(), why: dec.why };
@@ -149,7 +228,7 @@ async function handle(req, res, url, ctx) {
   if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
   if (req.method === 'GET') {
     const D = norm(readJ(fileOf(ctx), {})), S = readJ(stateOf(ctx), {}) || {};
-    ctx.json(res, 200, { data: D, status: { check: S.check || null, last: S.last || null, lastAt: S.lastAt || 0 }, crafters: crafterNames(ctx), clanLeader: clanLeaderOf(ctx) });
+    ctx.json(res, 200, { data: D, status: { clean: S.clean || null, cwhLimit: Number(S.cwhLimit) || 0, check: S.check || null, last: S.last || null, lastAt: S.lastAt || 0 }, crafters: crafterNames(ctx), clanLeader: clanLeaderOf(ctx) });
     return true;
   }
   if (req.method !== 'POST') { ctx.json(res, 405, { error: 'GET or POST' }); return true; }
@@ -163,4 +242,4 @@ async function handle(req, res, url, ctx) {
   try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\twhauto\t${JSON.stringify(b).slice(0, 300)}\r\n`); } catch (e) { }
   ctx.json(res, 200, { ok: true, data: norm(a.data) }); return true;
 }
-module.exports = { handle, tick, norm, applyChange, decide, collectorFree, workerPick, GIRAN };
+module.exports = { handle, tick, norm, applyChange, decide, collectorFree, workerPick, cleanupDue, cleanupPick, GIRAN };

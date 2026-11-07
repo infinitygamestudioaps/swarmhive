@@ -184,7 +184,7 @@ function info(ctx) {
       lettersState: ctx.readJson(path.join(ctx.LOGS, 'letters_' + n + '.json'), null), plan: planSummary(ctx, n), eff, kind: kindFor(eff.dest, !!clan) };
   };
   const P = parties(ctx).map(({ leader, names }) => ({ leader, members: names.map(n => member(n, leader)) }));
-  return { file: path.basename(rulesFile(ctx)), exists: !!R.exists, rev: R.rev, broken: R.broken || null, rules, towns: TOWN_KEYS, clanLeader: clanLeader(ctx, cfg),
+  return { file: path.basename(rulesFile(ctx)), exists: !!R.exists, rev: R.rev, broken: R.broken || null, rules, towns: TOWN_KEYS, clanLeader: clanLeader(ctx, cfg), bank: (() => { try { return String((JSON.parse(fs.readFileSync(path.join(ctx.DATA, 'crafter.json'), 'utf8').replace(/^FEFF/, '')) || {}).bank || ''); } catch (e) { return ''; } })(),
     letterItems: letterItems(ctx), parties: P, base: BASE, clanWh: clanWh(ctx, rules) };
 }
 const COMMON_RE = /^Common Item - /i;   // = swarm.js STASH_COMMON_RE

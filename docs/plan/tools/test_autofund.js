@@ -43,10 +43,10 @@ const fs = require('fs'); const SRV =fs.readFileSync(path.join(R, 'Dashboard', '
 t('server.js runs it every 3 min through /api/trade/order', SRV.includes("require('./autofund').tick(") && SRV.includes('}, 180000);'));
 // IDLEGIVER-2026-11-02: a bank parked with "waiting for orders" gives; a real order / trade still counts as busy
 t('IDLEGIVER: "waiting for orders" is idle', !A.busyTask('waiting for orders since 11:58 (order:town-Giran)') && A.busyTask('trade: handing over to X') && A.busyTask('order: supply run'));
-{ const cfg = Object.assign({}, A.DEF, { on: true }), scope = new Set(['Nuker21']);
-  const st = [{ name: 'Nuker21', adena: 1531, ageSec: 5, task: 'plan blocked' }, { name: 'Crafter1', adena: 342882785, ageSec: 1, task: 'waiting for orders since 11:58 (order:town-Giran)' }];
+{ const cfg = Object.assign({}, A.DEF, { on: true }), scope = new Set(['Velyn8584']);
+  const st = [{ name: 'Velyn8584', adena: 1531, ageSec: 5, task: 'plan blocked' }, { name: 'Crafter1', adena: 342882785, ageSec: 1, task: 'waiting for orders since 11:58 (order:town-Giran)' }];
   const d = A.decide(cfg, scope, st, new Set(), new Set(), { recv: {} }, Date.now(), n => n === 'Crafter1');
-  t('IDLEGIVER: the parked bank pays the broke academy character', d.give && d.give.giver === 'Crafter1' && d.give.receiver === 'Nuker21', d); }
+  t('IDLEGIVER: the parked bank pays the broke academy character', d.give && d.give.giver === 'Crafter1' && d.give.receiver === 'Velyn8584', d); }
 // DEPOSITKEEP-2026-11-02 (tester: leader top-up 100M, "never give away under 300M"; a party gave 700M and kept 16M)
 { const r = { defaults: { leaderTarget: 100000000, memberTarget: 3000000 }, parties: {}, chars: {} }, g = { keepAtLeast: 300000000, targetOf: A.fundTargetOf(r, '') };
   const dep = { on: true, above: 20000000, keep: 10000000, againMin: 120 };

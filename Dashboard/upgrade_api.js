@@ -25,13 +25,15 @@ function collectorName(ctx) {
 }
 function lineBody(name, L) {
   const it = L.item || {};
-  return { name, item: { src: String(it.src || 'bag'), id: Number(it.id) || 0, objId: Number(it.objId) || 0, enchant: Number(it.enchant) || 0, char: String(it.char || ''), offer: it.offer || null },
+  return { name, item: { src: String(it.src || 'bag'), id: Number(it.id) || 0, objId: Number(it.objId) || 0, enchant: Number(it.enchant) || 0, char: String(it.char || ''), offer: it.offer || null, ownerPick: it.ownerPick === true },
     enchantTo: Number(L.enchantTo) || 0, blessed: !!L.blessed, saId: Number(L.saId) || 0, giveTo: name,
     augment: L.augment && Number(L.augment.stone) ? { stone: Number(L.augment.stone), wanted: (L.augment.wanted || []).map(Number), max: Number(L.augment.max) || 1 } : null };
 }
 /** plan one line; the materials' sources from the order's ticks: bag (always) -> warehouse -> clan warehouse -> buy */
 async function planLine(ctx, name, L, use, overSafeOk) {
   const b = Object.assign(lineBody(name, L), { overSafeOk: !!overSafeOk });
+  // PLUSLOCK-2026-11-04 (gear.md R6): a plused piece from a warehouse / another bag only when the owner tapped that piece himself
+  { const PL = require('./pluslock'); if (PL.plusLocked(b.item)) return { error: PL.plusLockWhy(Object.assign({ name: 'item ' + b.item.id }, b.item)) }; }
   let p = await IP.plan(ctx, b); if (p.error) return p;
   const pick = {};
   // NESTEDPICK-2026-10-30 (Chanter1's Homunkulus Acumen): a need that only appears after a pick (the crystals for the soul crystal exchange) is
@@ -69,7 +71,7 @@ async function planAll(ctx, b) {
       // GEARUPCOL-2: a line saved before the variant choice existed (no id) on a Heavy / Light / Robe piece = refused, never the Robe default
       if (us && !uw && unsealOptions(ctx, Number((L.item || {}).id)).length > 1) { res.push({ error: 'choose which variant to unseal (Heavy / Light / Robe): open Gear up again and tick the piece', item: L.item }); continue; }
       if (us) { const wi = p.steps.findIndex(s => /puts it on/.test(s.text || '')); p.steps.splice(wi >= 0 ? wi : p.steps.length, 0, { k: 'unseal', text: `unseal it at Pushkin → ${us.name} (${IL.kmb(us.aa)} ${us.pay === 57 ? 'adena' : 'Ancient Adena'})` }); if (us.pay === 57) p.adena = (Number(p.adena) || 0) + us.aa; else (p.warn = p.warn || []).push(`needs ${IL.kmb(us.aa)} Ancient Adena in ${name}'s bag for the S-grade seal`); }
-      res.push(p.error ? { error: p.error, item: L.item } : { unseal: us, wear: L.wear !== false, ok: p.ok, item: p.item, steps: p.steps.map(s => s.text), missing: p.missing.map(m => `${m.missing}× ${m.what}`), needs: p.needs,
+      res.push(p.error ? { error: p.error, item: L.item } : { unseal: us, wear: L.wear !== false, ok: p.ok, item: Object.assign({}, p.item, { ownerPick: !!(L.item && L.item.ownerPick === true) }), steps: p.steps.map(s => s.text), missing: p.missing.map(m => `${m.missing}× ${m.what}`), needs: p.needs,
         adena: p.adena, warn: p.warn, overSafe: p.overSafe, saOptions: (p.saOptions || []).map(s => ({ saId: s.saId, sa: s.sa, color: s.color, stage: s.stage })), enchantTo: p.enchantTo, saId: p.saId, chance: p.chance, finalId: p.finalId, offer: p.offer, augment: p.augment || null });
     }
     const C = await IP.charInfo(ctx, name, false);
@@ -112,13 +114,13 @@ async function start(ctx, b) {
   for (const o of go) {
     const id = `ij_${o.name.toLowerCase()}_up${Date.now().toString(36)}`;
     const lines = o.lines.map(r => ({
-      item: { src: r.item.src, id: r.item.id, objId: r.item.objId, enchant: r.item.enchant, name: r.item.name, kind: r.item.kind, grade: r.item.grade, offer: r.offer || null, char: r.item.char || '' },
+      item: { src: r.item.src, id: r.item.id, objId: r.item.objId, enchant: r.item.enchant, name: r.item.name, kind: r.item.kind, grade: r.item.grade, offer: r.offer || null, char: r.item.char || '', ownerPick: r.item.ownerPick === true },
       enchant: r.enchantTo > r.item.enchant ? { to: r.enchantTo, scroll: IL.scrollFor(r.item.kind || 'armor', r.item.grade, false) } : null,
       sa: r.saId ? fullSa(ctx, r) : null,
       finalId: r.finalId, wear: r.wear !== false, augment: r.augment || null, unseal: r.unseal || null,   // EPICGET-2026-10-31: a line may stay in the bag (gear.md R7: a set goes on whole)
       needs: (r.needs || []).map(n => ({ id: n.id, what: n.what, need: n.need, from: n.from, buy: n.buy || null, choice: n.choice || '' })) }));
     const solo = when === 'solo' && !isLeaderName(ctx, o.name);
-    const J = { id, doer: o.name, kind: 'upgrade', upgrade: { lines, collector: col && col !== o.name ? col : '', giveBack: !!b.giveBack && !!col && col !== o.name }, item: { name: `${lines.length} upgrade(s)`, id: 0 }, overSafeOk: !!b.overSafeOk,
+    const J = { id, doer: o.name, kind: 'upgrade', upgrade: { lines, collector: col && col !== o.name ? col : '', giveBack: !!b.giveBack && !!col && col !== o.name, buyOk: !!(b.use && b.use.buy) },   // CWHNOTTHERE: buying allowed -> a piece missing from the clan warehouse is bought item: { name: `${lines.length} upgrade(s)`, id: 0 }, overSafeOk: !!b.overSafeOk,
       give: null, needs: [], clanLeader: cl, steps: [].concat(...o.lines.map(r => r.steps)), created: isoNow(), by: String(b.by || 'dashboard upgrade').slice(0, 40),
       solo, queued: when === 'town' ? { since: isoNow() } : null };
     fs.writeFileSync(path.join(dir, id + '.json'), JSON.stringify(J, null, 1));
@@ -343,24 +345,29 @@ async function unsealList(ctx, name) {
   const add = (src, r) => { const u = unsealRow(ctx, Number(r.id)); if (!u) return; const ench = Number(r.enchant) || 0, k = `${src}:${r.id}:${ench}`;
     if (by[k]) { by[k].count += Math.max(1, Number(r.count) || 1); return; }
     const F = IP.facts(ctx, u.id) || {};
-    out.push(by[k] = { key: k, src, id: Number(r.id), name: String(r.name || ''), enchant: ench, count: Math.max(1, Number(r.count) || 1), objId: src === 'bag' ? Number(r.objId) || 0 : 0,
+    out.push(by[k] = { key: k, src, id: Number(r.id), name: String(r.name || ''), enchant: ench, count: Math.max(1, Number(r.count) || 1), objId: src === 'bag' || src === 'worn' ? Number(r.objId) || 0 : 0,
+      options: unsealOptions(ctx, Number(r.id)).map(o => ({ id: o.id, name: o.name, kind: o.kind })),   // UNSEALWORN: Heavy / Light / Robe choices
       to: { id: u.id, name: F.name || ('item ' + u.id), grade: F.grade || '', kind: F.kind || '' }, pay: u.pay, payName: u.pay === 57 ? 'adena' : 'Ancient Adena', price: u.aa }); };
   (C.bag || []).filter(r => !r.eq).forEach(r => add('bag', r)); (C.wh || []).forEach(r => add('wh', r)); (C.clan || []).forEach(r => add('clan', r));
+  (C.bag || []).filter(r => r.eq).forEach(r => add('worn', r));   // UNSEALWORN-2026-11-04: worn sealed pieces too (taken off, unsealed, worn again)
   const aaHave = (C.bag || []).filter(r => Number(r.id) === 5575).reduce((t, r) => t + (Number(r.count) || 0), 0);
   return { ok: true, name, pieces: out, adena: C.adena || 0, ancient: aaHave, clanLeader: IP.clanLeader(ctx) };
 }
 async function unsealPlan(ctx, b) {
   const L = await unsealList(ctx, b.name); if (L.error) return L;
-  const picks = (Array.isArray(b.items) ? b.items : []).map(x => ({ src: String(x.src || ''), id: Number(x.id) || 0, enchant: Number(x.enchant) || 0, count: Math.max(1, Math.min(50, Number(x.count) || 1)) }));
+  // UNSEALWORN-2026-11-04: variant = 'heavy' | 'light' | 'robe' | an unsealed id (Heavy / Light / Robe gloves + boots; the default was always Robe)
+  const picks = (Array.isArray(b.items) ? b.items : []).map(x => ({ src: String(x.src || ''), id: Number(x.id) || 0, enchant: Number(x.enchant) || 0, count: Math.max(1, Math.min(50, Number(x.count) || 1)), variant: /^(heavy|light|robe)$/.test(String(x.variant || '')) ? String(x.variant) : (Number(x.variant) || undefined) }));
   if (!picks.length) return { code: 400, error: 'Tap the sealed pieces first.' };
   const pieces = [], warn = [], steps = []; let adena = 0, ancient = 0;
   for (const p of picks) {
     const row = L.pieces.find(r => r.src === p.src && r.id === p.id && r.enchant === p.enchant);
     if (!row) { warn.push(`item ${p.id} is not in the ${p.src === 'clan' ? 'clan warehouse' : p.src === 'wh' ? 'warehouse' : 'bag'} any more`); continue; }
+    if (row.src === 'worn' && row.enchant > 0 && !b.plusOk) { warn.push(`${row.name} +${row.enchant}: a worn plused piece is never unsealed unless you tick it yourself (PLUSLOCK)`); continue; }   // UNSEALWORN + PLUSLOCK
     if (p.src !== 'bag' && row.enchant >= 10 && !b.plus10Ok) { warn.push(`${row.name} +${row.enchant}: +10 and higher only with the +10 tick`); continue; }
     const n = Math.min(p.count, row.count); if (n < p.count) warn.push(`${row.name}: only ${row.count} there`);
-    const u = unsealRow(ctx, row.id);
-    for (let k = 0; k < n; k++) pieces.push({ src: row.src, id: row.id, name: row.name, enchant: row.enchant, objId: row.src === 'bag' ? row.objId : 0, toId: u.id, toName: row.to.name, label: u.label, pay: u.pay, price: u.aa, plus10: row.src !== 'bag' && row.enchant >= 10 });
+    const u = unsealRow(ctx, row.id, p.variant); if (!u) { warn.push(`${row.name}: that unseal variant does not fit`); continue; }   // UNSEALWORN
+    if (p.variant && unsealOptions(ctx, row.id).length > 1 && !unsealOptions(ctx, row.id).some(o => o.id === u.id && (o.kind === p.variant || o.id === p.variant))) { warn.push(`${row.name}: no ${p.variant} variant`); continue; }
+    for (let k = 0; k < n; k++) pieces.push({ src: row.src === 'worn' ? 'bag' : row.src, worn: row.src === 'worn', id: row.id, name: row.name, enchant: row.enchant, objId: row.src === 'bag' || row.src === 'worn' ? row.objId : 0, toId: u.id, toName: u.name || row.to.name, label: u.label, pay: u.pay, price: u.aa, plus10: row.src !== 'bag' && row.enchant >= 10 });
     if (u.pay === 57) adena += u.aa * n; else ancient += u.aa * n;
   }
   if (!pieces.length) return { code: 400, error: warn.join('; ') || 'nothing to unseal' };
@@ -401,7 +408,7 @@ function preset(ctx, namesRaw, gradeRaw) {
   const SPARE = [], SPARE_USED = new Set(), NAMES = new Set(names);
   try { fs.readdirSync(ctx.LOGS).forEach(f => { const m = /^bag_(.+)\.json$/.exec(f); if (!m || !NAMES.has(m[1])) return; const j = rj(path.join(ctx.LOGS, f), null);
     if (!j || !Array.isArray(j.items) || Date.now() - (Date.parse(j.at || '') || 0) > 6 * 3600000) return;
-    j.items.filter(r => !r.eq && !r.equipped && !r.q && !r.quest && (Number(r.enchant) || 0) < 10).forEach(r => { const F = IP.facts(ctx, Number(r.id)); if (F && F.kind === 'jewel' && Number(r.objId)) SPARE.push({ char: m[1], id: Number(r.id), objId: Number(r.objId), enchant: Number(r.enchant) || 0, F }); }); }); } catch (e) { }
+    j.items.filter(r => !r.eq && !r.equipped && !r.q && !r.quest && (Number(r.enchant) || 0) < 1).forEach(r => { const F = IP.facts(ctx, Number(r.id)); if (F && F.kind === 'jewel' && Number(r.objId)) SPARE.push({ char: m[1], id: Number(r.id), objId: Number(r.objId), enchant: Number(r.enchant) || 0, F }); }); }); } catch (e) { }
   const out = [];
   for (const name of names) {
     const ch = all.find(c => c.name === name); if (!ch) { out.push({ name, error: 'unknown character' }); continue; }

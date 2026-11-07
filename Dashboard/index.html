@@ -701,10 +701,15 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       <button data-tab="dispatch" title="Send a party or a character anywhere: epics, raid bosses, NPCs, areas — one stop or a whole tour"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Map.png" alt=""> Dispatch</button>
       <button data-tab="items" title="Any character: bag, warehouse, clan warehouse, Giran shops — buy, enchant, Special Ability, give to someone"><img class="gi" src="/icons/icon/etc_equip_item_box_i00.png" alt=""> Items</button>
       <button data-tab="upgrade" title="Upgrade gear for several characters at once: items from wherever we have them, enchant, SA, put on, replaced pieces to the collector"><img class="gi" src="/icons/icon/weapon_homunkuluss_sword_i00.png" alt=""> Upgrade</button>
+      <button data-tab="rotation" title="Spot rotation: a party moves between its chosen spots by itself (after N min, no kills, deaths, or when it outgrows the spot)"><img class="gi" src="/icons/icon/etc_map_i00.png" alt="" onerror="this.style.display='none'"> Rotation</button>
+      <button data-tab="boost" title="Boost: enchant items / skills, augment and attribute in a fast loop - also while you play the character in the game"><img class="gi" src="/icons/icon/etc_scroll_of_enchant_weapon_i02.png" alt="" onerror="this.src='/icons/icon/etc_scroll_of_enchant_armor_i02.png'"> Boost</button>
       <button data-tab="augments" title="Every Life Stone (level and grade), everything each can give with its chance, and how many we have"><img class="gi" src="/icons/icon/etc_mineral_unique_i00.png" alt=""> Life Stones</button>
       <button data-tab="loot" title="What every character picked up or spoiled: grade, type, who, when"><img class="gi" src="/icons/icon/etc_treasure_box_i00.png" alt=""> Loot</button>
       <button data-tab="crafting" title="Crafters: what they can make with the materials in bag, warehouse and clan warehouse"><img class="gi" src="/icons/icon/etc_recipe_blue_i00.png" alt=""> Crafting</button>
       <button data-tab="crafter" title="Clan crafter: shot stock targets, what is short, the ore and crystals it needs, and the clan bank"><img class="gi" src="/icons/icon/etc_spirit_bullet_silver_i00.png" alt=""> Crafter</button>
+      <button data-tab="runner" title="The runner: calls, the rotation, what each party has for it, the trip now and the last trips (state kept over restarts)"><img class="gi" src="/icons/icon/etc_spirit_bullet_silver_i00.png" alt=""> Runner</button>
+      <button data-tab="powerlevel" title="Power level: a leveler hunts with no level limits while a healer from another party follows and heals it"><img class="gi" src="/icons/icon/skill1218.png" alt=""> Power level</button>
+      <button data-tab="teams" title="Teams: move characters between parties (drag or tap), make a leader, choose what each one does (bank, runner, collector, power level ...)"><img class="gi" src="/icons/L2UI_CT1/crop/Icon_DF_MenuWnd_Clan.png" alt=""> Teams</button>
       <button data-tab="trade"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Trade</button>
       <button data-tab="adena"><img class="gi" src="/icons/icon/etc_adena_i00.png" alt=""> Adena</button>
       <button data-tab="spoil" title="Which monsters the Bounty Hunters spoil, by their spoil drops"><img class="gi" src="/icons/icon/skill0254.png" alt=""> Spoil</button>
@@ -913,6 +918,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
   <section id="tab-pc" class="win" hidden>
     <div class="whead"><h2>L2Swarm program</h2></div>
     <div id="pcStatus" class="muted">Loading…</div>
+    <div id="pcLogs" class="muted" style="margin-top:4px"></div>
     <div class="act" style="margin:10px 0">
       <button data-sys="start">Start L2Swarm</button>
       <button data-sys="restart">Restart L2Swarm</button>
@@ -1224,6 +1230,8 @@ function route() {
   const [kind, arg] = location.hash.replace(/^#\/?/, '').split('/');
   if (window.OverviewPage && kind && kind !== 'overview') OverviewPage.close();   // OVERVIEW: off when any other page opens
   if (window.AugmentPage && kind !== 'augments') AugmentPage.close();             // AUGTABLE 2026-10-25: Life Stones page off on any other page
+  if (window.RotationPage && RotationPage.route(kind, arg)) return;               // #/rotation[/<leader>] SPOTROT-2026-11-05 (Dashboard/rotationpage.js)
+  if (window.BoostPage && BoostPage.route(kind, arg)) return;                     // #/boost[/<Name>] BOOST-2026-11-05 (Dashboard/boostpage.js): the enchant tool
   if (window.AugmentPage && AugmentPage.route(kind, arg)) return;                 // #/augments[/<stone id>] (Dashboard/augmentpage.js)
   if (window.UpgradePage && kind !== 'upgrade') UpgradePage.close();              // UPGRADE 2026-10-25: gear upgrade orders, off on any other page
   if (window.UpgradePage && UpgradePage.route(kind, arg)) return;                 // #/upgrade (Dashboard/upgradepage.js)
@@ -1255,6 +1263,9 @@ function route() {
   if (window.LootPage && LootPage.route(kind, arg)) return;   // LOOTLOG 2026-10-23: #/loot what every character picked up / spoiled (Dashboard/lootpage.js)
   if (window.DispatchPage && DispatchPage.route(kind, arg)) return;   // DISPATCH 2026-10-17: #/dispatch send a party / a character to any place, tours, learned routes (Dashboard/dispatchpage.js)
   if (window.ItemsPage && ItemsPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/items[/<name>] any character: bag / warehouse / clan warehouse / Giran shops -> buy, enchant, SA, give (Dashboard/itemspage.js)
+  if (window.RunnerPage && RunnerPage.route(kind, arg)) return;   // RUNNERPAGE-2026-11-03: #/runner (Dashboard/runnerpage.js)
+  if (window.PowerLevelPage && PowerLevelPage.route(kind, arg)) return;   // POWERLEVEL-2026-11-03: #/powerlevel (Dashboard/powerlevelpage.js)
+  if (window.TeamsPage && TeamsPage.route(kind, arg)) return;   // TEAMS-2026-11-03: #/teams re-arrange parties + who does what (Dashboard/teamspage.js)
   if (window.CrafterPage && CrafterPage.route(kind, arg)) return;   // CRAFTERPAGE 2026-11-01: #/crafter the clan crafter: stock targets + needs + the clan bank (Dashboard/crafterpage.js)
   if (window.CraftPage && CraftPage.route(kind, arg)) return;   // ITEMS 2026-10-17: #/crafting[/<name>] crafters: recipes + materials from bag / warehouse / clan (Dashboard/craftpage.js)
   if (window.CombatClassPage && CombatClassPage.route(kind, arg)) return;   // CLASSROT 2026-10-26: #/combat + #/combat/line/<Line> the class guide (Dashboard/combatclass.js)
@@ -2525,7 +2536,7 @@ function renderPartyCards(parties, bar) {
     return `<div class="win pcard">
       <div class="whead phead"><h2>${GI(UI.clan, 'sm')} ${PARTY_ONE ? `Party ${esc(leader)}` : `<a class="plink" href="#/party/${encodeURIComponent(leader)}" title="Open this party's own page">Party ${esc(leader)}</a>`} ${window.ClassPlans ? ClassPlans.partyBadge(leader) : ''}<span class="muted">· ${live}/${list.length} online · lvl ${Math.min(...lv)}–${Math.max(...lv)}${window.LevelEta ? ' · ' + LevelEta.partyHtml(list) : ''}</span></h2>
         <div class="act">
-          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.PartyPlan ? PartyPlan.button(leader) : ''}<!-- PARTY PLAN 2026-10-13 -->${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}${window.UpgradePage && UpgradePage.partyButton ? UpgradePage.partyButton(leader) : ''}<!-- GEARUPCOL-2026-10-29 -->${window.FrenzyReady ? FrenzyReady.partyButton(leader, list) : ''}<!-- FRENZYREADY-2026-10-29 --><button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
+          ${window.RunSwitch ? RunSwitch.partyButton(leader) : ''}${window.PartySettings ? PartySettings.button(leader) : ''}${window.PartyPlan ? PartyPlan.button(leader) : ''}<!-- PARTY PLAN 2026-10-13 -->${window.RunnerCall ? RunnerCall.button(leader) : ''}<!-- RUNNERBTN-2026-11-02 -->${window.LiveParty ? LiveParty.button(leader) : ''}${window.TradePage ? TradePage.button('party:' + leader) : ''}${window.OrdersView ? OrdersView.button('party:' + leader) : ''}${window.UpgradePage && UpgradePage.partyButton ? UpgradePage.partyButton(leader) : ''}<!-- GEARUPCOL-2026-10-29 -->${window.FrenzyReady ? FrenzyReady.partyButton(leader, list) : ''}<!-- FRENZYREADY-2026-10-29 --><button class="ccsheetbtn" data-cmdsheet="${tgt}" title="Every command for this party, by category (command center)">${GI(UI.menuAction, 'sm')} Commands</button>
           <button data-quick="${tgt}|!status|Status report" title="Everyone reports">Status</button>
           <button data-quick="${tgt}|!level|Level (regroup in Giran, leader picks the spot)" title="Regroup in Giran, then the leader teleports the team to a hunting spot">Level</button>
           <button data-quick="${tgt}|!supply|Supplies (leader buys SoE/SoR/shots/spirit ore in Giran and hands them out)" title="Leader buys supplies for everyone in Giran">Supply</button>
@@ -4106,6 +4117,9 @@ function miniBox(name, sc) {
 
 // --- PC / L2Swarm ----------------------------------------------------------------
 async function loadSystem() {
+  // LOGROTATE-2026-11-04: Logs size + the last rotation (Dashboard/logrotate.js, /api/logrotate)
+  api('/api/logrotate').then(r => { const L = r && r.last; if ($('pcLogs')) $('pcLogs').textContent = !r || !r.ok ? '' : !L ? 'Logs: no rotation yet (the first runs a minute after the dashboard start, then every 6 h)'
+    : `Logs folder ${L.totalMb} MB · last rotation ${new Date(L.at).toLocaleString()}: freed ${L.freedMb} MB (${(L.cut || []).length} logs cut, ${L.deleted || 0} old files removed${(L.skipped || []).length ? ', ' + L.skipped.length + ' busy - next round' : ''})`; }).catch(() => { });
   const s = await api('/api/system');
   const ram = `PC RAM free ${(s.freeMB / 1024).toFixed(1)} / ${(s.totalMB / 1024).toFixed(1)} GB · ${s.cpus} CPU threads`;
   const l2 = s.l2;
@@ -4526,18 +4540,22 @@ function renderBrake(B, stale, cursed) {
 function renderFull(F) {
   const el = $('fullBar'); if (!el) return;
   F = F || {}; const bags = F.bags || [], full = bags.filter(b => b.level === 'full'), near = bags.filter(b => b.level !== 'full'), priv = F.private || [];
-  const ore = F.ore || [], stuck = F.stuck || [];
-  if (!F.clan && !priv.length && !bags.length && !ore.length && !stuck.length) { el.hidden = true; el.innerHTML = ''; return; }
+  const ore = F.ore || [], stuck = F.stuck || [], flood = F.flood || null;
+  if (!F.clan && !priv.length && !bags.length && !ore.length && !stuck.length && !flood) { el.hidden = true; el.innerHTML = ''; return; }
   const hm = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' }); };
   const who = (L) => L.map(b => `<a href="#/char/${encodeURIComponent(b.name)}" title="${esc(b.why)}">${esc(b.name)}</a>`).join(', ');
   const lines = [];
   if (F.clan) lines.push(`<div class="bk-t">⚠ The CLAN warehouse is full <span class="bk-n">(since ${esc(hm(F.clan.at))}, ${esc(F.clan.by || '')})</span></div><div class="bk-w">Nothing more goes in until something comes out. <a href="#/storage">Storage → Clan warehouse</a>: tick junk → Take out and sell.</div>`);
-  if (priv.length) lines.push(`<div class="bk-t">⚠ Own warehouse full: <span class="bk-n">${who(priv)}</span></div>`);
+  // WHFULLAGE-2026-11-04 (owner: "you write 'Own warehouse full: Crafter1' but you also say that you cant read it?"): the flag is the server's
+  // "#130 Your warehouse is full." at a deposit - said as that, with its time; it clears only when the list is read or something comes out
+  if (priv.length) lines.push(`<div class="bk-t">⚠ Own warehouse full: <span class="bk-n">${who(priv)}</span></div><div class="bk-w">${priv.map(p => `${esc(p.name)}: the server said "Your warehouse is full" at a deposit ${esc(hm(p.at))}`).join(' · ')}. Not re-checked since - it clears when the bot reads the list or takes something out.</div>`);
   if (full.length) lines.push(`<div class="bk-t">⚠ Bag FULL: <span class="bk-n">${who(full)}</span></div><div class="bk-w">The server refuses quests and trades for them. Sell (mark items on the Gear page) or store (Storage page).</div>`);
   if (near.length) lines.push(`<div class="bk-b">Bag nearly full: ${who(near)}</div>`);
   if (ore.length) lines.push(`<div class="bk-t">⚠ Out of Spirit Ore: <span class="bk-n">${who(ore.map(o => ({ name: o.name, why: o.skill + ' skipped' })))}</span></div><div class="bk-w">They keep healing with their other heals (no trip for it); the next supply run buys more.</div>`);   // ORE 2026-10-14
+  // THREADFLOOD-2026-11-03: L2Swarm's own error loop is the CAUSE - said first, and every frozen character below names it
+  if (flood) lines.push(`<div class="bk-t">⚠ L2Swarm error loop: <span class="bk-n">its '${esc(flood.thread)}' worker fails ${esc(String(flood.perMin))}× a minute (${esc(flood.error)})</span></div><div class="bk-w">Path walks and town ports of the scripts stall while it runs (a relog does not help). Restart L2Swarm (PC page) to clear it.</div>`);
   // IMMOBILE 2026-10-15: a character that has not moved for 10+ min while every walk / town port failed (Tank1's in-game client, 2 h)
-  if (stuck.length) lines.push(`<div class="bk-t">⚠ Cannot move: <span class="bk-n">${stuck.map(s => `<a href="#/char/${encodeURIComponent(s.name)}">${esc(s.name)}</a> (${s.mins} min at one spot, ${s.fails} town ports did nothing)`).join(', ')}</span></div><div class="bk-w">Its commands do not reach the game. In-game character: look at its game window (a popup? disconnected?). Otherwise log it out and in again (character page → Client).</div>`);
+  if (stuck.length) lines.push(`<div class="bk-t">⚠ Cannot move: <span class="bk-n">${stuck.map(s => `<a href="#/char/${encodeURIComponent(s.name)}">${esc(s.name)}</a> (${s.mins} min at one spot, ${s.fails} town ports did nothing${s.why ? ' - ' + esc(s.why) : ''})`).join(', ')}</span></div><div class="bk-w">${flood ? 'Cause: the L2Swarm error loop above - a relog does not help; restart L2Swarm.' : 'Its commands do not reach the game. In-game character: look at its game window (a popup? disconnected?). Otherwise log it out and in again (character page → Client).'}</div>`);
   el.className = 'brakebar fullbar ' + (F.clan || full.length || priv.length || stuck.length ? 'bad' : '');
   el.innerHTML = lines.join(''); el.hidden = false;
 }
@@ -5298,6 +5316,7 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 </script>
 <!-- CHARPAGE 2026-10-09: the character page v2 #/char/<name> (served by server.js once restarted; without it the old page stays) -->
 <link rel="stylesheet" href="/charpage.css">
+<script src="/runnercall.js"></script><!-- RUNNERBTN-2026-11-02: "🐎 Call the runner" on every party card + the character page (Dashboard/runnercall.js, GET /api/crafterpage?view=runner) -->
 <script src="/charpage.js"></script>
 <!-- RAIDS PAGE 2026-10-09: #/raids boss board + #/raid/<id> boss page v2 (served by server.js once restarted; without it the old Raids tab stays) -->
 <link rel="stylesheet" href="/raidspage.css">
@@ -5390,9 +5409,14 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <script src="/itemslogic.js"></script>
 <script src="/itemspage.js"></script>
 <script src="/augmentpage.js"></script>
+<script src="/boostpage.js"></script>
+<script src="/rotationpage.js"></script>
 <script src="/upgradepage.js"></script>
 <script src="/craftpage.js"></script>
 <script src="/crafterpage.js"></script><!-- CRAFTERPAGE 2026-11-01 -->
+<script src="/runnerpage.js"></script><!-- RUNNERPAGE-2026-11-03 -->
+<script src="/powerlevelpage.js"></script><!-- POWERLEVEL-2026-11-03 -->
+<script src="/teamspage.js"></script><!-- TEAMS-2026-11-03 -->
 
 <script src="/dispatchpage.js"></script>
 <script src="/lootpage.js"></script>

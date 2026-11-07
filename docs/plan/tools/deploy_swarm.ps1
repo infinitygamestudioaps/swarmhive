@@ -96,6 +96,16 @@ $reloadMB = 1000000   # user 2026-10-07 19:55: "stop restarting all the time - w
 # every restart deploy logs ALL accounts in again (38 since 2026-10-07). User 2026-10-07: "if you constantly log in it will block at some
 # point" -> at most one restart deploy per hour; batch the edits (the -Force switch does not lift this).
 $restartGapMin = 60
+# DEPLOYBAK (owner 2026-11-06 "Do 4"): before every copy, the live swarm.js it replaces is kept in Scripts\backup\deployed\swarm_<time>.js
+# (the newest 30), so a "what changed since yesterday" question can be answered with an exact diff (11-06: 26 raid deaths, no old copy to compare).
+try {
+    $bakDir = "$root\Scripts\backup\deployed"
+    if (-not (Test-Path $bakDir)) { New-Item -ItemType Directory -Path $bakDir -Force | Out-Null }
+    $bak = Join-Path $bakDir ("swarm_{0}.js" -f (Get-Date -Format 'yyyy-MM-dd_HHmmss'))
+    Copy-Item $dst $bak -Force
+    Get-ChildItem $bakDir -Filter 'swarm_*.js' | Sort-Object Name -Descending | Select-Object -Skip 30 | Remove-Item -Force -ErrorAction SilentlyContinue
+    Log "backup of the replaced swarm.js: $bak"
+} catch { Log "backup FAILED (deploy goes on): $($_.Exception.Message)" }
 if ($p -and $mb -gt $reloadMB) {
     $lastRestart = Get-Content $log -ErrorAction SilentlyContinue | Where-Object { $_ -match 'DEPLOYED \(force=\w+, restart\)' } | Select-Object -Last 1
     if ($lastRestart) {

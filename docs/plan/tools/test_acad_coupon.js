@@ -110,12 +110,12 @@ check(nsteps.length === st.length && nsteps.filter(s => s.act === 'coupon' && s.
 check(nsteps.find(s => s.id === 'acbuy2').set === 'level20' && nsteps.find(s => s.id === 'acgrad').act === 'graduate', 'planlogic still keeps the buy set / graduate steps');
 check(/'join', 'funds', 'buy', 'graduate', 'coupon'\]\.includes\(s\.act\)/.test(fs.readFileSync(path.join(ROOT, 'Dashboard', 'planlogic.js'), 'utf8')), 'planlogic accepts act coupon');
 
-// COUPONHOP-2026-11-01: the LIVE L2Toggle first page (Nuker38 2026-10-31) - the coupons are behind "Ask for help with a newbie item."
+// COUPONHOP-2026-11-01: the LIVE L2Toggle first page (Zarith0669 2026-10-31) - the coupons are behind "Ask for help with a newbie item."
 { const live = ['Ask for advice.', 'Find NPC.', 'Recive blessing of protection.', 'Teleport to another village.', 'Give me some support magic.', 'Tell me about novice characters.', 'Ask for help with a newbie item.'].map(text => ({ text }));
   const p = P.acPickLink(live, P.AC_LINK.weapon.coupon, 0);
   check(p && !p.final && p.link.text === 'Ask for help with a newbie item.', 'COUPONHOP: the live first page hops through "Ask for help with a newbie item." (not given up)');
   check(P.acPickLink(live, P.AC_LINK.weapon.coupon, 2) === null, 'COUPONHOP: still at most 2 hops'); }
-// COUPONLIVE-2026-11-01: the LIVE 2nd page (Logs/acadcoupon_Nuker33_page1.html)
+// COUPONLIVE-2026-11-01: the LIVE 2nd page (Logs/acadcoupon_Nyxwen334_page1.html)
 { const p1 = ["Get the Apprentice Adventurer's Weapon Exchange Coupon", 'Use the weapon warehouse for apprentice adventurers', "Get the Adventurer's Magic Armor Exchange Coupon", 'Use the Magic Armor warehouse for travellers'].map(text => ({ text }));
   const c = P.acPickLink(p1, P.AC_LINK.weapon.coupon, 1), e = P.acPickLink(p1, P.AC_LINK.weapon.exchange, 1);
   check(c && c.final && /^Get the Apprentice/.test(c.link.text), 'COUPONLIVE: "Get the Apprentice Adventurer\'s Weapon Exchange Coupon" is the coupon link (final, not a hop)');
@@ -136,5 +136,6 @@ check(/'join', 'funds', 'buy', 'graduate', 'coupon'\]\.includes\(s\.act\)/.test(
 { const i = SRC.indexOf('function acArmorNever('); const A = new Function(SRC.slice(i, SRC.indexOf('\n', i)) + '\nreturn acArmorNever;')();
   check(A('armor', { weapon: { status: 'done' } }) && !A('armor', { weapon: { status: 'failed', text: 'trip: stopped' } }) && !A('weapon', { weapon: { status: 'done' } }) && !A('armor', {}), 'ARMORNEVER: armor coupon impossible once the weapon coupon is done; otherwise tried');
   check(/if \(acArmorNever\(which, acRead\(\)\)\) \{ acSet\(which, 'unavailable'/.test(SRC), 'ARMORNEVER: the coupon step stores it as unavailable before any trip'); }
+check(SRC.includes("acadBuyNeed(r.equip && !r.shots ? Object.assign({}, r, { count: 1 }) : r, holds, null, (gearDb().items || {})[num(r.id)], num(Me.Level)).act; return a !== 'have' && a !== 'skip'"), "ACADPAIRS: a worn pair of earrings / rings counts as there after the kit buy (ACADGRADE: a too-high-grade row is skipped, never 'missing')");
 console.log(`acad coupon: ${ok} ok, ${bad} failed`);
 process.exit(bad ? 1 : 0);

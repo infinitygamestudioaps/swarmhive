@@ -95,7 +95,7 @@ function ingest(ctx) {
     return rows.length;
   } catch (e) { return 0; }
 }
-function settings(ctx) { const j = obj(rj(setFile(ctx), {})); return { runner: NAME_RE.test(j.runner || '') ? j.runner : '', runnerOn: j.runnerOn === true, pays: obj(j.pays), cwhWithdraw: j.cwhWithdraw !== false, crafter: NAME_RE.test(j.crafter || '') ? j.crafter : DEF.crafter, bank: NAME_RE.test(j.bank || '') ? j.bank : DEF.bank, prices: obj(j.prices) }; }
+function settings(ctx) { const j = obj(rj(setFile(ctx), {})); return { runner: NAME_RE.test(j.runner || '') ? j.runner : '', runnerOn: j.runnerOn === true, pays: obj(j.pays), cwhWithdraw: j.cwhWithdraw !== false, rotateOn: j.rotateOn !== false, rotateMin: Math.max(10, Math.min(1440, num(j.rotateMin) || 60)), runnerStealth: j.runnerStealth !== false, crafter: NAME_RE.test(j.crafter || '') ? j.crafter : DEF.crafter, bank: NAME_RE.test(j.bank || '') ? j.bank : DEF.bank, prices: obj(j.prices) }; }
 function ledger(ctx) { const j = rj(ledFile(ctx), null); return Array.isArray(j && j.rows) ? j.rows : []; }
 function ledgerAdd(ctx, row) {
   const F = ledFile(ctx), j = obj(rj(F, {})); const rows = Array.isArray(j.rows) ? j.rows : [];
@@ -129,7 +129,7 @@ function info(ctx) {
     seen: src.seen, status: st ? { state: st.state, why: st.why, at: st.at, town: st.town, createLvl: st.createLvl } : null,
     bankNow: { adena: num(bankSt.adena), online: num(bankSt.ageSec) < 120 }, ledger: { summary: sum, last: L.slice(-30).reverse() },
     balance: Array.isArray(bal.rows) ? bal.rows.slice(-288) : [], parties,
-    runner: Object.assign({ name: S.runner, on: S.runnerOn, pays: S.pays, cwhWithdraw: S.cwhWithdraw }, obj(rj(path.join(ctx.LOGS, 'runner_state.json'), {}))) };
+    runner: Object.assign({ name: S.runner, on: S.runnerOn, pays: S.pays, cwhWithdraw: S.cwhWithdraw, rotateOn: S.rotateOn, rotateMin: S.rotateMin, runnerStealth: S.runnerStealth }, obj(rj(path.join(ctx.LOGS, 'runner_state.json'), {}))) };
 }
 /** every 10 min (server.js): the bank's adena -> Logs/crafter_balance.json (last 2000 samples) */
 function tick(ctx) {
@@ -158,6 +158,10 @@ async function post(ctx, b) {
     if (b.runner !== undefined) { if (b.runner !== '' && !NAME_RE.test(String(b.runner))) return { code: 400, error: 'runner: a character name or empty' }; out.runner = String(b.runner || ''); }
     if (typeof b.runnerOn === 'boolean') out.runnerOn = b.runnerOn;
     if (typeof b.cwhWithdraw === 'boolean') out.cwhWithdraw = b.cwhWithdraw;
+    // RUNNERROTATE-2026-11-03: the runner's rotation through the farming parties (empty queue): on/off + at most one visit per party every N min
+    if (typeof b.rotateOn === 'boolean') out.rotateOn = b.rotateOn;
+    if (typeof b.runnerStealth === 'boolean') out.runnerStealth = b.runnerStealth;   // RUNNERSTEALTH-2026-11-03: walks in everywhere (stealth) / the old level limit
+    if (b.rotateMin !== undefined) { const m = Math.round(num(b.rotateMin)); if (!(m >= 10 && m <= 1440)) return { code: 400, error: 'rotateMin: 10 - 1440 minutes' }; out.rotateMin = m; }
     if (b.pays !== undefined) { const p = obj(out.pays); Object.keys(obj(b.pays)).forEach(k => { if (!NAME_RE.test(k)) return; if (b.pays[k] === false) p[k] = false; else delete p[k]; }); out.pays = p; }
     if (b.prices !== undefined) { const p = obj(out.prices); Object.keys(obj(b.prices)).forEach(id => { const v = b.prices[id]; if (v === null || v === '') delete p[id]; else if (num(v) >= 0 && num(v) <= 1e6) p[id] = num(v); }); out.prices = p; }
     out._about = 'CRAFTERPAGE-2026-11-01: the clan crafter page (#/crafter): crafter = who crafts, bank = who holds the clan money, prices = per shot item id an override of the NPC price. The stock targets live in crafter_rules.json crafters.<crafter>.stock.';
@@ -191,7 +195,17 @@ async function post(ctx, b) {
   }
   return { code: 400, error: 'action: targets | settings | craft | sell | ledger' };
 }
-const STATIC = { '/crafterpage.js': 'text/javascript; charset=utf-8' };
+const STATIC = { '/crafterpage.js': 'text/javascript; charset=utf-8', '/runnercall.js': 'text/javascript; charset=utf-8' };
+// RUNNERBTN-2026-11-02 (owner: "I dont see the Call collector under #/char/Spoiler3?? On mobile og pc"): GET /api/crafterpage?view=runner = the small
+// read-only state the "🐎 Call the runner" buttons (Dashboard/runnercall.js) need: who the runner / crafter are, their parties, its state + queue.
+function partyOfName(tm, name) { if (!name) return ''; const k = Object.keys(tm || {}).find(l => l === name || (Array.isArray(tm[l]) && tm[l].includes(name))); return k || name; }
+function runnerView(ctx) {
+  const S = settings(ctx), st = obj(rj(path.join(ctx.LOGS, 'runner_state.json'), {}));
+  let tm = {}; try { tm = (ctx.teamMap && ctx.teamMap()) || {}; } catch (e) { }
+  let crafter = S.crafter; try { const cr = obj(rj(path.join(dataDir(ctx), 'crafter_rules.json'), {})).crafters; if (cr && Object.keys(cr).length) crafter = Object.keys(cr)[0]; } catch (e) { }
+  return { ok: true, runner: S.runner, on: S.runnerOn, crafter, runnerParty: partyOfName(tm, S.runner), crafterParty: partyOfName(tm, crafter),
+    state: String(st.state || ''), cur: String(st.cur || ''), queue: Array.isArray(st.queue) ? st.queue.map(q => String((q && q.party) || '')).filter(Boolean) : [], at: st.at || null };
+}
 async function handle(req, res, url, ctx) {
   if (STATIC[url.pathname]) {
     let body; try { body = fs.readFileSync(path.join(ctx.DIR || __dirname, url.pathname.slice(1))); } catch (e) { res.writeHead(404); res.end('not found'); return true; }
@@ -199,10 +213,11 @@ async function handle(req, res, url, ctx) {
   }
   if (url.pathname !== '/api/crafterpage') return false;
   if (!ctx.allowed(req, url)) { ctx.send(res, 401, 'text/plain; charset=utf-8', 'Access denied'); return true; }
+  if (req.method === 'GET' && url.searchParams.get('view') === 'runner') { try { ctx.json(res, 200, runnerView(ctx)); } catch (e) { ctx.json(res, 500, { error: e.message }); } return true; }   // RUNNERBTN-2026-11-02
   if (req.method === 'GET') { try { ctx.json(res, 200, info(ctx)); } catch (e) { ctx.json(res, 500, { error: e.message }); } return true; }
   if (req.method !== 'POST') { ctx.json(res, 405, { error: 'GET or POST' }); return true; }
   let b = {}; try { let t = ''; for await (const c of req) t += c; b = JSON.parse(t || '{}'); } catch (e) { ctx.json(res, 400, { error: 'bad JSON' }); return true; }
   try { const r = (await post(ctx, b)) || { code: 500, error: 'no result' }; const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, info, post, tick, countIds, priceOf, needRow, needs, ledgerSummary, ledgerRow, salePrice, SHOT_PRICE, settings, ingestLines, ingest, KINDS };
+module.exports = { handle, info, post, tick, runnerView, partyOfName, countIds, priceOf, needRow, needs, ledgerSummary, ledgerRow, salePrice, SHOT_PRICE, settings, ingestLines, ingest, KINDS };

@@ -217,7 +217,26 @@ function fullStatus(chars) {
   const priv = Object.keys(w.private || {}).filter(n => w.private[n] && w.private[n].full).map(n => Object.assign({ name: n }, w.private[n]));
   const ore = (chars || []).filter(c => c && c.oreOut && c.ageSec != null && c.ageSec < 300).map(c => ({ name: c.name, skill: c.oreOut.skill || '' }));   // ORE 2026-10-14
   const stuck = (chars || []).filter(c => c && c.immobile && c.ageSec != null && c.ageSec < 300).map(c => ({ name: c.name, mins: c.immobile.mins, fails: c.immobile.fails, at: c.immobile.at || '' }));   // IMMOBILE 2026-10-15
-  return { bags, clan, private: priv, ore, stuck };
+  // THREADFLOOD-2026-11-03 (owner: "Relog not, find issue"): 13 characters froze while L2Swarm's shared ThreadManager ran a crashing 'Script Path'
+  // worker ~15,000x a minute (NullReferenceException) - the bar now names the CAUSE instead of only "commands do not reach the game"
+  let flood = null; try { flood = threadFloodScan(tailText(path.join(ROOT, 'Logs', 'LOG.log'), 400000), Date.now()); } catch (e) { }
+  if (flood) stuck.forEach(s => { s.why = `L2Swarm's '${flood.thread}' worker fails ${flood.perMin}x a minute (${flood.error}) - path walks / town ports of every script stall until L2Swarm is restarted`; });
+  return { bags, clan, private: priv, ore, stuck, flood };
+}
+/** THREADFLOOD: the last bytes of a text file (cheap on an 8 MB log) */
+function tailText(f, n) { try { const st = fs.statSync(f), len = Math.min(n, st.size), fd = fs.openSync(f, 'r'), b = Buffer.alloc(len); fs.readSync(fd, b, 0, len, st.size - len); fs.closeSync(fd); return b.toString('utf8'); } catch (e) { return ''; } }
+/** THREADFLOOD, pure: LOG.log text -> the busiest failing background thread of the last 60 s when it failed > 300x, else null
+ *  { thread, perMin, error } - L2Swarm logs "[ERROR] [ThreadManager.Shared.cs:...] Background thread '<name>' failed:" + the exception line */
+function threadFloodScan(text, nowMs) {
+  const lines = String(text || '').split(/\r?\n/), cnt = {}, err = {}; let last = '';
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].match(/^\uFEFF?(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d\.\d+[+-]\d\d:\d\d) .*\[ERROR\].*Background thread '([^']+)' failed/);
+    if (!m) continue; const t = Date.parse(m[1].replace(' ', 'T')); if (!(nowMs - t <= 60000)) continue;
+    cnt[m[2]] = (cnt[m[2]] || 0) + 1; last = m[2];
+    const nx = String(lines[i + 1] || '').trim(); if (nx && !err[m[2]]) err[m[2]] = nx.split(':')[0].slice(0, 60);
+  }
+  let best = null; Object.keys(cnt).forEach(k => { if (!best || cnt[k] > cnt[best]) best = k; });
+  return best && cnt[best] > 300 ? { thread: best.replace(/-[0-9a-f]{8}-[0-9a-f-]{27}$/i, ''), id: best, perMin: cnt[best], error: err[best] || 'error' } : null;
 }
 /** Teams (character -> party leader): swarm.config.json accounts[].party (the source of truth, as in swarm.js SWARM_CFG), plus the
  *  hardcoded swarm.js CONFIG.teams for names the config does not have; everyone else follows the main leader. */
@@ -436,6 +455,8 @@ function stateFileNames() {
   if (Date.now() - RS_DIR.at > 3000) { try { RS_DIR = { at: Date.now(), names: fs.readdirSync(STATE_DIR).filter(f => /^swarm_state_.+\.json$/.test(f)) }; } catch (e) { RS_DIR.at = Date.now(); } }
   return RS_DIR.names;
 }
+/** GRADGONE-2026-11-03: pure - an academy character whose own status file says it graduated (Logs/academy_<Name>.json) */
+function gradGone(acad, name) { return !!acad && acad.status === 'graduated' && (!acad.name || acad.name === name); }
 function readStatesFresh() {
   const teams = teamMap();
   const out = [];
@@ -447,6 +468,9 @@ function readStatesFresh() {
     // GONECHARS-2 (Vykaax 2026-10-29: removed mages stayed yellow in a party): a character in no team / account whose state is
     // older than 2 h is a removed one -> not listed. Known characters stay however old (a PC that was off all night).
     if (!teams[s.name] && Object.keys(teams).length && s.ageSec > 7200) continue;
+    // GRADGONE-2026-11-03 (owner: "5 characters not reporting: Dravon7827, Myron860, Nyxara05, Velyn8584, Xilael90" - graduated academy
+    // characters, already replaced in the roster): a graduate that is in no team any more is gone at once (not after 2 h)
+    if (!teams[s.name] && Object.keys(teams).length && gradGone(readJson(path.join(STATE_DIR, `academy_${s.name}.json`), null), s.name)) continue;
     s.party = teams[s.name] || MAIN_LEADER;
     try { splitNpcTarget(s); } catch (e) { }
     const dup = out.findIndex(o => o.name === s.name);  // one entry per character: the newest
@@ -1745,6 +1769,7 @@ function supDecide(c, x) {
   const dead = c.ageSec >= 90 || (c.ageSec < 30 && c.asyncAge >= 90);   // file stale, or timers alive but async chains dead
   if (!dead || c.ageSec > 6 * 3600) return { act: 'none' };             // healthy, or long offline
   if (x.manual) return { act: 'none' };                                  // the user plays this character by hand (2026-10-10)
+  if (x.handsOff) return { act: 'none' };                                // HOFFGUARD-2026-11-03: hands off = a script the player stopped stays stopped
   if (x.now - (x.last || 0) < 300000) return { act: 'none' };            // max one action per 5 min per bot
   const brain = !!(x.brain && x.brain.on && (x.brain.allow || []).indexOf(c.name) >= 0) && x.agent !== false;
   if (brain) {
@@ -1762,10 +1787,11 @@ function supDecide(c, x) {
 setInterval(async () => {
   if (fs.existsSync(path.join(LOGS, 'pause_supervisor'))) return;   // user stopped the bots on purpose: never restart their scripts
   const brainCfg = bhCfg(), bh = { running: !!bhProc, ipc: !!(bhProc && bhProc.connected) };
+  const supHoff = ((readJson(path.join(ROOT, 'Scripts', 'data', 'run_state.json'), {}) || {}).handsOff) || {};   // HOFFGUARD-2026-11-03
   for (const c of readStates()) {
     const asyncAge = c.asyncBeat ? Math.round((Date.now() - Date.parse(c.asyncBeat)) / 1000) : 0;
     supervisor.recent = (supervisor.recent || []).filter(t => Date.now() - t < 3600e3);
-    const sx = { now: Date.now(), manual: fs.existsSync(path.join(LOGS, 'manual_' + c.name)), last: supervisor.last[c.name],
+    const sx = { now: Date.now(), manual: fs.existsSync(path.join(LOGS, 'manual_' + c.name)), handsOff: !!(supHoff[c.name] && supHoff[c.name].on), last: supervisor.last[c.name],
       recent: supervisor.recent, l2mb: SYS.l2 ? SYS.l2.mb : 0, brain: brainCfg, bh, lastPoolKill: supervisor.lastPoolKill || 0 };
     let d = supDecide({ name: c.name, ageSec: c.ageSec, asyncAge }, sx);
     if (d.act === 'none') continue;
@@ -1937,6 +1963,8 @@ function agentGuardPick(stats, nowMs) {
 }
 // AGENTGUARD-ONLINE-2026-10-29 (tester Hero: "I have to connect to the brain every time I launch dashboard"): only a character L2Swarm has
 // logged in can run swarm.js; MCP down (L2Swarm not up yet) = nothing tried (was: ECONNREFUSED + a false "running swarm.js" + a 20 min block)
+/** HOFFGUARD: names minus the hands-off characters (run_state.json handsOff { name: { on: true } }) */
+function agentGuardHandsOff(names, runState) { const H = (runState && typeof runState.handsOff === 'object' && runState.handsOff) || {}; return (names || []).filter(n => !(H[n] && H[n].on)); }
 function agentGuardOnline(list) { return new Set((Array.isArray(list) ? list : []).filter(a => a && a.is_logged_in && a.character && a.character.name).map(a => String(a.character.name))); }
 setInterval(async () => {
   try {
@@ -1944,6 +1972,9 @@ setInterval(async () => {
     const stats = readJson(path.join(LOGS, 'brain_host_stats.json'), null);
     if (!stats || Date.now() - Date.parse(stats.at || 0) > 60000) return;               // pool not reporting: nothing to compare with
     let names = agentGuardPick(stats, Date.now());
+    // HOFFGUARD-2026-11-03 (tester Vykaax: "It has 'hands-off' and I stopped the script on it ... at some point it forcibly restarted the script"):
+    // a hands-off character (run_state.json handsOff) is never re-attached - a script the player stopped stays stopped
+    names = agentGuardHandsOff(names, readJson(path.join(ROOT, 'Scripts', 'data', 'run_state.json'), {}));
     if (!names.length) return;
     let online; try { const all = JSON.parse(await mcpCallT('get_accounts_status', {})); online = agentGuardOnline(Array.isArray(all) ? all : (all.accounts || [])); } catch (e) { return; }
     if (engineJob.running) return;
@@ -2240,6 +2271,10 @@ setInterval(() => { try { require('./whauto_api').tick({ DIR: __dirname, DATA, L
 // CRAFTERPAGE-2026-11-01: the crafter page's orders go through our own command queue / trade order API; the clan bank's adena sampled every 10 min
 function crafterPagePost(p, b) { return fetch(`http://127.0.0.1:${PORT}${p}`, { method: 'POST', headers: { 'x-key': KEY, 'content-type': 'application/json' }, body: JSON.stringify(b) }).then(r => r.json()).catch(e => ({ error: String(e && e.message || e) })); }
 setInterval(() => { try { require('./crafterpage_api').tick({ DATA, LOGS, readStates }); } catch (e) { } }, 600000);
+// SUBCLASS2-2026-11-04: a subclass adena ask (Logs/subclass_fund_<name>.json) -> a normal adena trade order from the bank (Dashboard/subclass_fund.js)
+setInterval(() => { try { require('./subclass_fund').tick({ LOGS, post: crafterPagePost }).catch(() => { }); } catch (e) { } }, 20000);
+// LOGROTATE-2026-11-04 (owner YES: Logs was 3.7 GB): cut big *.log to their newest part, gzip the rest to Logs/archive, delete old page dumps
+try { require('./logrotate').start({ DATA, LOGS }); } catch (e) { }
 // AUTOFUND 2026-10-22 (owner: poor Flyt dwarves never got adena -> "Both"): Dashboard/autofund.js, fund_rules.json "share"; a hand-over order through our own /api/trade/order
 setInterval(() => { try {
   const tctx = { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap };
@@ -2667,6 +2702,16 @@ http.createServer(async (req, res) => {
     // keeps shots in stock and supplies parties first in their supply runs (Scripts/data/crafter_rules.json, read live by swarm.js CRAFT-PURE)
     // CRAFTERPAGE-2026-11-01 (owner: stock targets + the clan bank ledger): /crafterpage.js (public) + GET/POST /api/crafterpage (key checked inside)
     if (await require('./crafterpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, allowed, json, send, post: crafterPagePost })) return;
+    // RUNNERPAGE-2026-11-03: the runner page #/runner: /runnerpage.js + GET/POST /api/runner (key checked inside; state from Logs/runner_*.json)
+    if (await require('./runner_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readStates, allowed, json, send })) return;
+    // LOGROTATE-2026-11-04: GET /api/logrotate (last rotation: freed MB, Logs total) - Dashboard/logrotate.js
+    if (await require('./logrotate').handle(req, res, url, { DATA, LOGS, allowed, json, send })) return;
+    // POWERLEVEL-2026-11-03: the power-level page #/powerlevel: /powerlevelpage.js + GET/POST /api/powerlevel (key checked inside; Scripts/data/powerlevel.json)
+    if (await require('./powerlevel_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readStates, allowed, json, send })) return;
+    // SPOTROT-2026-11-05 (Dashboard/rotation_api.js): /rotationpage.js (public) + GET/POST /api/rotation (key checked inside)
+    if (await require('./rotation_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readStates, allowed, json, send })) return;
+    // TEAMS-2026-11-03: the teams page #/teams: /teamspage.js + GET /api/teams (every party + roles) + POST { op: 'undo' } (key checked inside)
+    if (await require('./teams_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, SETTINGS, CONFIG_FILE: SC.CONFIG_FILE, reloadCfg: () => SC.reload(), readStates, allowed, json, send })) return;
     if (await require('./crafter_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER, allowed, json, send, body, mcpCallChar, commandRun })) return;   // CRAFTITEMS-2026-10-15: + body / mcpCallChar / commandRun (hand-ins, crystallize)
     // WHAUTO-2026-10-16 (Dashboard/whauto_api.js): GET/POST /api/whauto = default sell / crystallize per clan warehouse item; the tick below runs it
     if (await require('./whauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, allowed, json, send, commandRun })) return;
@@ -2684,6 +2729,9 @@ http.createServer(async (req, res) => {
     if (await require('./clanauto_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send, commandRun })) return;
     // CLAN NOBILITY RANKS 2026-10-12 (Dashboard/clanranks_api.js, READ-ONLY): /clanranks.js|css|_logic.js (public) + GET /api/clanranks (key checked inside)
     if (await require('./clanranks_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, allowed, json, send })) return;
+    // BOOST-2026-11-05 (owner: the Adrenaline "Boost" enchant tool for Hive): the page script (public, like the other page scripts); its orders go
+    // through /api/command (catalog boostitem / booststop), its live view is /api/state chars[].boost
+    if (url.pathname === '/boostpage.js') { res.writeHead(200, { 'Content-Type': 'application/javascript; charset=utf-8', 'Cache-Control': 'no-cache' }); res.end(fs.readFileSync(path.join(__dirname, 'boostpage.js'))); return; }
     // AUGTABLE 2026-10-25 (Dashboard/augment_api.js, READ-ONLY): /augmentpage.js (public) + GET /api/augments[/stone] (key checked inside)
     if (await require('./augment_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, allowed, json, send })) return;
     // UPGRADE 2026-10-25 (Dashboard/upgrade_api.js): /upgradepage.js (public) + POST /api/upgrade/plan|start, GET /api/upgrade/status (key checked inside)

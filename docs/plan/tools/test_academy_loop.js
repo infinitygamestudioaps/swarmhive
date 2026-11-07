@@ -50,8 +50,12 @@ check(AL.academyCfg({}).end.deleteGraduate === true && AL.academyCfg({}).end.del
 // the create script: deletes only what it is given, slot from the live character list
 const s = AA.buildCreateScript('C:/x', 'mylogin82', { race: 2, sex: 0, classId: 38, stats: [1, 2, 3, 4, 5, 6], names: ['Zarith77'], resultFile: 'Logs/academy_create_mylogin82.json', del: ['Nyxara12', 'bad name!'] }, 'Zarith77');
 check(/const DEL = \["Nyxara12"\];/.test(s), 'the create script carries only the given (valid) names');
-check(/Send\.SendHex\('0D' \+ le32\(slot\)\)/.test(s) && (s.match(/SendHex\(/g) || []).length === 1, 'one delete packet kind only (CharacterDelete 0x0D + slot), nothing else raw');
-check(s.indexOf('if (!delDone)') < s.indexOf('Send.NewCharacter()'), 'deletion before the creation');
+// RECREATE-2026-11-03: + RequestRestart 0x57 (back to the character list when in game as the old graduate) - still nothing else raw
+// RECREATE2-2026-11-03: the character-list packet handler also deletes (0x0D + the slot) and creates at once - still only 0x0D and 0x57 raw packets
+// RECREATE4-2026-11-03: + CharacterSelect 0x12 by slot (the 2026-10-07 in-session switch packet: '12' + slot + '0000' + 3 x int32 0) - nothing else
+check(/Send\.SendHex\('0D' \+ le32\(slot\)\)/.test(s) && /Send\.SendHex\('0D' \+ le32\(s\)\)/.test(s) && (s.match(/SendHex\(/g) || []).length === 4 && /Send\.SendHex\('57'\)/.test(s) && /Send\.SendHex\(selHex\(sNew\)\)/.test(s) && /const selHex = \(slot\) => '12' \+ le32\(slot\) \+ '0000' \+ le32\(0\) \+ le32\(0\) \+ le32\(0\);/.test(s) && (s.match(/SendHex\('(?!0D' \+ le32|57')/g) || []).length === 0, 'raw packets: only CharacterDelete 0x0D + slot, RequestRestart 0x57 and CharacterSelect 0x12 by slot, nothing else');
+{ const f0 = s.indexOf('const fastList'), fD = s.indexOf("DEL.forEach", f0), fC = s.indexOf('Send.NewCharacter()', f0);
+  check(f0 > 0 && fD > f0 && fD < fC && s.indexOf('if (!delDone)') < s.lastIndexOf('Send.NewCharacter()'), 'deletion before the creation (at the character list and in the loop)'); }
 { // slotOf on a fake character list: [Owner1][Nyxara12][Zarith5] -> slot 1; a name only inside another entry never matches
   const u16 = (t) => { const a = []; for (let i = 0; i < t.length; i++) { const k = t.charCodeAt(i); a.push(k & 255, (k >> 8) & 255); } a.push(0, 0); return a; };
   const entry = (n) => u16(n).concat([1, 2, 3, 4]).concat(u16('mylogin82')).concat(new Array(40).fill(7));
@@ -60,7 +64,8 @@ check(s.indexOf('if (!delDone)') < s.indexOf('Send.NewCharacter()'), 'deletion b
   const slotOf = new Function('L', helpers + '\nreturn slotOf;')('mylogin82');
   check(slotOf(b, 'Nyxara12') === 1 && slotOf(b, 'Owner1') === 0 && slotOf(b, 'Nobody') === -1, 'slot read from the live list (account-name anchored); unknown name = no delete');
 }
-check(/const del = AL\.academyDeleteList\(D, C, \[\]\);[\s\S]{0,200}makeCreate\(ctx, acc, C, taken, del\)/.test(MGR) && (MGR.match(/= makeCreate\(/g) || []).length === 2 && (MGR.match(/= makeCreate\(ctx, acc, C, taken, del\)/g) || []).length === 2 && (MGR.match(/const del = AL\.academyDeleteList\(/g) || []).length === 2, 'the manager passes ONLY academyDeleteList to the create script');
+// RECREATE2-2026-11-03: the re-try passes a kept NAME as a 6th argument - the delete list is still ONLY academyDeleteList
+check(/const del = AL\.academyDeleteList\(D, C, \[\]\);[\s\S]{0,600}makeCreate\(ctx, acc, C, taken, del(, keepName)?\)/.test(MGR) && (MGR.match(/= makeCreate\(/g) || []).length === 2 && (MGR.match(/= makeCreate\(ctx, acc, C, taken, del(, keepName)?\)/g) || []).length === 2 && (MGR.match(/const del = AL\.academyDeleteList\(/g) || []).length === 2, 'the manager passes ONLY academyDeleteList to the create script');
 check(/D\.madeNames = \[\.\.\.new Set\(\(D\.madeNames \|\| \[\]\)\.concat\(\[String\(acc\.character\)\]\)\)\]/.test(MGR), 'a character is recorded as pipeline-made at its setup');
 check(/D\.history = \(D\.history \|\| \[\]\)\.concat\(\[\{ graduated: old/.test(MGR) && MGR.indexOf('D.history = (D.history') < MGR.indexOf('const del = AL.academyDeleteList(D, C, []);'), 'the graduate is in the history before the delete list is made');
 

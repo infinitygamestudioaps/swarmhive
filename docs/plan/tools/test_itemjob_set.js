@@ -28,9 +28,10 @@ check(/nothing of the set is put on/.test(after) && !/equipPiece/.test(after.sli
   check(s2.length === 3 && s2.length === a2.length, 'Nuker18 replay: all three arrived -> put on together'); }
 
 // WHASKQUEUE
-const wf = cut('async function whClanFor(name, items, src) {', '\n}\n');
+// CWHASKKEEP-2026-11-04: whClanFor = dedupe + one-at-a-time wrapper; the wait loop lives in whClanForRun and waits 15 min (was 3)
+const wf = cut('async function whClanFor(name, items, src) {', '\n}\n') + cut('async function whClanForRun(name, items, src) {', '\n}\n');
 check(/WHASKQUEUE-2026-10-31/.test(wf), 'whClanFor has the wait-for-my-turn rule');
-check(/\/comes first\|already at the warehouse\/\.test/.test(wf) && /180000/.test(wf) && /await sleep\(2000\)/.test(wf), 'a busy clan leader retries every 2 s for up to 3 min instead of dropping the request');
+check(/\/comes first\|already at the warehouse\/\.test/.test(wf) && /15 \* 60000/.test(wf) && /await sleep\(2000\)/.test(wf), 'a busy bank retries every 2 s for up to 15 min instead of dropping the request (CWHASKKEEP; was 3 min)');
 check(/r\.bag0 = bag0w/.test(wf) && /const bag0 = r\.bag0;/.test(wf), 'the bag snapshot is taken right before the take that worked (hand-over rows stay right)');
 
 console.log(`item job set: ${ok} ok, ${bad} failed`);

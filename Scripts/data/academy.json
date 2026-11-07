@@ -132,6 +132,27 @@
         "count": 1,
         "equip": true
       }
+    ],
+    "_jewels": "ACADJEWELS-2026-11-03 (owner: \"The academy toons have no accessories so they take full magic damage ... You can get common jewels cheap in town\"): D-grade Common jewelry (Giran), about 15,000 adena a set. ACADGRADE-2026-11-04 (owner: \"Why is Dravwen5047 wearing c grade jewels? It cant use them and WILL have penalty\"): was C-grade Moonstone / Protection by mistake - now the best D set (Elven); never a grade above the level (D 20, C 40)",
+    "jewels": [
+      {
+        "id": 12322,
+        "name": "Common Item - Elven Earring",
+        "count": 2,
+        "equip": true
+      },
+      {
+        "id": 12320,
+        "name": "Common Item - Elven Necklace",
+        "count": 1,
+        "equip": true
+      },
+      {
+        "id": 12321,
+        "name": "Common Item - Elven Ring",
+        "count": 2,
+        "equip": true
+      }
     ]
   },
   "spots": {
@@ -154,23 +175,32 @@
     "to35": {
       "mode": "manual",
       "kind": "datapack",
-      "spot": "Cruma Tower (Lv30-35)"
+      "spot": "Cruma Tower (Lv30-35)",
+      "_about": "owner 2026-11-03 14:35: \"Back to Cruma tower\" - level 30-38 at the Cruma Tower (Lv30-35) spot (worked with few deaths), the floor-1 room only for 38-40"
     },
     "to40": {
       "mode": "manual",
       "kind": "rooms",
       "dungeon": "Cruma Tower",
       "spot": "Cruma Tower",
-      "roomId": "cruma-1-right-c",
+      "roomId": "cruma-1-left-a",
       "roomIds": [
-        "cruma-1-right-c",
-        "cruma-1-left-c",
-        "cruma-1-right-h"
+        "cruma-1-left-a",
+        "cruma-1-right-b",
+        "cruma-1-right-d",
+        "cruma-1-right-a"
       ],
       "order": "nearest",
       "override": true,
       "stay": true
-    }
+    },
+    "to40Rooms": [
+      "cruma-1-left-a",
+      "cruma-1-right-b",
+      "cruma-1-right-d",
+      "cruma-1-right-a"
+    ],
+    "_to40Rooms": "owner 2026-11-04 11:05: the academy groups fight ONLY in left-a, right-a, right-b or right-d; group 1 left-a, 2 right-b, 3 right-d, 4 right-a (was 2 = left-e)"
   },
   "huntRadius": 1000,
   "closestTarget": true,
@@ -183,5 +213,10 @@
     "deliver": true,
     "deleteGraduate": true,
     "slotWaitMin": 360
+  },
+  "groups": {
+    "on": true,
+    "size": 5,
+    "_about": "ACADGROUP-2026-11-02 (owner: \"Yes do 4 groups\"): fixed groups of 5 by login number (mylogin82-5, mylogin87-10, ...), the lowest login leads; one academy plan per group (Dashboard/academy_logic.js academyGroups / academyGroupPlanSteps)"
   }
 }

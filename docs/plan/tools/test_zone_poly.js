@@ -87,7 +87,8 @@ const envH = { now: () => T, num: Number, Me: { Level: 22 }, soloChar: () => fal
   hpZeroKnown: (() => { const s = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'Scripts_dev', 'swarm.js'), 'utf8'), i = s.indexOf('function hpZeroKnown(m)'), j = s.indexOf('\n', i); return new Function('num', s.slice(i, j) + '\nreturn hpZeroKnown;')((v) => Number(v) || 0); })(),
   npcLevel: () => 22, autoLvl, nearPolygon: (x, y, P, m) => Z.zpNear(x, y, P, m), inPolygon: (x, y, P) => Z.zpIn(x, y, Z.zpPts(P)), foreignTagged: () => false, geoBlockedAt: () => false,
   soloPullOk: () => ({ ok: true }), SOLOSAFE: {}, soloSafe: {}, note: () => { },
-  inRaid: () => false, isRaidBossMob: () => false, minionNames: () => [], canSee: () => true };   // RAIDKEEP / WALLSIGHT 2026-10-24
+  inRaid: () => false, isRaidBossMob: () => false, minionNames: () => [], canSee: () => true,   // RAIDKEEP / WALLSIGHT 2026-10-24
+  tightGroup: () => false, isLeader: () => false, TIGHT: { pullOthers: 1 } };                 // TIGHTBALL 2026-11-03: not a caster ball here
 const H = new Function(...Object.keys(envH), ht + '\nreturn { huntTarget, huntSkip };')(...Object.values(envH));
 mobs.push(mk(1, C.x + 1500, C.y), mk(2, C.x, C.y + 1200));      // outside the polygon, inside the old x3 circle (2100)
 ok(H.huntTarget(C.x, C.y, 700 * 3) === null, 'empty polygon: monsters OUTSIDE it (even inside the old x3 circle) are never targets');

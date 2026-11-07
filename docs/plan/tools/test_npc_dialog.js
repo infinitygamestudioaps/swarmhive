@@ -334,7 +334,7 @@ const COND = {
     ['shop scan', 'async function scanClick(', /DLG\.click\(/],
     ['stash deposit list', 'async function stashOpenList(', /DLG\.run\(dlgListFlow\(\{ name: 'stash'/],
     ['stash deposit effect', 'async function stashDepositAt(', /DLG\.effect\(/],
-    ['warehouse withdraw (!whtake)', 'async function whOpenWithdraw(', /DLG\.run\(dlgListFlow\(\{ name: 'whtake'/],
+    ['warehouse withdraw (!whtake)', 'async function whOpenWithdrawRaw(', /DLG\.run\(dlgListFlow\(\{ name: 'whtake'/],
     ['warehouse (clan list)', 'async function openWarehouse(', /dlgWhClick\(/],
     ['quest engine', 'async function qeDialog(', /DLG\.click\(/],
     ['old quest legs', 'async function clickQuestDialog(', /dlgPage\(/],

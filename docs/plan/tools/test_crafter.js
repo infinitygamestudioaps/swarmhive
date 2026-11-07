@@ -12,7 +12,7 @@ if (!fs.existsSync(path.join(ROOT, 'Scripts', 'data', 'dp', 'recipes.xml'))) { c
 const src = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
 const cut = (a, b) => { const i = src.indexOf(a), j = src.indexOf(b); if (i < 0 || j < i) throw new Error('block missing: ' + a); return src.slice(i, j); };
 const P = new Function(cut('// CRAFT-PURE-BEGIN', '// CRAFT-PURE-END') +
-  '\nreturn { CRAFT_RECIPES, CRAFT_MATS, craftRecipe, craftByProduct, craftName, craftCfgOf, craftCrafterFor, craftDay, craftDailyLeft, craftMatText, craftPlan, craftBytes, craftParseBook, craftParseResult, craftMakeHex, craftBookHex, craftSupplySplit, craftSupplyDecide, craftFmt };')();
+  '\nreturn { CRAFT_RECIPES, CRAFT_MATS, craftRecipe, craftByProduct, craftName, craftCfgOf, craftCrafterFor, craftDay, craftDailyLeft, craftMatText, craftPlan, craftBytes, craftParseBook, craftParseResult, craftMakeHex, craftBookHex, craftSupplySplit, craftSupplyDecide, craftFmt, craftRecipeBuyPlan };')();
 const API = require(path.join(ROOT, 'Dashboard', 'crafter_api.js'));
 let fails = 0; const check = (c, n, info) => { console.log(`${c ? 'ok  ' : 'FAIL'} ${n}${!c && info ? ' — ' + info : ''}`); if (!c) fails++; };
 

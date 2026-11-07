@@ -1,6 +1,6 @@
 // test_planwatch.js - requirement academy.md R5 (owner 2026-10-31 "Fix it so it never happens again"): 6 new academy characters skipped their
 // academy plan (supply run first, then the idle watchdog started plain leveling -> left Giran without start adena), and a supply run pulled
-// Nuker22 to Giran mid-way to the Orc Village Newbie Guide (the trip then broke on a refused .schuttgart / gatekeeper fallback).
+// Dravon7827 to Giran mid-way to the Orc Village Newbie Guide (the trip then broke on a refused .schuttgart / gatekeeper fallback).
 const fs = require('fs'), path = require('path');
 const SRC = fs.readFileSync(path.join(__dirname, '..', '..', '..', 'Scripts_dev', 'swarm.js'), 'utf8');
 let ok = 0, bad = 0; const t = (m, c) => { if (c) { ok++; console.log('ok   ' + m); } else { bad++; console.log('FAIL ' + m); } };
@@ -35,7 +35,7 @@ t('a plan start stops leveling that already ran (unless its next step is a level
   const T = 1e12, D = (o) => U.acadUnloadDecide(Object.assign({ academy: true, lvl: 'full', lastAt: 0, now: T, busy: false, rows: 40 }, o));
   t('ACADUNLOAD: full or near = go; ok bag / busy / 10 min / nothing to give = no', D({}).go && D({ lvl: 'near' }).go && !D({ lvl: '' }).go && !D({ busy: true }).go && !D({ lastAt: T - 60000 }).go && !D({ rows: 0 }).go);
   t('ACADUNLOAD: the coupon retry waits while an unload runs and while the bag is full of loot', SRC.includes("(typeof ACUL !== 'undefined' && ACUL.busy) || (FULLW.lvl === 'full' && which === 'weapon' && acadBagBlocks()),")); }
-// ACADFIGHT-2026-11-01: Nuker22 fled from ONE attacker at 44 % because 4 monsters stood near, and died on the run
+// ACADFIGHT-2026-11-01: Dravon7827 fled from ONE attacker at 44 % because 4 monsters stood near, and died on the run
 { const sd = grab('soloFleeDecide'), ac = SRC.slice(SRC.indexOf('function acadFleeCfg('), SRC.indexOf('\n', SRC.indexOf('function acadFleeCfg(')));
   const S = new Function(ac + '\n' + sd + '\nreturn { acadFleeCfg, soloFleeDecide };')();
   const C = { hitMs: 6000, againMs: 60000, fleeHp: 50, fleeAttackers: 2, fleeNear: 4, leaveHp: 30, finishAtkHp: 20 };
@@ -43,7 +43,7 @@ t('a plan start stops leveling that already ran (unless its next step is a level
   t('ACADFIGHT: academy, 1 attacker, 4 near, 44 % = fight on (was: escape)', S.soloFleeDecide(o, S.acadFleeCfg(true, C)).act === '' && S.soloFleeDecide(o, S.acadFleeCfg(false, C)).act === 'escape');
   t('ACADFIGHT: academy still flees from 2 attackers < 50 % and < 30 % still hit', S.soloFleeDecide(Object.assign({}, o, { attackers: 2 }), S.acadFleeCfg(true, C)).act === 'escape' && S.soloFleeDecide(Object.assign({}, o, { hp: 25 }), S.acadFleeCfg(true, C)).act === 'escape');
   t('ACADFIGHT: the solo watch uses acadFleeCfg(isAcademy(), SOLOSAFE)', SRC.includes('acadFleeCfg(isAcademy(), SOLOSAFE));')); }
-// UNLOADRESUME-2026-11-01: the unload paused Nuker25's quest (an order) and nothing resumed it
+// UNLOADRESUME-2026-11-01: the unload paused Dravwen5047's quest (an order) and nothing resumed it
 { const i = SRC.indexOf('function acadResumeAfter('); const R = new Function(SRC.slice(i, SRC.indexOf('\n', i)) + '\nreturn acadResumeAfter;')();
   t('UNLOADRESUME: a plan that ran goes on after the unload (on, not finished, not waiting); not when it ran already / was off', R(true, false, { on: true, left: 5, status: 'paused' }) && !R(false, false, { on: true, left: 5 }) && !R(true, true, { on: true, left: 5 }) && !R(true, false, { on: true, left: 5, status: 'waiting' }) && !R(true, false, { on: true, left: 0 }));
   t('UNLOADRESUME: no ORDER for the trip (plain .giran), a quest step is halted cleanly first, nearly full waits for it', !/async function acadUnload[\s\S]{0,1200}acadToGiran\(\)/.test(SRC) && /if \(PLAN\.running && !PLAN\.levelStep\) \{ PLAN\.stop = true; try \{ planHaltStep\(\);/.test(SRC) && SRC.includes("|| (PLAN.running && !PLAN.levelStep && FULLW.lvl !== 'full') });")); }

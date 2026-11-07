@@ -42,15 +42,18 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     // the weapon coupon at 6, the ARMOR coupon after the 1st class, Cruma Marshlands 30-35, Cruma Tower floor 1 Porta rooms 35-40
     const planC = PL.normPlan(AL.academyPlan(CFG, 'Nyxara12'));
     const sig = (p) => p.steps.map(s => s.id + (s.quest ? '=' + s.quest : s.to ? '=' + s.to : s.which ? '=' + s.which : '')).join(' ');
-    check(planC.steps.length === 21 && sig(planC) === 'acjoin acfunds acbuy1 aclv6=6 accpw=weapon aclv10=10 acq320=320 aclv18=18 acbuy18 acq412=412 aclv20=20 accls1 accpj=armor acbuy2 aclv21=21 acq170=170 aclv30=30 aclv35=35 aclv40=40 accls2 acgrad', 'ACADROUTE: the 21-step route (ACADARMOR18: armor before 412) in order (coupons on, the default): ' + sig(planC));
+    check(planC.steps.length === 22 && sig(planC) === 'acjoin acfunds acbuy1 aclv6=6 accpw=weapon aclv10=10 acq320=320 aclv18=18 acbuy18 acq412=412 aclv20=20 accls1 accpj=armor acbuy2 aclv21=21 acq170=170 aclv30=30 acbuyjw aclv35=38 aclv40=40 accls2 acgrad', 'ACADROUTE: the 22-step route (ACADARMOR18 armor before 412, ACADJEWELS jewels before Cruma) in order (coupons on, the default): ' + sig(planC));
     check(planC.steps.filter(s => s.kind === 'quest').every(s => s.onFail === 'skip' && s.mode === 'party'), 'ACADROUTE: every quest step is skipped when it fails (never blocks the plan), done by the character itself (its own party)');
     const qmin = { 320: 10, 412: 18, 170: 21 }, ids = planC.steps.map(s => s.id);
     check(planC.steps.filter(s => s.kind === 'quest').every(s => { const i = ids.indexOf(s.id), lvBefore = planC.steps.slice(0, i).filter(x => x.kind === 'level').pop(); return lvBefore && lvBefore.to >= qmin[s.quest]; }), 'ACADROUTE: each quest comes right after the level it needs (320 >= 10, 412 >= 18, 170 >= 21)');
     const plan = PL.normPlan(AL.academyPlan(Object.assign({}, CFG, { coupons: false }), 'Nyxara12'));
-    check(plan.steps.length === 18 && plan.on === true && !plan.steps.some(s => s.act === 'coupon' || s.id === 'aclv6'), 'coupons off: 18 steps, no coupon steps, used on Start');
+    check(plan.steps.length === 19 && plan.on === true && !plan.steps.some(s => s.act === 'coupon' || s.id === 'aclv6'), 'coupons off: 19 steps, no coupon steps, used on Start');
     const lv = planC.steps.filter(s => s.kind === 'level'), L = (to) => lv.find(s => s.to === to);
-    check(L(35).spot.kind === 'datapack' && L(35).spot.spot === 'Cruma Tower (Lv30-35)', 'ACADROUTE: 30-35 = Cruma Marshlands (datapack "Cruma Tower (Lv30-35)")');
-    check(L(40).spot.kind === 'rooms' && L(40).spot.dungeon === 'Cruma Tower' && ['cruma-1-right-c', 'cruma-1-left-c', 'cruma-1-right-h'].every(r => L(40).spot.roomIds.includes(r)) && L(40).spot.override === true && L(40).spot.stay === true, 'ACADROUTE: 35-40 = Cruma Tower floor 1 Porta rooms (override + stay through planlogic)');
+    // ROOMS3040-2026-11-03 (owner: "in Cruma tower we have defined all rooms to hunt in" / "Why are you creating new hunting areas based on radius?")
+    // CRUMA38-2026-11-03 (owner: "Back to Cruma tower"): 30-38 at the Cruma Tower (Lv30-35) spot, the floor-1 room only for 38-40
+    check(L(38).spot.kind === 'datapack' && L(38).spot.spot === 'Cruma Tower (Lv30-35)', 'ACADROUTE: 30-38 = the Cruma Tower (Lv30-35) spot (owner 14:35), floor-1 room only for 38-40');
+    // owner 2026-11-04 11:05: "they should be fighting in either left-a, right-a, right-b or right-d" (was left-a, left-e, right-d, right-a)
+    check(L(40).spot.kind === 'rooms' && L(40).spot.dungeon === 'Cruma Tower' && ['cruma-1-left-a', 'cruma-1-right-a', 'cruma-1-right-b', 'cruma-1-right-d'].every(r => L(40).spot.roomIds.includes(r)) && !L(40).spot.roomIds.includes('cruma-1-left-e') && L(40).spot.override === true && L(40).spot.stay === true, 'ACADROUTE: 30-40 = the owner\'s Cruma Tower floor 1 rooms left-a, right-a, right-b, right-d (owner 2026-11-04; override + stay)');
     check(L(30).spot.mode === 'auto' && L(20).spot.mode === 'auto', 'ACADROUTE: 1-30 the leader picks a spot for the level');
     check(planC.steps.find(s => s.id === 'acbuy1').set === 'start' && planC.steps.find(s => s.id === 'acbuy2').set === 'level20', 'buy sets: start / level20');
     const DR = fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'dungeon_rooms.json'), 'utf8'); check(['cruma-1-right-c', 'cruma-1-left-c', 'cruma-1-right-h'].every(r => DR.includes('"' + r + '"')), 'ACADROUTE: the Cruma floor-1 rooms exist in dungeon_rooms.json');
@@ -103,7 +106,7 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
   const AA = require(path.join(DASH, 'addaccount_api.js'));
   {
     const classes = AA.baseClasses({ ROOT, DATA: path.join(ROOT, 'Scripts', 'data') });
-    const D = { roles: new Set(['auto', 'nuker']), classes, leaders: new Set(), academy: AL.academyCfg(CFG), taken: new Set(), rnd: seq([0.1, 0.3, 0.5, 0.7, 0.2, 0.9, 0.4]) };
+    const D = { roles: new Set(['auto', 'nuker']), classes, leaders: new Set(), academy: AL.academyCfg(Object.assign({}, CFG, { on: true })), taken: new Set(), rnd: seq([0.1, 0.3, 0.5, 0.7, 0.2, 0.9, 0.4]) };   // RECREATE2: never the live on/off switch
     const v = AA.validateOne({ line: 1, login: 'Acad1', password: 'pw-test', academy: true }, D);
     check(v.ok && v.row.academy === true && v.row.mode === 'new' && v.row.create.classId === 38 && v.row.create.race === 2, `academy row: a new Dark Elven Mystic (${v.ok ? v.row.create.className : v.reason})`);
     check(v.ok && AL.NAME_RE.test(v.row.character) && v.row.party === v.row.character && v.row.role === 'nuker' && v.row.create.names.length === 6 && v.row.create.names[0] === v.row.character, `academy row: random name ${v.ok ? v.row.character : ''}, its own party, role nuker, 6 names to try`);
@@ -144,7 +147,8 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'academy_'));
     const DATA = path.join(tmp, 'Scripts', 'data'), LOGS = path.join(tmp, 'Logs'), SET = path.join(tmp, 'Settings');
     [DATA, LOGS, SET, path.join(SET, 'backup'), path.join(tmp, 'Scripts')].forEach(d => fs.mkdirSync(d, { recursive: true }));
-    fs.writeFileSync(path.join(DATA, 'academy.json'), JSON.stringify(CFG));
+    // RECREATE2-2026-11-03: the sandbox pipeline is ON whatever the live switch says (the owner / a session may pause the live manager)
+    fs.writeFileSync(path.join(DATA, 'academy.json'), JSON.stringify(Object.assign({}, CFG, { on: true })));
     fs.copyFileSync(path.join(ROOT, 'Scripts', 'data', 'class_tree.json'), path.join(DATA, 'class_tree.json'));
     fs.writeFileSync(path.join(DATA, 'clan_quests.json'), JSON.stringify({ clan: { name: 'MyClan', inviteAllow: ['Someone'] } }));
     const CF = path.join(tmp, 'swarm.config.json');
@@ -164,7 +168,7 @@ const seq = (vals) => { let i = 0; return () => vals[i++ % vals.length]; };
     let r = await AM.tick(ctx);
     check(r.acted && r.acted[0] === 'acad1', 'tick 1: the new academy account is set up');
     check(stubs.classpage.length === 1 && stubs.classpage[0].approve === true && stubs.classpage[0].confirm === true && stubs.classpage[0].plan.join() === '39,40' && stubs.classpage[0].name === 'Nyxara12', 'setup: class plan Dark Wizard > Spellhowler, APPROVED (the owner\'s pipeline order)');
-    check(stubs.partyplan.length === 1 && stubs.partyplan[0].action === 'set' && stubs.partyplan[0].party === 'Nyxara12' && stubs.partyplan[0].plan.on === true && stubs.partyplan[0].plan.steps.length === 21, 'setup: the academy party plan (21 steps: the owner\'s route with quests + coupon stops, used on Start)');
+    check(stubs.partyplan.length === 1 && stubs.partyplan[0].action === 'set' && stubs.partyplan[0].party === 'Nyxara12' && stubs.partyplan[0].plan.on === true && stubs.partyplan[0].plan.steps.length === 22, 'setup: the academy party plan (22 steps: the owner\'s route with quests + coupon stops, used on Start)');
     check(stubs.runstate.length === 1 && stubs.runstate[0].party === 'Nyxara12' && stubs.runstate[0].on === true, 'setup: its run switch ON');
     const cq = JSON.parse(fs.readFileSync(path.join(DATA, 'clan_quests.json'), 'utf8'));
     check(cq.clan.inviteAllow.includes('Nyxara12') && cq.clan.inviteAllow.includes('Someone'), 'setup: on the clan invite list (the others kept)');

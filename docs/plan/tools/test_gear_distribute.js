@@ -45,7 +45,8 @@ ok(r.to === '' && /dead/.test(r.why) && /busy \(fighting\)/.test(r.why), 'dead /
 const M = { ids: new Set([100, 101, 102, 103]), queued: {} };
 const pc = (o) => Object.assign({ objId: 1, id: 100, name: 'Mithril Ring', info: RING, enchant: 0, equipped: false, quest: false, prot: false, notrade: false }, o);
 ok(P.gpassPieceOk(pc({}), M).ok, 'a marked, unworn, +0 D ring may be passed');
-ok(P.gpassPieceOk(pc({ enchant: 9 }), M).ok && !P.gpassPieceOk(pc({ enchant: 10 }), M).ok && !P.gpassPieceOk(pc({ enchant: 16 }), M).ok && /\+10 and up/.test(P.gpassPieceOk(pc({ enchant: 12 }), M).why), 'never +10 or higher (+9 is fine)');
+// PLUSLOCK-2026-11-04 (gear.md R12): the distributors never pass on a plused piece (was: +9 fine, never +10)
+ok(P.gpassPieceOk(pc({ enchant: 0 }), M).ok && !P.gpassPieceOk(pc({ enchant: 1 }), M).ok && !P.gpassPieceOk(pc({ enchant: 9 }), M).ok && /plused equipment/.test(P.gpassPieceOk(pc({ enchant: 12 }), M).why), 'never a plused piece (+1 and up; owner 2026-11-04)');
 ok(!P.gpassPieceOk(pc({ enchant: NaN }), M).ok, 'unknown enchant level = never moved');
 ok(!P.gpassPieceOk(pc({ equipped: true }), M).ok && /worn/.test(P.gpassPieceOk(pc({ equipped: true }), M).why), 'never a worn piece');
 ok(!P.gpassPieceOk(pc({ quest: true }), M).ok && !P.gpassPieceOk(pc({ prot: true }), M).ok, 'never quest / protected items');

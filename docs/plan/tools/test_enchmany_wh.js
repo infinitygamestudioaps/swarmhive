@@ -40,7 +40,8 @@ const t = (ok, what, info) => { console.log((ok ? 'ok   ' : 'FAIL ') + what + (!
       t(J.enchantMany.length === n && J.enchantMany.every(e => e.src === 'clan' && e.id === low.id && e.from === (Number(low.enchant) || 0)), `${n} identical piece(s) in the clan warehouse: ${n} taken, the extra pick skipped`, J.enchantMany);
       t(r.skipped.some(s => /not in the clan warehouse/.test(s)), 'the extra pick is reported as skipped');
       t(J.steps.some(s => s.startsWith(`take ${low.name}`) && /clan warehouse/.test(s)), 'the steps say the item is taken out of the clan warehouse first', J.steps);
-      t(sent.length === 1 && /^!itemjob ij_/.test(sent[0].cmd) && sent[0].targets[0] === 'chars:' + CL, 'one (mocked) order to the clan leader', sent);
+      // BANKCWH-2026-11-03: the order goes to the doer + the clan warehouse actor (the bank), e.g. 'chars:Dagger1,Crafter1'
+      t(sent.length === 1 && /^!itemjob ij_/.test(sent[0].cmd) && String(sent[0].targets[0]).split(/[:,]/).includes(CL), 'one (mocked) order to the doer (+ the bank that takes out)', sent);
     } else t(/No scrolls|scroll/.test(r.error || ''), `no scroll for ${low.name} in ${CL}'s bag: refused with the reason (fine)`, r);
   }
   // the bag path still works as before (old objIds form)

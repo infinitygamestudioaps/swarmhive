@@ -10,10 +10,11 @@ const DEF = {
   on: true, coupons: true /* ACADCOUPON-2026-10-31 */, race: 2, classId: 38, sexes: [0, 1], classPlan: [39, 40], role: 'nuker',
   names: { first: ['Nyx', 'Vel', 'Mor', 'Kael', 'Shad', 'Drav', 'Zar', 'Vex'], second: ['ara', 'eth', 'iel', 'ora', 'yn', 'ith'], digitsMin: 2, digitsMax: 4, tries: 6 },
   funds: { target: 2000000, need: 900000, waitMin: 45 },
-  buy: { start: [], level18: [], level20: [] },
+  buy: { start: [], level18: [], level20: [], jewels: [] },
   spots: { to20: { mode: 'auto' }, to25: { mode: 'auto' }, to30: { mode: 'auto' }, to35: { mode: 'auto' }, to40: { mode: 'auto' } },   // ACADROUTE-2026-11-01: + to30 / to35
   end: { logout: true, newCharacter: true, maxCharacters: 7, deliver: true, deleteGraduate: true, slotWaitMin: 360 },   // ACADLOOP-2026-10-31
   buffs: { on: true, magnus: true, cov: true, storeMaxPrice: 10 },   // ACADSTORE-2026-10-31 (owner: "Magnus Chant from giran for 10 adena")
+  groups: { on: true, size: 5 },   // ACADGROUP-2026-11-02 (owner: "Yes do 4 groups")
 };
 /** academy.json content -> a complete config (missing parts = the defaults) */
 function academyCfg(j) {
@@ -26,6 +27,7 @@ function academyCfg(j) {
   out.end = Object.assign({}, DEF.end, o.end || {});
   out.end.deliver = out.end.deliver !== false; out.end.deleteGraduate = out.end.deleteGraduate !== false;
   out.buffs = Object.assign({}, DEF.buffs, o.buffs || {});
+  out.groups = Object.assign({}, DEF.groups, o.groups || {}); out.groups.on = out.groups.on !== false; out.groups.size = Math.max(1, Math.min(9, Number(out.groups.size) || 5));
   out.on = o.on !== false;
   out.coupons = o.coupons !== false;
   return out;
@@ -90,14 +92,98 @@ function academyPlanSteps(cfg) {
     { id: id('lv21'), kind: 'level', to: 21, spot: sp.to30 || { mode: 'auto' } },
     quest('q170', 170, 'Dangerous Seduction', '102,680 adena (Vellior, Dark Elven Village); skipped when it fails'),
     { id: id('lv30'), kind: 'level', to: 30, spot: sp.to30 || { mode: 'auto' } },
-    { id: id('lv35'), kind: 'level', to: 35, spot: sp.to35 || { mode: 'auto' } },
+    // ACADJEWELS-2026-11-03 (owner: "no accessories so they take full magic damage ... common jewels cheap in town"): D Common jewelry before Cruma
+    { id: id('buyjw'), kind: 'academy', act: 'buy', set: 'jewels', note: 'D-grade Common jewelry (2 earrings, necklace, 2 rings) before Cruma Tower' },
+    // CRUMA38-2026-11-03 (owner: "Back to Cruma tower"): 5 nukers without a healer died in the level 40-42 floor-1 rooms - the Cruma Tower
+    // (Lv30-35) spot until 38 (step id unchanged: progress kept), the group's own floor-1 room only for 38-40
+    { id: id('lv35'), kind: 'level', to: 38, spot: sp.to35 || { mode: 'auto' } },
     { id: id('lv40'), kind: 'level', to: 40, spot: sp.to40 || { mode: 'auto' } },
     { id: id('cls2'), kind: 'class', note: '2nd class = Academy graduation' },
     { id: id('grad'), kind: 'academy', act: 'graduate', note: 'log out; the account makes the next academy character' },
   ];
 }
-function academyPlan(cfg, name) {
-  return { name: `Academy ${name || ''}`.trim(), on: true, steps: academyPlanSteps(cfg), template: 'academy' };
+function academyPlan(cfg, name, groupIndex) {
+  const gi = Number.isInteger(groupIndex) && groupIndex >= 0 ? groupIndex : -1;
+  return { name: `Academy ${gi >= 0 ? 'group ' + (gi + 1) + ' ' : ''}${name || ''}`.trim(), on: true, steps: gi >= 0 ? academyGroupPlanSteps(cfg, gi) : academyPlanSteps(cfg), template: 'academy' };
+}
+// ACADGROUP-2026-11-02 (owner: "why are you not just sitting them together in a five-man group? We have 20 characters. It's four parties of five
+// people, five nukers hitting the same target, then should never ever die" -> "Yes do 4 groups"): the academy mages lead / follow in fixed groups
+// of academy.json groups.size (5) by their login number (mylogin82-5, mylogin87-10, ...), the lowest login leads (a stable leader; a graduate's next
+// character keeps the account's place). The group runs ONE academy plan (its leader's); the personal academy steps run for every member
+// (swarm.js ACADGROUP acadTeamStep), the level steps pick spots for the group's lowest level; 35-40 = one Cruma Tower floor-1 room per group.
+/** the number in a login ('mylogin93' -> 12; none -> Infinity) */
+function loginNo(login) { const m = String(login || '').match(/(\d+)\s*$/); return m ? Number(m[1]) : Infinity; }
+/** accounts (swarm.config.json accounts[]) -> [{ index, leader, leaderLogin, members: [names, leader first], logins }] for the academy mages */
+// GROUPGRAD-2026-11-04 (owner: "why is 1 level 1? It looks like you overwrite the principle where all toons reach lvl 40 before going back to
+// town. Now the level 1 toon must wait for the 4 toons to each reach level 40 then start a new toon"): a graduate gets its next character only
+// when NO member of its group is still on the same generation without having graduated. logins = the group's logins; grad(login) = its
+// current character graduated; made(login) = its generation counter (D.made). -> { ready, waitFor: [logins] }
+function academyGroupReady(logins, me, grad, made) {
+  const mine = Number(made(me)) || 1;
+  const waitFor = (logins || []).filter(l => l !== me && (Number(made(l)) || 1) === mine && !grad(l));
+  return { ready: waitFor.length === 0, waitFor };
+}
+function academyGroups(accounts, size) {
+  const n = Math.max(1, Math.min(9, Number(size) || 5));
+  const acad = (accounts || []).filter(a => a && a.academyMage && a.character && a.enabled !== false)
+    .slice().sort((a, b) => (loginNo(a.login) - loginNo(b.login)) || String(a.login).localeCompare(String(b.login)));
+  const out = [];
+  for (let i = 0; i < acad.length; i += n) {
+    const chunk = acad.slice(i, i + n);
+    out.push({ index: out.length, leader: String(chunk[0].character), leaderLogin: String(chunk[0].login), members: chunk.map(a => String(a.character)), logins: chunk.map(a => String(a.login)) });
+  }
+  return out;
+}
+/** the group of a login -> { index, leader, ... } | null */
+function academyGroupOf(accounts, login, size) { const L = String(login || '').toLowerCase(); return academyGroups(accounts, size).find(g => g.logins.some(l => l.toLowerCase() === L)) || null; }
+/** pure: the moves that make the groups real (swarm.config.json party fields) -> [{ name, to }] (to = the group leader; '' = leads itself) */
+function academyGroupMoves(accounts, size) {
+  const out = []; const acc = (n) => (accounts || []).find(a => a && a.character === n);
+  academyGroups(accounts, size).forEach(g => {
+    const L = acc(g.leader); if (L && L.party && L.party !== g.leader) out.push({ name: g.leader, to: '' });
+    g.members.slice(1).forEach(m => { const a = acc(m); if (a && String(a.party || a.character) !== g.leader) out.push({ name: m, to: g.leader }); });
+  });
+  return out;
+}
+// ACADREPEAT-2026-11-03 (owner: "the academy toons have to do the exact same thing again when they all are done in academy. So make sure no
+// mistakes and it can be run over and over again"): the manager keeps the groups right by itself every tick (was: the hand-run
+// acad_groups_on.js + hand-switched run switches). Who leads a group: the STICKY leader of this generation while its character is ready
+// (set up, not graduated); else the lowest-login ready account of the group (normally the first one re-created after a graduation = "the old
+// group's leader is replaced by the next created character"). Every not-graduated character of the group belongs to that leader's party.
+/** pure: accounts (swarm.config.json accounts[]), size, ready(login, character) -> bool, graduated(character) -> bool, sticky { <index>: name }
+ *  -> [{ index, leader | null, prev, newLeader, moves: [{ name, to }] }] (to = the leader's key; the leader itself -> its own key) */
+function academyGroupSync(accounts, size, ready, graduated, sticky) {
+  const S = sticky || {}, out = [], acc = (n) => (accounts || []).find(a => a && a.character === n);
+  academyGroups(accounts, size).forEach(g => {
+    const rows = g.logins.map(l => (accounts || []).find(a => a && String(a.login).toLowerCase() === String(l).toLowerCase())).filter(Boolean);
+    const isReady = (a) => !!a && !!ready(String(a.login).toLowerCase(), String(a.character));
+    const st = S[g.index] ? rows.find(a => String(a.character) === String(S[g.index])) : null;
+    const lead = st && isReady(st) ? st : rows.find(isReady) || null;
+    // the leader the group follows now (the party key most of its not-graduated members use) - for newLeader
+    const keys = {}; rows.forEach(a => { if (graduated(String(a.character))) return; const k = String(a.party || a.character); keys[k] = (keys[k] || 0) + 1; });
+    const prev = S[g.index] || Object.keys(keys).sort((x, y) => keys[y] - keys[x])[0] || '';
+    if (!lead) { out.push({ index: g.index, leader: null, prev, newLeader: false, moves: [] }); return; }
+    const L = String(lead.character), moves = [];
+    rows.forEach(a => { const n = String(a.character); if (graduated(n)) return; if (String(a.party || n) !== L) moves.push({ name: n, to: L }); });
+    out.push({ index: g.index, leader: L, prev, newLeader: !!prev && prev !== L, moves });
+  });
+  return out;
+}
+/** pure: apply moves to a swarm.config.json object (a copy) -> { cfg, changed: [text] } */
+function academyApplyMoves(cfg, moves) {
+  const j = JSON.parse(JSON.stringify(cfg || {})), changed = [];
+  (moves || []).forEach(m => { const a = (j.accounts || []).find(x => x && x.character === m.name); if (a && String(a.party || a.character) !== m.to) { changed.push(`${m.name}: party ${a.party || a.character} -> ${m.to}`); a.party = m.to; } });
+  return { cfg: j, changed };
+}
+/** the group plan: the academy route, the 35-40 room = the group's own Cruma Tower floor-1 room (academy.json spots.to40Rooms[index]) */
+function academyGroupPlanSteps(cfg, gi) {
+  const C = academyCfg(cfg), rooms = Array.isArray(C.spots.to40Rooms) ? C.spots.to40Rooms.filter(r => /^[a-z0-9-]{3,60}$/.test(String(r))) : [];
+  const own = rooms.length ? rooms[gi % rooms.length] : null;
+  return academyPlanSteps(cfg).map(s => {
+    // ROOMS3040-2026-11-03 (owner: "in Cruma tower we have defined all rooms to hunt in"): the 30-35 step takes the group's own room too
+    if ((s.id === 'aclv40' || s.id === 'aclv35') && own && s.spot && s.spot.kind === 'rooms') return Object.assign({}, s, { spot: Object.assign({}, s.spot, { roomId: own, roomIds: [own], order: 'nearest' }), note: `the group's own room ${own}` });
+    return s;
+  });
 }
 
 /** the CharCreateFail reason (L2 0x10) -> words + whether another name can help */
@@ -149,12 +235,40 @@ function academyDecide(acc, st, cr, done, cfg, nowIso) {   // nowIso: tests pass
   }
   if (cr && cr.result === 'ok' && cr.name && cr.name !== ch && cr.forChar === ch) return { act: 'rename', name: cr.name, why: `the character was created as ${cr.name} (the first name was taken)` };
   if (D.setupFor !== ch) return { act: 'setup', why: `new academy character ${ch}: class plan, party plan, invite list, run switch` };
+  // RECREATE-2026-11-03 (live: the 5 group-1 re-creations ended silently - no create result, no character in game - and the manager waited for
+  // ever): a create / re-open that brought no character into the game is tried again with back-off (15, 30, 60 ... max 360 min), never given up
+  { const r = academyStuckCreate(st, cr, D, ch, nowIso); if (r) return r; }
   if (st && st.status === 'graduated' && st.name === ch) {
     if (!C.end.newCharacter) return D.loggedOutFor === ch ? { act: 'none', why: `${ch} graduated and logged out` } : { act: 'logout', why: `${ch} graduated — logging out` };
     if (!C.end.deleteGraduate && (Number(D.made) || 1) >= (Number(C.end.maxCharacters) || 7)) return { act: 'slotsfull', why: `${D.made || 1} academy characters made on this account (max ${C.end.maxCharacters})` };
     return { act: 'next', why: `${ch} graduated — ${C.end.deleteGraduate ? 'marked for deletion, ' : ''}the next academy character` };
   }
   return { act: 'wait', why: st && st.status ? `${ch}: ${st.status}${st.text ? ' — ' + st.text : ''}` : `${ch}: running` };
+}
+/** RECREATE-2026-11-03: pure - the new character never reached the game (no status file for it) after its create / re-open: retry with back-off.
+ *  D.createAt = when the last create / re-open ran (else the last graduation), D.retries = tries so far, D.forceRetry = the owner asked (API) */
+function academyStuckCreate(st, cr, done, ch, nowIso) {
+  const D = done || {};
+  if (st && st.name === ch) return null;                                   // it is (or was) in game - the normal flow
+  const nowMs = Date.parse(nowIso || '') || Date.now();
+  const last = (D.history || []).length ? Date.parse(D.history[D.history.length - 1].at || '') || 0 : 0;
+  const at = Date.parse(D.createAt || '') || last;
+  // RECREATE2-2026-11-03 (live: the forced retry came back every ~2 min - a dashboard POST re-saved a stale forceRetry over the tick's save):
+  // a force only counts when it is NEWER than the last create / re-open (an ISO time; the old boolean = once, only before any create)
+  const fAt = typeof D.forceRetry === 'string' ? Date.parse(D.forceRetry) || 0 : 0;
+  const force = D.forceRetry === true ? !D.createAt : (fAt > 0 && fAt > at);
+  if (!at && !force) return null;
+  const n = Math.max(0, Number(D.retries) || 0), waitMin = Math.min(360, 15 * Math.pow(2, n));
+  if (!force && nowMs - at < waitMin * 60000) return null;
+  const made = cr && cr.result === 'ok' && cr.name === ch && cr.forChar === ch;
+  return made ? { act: 'reopen', why: `${ch} was created but never came into the game - opening the account again (try ${n + 1})` }
+    : { act: 'retry', why: `no character came into the game for ${ch} in ${Math.round((nowMs - at) / 60000)} min - creating it again (try ${n + 1})` };
+}
+/** RECREATE2-2026-11-03: pure - the name a re-try uses: the SAME name again (cur) unless the server refused that name (cr: fail, not slots full,
+ *  for this character) - only then a new one. Keeps swarm.config.json / brain_host.json / the class plan untouched between tries. */
+function academyRetryName(cur, cr) {
+  const refused = !!(cr && cr.result === 'fail' && !cr.slotsFull && cr.forChar === cur && !/in game as /.test(String(cr.reason || '')));
+  return refused ? null : String(cur || '') || null;
 }
 /** ACADLOOP-2026-10-31: the characters the create script may delete on this account = ONLY characters the pipeline itself made (manager state
  *  madeNames) that graduated (history), not yet deleted, never the one about to be made, never anything else. done = academy_manager accounts[login] */
@@ -172,6 +286,6 @@ function academyFundTarget(cfg, charTarget) {
   return Number(academyCfg(cfg).funds.target) || 0;
 }
 
-const API = { DEF, NAME_RE, academyCfg, academyName, academyNames, academyPlanSteps, academyPlan, createFailInfo, xmlSetSelected, xmlSelected, xmlEnsureScript, academyDecide, academyDeleteList, academyFundTarget };
+const API = { DEF, NAME_RE, academyCfg, academyName, academyNames, academyPlanSteps, academyPlan, loginNo, academyGroupReady, academyGroups, academyGroupOf, academyGroupMoves, academyGroupSync, academyApplyMoves, academyGroupPlanSteps, createFailInfo, xmlSetSelected, xmlSelected, xmlEnsureScript, academyDecide, academyDeleteList, academyStuckCreate, academyRetryName, academyFundTarget };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;
 if (typeof window !== 'undefined') window.AcademyLogic = API;

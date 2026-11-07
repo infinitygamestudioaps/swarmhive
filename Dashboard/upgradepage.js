@@ -243,8 +243,8 @@
     const o = S._opts[i], g = S.pick, sel = [...S.sel]; if (!o) return;
     const base = { id: g.id, name: g.name, icon: g.icon, grade: g.grade, enchantTo: 0, saId: 0 };
     if (o.k === 'shop') sel.forEach(n => addLine(n, Object.assign({}, base, { src: 'shop', offer: g.shop.offer, enchant: 0 })));
-    else if (o.k === 'wh') addLine(o.owner, Object.assign({}, base, { src: 'wh', enchant: o.ench }));
-    else { const n = Math.min(o.count || 1, sel.length) || 1; sel.slice(0, n).filter(x => !(o.k === 'char' && x === o.char)).forEach(x => addLine(x, Object.assign({}, base, { src: o.k === 'clan' ? 'clan' : 'char', char: o.char || '', objId: n === 1 ? o.objId : 0, enchant: o.ench }))); }
+    else if (o.k === 'wh') addLine(o.owner, Object.assign({}, base, { src: 'wh', enchant: o.ench, ownerPick: true }));   // PLUSLOCK: the owner tapped this exact piece
+    else { const n = Math.min(o.count || 1, sel.length) || 1; sel.slice(0, n).filter(x => !(o.k === 'char' && x === o.char)).forEach(x => addLine(x, Object.assign({}, base, { ownerPick: true, src: o.k === 'clan' ? 'clan' : 'char', char: o.char || '', objId: n === 1 ? o.objId : 0, enchant: o.ench }))); }
     S.pick = null; S.plan = null; save(); render();
   }
   // ---- 3. the order ----
@@ -388,7 +388,7 @@
     window.scrollTo(0, sy);
     if (S.focusQ) { const i = $id('upQ'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } S.focusQ = false; }
   }
-  function body() { return { orders: Object.keys(S.lines).filter(n => (S.lines[n] || []).length).map(n => ({ name: n, lines: S.lines[n].map(L => ({ item: { src: L.src, id: L.id, objId: L.objId || 0, enchant: L.enchant || 0, char: L.char || '', offer: L.offer || null }, enchantTo: Number(L.enchantTo) || 0, saId: Number(L.saId) || 0, augment: L.augment ? { stone: L.augment.stone, wanted: L.augment.wanted, max: L.augment.max } : null, unseal: L.unseal ? (L.unsealId ? { id: Number(L.unsealId) } : true) : false })) })), use: S.use, overSafeOk: S.overSafeOk, giveBack: !!S.giveBack }; }
+  function body() { return { orders: Object.keys(S.lines).filter(n => (S.lines[n] || []).length).map(n => ({ name: n, lines: S.lines[n].map(L => ({ item: { src: L.src, id: L.id, objId: L.objId || 0, enchant: L.enchant || 0, char: L.char || '', offer: L.offer || null, ownerPick: L.ownerPick === true }, enchantTo: Number(L.enchantTo) || 0, saId: Number(L.saId) || 0, augment: L.augment ? { stone: L.augment.stone, wanted: L.augment.wanted, max: L.augment.max } : null, unseal: L.unseal ? (L.unsealId ? { id: Number(L.unsealId) } : true) : false })) })), use: S.use, overSafeOk: S.overSafeOk, giveBack: !!S.giveBack }; }
   async function check() {
     S.busy = true; render();
     try { S.plan = await call('/api/upgrade/plan', body()); if (S.plan && S.plan.error) { S.msg = S.plan.error; S.plan = null; } else { S.msg = '';
@@ -443,7 +443,7 @@
     if (d.upreset) { presetFill(d.upreset); return; }
     if (d.ucoladd) { (S.col.rows || []).filter(r => r.pick && r.to).forEach(r => { const L = S.lines[r.to] = S.lines[r.to] || [], idx = /^(earring|ring)$/.test(r.slot) ? Math.min(1, L.filter(l => l.slot === r.slot && l.fromCol).length) : 0;
         const g = colGain(r), u = (g && g.unseal) || r.unseal, un = !!(u && r.un);   // GEARUPCOL-2: the unseal variant of THIS receiver
-        const line = { id: r.id, name: un ? u.name : r.name, icon: r.icon, grade: r.grade, slot: r.slot, idx, src: r.src, enchant: r.enchant, objId: r.objId, char: r.char, offer: null, enchantTo: 0, saId: 0, unseal: un, unsealId: un ? u.id : 0, fromCol: true };
+        const line = { id: r.id, name: un ? u.name : r.name, icon: r.icon, grade: r.grade, slot: r.slot, idx, src: r.src, enchant: r.enchant, objId: r.objId, char: r.char, ownerPick: !!r.pick, offer: null, enchantTo: 0, saId: 0, unseal: un, unsealId: un ? u.id : 0, fromCol: true };
         const i = L.findIndex(l => l.slot === r.slot && (l.idx || 0) === idx); if (i >= 0) L.splice(i, 1, line); else L.push(line); });
       S.col.rows = S.col.rows.filter(r => !(r.pick && r.to)); S.giveBack = true; S.plan = null; S.msg = 'Added. "Give the replaced pieces back" is ticked — Check the plan, then Order it.'; save(); render(); return; }   // GEARUPCOL-2026-10-29
     if (d.umkk) { S.mk.pk.kind = d.umkk; S.mk.pk.grade = ''; S.mk.pk.type = ''; render(); return; }   // MAKEPICK

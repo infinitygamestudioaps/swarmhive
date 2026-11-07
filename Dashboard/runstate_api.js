@@ -92,8 +92,10 @@ function summary(ctx, chars) {
     const e = runEffective(J, leader, leader), lc = byName[leader] || null, members = P[leader];
     const held = members.filter(n => n !== leader && runEffective(J, n, leader).held && !runHandsOff(J, n));   // HANDSOFF: listed apart (handsOff)
     const seen = lc && lc.run && typeof lc.run.on === 'boolean' ? lc.run.on : null;   // what the leader's window sees (null = older swarm.js / offline)
+    // HOLD-2026-11-04: Logs/hold_<leader>.json (written by the leader's swarm.js on "!hold") -> the party card's HOLD button shows it
+    let hold = false; try { hold = JSON.parse(fs.readFileSync(path.join(ctx.LOGS || path.join(ctx.DIR || __dirname, '..', 'Logs'), `hold_${leader}.json`), 'utf8').replace(/^﻿/, '')).on === true; } catch (x) { hold = false; }
     return { leader, on: !!e.on, src: e.src, at: e.at, by: e.by, why: e.why, members, held, task: lc ? String(lc.task || '') : '', online: !!(lc && lc.ageSec <= 30),
-      seen, plan: startPlanFor(ctx, leader, members.length <= 1) };
+      seen, plan: startPlanFor(ctx, leader, members.length <= 1), hold };
   });
   const chars2 = {}; Object.keys(J.chars).forEach(n => { const c = J.chars[n]; if (c && typeof c.on === 'boolean') chars2[n] = { on: c.on, at: c.at || null, by: c.by || '' }; });
   const ho = {}; const H = J.handsOff && typeof J.handsOff === 'object' && !Array.isArray(J.handsOff) ? J.handsOff : {}; Object.keys(H).forEach(n => { if (runHandsOff(J, n)) ho[n] = { on: true, at: H[n].at || null, by: H[n].by || '' }; });   // HANDSOFF-2026-10-26

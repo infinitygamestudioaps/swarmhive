@@ -221,7 +221,8 @@
       <div class="stg-warow"><label>Crafter <select data-wa="crafter" aria-label="crafter"><option value="">the first one known</option>${(W.crafters || []).map(c => `<option value="${h(c)}" ${d.crafter === c ? 'selected' : ''}>${h(c)}</option>`).join('')}</select></label>
         <label>every <input type="number" min="10" max="1440" step="5" data-wa="everyMin" value="${h(String(d.everyMin || 30))}" aria-label="minutes between orders"> min</label>
         <button type="button" data-waact="run">Run now</button></div>
-      ${st.check ? `<div class="muted">Now: ${h(st.check.why)}</div>` : ''}<div class="muted">${h(last)}</div></div>`;
+      ${st.check ? `<div class="muted">Now: ${h(st.check.why)}</div>` : ''}<div class="muted">${h(last)}</div>
+      <div class="muted" data-cwhclean><b>Automatic clean-up</b> ${d.cleanup === false ? 'OFF' : 'ON'}: when the clan warehouse is full the bank takes out and sells junk (sell list, no-grade gear, D-grade gear no gear plan needs) until it is under ${h(String(d.cleanPct || 85))} %${st.cwhLimit ? ` of ~${h(String(st.cwhLimit))} kinds` : ''}.${st.clean ? ' Now: ' + h(st.clean.why) : ''}</div></div>`;   // CWHCLEAN-2026-11-03
   }
   async function waPost(b) {
     let r = null; try { r = await api('/api/whauto', { method: 'POST', body: JSON.stringify(b) }); } catch (e) { r = { error: e.message }; }
@@ -348,7 +349,7 @@
     flash(CL + " takes " + chosen.length + " kind" + (chosen.length === 1 ? "" : "s") + " out for " + crafter + " - see \"What they do\"."); SP.cwhSel = new Set(); renderCwhList();
   }
   async function cwhCry() {
-    const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && SP.info.clanLeader) || '';
+    const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && (SP.info.bank || SP.info.clanLeader)) || '';   // BANKWH-2026-11-03
     const chosen = all.filter(r => sel.has(cwhKey(r))); if (!chosen.length) return;
     if (!CL) { await uiError('No clan leader is known - only the clan leader can take items out of the clan warehouse.', 'Not possible'); return; }
     let ci = null; try { ci = await api('/api/crafter'); } catch (e) { ci = null; }
@@ -389,7 +390,7 @@
     try { await load(true); } catch (e) { } waRefresh();
   }
   async function cwhRun(sell) {
-    const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && SP.info.clanLeader) || '';
+    const all = (SP.info && SP.info.clanWh && SP.info.clanWh.items) || [], sel = SP.cwhSel || new Set(), CL = (SP.info && (SP.info.bank || SP.info.clanLeader)) || '';   // BANKWH-2026-11-03: the bank does the clan warehouse jobs, not the runner
     const chosen = all.filter(r => sel.has(cwhKey(r))); if (!chosen.length || !CL) return;
     const byId = {}; chosen.forEach(r => { byId[r.id] = (byId[r.id] || 0) + r.count; });
     const mixed = Object.keys(byId).filter(id => all.some(r => String(r.id) === id && !sel.has(cwhKey(r)))).map(id => all.find(r => String(r.id) === id).name.replace(/^\+\d+ /, ''));

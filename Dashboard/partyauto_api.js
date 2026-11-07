@@ -53,6 +53,9 @@ const KINDS = [
   // RESTOPT-2026-10-30 (owner: "Sitting down should be an option" -> AskUserQuestion "Off by default, per party"): default OFF = never sits to rest
   { key: 'rest', char: false, group: 'combat', label: 'Sit down to rest when HP / MP run low',
     help: 'Off (default): nobody sits down to rest; the party keeps hunting (potions and healers keep it up). On: a character sits when its HP or MP drops below the numbers set here (never while a monster hits it, never in a town, a raid or while travelling) and stands up again when it reaches the "until" numbers, after 2 minutes at most, or the moment something attacks.' },
+  // PARTYBUFF-2026-11-06 (owner: "Make it something u Can enable for parties"): default OFF, per party
+  { key: 'partyBuff', char: false, group: 'combat', label: 'Support gives the party fighter buffs (Buff Party)',
+    help: "Off (default): every character takes its own Community Board buffs, one at a time, when nobody fights. On: when a fighter needs buffs, the party's doomcryer / warcryer (else a healer) that is not in combat clicks Warrior -> Buff Party for the whole party, and the casters / healers put Mystic on top themselves. At most once every 5 minutes; in combat / dead = the normal one-at-a-time buffs. The order Buff Party (fighter buffs) does it once at any time." },
   // RECOMMEND-2026-10-23 (public tester: "just a toggle per party to recommend each other and keep it at 255"): default OFF
   { key: 'recommend', char: false, group: 'combat', label: 'Party members recommend each other',
     help: 'On: every character spends its daily recommendations on a teammate standing next to it (the one with the fewest first, never above 255), only when nobody fights. Off (default): nobody recommends.' },

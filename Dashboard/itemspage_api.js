@@ -33,6 +33,9 @@ const catalog = (ctx) => cached('cat', path.join(ctx.DIR, 'data', 'gear_catalog.
 const saRecipes = (ctx) => cached('sa', path.join(ctx.DATA, 'soul_sa_recipes.json'), { recipes: [] }, v => (v && v.recipes) || []);
 const rates = (ctx) => Object.assign({}, IL.RATES, cached('rates', path.join(ctx.DATA, 'enchant_rates.json'), {}) || {});
 const cfg = (ctx) => rj(path.join(ctx.ROOT, 'swarm.config.json'), {}) || {};
+/** BANKCWH-2026-11-03: the character that takes things out of / puts them into the clan warehouse (same rule as swarm.js cwhActorPick) */
+function cwhActorPick(bank, crafter, withdraw, clanLeaderName) { const b = bank || crafter || ''; return b && withdraw !== false ? b : (clanLeaderName || ''); }
+function cwhActor(ctx) { const c = rj(path.join(ctx.DATA, 'crafter.json'), {}) || {}; return cwhActorPick(String(c.bank || ''), String(c.crafter || ''), c.cwhWithdraw, clanLeader(ctx)); }
 function clanLeader(ctx) { const cq = rj(path.join(ctx.DATA, 'clan_quests.json'), null), cs = rj(path.join(ctx.LOGS, 'clan_state.json'), null); return (cq && cq.clan && cq.clan.leader) || cfg(ctx).clanLeader || (cs && cs.leader) || ''; }
 function crafters(ctx) {
   const out = new Set(), R = rj(path.join(ctx.DATA, 'crafter_rules.json'), {}) || {};
@@ -50,9 +53,11 @@ function facts(ctx, id) {
 function chars(ctx) {
   const st = ctx.readStates ? ctx.readStates() : [], by = {}; st.forEach(s => { by[s.name] = s; });
   const CL = clanLeader(ctx), CR = crafters(ctx);
+  // BANKENCH-2026-11-03 (owner: enchanting is the banker's job, not the runner's): the bank (Scripts/data/crafter.json bank) is flagged
+  let BANK = ''; try { BANK = String((JSON.parse(fs.readFileSync(path.join(ctx.DATA, 'crafter.json'), 'utf8').replace(/^﻿/, '')) || {}).bank || ''); } catch (e) { }
   const list = (cfg(ctx).accounts || []).filter(a => a.character && a.enabled !== false).map(a => { const s = by[a.character] || {};
-    return { name: a.character, party: a.party || '', level: s.level || null, cls: s.cls || '', classId: s.classId != null ? s.classId : null, online: Number(s.ageSec) < 30, clanLeader: a.character === CL, crafter: CR.has(a.character), adena: s.adena || 0 }; });
-  return { ok: true, chars: list, clanLeader: CL };
+    return { name: a.character, party: a.party || '', level: s.level || null, cls: s.cls || '', classId: s.classId != null ? s.classId : null, online: Number(s.ageSec) < 30, clanLeader: a.character === CL, crafter: CR.has(a.character), bank: !!BANK && a.character === BANK, adena: s.adena || 0 }; });
+  return { ok: true, chars: list, clanLeader: CL, bank: BANK };
 }
 function rowsOf(ctx, list, extra) { return (list || []).map(r => Object.assign(facts(ctx, r.id), { count: Number(r.count) || 1, enchant: Number(r.enchant) || 0 }, extra ? extra(r) : {})); }
 async function charInfo(ctx, name, fresh) {
@@ -232,7 +237,8 @@ async function plan(ctx, b) {
     if (nd.missing) return { code: 409, error: `${giver} has no ${F.name} in the bag (worn pieces are not handed over).` };
     if (Number(it.objId) && nd.from.char) { const H = holdersOf(ctx, id, name).find(x => x.name === giver), r = H && H.rows.find(x => x.objId === Number(it.objId)); if (r) nd.from.char.rows = [Object.assign({}, r, { count: 1 })]; }   // exactly the piece the owner tapped
   } else if (src === 'wh') steps.push({ k: 'take', text: `${name} takes ${F.name}${cur ? ' +' + cur : ''} out of its private warehouse (Giran)` });
-  else if (src === 'clan') steps.push({ k: 'clan', text: name === C.clanLeader ? `${name} takes ${F.name}${cur ? ' +' + cur : ''} out of the clan warehouse` : `the clan leader ${C.clanLeader || '?'} takes ${F.name}${cur ? ' +' + cur : ''} out of the clan warehouse and hands it to ${name}` });
+  // CWHTEXT-2026-11-04: the plan names the real warehouse actor (the bank, cwhActor - the job uses it too), never "the clan leader" (owner: never via Dagger1)
+  else if (src === 'clan') { const ACT = cwhActor(ctx) || C.clanLeader || '?'; steps.push({ k: 'clan', text: name === ACT ? `${name} takes ${F.name}${cur ? ' +' + cur : ''} out of the clan warehouse` : `${ACT === C.clanLeader ? 'the clan leader' : 'the bank'} ${ACT} takes ${F.name}${cur ? ' +' + cur : ''} out of the clan warehouse and hands it to ${name}` }); }
   // 2. enchant (first: a destroyed item never wasted the SA materials)
   const to = Number(b.enchantTo) || 0;
   if (to > cur) {
@@ -353,8 +359,10 @@ async function enchantMany(ctx, b) {
     need[scroll] = (need[scroll] || 0) + (to - cur);
     list.push({ src: p.src, objId: p.src === 'bag' ? p.objId : 0, id: r.id, name: r.name, from: cur, to, scroll, kind: r.kind, grade: r.grade, chance: IL.chanceTo(cur, to, r.kind, !!r.full, R), plus10: p.src !== 'bag' && cur >= PROTECT_ENCH && !!b.plus10Ok });   // PLUS10PICK: the owner's own pick
   }
-  const fromClan = list.some(x => x.src === 'clan'), CL = clanLeader(ctx);
-  if (fromClan && !CL) return { code: 409, error: 'No clan leader known: nobody can take things out of the clan warehouse.' };
+  // BANKCWH-2026-11-03 (owner: "Stop routed through Dagger1 !!! ... crafter1 can withdraw and deposit in clan warehouse himself"): the clan
+  // warehouse actor = the bank (crafter.json bank, else the crafter) while cwhWithdraw is on; the clan leader only without a bank
+  const fromClan = list.some(x => x.src === 'clan'), CL = cwhActor(ctx);
+  if (fromClan && !CL) return { code: 409, error: 'No bank / clan leader known: nobody can take things out of the clan warehouse.' };
   if (whOver.length && !b.overSafeOk) return { code: 409, error: `${whOver.join(', ')} ${whOver.length === 1 ? 'is' : 'are'} above the safe +${safe}: tick the warning first (it leaves the warehouse only because you pick it).`, needWarning: true };
   if (!list.length) return { code: 400, error: skip.join('; ') || 'nothing to enchant' };
   // ENCHSCROLLS 2026-10-20 (owner: "it says there is not enchants in the bags?" — Dagger1: 0 in the bag, 644 / 31 / 363 ... in the clan warehouse):

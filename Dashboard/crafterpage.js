@@ -102,6 +102,14 @@
         <span class="cfp-pill ${R.on && R.name ? 'ok' : 'bad'}">${R.on && R.name ? 'ON: parties call it instead of a supply run' : 'OFF: parties still do their own supply runs'}</span>
         ${R.name ? `<button type="button" data-cfrunon="${R.on ? '0' : '1'}">${R.on ? 'Switch the runner OFF' : 'Switch the runner ON'}</button>` : ''}
         <button type="button" data-cfrunner="1">${R.name ? 'Change runner' : 'Pick the runner'}</button></div>
+      ${R.name ? `<div class="cfp-row"><span>Runner walks in everywhere (stealth): Silent Move on the whole trip, no level limit (OFF: no monster above its level + 5 - a member meets it at the landing)</span>
+        <span class="cfp-pill ${R.runnerStealth !== false ? 'ok' : 'bad'}">${R.runnerStealth !== false ? 'ON' : 'OFF'}</span>
+        <button type="button" data-cfstealth="${R.runnerStealth !== false ? '0' : '1'}">${R.runnerStealth !== false ? 'Stealth OFF' : 'Stealth ON'}</button></div>` : ''}
+      ${R.name ? `<div class="cfp-row"><span>Rotation (no call waiting): visits the farming parties and brings their drops to the bank</span>
+        <span class="cfp-pill ${R.rotateOn !== false ? 'ok' : 'bad'}">${R.rotateOn !== false ? 'ON' : 'OFF'}</span>
+        <button type="button" data-cfroton="${R.rotateOn !== false ? '0' : '1'}">${R.rotateOn !== false ? 'Rotation OFF' : 'Rotation ON'}</button>
+        <label>each party at most every <input type="number" id="cfRotMin" min="10" max="1440" step="5" value="${h(String(R.rotateMin || 60))}" style="width:5em"> min</label>
+        <button type="button" data-cfrotmin="1">Save</button></div>` : ''}
       ${R.name && R.at ? `<div class="muted">${h(R.name)} ${R.town ? 'in ' + h(R.town) : 'in the field'} · ${h(R.state || '')}${R.cur ? ' · serving ' + h(R.cur) : ''} · seen ${h(String(R.at).slice(11, 16))}</div>` : ''}
       ${q.length ? `<div class="cfp-scroll"><table><tr><th>Party</th><th>Out of shots</th><th>Called</th></tr>${q.map(c => `<tr><td>${h(c.party)}</td><td>${c.out ? 'yes' : ''}</td><td>${h(String(c.at).slice(11, 16))}</td></tr>`).join('')}</table></div>` : '<div class="muted">No party waiting for the runner.</div>'}
       <div class="muted">Clan warehouse: ${R.cwhWithdraw !== false ? `<b>${h(d.crafter)}</b> takes the Storage page's sell / crystallize marks out himself, sells and crystallizes them` : 'the clan leader takes the marks out'}. Shots cost the NPC price, paid by the party leader to the bank${Object.keys(R.pays || {}).length ? ' (free for: ' + h(Object.keys(R.pays).join(', ')) + ')' : ''}.</div>`;
@@ -149,6 +157,10 @@
     if ((b = g('[data-cfcraft]'))) { craft(b.dataset.cfcraft); return; }
     if ((b = g('[data-cfsell]'))) { sell(b.dataset.cfsell); return; }
     if (g('[data-cfrunner]')) { pickRunner(); return; }
+    // RUNNERROTATE-2026-11-03: the runner's rotation through the farming parties
+    if ((b = g('[data-cfstealth]'))) { const on = b.dataset.cfstealth === '1'; runnerSet({ runnerStealth: on }, on ? 'Stealth ON: the runner walks in to every party, Silent Move on the whole trip' : 'Stealth OFF: the runner keeps the level limit (a member meets it at the landing)'); return; }   // RUNNERSTEALTH-2026-11-03
+    if ((b = g('[data-cfroton]'))) { const on = b.dataset.cfroton === '1'; runnerSet({ rotateOn: on }, on ? 'Rotation ON: with no call waiting the runner visits the farming parties' : 'Rotation OFF: the runner only answers calls'); return; }
+    if (g('[data-cfrotmin]')) { const el = document.getElementById('cfRotMin'), m = Math.round(Number(el && el.value)); if (!(m >= 10 && m <= 1440)) { flash('10 - 1440 minutes', true); return; } runnerSet({ rotateMin: m }, `Each party is visited at most every ${m} min`); return; }
     if ((b = g('[data-cfrunon]'))) { const on = b.dataset.cfrunon === '1'; uiConfirm({ title: on ? `Switch the runner ${S.d.runner.name} ON?` : 'Switch the runner OFF?', body: [uiP(on ? 'Parties low on supplies call the runner instead of going to town; it brings their shots and takes their loot to the crafter.' : 'Parties do their own supply runs again.')], confirmText: on ? 'Switch ON' : 'Switch OFF' }).then(ok => { if (ok) runnerSet({ runnerOn: on }, on ? 'Runner ON.' : 'Runner OFF.'); }); return; }
   }
   function onInput(e) {

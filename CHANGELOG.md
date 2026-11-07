@@ -2,6 +2,40 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.0 (2026-11-07)
+
+- Big update (2026-11-02 to 2026-11-07): Boost page, spot rotation, runner + bank, power leveling, subclass, Forge of the Gods rooms, academy groups, many fixes
+- Boost page (#/boost): enchant items, enchant skills, augment items and attribute items in a loop until Stop, with a delay setting and a Fast mode, and a live view of every try
+- Spot rotation page (#/rotation): change hunting spots by your own conditions, like the Hunter plugin (off for every party by default)
+- Next room: when every chosen room is taken or blocked, the party takes the nearest free room instead of standing still
+- Runner mode: one character shuttles full time between the bank and the farming parties - its queue survives reloads / restarts / re-logins, it never levels itself, it sneaks (Silent Move) only near aggressive monsters and runs at full speed + Dash elsewhere, and a new Runner page (#/runner) shows the queue and the current trip
+- Runner: a party empties its bag to the runner and keeps only its role's 'package' (shots, potions, scrolls), recipes always go to the bank, raid-circuit parties also hand over, and an idle character parked 'waiting for orders' is served too
+- Bank: stays in Giran (never walks or teleports away for a hand-out), uses Giran's warehouse keeper, sells no-grade gear and junk right after every delivery, stores the rest in the clan warehouse and cleans a full clan warehouse by itself
+- Bank: does every clan warehouse job (never the clan leader / runner), retries a warehouse page that does not answer, reads an empty private warehouse right and gives a full private warehouse more time to list
+- Bank: learns to craft soulshots and blessed spiritshots (buys the recipe scrolls it needs)
+- Clan warehouse asks: a member asking for a piece the warehouse does not have hears so at once instead of re-asking for an hour
+- Power leveling page (#/powerlevel): a leveler + an out-of-party healer pair, the healer keeps its own buffs on the leveler, a pair far apart travels to each other first, and a running plan is taken over
+- Subclass: !subclass probe / the board reads the class list by its class ids, a subclass adena ask becomes a normal adena trade from the bank
+- Teams page (#/teams): every party with its roles, with undo
+- Clan skills: learning a clan skill waits for the village master and is no longer pushed aside by automatic runner hand-overs - your own order always wins
+- Clan invites: every rank may invite to the clan
+- Your orders: an explicit order (run there, stop, learn now) is carried out at once - !stop ends every walk, route, item-job wait and job-end walk within seconds
+- Hold: !hold makes the party stand still and fight (healers keep healing), shown on the party card's HOLD button, without any invented follow distance
+- Gear-up item jobs: members stop auto-follow during a gear-up, do their errand and come back to the Giran meeting point and report done, a reload no longer restarts a job that already got its pieces
+- Gear: without your exact pick only +0 pieces are ever given or taken (plused gear is never touched), exchange NPCs for worn armor / accessories stay off, unseal finds Pushkin's page text, gloves + boots unseal as heavy / light / robe
+- Giran luxury shop: a recorded route through the east door, both shop NPCs served from one spot
+- Forge of the Gods: a room is left with !leaveroom (the spawns never stop), Tar Beetles are never stood on, level 2 is entered by the teleport before the bridge or the lava stairs, and members catch up before the room route starts
+- AOE teams: a fight never drags a puller away from his route, pull points always lie inside the room and a short pull stays in the room
+- Hunting: no own hunting radius - only the predefined rooms and areas, a chosen route is followed instead of an automatic spot, Start restarts the 12 h hunting timer
+- Party buffs: the support can buff the whole party with Warrior buffs (per party switch, default off)
+- Academy: groups of 5 managed every tick (it can run over and over), every character reaches level 40 before graduation, group members follow the leader's party, the lowest characters join the academy first
+- Academy groups: caster balls stay tight, one room per party at Cruma Tower with focus fire, the leader never flips between rooms, a ball member walks to the leader, back to Cruma Tower floor 1 until 38, then the group's own room
+- Academy gear: D grade common jewelry before Cruma, pairs of earrings / rings counted right, a worn piece above the character's grade never counts as good enough
+- Academy re-create: graduated characters are deleted and new ones made at the character list (packet hook on during the create)
+- Academy fixes: Path of the Dark Wizard stops after the class change, no hunting spot next to a living raid boss, a member never fights alone after a group move, a leader no longer waits for members on another floor
+- Restart-safe: hands-off characters are never restarted, a crashing L2Swarm script thread is detected (THREADFLOOD on the dashboard bar) instead of relogging
+- Logs: big logs are rotated and archived (GET /api/logrotate)
+
 ## v1.13.1 (2026-11-02)
 
 - Tester fixes + academy fixes (2026-11-02)

@@ -253,7 +253,15 @@ foreach ($name in @($wanted.Keys)) {
     }
     # hooked client stuck on the login screen (login server refused us, e.g. flood protection after restarts): after 4 min
     # without being in game, close it so the next run hooks again (2026-10-04 13:09)
-    if ($want -eq 'ingame' -and $alive -and $cur.at -and ((Get-Date) - [datetime]$cur.at).TotalMinutes -gt 4) {
+    # HANDKEEP-2026-11-04 (owner played Destroyer3 in the client; 11:28 it was closed: "why did the l2 client shut down now?"): the heartbeat file
+    # stops while a character is played by hand, so after 27 min it looked "stuck at login". A client that was seen in game ONCE is never
+    # closed again, and the stuck-at-login close only applies in the first 10 min after the hook (a login screen hangs right away, not later).
+    if ($want -eq 'ingame' -and $alive -and $cur.at -and -not $cur.seenIn) {
+        $ig0 = InGame $name ([datetime]$cur.at)
+        if ($ig0 -eq $true) { $cur = @{ pid = $cur.pid; at = $cur.at; seenIn = (Get-Date).ToString('s') }; $st[$name] = $cur; SaveState; Log "hook ${name}: seen in game - this client is never closed by the stuck-at-login check" }
+    }
+    $hookAge = if ($cur.at) { ((Get-Date) - [datetime]$cur.at).TotalMinutes } else { 0 }
+    if ($want -eq 'ingame' -and $alive -and $cur.at -and -not $cur.seenIn -and $hookAge -gt 4 -and $hookAge -lt 10) {
         $inGame = InGame $name ([datetime]$cur.at)
         if ($inGame -eq $false) {
             Log "hook ${name}: client pid $($cur.pid) still not in game after 4 min (stuck at login?) - closing it, will hook again"

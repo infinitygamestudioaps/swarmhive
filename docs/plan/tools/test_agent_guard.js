@@ -23,7 +23,7 @@ t('tried less than 20 min ago: not again', !G.agentGuardPick(stats({ Spoiler12: 
 t('after 20 min: tried again', G.agentGuardPick(stats({ Spoiler12: false, Spoiler13: true, Tank1: true }), T0 + 120000 + 21 * 60000).includes('Spoiler12'));
 G.agentGuardPick(stats({ Spoiler12: true, Spoiler13: true, Tank1: true }), T0 + 50 * 60000);
 t('connected again: its count is cleared', !G.agentGuard.seen.Spoiler12);
-t('the guard runs every 2 min and spawns attach_agent --names ... --apply', /agentGuardPick\(stats, Date\.now\(\)\)[\s\S]{0,900}'attach_agent\.js'\), '--names', names\.join\(','\)[\s\S]{0,120}'--apply'\][\s\S]{0,1200}\}, 120000\);/.test(SV));
+t('the guard runs every 2 min and spawns attach_agent --names ... --apply', /agentGuardPick\(stats, Date\.now\(\)\)[\s\S]{0,1500}'attach_agent\.js'\), '--names', names\.join\(','\)[\s\S]{0,120}'--apply'\][\s\S]{0,1200}\}, 120000\);/.test(SV));
 t('the guard never runs next to another engine job, an alt account switch (ALTS-2026-10-25) or without the pool', /if \(engineJob\.running \|\| ALTJOB\.running \|\| !bhProc\) return;/.test(SV));
 t('attach_agent saves the XML (manage_account_config save)', /async function persist\(name, sel\)[\s\S]{0,200}mcp\('manage_account_config', \{ \.\.\.sel, action: 'save' \}\)/.test(AT));
 // AGENTGUARD-ONLINE-2026-10-29 (Hero): only logged-in characters are moved; MCP down = nothing tried

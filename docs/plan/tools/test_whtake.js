@@ -70,12 +70,13 @@ const J = JSON.stringify;
   { // owner 2026-10-17: "Anything over the safe limit is no go unless an explicit warning was given" + "Dont take +16 NEVER!"
     const R2 = rows.concat([{ objId: 9005, id: 356, name: 'Full Plate Armor', count: 1, enchant: 7 }, { objId: 9006, id: 356, name: 'Full Plate Armor', count: 1, enchant: 16 }]);
     const all = M.whPlan(R2, [{ id: 356, count: 'all' }]).take.map(t => t.objId);
-    check(J(all) === J([9001, 9002]), 'by item id: never a piece above the safe +4 (+7 / +16 stay)');
+    // PLUSLOCK-2026-11-04 (gear.md R12, owner: "Never touch my plused equipment unless i tell you to"): by item id only +0 (the +3 stays too)
+    check(J(all) === J([9001]), 'by item id: never a plused piece (+3 / +7 / +16 stay; owner 2026-11-04)');
     check(J(M.whPlan(R2, [{ id: 356, count: 1, ench: 7 }]).take.map(t => t.objId)) === J([9005]), 'the exact +7 only when that piece is asked for (after the warning)');
     check(J(M.whPlan(R2, [{ id: 356, count: 1, ench: 16 }]).take.map(t => t.objId)) === J([9006]), '+16: only when the owner picks exactly that piece (never by chance)');
   }
   p = M.whPlan(rows, [{ id: 356, count: 3 }]);
-  check(p.take.length === 2 && p.missing.length === 1 && p.missing[0].count === 1 && /only 2/.test(p.missing[0].why), 'asked 3, only 2 pieces -> 2 taken, 1 missing');
+  check(p.take.length === 1 && p.missing.length === 1 && p.missing[0].count === 2 && /only 1/.test(p.missing[0].why), 'asked 3, only 1 +0 piece -> 1 taken, 2 missing (the +3 stays: PLUSLOCK)');
   p = M.whPlan(rows, [{ id: 1463, count: 1000 }, { id: 57, count: 'all' }, { id: 4242, count: 1 }]);
   check(J(p.take.map(t => [t.objId, t.count])) === J([[9003, 1000], [9004, 120000]]), 'a stack is split (1000 of 2500), all adena');
   check(p.missing.length === 1 && p.missing[0].id === 4242 && p.missing[0].why === 'not in the warehouse', 'unknown id -> missing "not in the warehouse"');

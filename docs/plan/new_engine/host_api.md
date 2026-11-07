@@ -1,6 +1,6 @@
 # Host API used by swarm.js (static inventory)
 
-Generated 2026-10-12T12:27:36.756Z by `docs/plan/tools/host_api_inventory.js` from `Scripts_dev/swarm.js` (27451 lines, 469388 tokens).
+Generated 2026-11-07T07:20:46.797Z by `docs/plan/tools/host_api_inventory.js` from `Scripts_dev/swarm.js` (51434 lines, 970670 tokens).
 Re-run after swarm.js changes: `node docs/plan/tools/host_api_inventory.js`. The runtime counterpart is the shim's missing-member log
 (`Dashboard/brain_host`, `host.missing`), which also catches dynamic accesses (`obj[name]`) that a static scan cannot see.
 
@@ -11,327 +11,357 @@ agent streams, order = forwarded to the agent, local = answered in the brain, st
 
 | global | kind | uses | line | shim |
 |---|---|---:|---:|---|
-| `Me` | object | 2993 | 287 | mirror |
-| `sleep` | function | 578 | 1840 | local |
-| `Send` | object | 345 | 1840 | order |
-| `File` | object | 322 | 372 | local |
-| `App` | object | 307 | 1810 | local |
-| `Options` | object | 196 | 2899 | mirror |
-| `SayToParty` | function | 175 | 133 | order |
-| `setInterval` | function | 146 | 57 | local |
-| `IsCharacterReady` | function | 105 | 1676 | mirror |
-| `Target` | object | 102 | 1839 | mirror |
-| `IsEnabled` | value | 92 | 2603 | mirror |
-| `__SCRIPTS__` | value | 64 | 370 | local |
-| `__DIR__` | value | 62 | 369 | local |
-| `SkillsList` | object | 60 | 342 | mirror |
-| `Inventory` | object | 59 | 339 | mirror |
-| `setTimeout` | function | 58 | 2050 | local |
-| `EnableBot` | function | 54 | 2619 | order |
-| `IsInCombat` | value | 47 | 1646 | mirror |
-| `Distance` | function | 46 | 3372 | mirror |
-| `PartyList` | object | 39 | 341 | mirror |
-| `DisableBot` | function | 28 | 2608 | order |
-| `console` | object | 19 | 2351 | local |
-| `UseItem` | function | 18 | 1899 | order |
-| `BuffsList` | object | 16 | 340 | mirror |
-| `CreaturesList` | object | 14 | 205 | mirror |
-| `IsMe` | function | 14 | 2679 | mirror |
-| `RunCommand` | function | 14 | 6934 | order |
-| `clearTimeout` | function | 9 | 2439 | local |
-| `BuffLow` | function | 7 | 4052 | mirror |
-| `Context` | object | 6 | 10845 |  |
-| `StopCombat` | function | 6 | 21843 | order |
-| `CurrentZone` | value | 4 | 1644 | mirror |
-| `DropList` | object | 4 | 13107 | mirror |
-| `GoToPoint` | function | 4 | 4651 | order + promise |
-| `HasQuest` | function | 4 | 10871 | mirror |
-| `Point` | object | 4 | 7100 | local |
-| `Select` | function | 4 | 20485 | order |
-| `BuyList` | object | 3 | 8358 | mirror |
-| `clearInterval` | function | 3 | 57 | local |
-| `Encoding` | object | 3 | 21027 | local |
-| `L2CreatureTypes` | enum | 3 | 170 | local |
-| `NpcList` | object | 3 | 21059 | mirror |
-| `PetList` | object | 3 | 2012 | mirror |
-| `BuyItem` | function | 2 | 8322 | order |
-| `CombatZoneTypes` | enum | 2 | 19377 | local |
-| `GetQuestState` | function | 2 | 10847 | mirror |
-| `IsPartyLeader` | value | 2 | 25040 | mirror |
-| `L2ZoneTypes` | enum | 2 | 1644 |  |
-| `LoadCombatMap` | function | 2 | 19377 | order |
-| `Point3D` | object | 2 | 8192 | local |
-| `StartCombat` | function | 2 | 21847 | order |
-| `UseCombatSquareZone` | function | 2 | 16713 | order |
-| `AppEvents` | object | 1 | 9763 | agent subscription |
-| `assert_min_version` | function | 1 | 45 | local |
-| `Attack` | function | 1 | 25202 | order |
-| `IsAttacking` | value | 1 | 4335 | mirror |
-| `ItemCount` | function | 1 | 8260 | mirror |
-| `MoveToNpc` | function | 1 | 4647 | order |
-| `MoveToPoint` | function | 1 | 8077 | order |
-| `Process` | object | 1 | 2543 | stub |
-| `SetCombatSquareZone` | function | 1 | 21893 | order |
-| `SetWindowTitle` | function | 1 | 27423 | local |
-| `TcpClient` | object | 1 | 21023 | stub |
+| `Me` | object | 5170 | 313 | mirror |
+| `sleep` | function | 927 | 1982 | local |
+| `File` | object | 661 | 398 | local |
+| `App` | object | 518 | 135 | local |
+| `Send` | object | 518 | 1984 | order |
+| `Options` | object | 323 | 3349 | mirror |
+| `SayToParty` | function | 258 | 159 | order |
+| `setInterval` | function | 226 | 58 | local |
+| `Target` | object | 173 | 1983 | mirror |
+| `IsCharacterReady` | function | 165 | 1809 | mirror |
+| `Inventory` | object | 154 | 365 | mirror |
+| `IsEnabled` | value | 109 | 3043 | mirror |
+| `__SCRIPTS__` | value | 99 | 396 | local |
+| `IsInCombat` | value | 97 | 1750 | mirror |
+| `setTimeout` | function | 96 | 2195 | local |
+| `__DIR__` | value | 81 | 395 | local |
+| `SkillsList` | object | 81 | 368 | mirror |
+| `EnableBot` | function | 65 | 3048 | order |
+| `Distance` | function | 63 | 4789 | mirror |
+| `PartyList` | object | 52 | 367 | mirror |
+| `DisableBot` | function | 34 | 3045 | order |
+| `UseItem` | function | 24 | 2043 | order |
+| `BuffsList` | object | 22 | 366 | mirror |
+| `console` | object | 20 | 2535 | local |
+| `RunCommand` | function | 20 | 9701 | order |
+| `Context` | object | 15 | 18956 |  |
+| `CreaturesList` | object | 14 | 231 | mirror |
+| `IsMe` | function | 14 | 3447 | mirror |
+| `HasQuest` | function | 12 | 15450 | mirror |
+| `BuffLow` | function | 9 | 4810 | mirror |
+| `StopCombat` | function | 9 | 23347 | order |
+| `ItemCount` | function | 7 | 11126 | mirror |
+| `clearTimeout` | function | 6 | 2966 | local |
+| `GetQuestState` | function | 6 | 18958 | mirror |
+| `LastHTML` | value | 6 | 15484 | mirror |
+| `GoToPoint` | function | 5 | 6986 | order + promise |
+| `IsAttacking` | value | 5 | 4769 | mirror |
+| `IsPartyLeader` | value | 5 | 3019 | mirror |
+| `BuyList` | object | 4 | 12262 | mirror |
+| `CurrentZone` | value | 4 | 1748 | mirror |
+| `DropList` | object | 4 | 22034 | mirror |
+| `NpcList` | object | 4 | 2944 | mirror |
+| `PetList` | object | 4 | 2156 | mirror |
+| `Point` | object | 4 | 9880 | local |
+| `Select` | function | 4 | 35883 | order |
+| `BuyItem` | function | 3 | 12203 | order |
+| `CharList` | object | 3 | 2842 | mirror |
+| `CombatZoneTypes` | enum | 3 | 34624 | local |
+| `Encoding` | object | 3 | 36715 | local |
+| `L2CreatureTypes` | enum | 3 | 196 | local |
+| `LoadCombatMap` | function | 3 | 34624 | order |
+| `StartCombat` | function | 3 | 38092 | order |
+| `Tell` | function | 3 | 48783 | order |
+| `FindSkillId` | function | 2 | 2864 |  |
+| `L2ZoneTypes` | enum | 2 | 1748 |  |
+| `Point3D` | object | 2 | 12044 | local |
+| `UseCombatSquareZone` | function | 2 | 30118 | order |
+| `AppEvents` | object | 1 | 16899 | agent subscription |
+| `assert_min_version` | function | 1 | 46 | local |
+| `Attack` | function | 1 | 48075 | order |
+| `clearInterval` | function | 1 | 58 | local |
+| `L2BodyPartTypes` | enum | 1 | 48583 |  |
+| `MoveToNpc` | function | 1 | 6982 | order |
+| `MoveToPoint` | function | 1 | 11671 | order |
+| `Process` | object | 1 | 3153 | stub |
+| `SetCombatSquareZone` | function | 1 | 38182 | order |
+| `SetWindowTitle` | function | 1 | 51406 | local |
+| `TcpClient` | object | 1 | 36711 | stub |
 
-Total: 63 globals, 6072 uses.
+Total: 68 globals, 10140 uses.
 
 ## 2. Members of host objects
 
 Grouped by object (Me, Send, Options, File, App, ...).
 
-### Me (38 members, 2989 uses)
+### Me (46 members, 5166 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `Me.Name` | 794 | 1663 | mirror |
-| `Me.X` | 591 | 1764 | mirror |
-| `Me.Y` | 591 | 1764 | mirror |
-| `Me.Z` | 289 | 3849 | mirror |
-| `Me.IsDead` | 265 | 1759 | mirror |
-| `Me.Level` | 94 | 3340 | mirror |
-| `Me.HpPercent` | 83 | 1759 | mirror |
-| `Me.objId` | 40 | 1759 | mirror |
-| `Me.MpPercent` | 33 | 1879 | mirror |
-| `Me.ClassId` | 32 | 1665 | mirror |
-| `Me.MP` | 31 | 1706 | mirror |
-| `Me.IsCasting` | 29 | 1923 | mirror |
-| `Me.IsInCombat` | 24 | 1646 | mirror |
-| `Me.IsAttacking` | 19 | 4024 | mirror |
-| `Me.IsSitting` | 15 | 1923 | mirror |
-| `Me.ClassName` | 14 | 3061 | mirror |
-| `Me.IsMoving` | 7 | 8212 | mirror |
-| `Me.Clan` | 7 | 15571 | mirror |
-| `Me.Exp` | 4 | 20973 | mirror |
-| `Me.SnapshotJson` | 2 | 295 | mirror |
-| `Me.ClassType` | 2 | 1667 | mirror |
-| `Me.HP` | 2 | 6524 | mirror |
-| `Me.ExpPercent` | 2 | 13682 | mirror |
-| `Me.SP` | 2 | 15574 | mirror |
-| `Me.CalculateExpPercents` | 2 | 21015 | mirror |
-| `Me.MaxCP` | 2 | 22872 | mirror |
-| `Me.CP` | 2 | 22872 | mirror |
-| `Me.PAtkSpd` | 1 | 3710 | mirror |
-| `Me.MAtkSpd` | 1 | 3710 | mirror |
-| `Me.RunSpeed` | 1 | 3882 | mirror |
-| `Me.Speed` | 1 | 3882 | mirror |
-| `Me.MaxHP` | 1 | 6524 | mirror |
-| `Me.HennaSTR` | 1 | 8979 | mirror |
-| `Me.HennaDEX` | 1 | 8979 | mirror |
-| `Me.HennaCON` | 1 | 8979 | mirror |
-| `Me.HennaINT` | 1 | 8979 | mirror |
-| `Me.HennaWIT` | 1 | 8979 | mirror |
-| `Me.HennaMEN` | 1 | 8979 | mirror |
+| `Me.Name` | 1609 | 1775 | mirror |
+| `Me.X` | 957 | 1902 | mirror |
+| `Me.Y` | 957 | 1902 | mirror |
+| `Me.Z` | 511 | 2569 | mirror |
+| `Me.IsDead` | 432 | 1897 | mirror |
+| `Me.Level` | 134 | 2848 | mirror |
+| `Me.HpPercent` | 112 | 1897 | mirror |
+| `Me.ClassId` | 74 | 1776 | mirror |
+| `Me.objId` | 48 | 1897 | mirror |
+| `Me.MpPercent` | 46 | 2023 | mirror |
+| `Me.MP` | 45 | 1844 | mirror |
+| `Me.IsCasting` | 44 | 2067 | mirror |
+| `Me.IsAttacking` | 43 | 3249 | mirror |
+| `Me.IsInCombat` | 27 | 1750 | mirror |
+| `Me.IsSitting` | 24 | 2067 | mirror |
+| `Me.ClassName` | 15 | 4417 | mirror |
+| `Me.SP` | 11 | 15914 | mirror |
+| `Me.IsMoving` | 9 | 9776 | mirror |
+| `Me.MaxLoad` | 8 | 16974 | mirror |
+| `Me.Load` | 7 | 16974 | mirror |
+| `Me.Clan` | 7 | 28340 | mirror |
+| `Me.InventoryLimit` | 5 | 16973 | mirror |
+| `Me.Exp` | 5 | 36656 | mirror |
+| `Me.MaxCP` | 4 | 4733 | mirror |
+| `Me.CP` | 3 | 4733 | mirror |
+| `Me.MaxMP` | 3 | 14931 | mirror |
+| `Me.ExpPercent` | 3 | 22662 | mirror |
+| `Me.SnapshotJson` | 2 | 321 | mirror |
+| `Me.ClassType` | 2 | 1799 | mirror |
+| `Me.HP` | 2 | 9038 | mirror |
+| `Me.CalculateExpPercents` | 2 | 36703 | mirror |
+| `Me.PAtkSpd` | 1 | 5525 | mirror |
+| `Me.MAtkSpd` | 1 | 5525 | mirror |
+| `Me.RunSpeed` | 1 | 5746 | mirror |
+| `Me.Speed` | 1 | 5746 | mirror |
+| `Me.MaxHP` | 1 | 9038 | mirror |
+| `Me.HennaSTR` | 1 | 15612 | mirror |
+| `Me.HennaDEX` | 1 | 15612 | mirror |
+| `Me.HennaCON` | 1 | 15612 | mirror |
+| `Me.HennaINT` | 1 | 15612 | mirror |
+| `Me.HennaWIT` | 1 | 15612 | mirror |
+| `Me.HennaMEN` | 1 | 15612 | mirror |
+| `Me.Race` | 1 | 41233 | mirror |
+| `Me.Vitality` | 1 | 46032 | mirror |
+| `Me.RecommHave` | 1 | 46081 | mirror |
+| `Me.RecommLeft` | 1 | 46081 | mirror |
 
-### Send (38 members, 345 uses)
-
-| member | uses | line | shim |
-|---|---:|---:|---|
-| `Send.Action` | 73 | 1840 | order |
-| `Send.RequestMagicSkillUse` | 51 | 1842 | order |
-| `Send.StopMove` | 37 | 5154 | order |
-| `Send.MoveBackwardToLocation` | 36 | 2123 | order |
-| `Send.ReqBypassToServer` | 30 | 2445 | order |
-| `Send.Attack` | 19 | 2126 | order |
-| `Send.UseItem` | 16 | 2418 | order |
-| `Send.SendHex` | 14 | 1991 | order |
-| `Send.RequestBuySellUIClose` | 13 | 8332 | order |
-| `Send.RequestTargetCancel` | 9 | 4379 | order |
-| `Send.RequestRestartPoint` | 6 | 21098 | order |
-| `Send.TradeDone` | 5 | 9786 | order |
-| `Send.RequestActionUse` | 4 | 2058 | order |
-| `Send.ValidatePosition` | 3 | 6990 | order |
-| `Send.RequestExAcceptJoinMPCC` | 3 | 16027 | order |
-| `Send.RequestUserCommand` | 2 | 6934 | order |
-| `Send.WareHouseDepositList` | 2 | 14579 | order |
-| `Send.RequestJoinParty` | 2 | 25052 | order |
-| `Send.Say2` | 1 | 6887 | order |
-| `Send.RequestItemList` | 1 | 6970 | order |
-| `Send.ReqExTryToPutEnchantTargetItem` | 1 | 9123 | order |
-| `Send.RequestEnchantItem` | 1 | 9125 | order |
-| `Send.ReqExCancelEnchantItem` | 1 | 9141 | order |
-| `Send.RequestAutoSoulShot` | 1 | 9750 | order |
-| `Send.AnswerTradeRequest` | 1 | 9768 | order |
-| `Send.TradeRequest` | 1 | 9835 | order |
-| `Send.AddTradeItem` | 1 | 9847 | order |
-| `Send.RequestDestroyItem` | 1 | 10169 | order |
-| `Send.RequestOustPartyMember` | 1 | 13333 | order |
-| `Send.WareHouseWithDrawList` | 1 | 15461 | order |
-| `Send.RequestExAskJoinMPCC` | 1 | 16039 | order |
-| `Send.RequestJoinPledge` | 1 | 16075 | order |
-| `Send.RequestAnswerJoinPledge` | 1 | 16080 | order |
-| `Send.RequestDispel` | 1 | 21083 | order |
-| `Send.RequestWithDrawalParty` | 1 | 22252 | order |
-| `Send.RequestChangePartyLeader` | 1 | 25056 | order |
-| `Send.RequestAnswerJoinParty` | 1 | 25084 | order |
-| `Send.RequestDropItem` | 1 | 25305 | order |
-
-### File (8 members, 322 uses)
+### File (8 members, 661 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `File.ReadAllText` | 160 | 372 | local |
-| `File.WriteAllText` | 116 | 2284 | local |
-| `File.Exists` | 30 | 3814 | local |
-| `File.Delete` | 10 | 6432 | local |
-| `File.AppendAllText` | 2 | 2502 | local |
-| `File.GetLastWriteTimeUtc` | 2 | 13663 | local |
-| `File.Move` | 1 | 13789 | local |
-| `File.Copy` | 1 | 15713 | local |
+| `File.ReadAllText` | 316 | 398 | local |
+| `File.WriteAllText` | 243 | 2468 | local |
+| `File.Exists` | 69 | 4206 | local |
+| `File.Delete` | 23 | 8941 | local |
+| `File.Copy` | 4 | 27509 | local |
+| `File.AppendAllText` | 2 | 3112 | local |
+| `File.GetLastWriteTimeUtc` | 2 | 22643 | local |
+| `File.Move` | 2 | 22811 | local |
 
-### App (4 members, 307 uses)
-
-| member | uses | line | shim |
-|---|---:|---:|---|
-| `App.emit` | 176 | 1811 | local |
-| `App.on` | 113 | 1814 | local |
-| `App.emitTo` | 10 | 1810 | local |
-| `App.self` | 8 | 2642 | local |
-
-### Options (13 members, 196 uses)
+### App (5 members, 518 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `Options.ActiveFollow` | 91 | 3905 | mirror |
-| `Options.FollowName` | 38 | 3914 | mirror |
-| `Options.FollowAtk` | 30 | 2899 | mirror |
-| `Options.EnableJSOnIncomingPacket` | 8 | 8951 | mirror |
-| `Options.CombatZoneType` | 7 | 11169 | mirror |
-| `Options.PickUp` | 6 | 21971 | mirror |
-| `Options.SendParty` | 5 | 13242 | mirror |
-| `Options.PickUpPattern` | 4 | 13105 | mirror |
-| `Options.AutoResurrect` | 3 | 21071 | mirror |
-| `Options.CombatSkillsList` | 1 | 3818 | mirror |
-| `Options.UseCombatZLimit` | 1 | 21709 | mirror |
-| `Options.CombatZLimit` | 1 | 21709 | mirror |
-| `Options.CombatRange` | 1 | 22950 | mirror |
+| `App.emit` | 310 | 1952 | local |
+| `App.on` | 182 | 135 | local |
+| `App.emitTo` | 14 | 1951 | local |
+| `App.self` | 10 | 3405 | local |
+| `App.off` | 2 | 145 | local |
 
-### Inventory (4 members, 53 uses)
+### Send (45 members, 518 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `Inventory.forEach` | 27 | 8607 | mirror |
-| `Inventory.Count` | 17 | 6969 | mirror |
-| `Inventory.GetItemByID` | 8 | 2367 | mirror |
-| `Inventory.GetItemByObjectID` | 1 | 24317 | mirror |
+| `Send.Action` | 92 | 1984 | order |
+| `Send.StopMove` | 82 | 3045 | order |
+| `Send.RequestMagicSkillUse` | 60 | 1986 | order |
+| `Send.MoveBackwardToLocation` | 47 | 2295 | order |
+| `Send.RequestBuySellUIClose` | 47 | 12222 | order |
+| `Send.UseItem` | 31 | 2672 | order |
+| `Send.SendHex` | 26 | 2135 | order |
+| `Send.Attack` | 23 | 2266 | order |
+| `Send.RequestTargetCancel` | 22 | 2270 | order |
+| `Send.ReqBypassToServer` | 8 | 6662 | order |
+| `Send.TradeDone` | 8 | 17077 | order |
+| `Send.RequestRestartPoint` | 6 | 36786 | order |
+| `Send.ReqExCancelEnchantItem` | 5 | 14279 | order |
+| `Send.RequestActionUse` | 4 | 2203 | order |
+| `Send.RequestWithDrawalParty` | 4 | 2989 | order |
+| `Send.RequestJoinParty` | 4 | 3024 | order |
+| `Send.MultiSellChoose` | 4 | 14260 | order |
+| `Send.RequestEnchantItem` | 4 | 15781 | order |
+| `Send.RequestOustPartyMember` | 3 | 3033 | order |
+| `Send.ValidatePosition` | 3 | 9757 | order |
+| `Send.RequestDestroyItem` | 3 | 12795 | order |
+| `Send.RequestExAcceptJoinMPCC` | 3 | 29127 | order |
+| `Send.RequestAnswerJoinParty` | 2 | 2992 | order |
+| `Send.Say2` | 2 | 9563 | order |
+| `Send.RequestUserCommand` | 2 | 9701 | order |
+| `Send.ReqExTryToPutEnchantTargetItem` | 2 | 15788 | order |
+| `Send.AddTradeItem` | 2 | 17236 | order |
+| `Send.DlgAnswer` | 2 | 42885 | order |
+| `Send.RequestItemList` | 1 | 9737 | order |
+| `Send.RequestRefine` | 1 | 14316 | order |
+| `Send.RequestRefineCancel` | 1 | 14326 | order |
+| `Send.ReqExEnchantItemAttribute` | 1 | 15956 | order |
+| `Send.RequestAutoSoulShot` | 1 | 16886 | order |
+| `Send.AnswerTradeRequest` | 1 | 17056 | order |
+| `Send.TradeRequest` | 1 | 17217 | order |
+| `Send.WareHouseDepositList` | 1 | 24950 | order |
+| `Send.WareHouseWithDrawList` | 1 | 26338 | order |
+| `Send.ReqCrystallizeItem` | 1 | 28135 | order |
+| `Send.RequestExAskJoinMPCC` | 1 | 29139 | order |
+| `Send.RequestJoinPledge` | 1 | 29207 | order |
+| `Send.RequestAnswerJoinPledge` | 1 | 29219 | order |
+| `Send.RequestDispel` | 1 | 36771 | order |
+| `Send.RequestVoteNew` | 1 | 46095 | order |
+| `Send.RequestChangePartyLeader` | 1 | 47916 | order |
+| `Send.RequestDropItem` | 1 | 48635 | order |
 
-### SkillsList (3 members, 52 uses)
+### Options (16 members, 323 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `SkillsList.GetItemByID` | 37 | 1699 | mirror |
-| `SkillsList.forEach` | 11 | 2948 | mirror |
-| `SkillsList.Count` | 4 | 1693 | mirror |
+| `Options.ActiveFollow` | 150 | 5769 | mirror |
+| `Options.FollowName` | 61 | 5778 | mirror |
+| `Options.FollowAtk` | 46 | 3349 | mirror |
+| `Options.EnableJSOnIncomingPacket` | 25 | 14233 | mirror |
+| `Options.CombatZoneType` | 8 | 19276 | mirror |
+| `Options.PickUpPattern` | 6 | 22011 | mirror |
+| `Options.PickUp` | 6 | 38265 | mirror |
+| `Options.SendParty` | 5 | 22170 | mirror |
+| `Options.AutoResurrect` | 5 | 36759 | mirror |
+| `Options.AutoSkillsList` | 3 | 4213 | mirror |
+| `Options.CombatSkillsList` | 2 | 4265 | mirror |
+| `Options.FollowPartyLeaderSit` | 2 | 37813 | mirror |
+| `Options.UseCombatZLimit` | 1 | 37947 | mirror |
+| `Options.CombatZLimit` | 1 | 37947 | mirror |
+| `Options.CombatRange` | 1 | 43428 | mirror |
+| `Options.AtkBySelect` | 1 | 49291 | mirror |
 
-### Target (3 members, 51 uses)
-
-| member | uses | line | shim |
-|---|---:|---:|---|
-| `Target.objId` | 45 | 1839 | mirror |
-| `Target.IsDead` | 5 | 16724 | mirror |
-| `Target.Name` | 1 | 26583 | mirror |
-
-### PartyList (3 members, 29 uses)
-
-| member | uses | line | shim |
-|---|---:|---:|---|
-| `PartyList.forEach` | 15 | 2401 | mirror |
-| `PartyList.GetItemByObjectID` | 9 | 2722 | mirror |
-| `PartyList.Count` | 5 | 16032 | mirror |
-
-### console (2 members, 19 uses)
+### Inventory (4 members, 141 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `console.error` | 18 | 2673 | local |
-| `console.log` | 1 | 2351 | local |
+| `Inventory.forEach` | 107 | 12844 | mirror |
+| `Inventory.Count` | 19 | 9736 | mirror |
+| `Inventory.GetItemByID` | 14 | 2554 | mirror |
+| `Inventory.GetItemByObjectID` | 1 | 45991 | mirror |
+
+### Target (3 members, 89 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `Target.objId` | 78 | 1983 | mirror |
+| `Target.IsDead` | 9 | 4788 | mirror |
+| `Target.Name` | 2 | 23640 | mirror |
+
+### SkillsList (3 members, 69 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `SkillsList.GetItemByID` | 48 | 1836 | mirror |
+| `SkillsList.forEach` | 17 | 3041 | mirror |
+| `SkillsList.Count` | 4 | 1830 | mirror |
+
+### PartyList (3 members, 40 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `PartyList.forEach` | 21 | 2655 | mirror |
+| `PartyList.Count` | 12 | 21856 | mirror |
+| `PartyList.GetItemByObjectID` | 7 | 3496 | mirror |
+
+### console (2 members, 20 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `console.error` | 19 | 3438 | local |
+| `console.log` | 1 | 2535 | local |
 
 ### CreaturesList (6 members, 10 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `CreaturesList.SnapshotJson` | 3 | 205 | mirror |
-| `CreaturesList.GetItemByObjectID` | 3 | 215 | mirror |
-| `CreaturesList.snapshotJson` | 1 | 206 | mirror |
-| `CreaturesList.forEach` | 1 | 252 | mirror |
-| `CreaturesList.Count` | 1 | 267 | mirror |
-| `CreaturesList.snapshotJsonNear` | 1 | 21777 | mirror |
+| `CreaturesList.SnapshotJson` | 3 | 231 | mirror |
+| `CreaturesList.GetItemByObjectID` | 3 | 241 | mirror |
+| `CreaturesList.snapshotJson` | 1 | 232 | mirror |
+| `CreaturesList.forEach` | 1 | 278 | mirror |
+| `CreaturesList.Count` | 1 | 293 | mirror |
+| `CreaturesList.snapshotJsonNear` | 1 | 38015 | mirror |
+
+### PetList (2 members, 4 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `PetList.Count` | 3 | 2156 | mirror |
+| `PetList.forEach` | 1 | 2156 | mirror |
+
+### NpcList (1 members, 4 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `NpcList.forEach` | 4 | 2944 | mirror |
+
+### BuyList (1 members, 4 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `BuyList.forEach` | 4 | 12262 | mirror |
 
 ### DropList (1 members, 4 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `DropList.forEach` | 4 | 13107 | mirror |
+| `DropList.forEach` | 4 | 22034 | mirror |
+
+### BuffsList (1 members, 4 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `BuffsList.forEach` | 4 | 36771 | mirror |
 
 ### L2CreatureTypes (3 members, 3 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `L2CreatureTypes.Char` | 1 | 170 | local |
-| `L2CreatureTypes.Npc` | 1 | 170 | local |
-| `L2CreatureTypes.Mob` | 1 | 170 | local |
+| `L2CreatureTypes.Char` | 1 | 196 | local |
+| `L2CreatureTypes.Npc` | 1 | 196 | local |
+| `L2CreatureTypes.Mob` | 1 | 196 | local |
 
-### PetList (2 members, 3 uses)
-
-| member | uses | line | shim |
-|---|---:|---:|---|
-| `PetList.Count` | 2 | 2012 | mirror |
-| `PetList.forEach` | 1 | 2012 | mirror |
-
-### BuyList (1 members, 3 uses)
+### CharList (1 members, 3 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `BuyList.forEach` | 3 | 8358 | mirror |
+| `CharList.forEach` | 3 | 2842 | mirror |
+
+### CombatZoneTypes (1 members, 3 uses)
+
+| member | uses | line | shim |
+|---|---:|---:|---|
+| `CombatZoneTypes.Map` | 3 | 34624 | local |
 
 ### Encoding (1 members, 3 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `Encoding.UTF8` | 3 | 21027 | local |
-
-### NpcList (1 members, 3 uses)
-
-| member | uses | line | shim |
-|---|---:|---:|---|
-| `NpcList.forEach` | 3 | 21059 | mirror |
-
-### BuffsList (1 members, 3 uses)
-
-| member | uses | line | shim |
-|---|---:|---:|---|
-| `BuffsList.forEach` | 3 | 21083 | mirror |
-
-### CombatZoneTypes (1 members, 2 uses)
-
-| member | uses | line | shim |
-|---|---:|---:|---|
-| `CombatZoneTypes.Map` | 2 | 19377 | local |
+| `Encoding.UTF8` | 3 | 36715 | local |
 
 ### L2ZoneTypes (1 members, 1 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `L2ZoneTypes.PEACEZONE` | 1 | 1644 |  |
+| `L2ZoneTypes.PEACEZONE` | 1 | 1748 |  |
 
 ### Process (1 members, 1 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `Process.Start` | 1 | 2543 | stub |
+| `Process.Start` | 1 | 3153 | stub |
 
 ### AppEvents (1 members, 1 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `AppEvents.on` | 1 | 9763 | agent subscription |
+| `AppEvents.on` | 1 | 16899 | agent subscription |
 
 ### CurrentZone (1 members, 1 uses)
 
 | member | uses | line | shim |
 |---|---:|---:|---|
-| `CurrentZone.Name` | 1 | 17549 | mirror |
+| `CurrentZone.Name` | 1 | 31146 | mirror |
 
 ## 3. Entity members (on creatures, items, skills, buffs, party members, collections)
 
@@ -340,147 +370,156 @@ or the snapshot field list. Undocumented PascalCase names can be swarm.js's own 
 
 | member | uses | doc | line |
 |---|---:|:---:|---:|
-| `.length` | 1190 | doc | 67 |
-| `.forEach` | 525 | doc | 82 |
-| `.filter` | 488 | doc | 82 |
-| `.objId` | 458 | doc | 185 |
-| `.X` | 418 | doc | 1764 |
-| `.Y` | 412 | doc | 1764 |
-| `.Name` | 361 | doc | 185 |
-| `.IsDead` | 212 | doc | 1764 |
-| `.Z` | 196 | doc | 2114 |
-| `.Id` | 122 | doc | 185 |
-| `.HpPercent` | 51 | doc | 1764 |
-| `.Level` | 38 | doc | 969 |
-| `.IsReady` | 35 | doc | 973 |
-| `.Count` | 31 | doc | 3818 |
-| `.HitTime` | 31 | doc | 973 |
-| `.Title` | 29 | doc | 2252 |
-| `.MP` | 28 | doc | 973 |
-| `.IsEquiped` | 20 | doc | 8837 |
-| `.IsDebuff` | 16 | doc | 970 |
-| `.NpcId` | 15 |  | 4560 |
-| `.IsToggle` | 13 | doc | 970 |
-| `.CastRange` | 9 | doc | 973 |
-| `.AbnormalTime` | 8 | doc | 972 |
-| `.AbnormalType` | 8 | doc | 971 |
-| `.IsActive` | 8 | doc | 970 |
-| `.IsQuestItem` | 8 |  | 10111 |
-| `.TargetObjId` | 8 | doc | 2026 |
-| `.MaxHP` | 7 | doc | 1764 |
-| `.Price` | 6 | doc | 8245 |
-| `.RemainTime` | 6 | doc | 1129 |
-| `.targetCrt` | 6 | doc | 3844 |
-| `.TargetType` | 6 | doc | 971 |
-| `.Template` | 6 | doc | 13108 |
-| `.ClanName` | 5 |  | 13892 |
-| `.Giran` | 5 |  | 10046 |
-| `.IsQuest` | 5 | doc | 14779 |
-| `.Length` | 5 |  | 8956 |
-| `.ToString` | 5 |  | 175 |
-| `.AbnormalLevel` | 4 | doc | 972 |
-| `.AffectScope` | 4 | doc | 971 |
-| `.crtType` | 4 | doc | 234 |
-| `.HasQuest` | 4 |  | 10871 |
-| `.MpPercent` | 4 | doc | 2018 |
-| `.Skills` | 4 | doc | 2079 |
-| `.Clan` | 3 | doc | 13892 |
-| `.ClanId` | 3 |  | 13892 |
-| `.CollectionCount` | 3 |  | 22107 |
-| `.Description` | 3 | doc | 3132 |
-| `.EnchantLvl` | 3 | doc | 8607 |
-| `.HP` | 3 | doc | 1764 |
-| `.IsInCombat` | 3 | doc | 1646 |
-| `.MoveToPoint` | 3 |  | 8077 |
-| `.Type` | 3 | doc | 14775 |
-| `.AllyName` | 2 | doc | 15571 |
-| `.AttributeType` | 2 | doc | 3182 |
-| `.Buffs` | 2 | doc | 2016 |
-| `.Desc` | 2 |  | 3132 |
-| `.Elapsed` | 2 | doc | 3719 |
-| `.GetBytes` | 2 |  | 21027 |
-| `.GetItemByID` | 2 | doc | 2083 |
-| `.GetQuestState` | 2 |  | 10847 |
-| `.GetRuntimeHeapInfo` | 2 |  | 22174 |
-| `.Heading` | 2 | doc | 4235 |
-| `.IsEnabled` | 2 | doc | 2603 |
-| `.IsPartyMember` | 2 | doc | 13891 |
-| `.IsStackable` | 2 | doc | 14778 |
-| `.ReuseDelay` | 2 | doc | 3719 |
-| `.Stop` | 2 |  | 8082 |
-| `.Ticks` | 2 |  | 13663 |
-| `.TotalHeapSize` | 2 |  | 22177 |
-| `.UsedHeapSize` | 2 |  | 22177 |
-| `.Close` | 1 |  | 21030 |
-| `.CollectGarbage` | 1 |  | 22175 |
-| `.CollisionRadius` | 1 | doc | 4235 |
-| `.Cond` | 1 |  | 10856 |
-| `.Connect` | 1 |  | 21026 |
-| `.Current` | 1 |  | 22166 |
-| `.DisplayName` | 1 | doc | 2017 |
-| `.Distance` | 1 | doc | 3372 |
-| `.dX` | 1 | doc | 4235 |
-| `.dY` | 1 | doc | 4235 |
-| `.Enchant` | 1 |  | 14536 |
-| `.EnchantLevel` | 1 |  | 14536 |
-| `.GetAvailableThreads` | 1 |  | 22072 |
-| `.GetMaxThreads` | 1 |  | 22071 |
-| `.GetMinThreads` | 1 |  | 22071 |
-| `.GetStream` | 1 |  | 21027 |
-| `.GetString` | 1 |  | 21029 |
-| `.GetTotalMemory` | 1 |  | 22109 |
-| `.Instrument` | 1 |  | 3818 |
-| `.IsParalyzed` | 1 | doc | 6349 |
-| `.IsPassive` | 1 |  | 5633 |
-| `.IsRunning` | 1 | doc | 4046 |
-| `.IsSleeping` | 1 | doc | 6349 |
-| `.IsSpoiled` | 1 | doc | 21296 |
-| `.IsStunned` | 1 | doc | 6349 |
-| `.ItemConsumeCount` | 1 | doc | 974 |
-| `.ItemConsumeId` | 1 | doc | 974 |
-| `.ItemId` | 1 | doc | 18634 |
-| `.LegacyId` | 1 |  | 15626 |
-| `.MagicLvl` | 1 | doc | 973 |
-| `.Read` | 1 |  | 21029 |
-| `.ReceiveTimeout` | 1 |  | 21025 |
-| `.SendTimeout` | 1 |  | 21025 |
-| `.SetMinThreads` | 1 |  | 22072 |
-| `.SnapshotJson` | 1 | doc | 323 |
-| `.snapshotJson` | 1 | doc | 323 |
-| `.State` | 1 | doc | 10856 |
-| `.Step` | 1 |  | 10856 |
-| `.StoreType` | 1 | doc | 16797 |
-| `.TargetId` | 1 |  | 14119 |
-| `.Text` | 1 |  | 20693 |
-| `.Write` | 1 |  | 21027 |
-| `.ZoneName` | 1 |  | 23015 |
+| `.length` | 2656 | doc | 68 |
+| `.forEach` | 1103 | doc | 83 |
+| `.filter` | 1047 | doc | 83 |
+| `.objId` | 839 | doc | 211 |
+| `.Name` | 608 | doc | 211 |
+| `.X` | 581 | doc | 1902 |
+| `.Y` | 572 | doc | 1902 |
+| `.IsDead` | 312 | doc | 1902 |
+| `.Z` | 291 | doc | 2283 |
+| `.Id` | 241 | doc | 211 |
+| `.HpPercent` | 68 | doc | 1902 |
+| `.IsEquiped` | 61 | doc | 12475 |
+| `.Count` | 50 | doc | 4137 |
+| `.IsReady` | 47 | doc | 1028 |
+| `.Level` | 46 | doc | 1024 |
+| `.MP` | 37 | doc | 1028 |
+| `.Title` | 37 | doc | 2436 |
+| `.HitTime` | 34 | doc | 1028 |
+| `.NpcId` | 23 |  | 4081 |
+| `.EnchantLvl` | 19 | doc | 12475 |
+| `.IsDebuff` | 19 | doc | 1025 |
+| `.MaxHP` | 16 | doc | 1902 |
+| `.IsToggle` | 15 | doc | 1025 |
+| `.TargetObjId` | 14 | doc | 2170 |
+| `.IsQuestItem` | 13 |  | 12475 |
+| `.Length` | 12 |  | 14191 |
+| `.CastRange` | 11 | doc | 1028 |
+| `.IsActive` | 11 | doc | 1025 |
+| `.AbnormalType` | 10 | doc | 1026 |
+| `.HasQuest` | 10 |  | 15450 |
+| `.Instrument` | 10 |  | 4215 |
+| `.IsEnabled` | 10 | doc | 3043 |
+| `.RemainTime` | 10 | doc | 1184 |
+| `.Template` | 10 | doc | 22006 |
+| `.IsQuest` | 9 | doc | 14483 |
+| `.Skill` | 9 |  | 4215 |
+| `.AbnormalTime` | 8 | doc | 1027 |
+| `.targetCrt` | 8 | doc | 2632 |
+| `.Price` | 7 | doc | 12107 |
+| `.TargetType` | 7 | doc | 1026 |
+| `.GetQuestState` | 6 |  | 18958 |
+| `.HP` | 6 | doc | 1902 |
+| `.ClanName` | 5 |  | 22917 |
+| `.crtType` | 5 | doc | 260 |
+| `.Giran` | 5 |  | 17565 |
+| `.MpPercent` | 5 | doc | 2162 |
+| `.ToString` | 5 |  | 201 |
+| `.AbnormalLevel` | 4 | doc | 1027 |
+| `.AffectScope` | 4 | doc | 1026 |
+| `.IsStackable` | 4 | doc | 21150 |
+| `.ItemConsumeId` | 4 | doc | 1029 |
+| `.Skills` | 4 | doc | 2224 |
+| `.Type` | 4 | doc | 21116 |
+| `.AttributeType` | 3 | doc | 4673 |
+| `.Clan` | 3 | doc | 22917 |
+| `.ClanId` | 3 |  | 22917 |
+| `.CollectionCount` | 3 |  | 38574 |
+| `.Description` | 3 | doc | 4546 |
+| `.Heading` | 3 | doc | 6110 |
+| `.IsInCombat` | 3 | doc | 1750 |
+| `.IsSpoiled` | 3 | doc | 37466 |
+| `.MoveToPoint` | 3 |  | 11671 |
+| `.AllyName` | 2 | doc | 28340 |
+| `.Buffs` | 2 | doc | 2160 |
+| `.Desc` | 2 |  | 4546 |
+| `.Elapsed` | 2 | doc | 5534 |
+| `.GetBytes` | 2 |  | 36715 |
+| `.GetItemByID` | 2 | doc | 2228 |
+| `.GetRuntimeHeapInfo` | 2 |  | 38641 |
+| `.IsPartyMember` | 2 | doc | 22916 |
+| `.IsPassive` | 2 |  | 8107 |
+| `.ItemConsumeCount` | 2 | doc | 1029 |
+| `.ItemId` | 2 | doc | 22006 |
+| `.MaxHp` | 2 |  | 18780 |
+| `.ReuseDelay` | 2 | doc | 5534 |
+| `.Stop` | 2 |  | 11676 |
+| `.Ticks` | 2 |  | 22643 |
+| `.TotalHeapSize` | 2 |  | 38644 |
+| `.UsedHeapSize` | 2 |  | 38644 |
+| `.AttackElementVal` | 1 | doc | 15943 |
+| `.AugmentBonus` | 1 |  | 28067 |
+| `.BaseLevel` | 1 | doc | 4161 |
+| `.BodyPart` | 1 |  | 48583 |
+| `.ClassId` | 1 | doc | 32350 |
+| `.Close` | 1 |  | 36718 |
+| `.CollectGarbage` | 1 |  | 38642 |
+| `.CollisionRadius` | 1 | doc | 6110 |
+| `.Cond` | 1 |  | 18967 |
+| `.Connect` | 1 |  | 36714 |
+| `.Current` | 1 |  | 38633 |
+| `.DisplayName` | 1 | doc | 2161 |
+| `.Distance` | 1 | doc | 4789 |
+| `.dX` | 1 | doc | 6110 |
+| `.dY` | 1 | doc | 6110 |
+| `.Enchant` | 1 |  | 24403 |
+| `.EnchantLevel` | 1 |  | 24403 |
+| `.GetAvailableThreads` | 1 |  | 38539 |
+| `.GetMaxThreads` | 1 |  | 38538 |
+| `.GetMinThreads` | 1 |  | 38538 |
+| `.GetStream` | 1 |  | 36715 |
+| `.GetString` | 1 |  | 36717 |
+| `.GetTotalMemory` | 1 |  | 38576 |
+| `.IsLeader` | 1 | doc | 35050 |
+| `.IsParalyzed` | 1 | doc | 8857 |
+| `.IsRunning` | 1 | doc | 5914 |
+| `.IsSleeping` | 1 | doc | 8857 |
+| `.IsStunned` | 1 | doc | 8857 |
+| `.Item` | 1 |  | 4199 |
+| `.LegacyId` | 1 |  | 28489 |
+| `.MagicLvl` | 1 | doc | 1028 |
+| `.Read` | 1 |  | 36717 |
+| `.ReceiveTimeout` | 1 |  | 36713 |
+| `.SendTimeout` | 1 |  | 36713 |
+| `.SetMinThreads` | 1 |  | 38539 |
+| `.SnapshotJson` | 1 | doc | 349 |
+| `.snapshotJson` | 1 | doc | 349 |
+| `.State` | 1 | doc | 18967 |
+| `.Step` | 1 |  | 18967 |
+| `.StoreType` | 1 | doc | 30270 |
+| `.TargetId` | 1 |  | 23515 |
+| `.Text` | 1 |  | 36202 |
+| `.Write` | 1 |  | 36715 |
+| `.ZoneName` | 1 |  | 43504 |
 
 ## 4. Event hooks swarm.js defines
 
 | hook | definitions | line |
 |---|---:|---:|
-| `OnIncomingPacket` | 4 | 8939 |
-| `OnAnnouncement` | 1 | 20727 |
-| `OnAskJoinPledge` | 1 | 16080 |
-| `OnAttack` | 1 | 2717 |
-| `OnBeforeScriptStop` | 1 | 27430 |
-| `OnCommunityBoardHtmlMessage` | 1 | 2431 |
-| `OnDie` | 1 | 2677 |
-| `OnMagicSkillUse` | 1 | 26700 |
-| `OnMapClick` | 1 | 27436 |
-| `OnNpcDialogLink` | 1 | 4434 |
-| `OnNpcHtmlMessage` | 1 | 4421 |
-| `OnNpcQuestHtmlMessage` | 1 | 4428 |
-| `OnRevive` | 1 | 2688 |
-| `OnSay` | 1 | 25374 |
-| `OnShopList` | 1 | 8240 |
-| `OnSystemMessage` | 1 | 20702 |
-| `OnTargetSelected` | 1 | 26667 |
-| `OnTeleportToLocation` | 1 | 7027 |
-| `OnTrade` | 1 | 9775 |
-| `OnWareHouseDepositList` | 1 | 14532 |
-| `OnWareHouseWithdrawalList` | 1 | 14533 |
-| `OnWindowOpenTrade` | 1 | 9776 |
+| `OnIncomingPacket` | 9 | 14188 |
+| `OnAnnouncement` | 1 | 36291 |
+| `OnAskJoinPledge` | 1 | 29216 |
+| `OnAttack` | 1 | 3491 |
+| `OnBeforeScriptStop` | 1 | 51413 |
+| `OnCommunityBoardHtmlMessage` | 1 | 2685 |
+| `OnDie` | 1 | 3442 |
+| `OnMagicSkillUse` | 1 | 50642 |
+| `OnMapClick` | 1 | 51419 |
+| `OnNpcDialogLink` | 1 | 6318 |
+| `OnNpcHtmlMessage` | 1 | 6305 |
+| `OnNpcQuestHtmlMessage` | 1 | 6312 |
+| `OnRevive` | 1 | 3461 |
+| `OnSay` | 1 | 48794 |
+| `OnShopList` | 1 | 12102 |
+| `OnSystemMessage` | 1 | 36252 |
+| `OnTargetSelected` | 1 | 50609 |
+| `OnTeleportToLocation` | 1 | 9807 |
+| `OnTrade` | 1 | 17064 |
+| `OnWareHouseDepositList` | 1 | 24399 |
+| `OnWareHouseWithdrawalList` | 1 | 24400 |
+| `OnWindowOpenTrade` | 1 | 17065 |
 
 ## 5. New-engine coverage (Dashboard/brain_host + Scripts/agent2.js)
 
@@ -493,72 +532,80 @@ Globals not defined by the shim: none.
 
 | entity member | uses | covered by |
 |---|---:|---|
-| `.length` | 1190 | collection |
-| `.forEach` | 525 | collection |
-| `.filter` | 488 | collection |
-| `.objId` | 458 | me, item, party, drop, pet, creature |
-| `.X` | 418 | me, party, drop, pet, creature |
-| `.Y` | 412 | me, party, drop, pet, creature |
-| `.Name` | 361 | me, item, skill, party, drop, buff, pet, creature |
-| `.IsDead` | 212 | me, party, pet, creature |
-| `.Z` | 196 | me, party, drop, pet, creature |
-| `.Id` | 122 | me, item, skill, drop, buff, pet, creature |
-| `.HpPercent` | 51 | me, party, pet, creature |
-| `.Level` | 38 | me, skill, party, buff, pet, creature |
-| `.IsReady` | 35 | skill |
-| `.HitTime` | 31 | skill |
-| `.Count` | 31 | item, drop, collection |
-| `.Title` | 29 | me, creature |
-| `.MP` | 28 | me, skill, party, pet, creature |
-| `.IsEquiped` | 20 | item |
-| `.IsDebuff` | 16 | skill, buff |
-| `.NpcId` | 15 | probe (undefined is right) |
-| `.IsToggle` | 13 | skill |
-| `.CastRange` | 9 | skill |
-| `.IsActive` | 8 | skill |
-| `.AbnormalType` | 8 | skill, buff |
+| `.length` | 2656 | collection |
+| `.forEach` | 1103 | collection |
+| `.filter` | 1047 | collection |
+| `.objId` | 839 | me, item, party, drop, pet, creature |
+| `.Name` | 608 | me, item, skill, party, drop, buff, pet, creature |
+| `.X` | 581 | me, party, drop, pet, creature |
+| `.Y` | 572 | me, party, drop, pet, creature |
+| `.IsDead` | 312 | me, party, pet, creature |
+| `.Z` | 291 | me, party, drop, pet, creature |
+| `.Id` | 241 | me, item, skill, drop, buff, pet, creature |
+| `.HpPercent` | 68 | me, party, pet, creature |
+| `.IsEquiped` | 61 | item |
+| `.Count` | 50 | item, drop, collection |
+| `.IsReady` | 47 | skill |
+| `.Level` | 46 | me, skill, party, buff, pet, creature |
+| `.MP` | 37 | me, skill, party, pet, creature |
+| `.Title` | 37 | me, creature |
+| `.HitTime` | 34 | skill |
+| `.NpcId` | 23 | probe (undefined is right) |
+| `.IsDebuff` | 19 | skill, buff |
+| `.EnchantLvl` | 19 | item |
+| `.MaxHP` | 16 | me, party, pet, creature |
+| `.IsToggle` | 15 | skill |
+| `.TargetObjId` | 14 | creature, shim computed |
+| `.IsQuestItem` | 13 | item, probe (undefined is right) |
+| `.Length` | 12 | .NET helper / Options row (stubbed or forwarded) |
+| `.IsActive` | 11 | skill |
+| `.CastRange` | 11 | skill |
+| `.AbnormalType` | 10 | skill, buff |
+| `.RemainTime` | 10 | buff |
+| `.Instrument` | 10 | .NET helper / Options row (stubbed or forwarded) |
+| `.IsEnabled` | 10 | skill |
+| `.HasQuest` | 10 | event / quest data (serialised whole) or Context probe |
+| `.Template` | 10 | shim computed |
+| `.Skill` | 9 | **NOT COVERED** |
+| `.IsQuest` | 9 | item |
 | `.AbnormalTime` | 8 | skill |
-| `.TargetObjId` | 8 | creature, shim computed |
-| `.IsQuestItem` | 8 | item, probe (undefined is right) |
-| `.MaxHP` | 7 | me, party, pet, creature |
-| `.TargetType` | 6 | skill |
-| `.RemainTime` | 6 | buff |
-| `.targetCrt` | 6 | creature, shim computed |
-| `.Price` | 6 | item |
-| `.Template` | 6 | shim computed |
+| `.targetCrt` | 8 | creature, shim computed |
+| `.TargetType` | 7 | skill |
+| `.Price` | 7 | item |
+| `.HP` | 6 | me, party, pet, creature |
+| `.GetQuestState` | 6 | event / quest data (serialised whole) or Context probe |
 | `.ToString` | 5 | shim computed |
-| `.Length` | 5 | .NET helper / Options row (stubbed or forwarded) |
+| `.crtType` | 5 | creature |
+| `.MpPercent` | 5 | me, party, pet, creature |
 | `.Giran` | 5 | swarm.js own object (route table key), not a host member |
 | `.ClanName` | 5 | probe (undefined is right) |
-| `.IsQuest` | 5 | item |
-| `.crtType` | 4 | creature |
 | `.AffectScope` | 4 | skill |
 | `.AbnormalLevel` | 4 | skill, buff |
-| `.MpPercent` | 4 | me, party, pet, creature |
+| `.ItemConsumeId` | 4 | skill |
 | `.Skills` | 4 | shim computed |
-| `.HasQuest` | 4 | event / quest data (serialised whole) or Context probe |
-| `.HP` | 3 | me, party, pet, creature |
+| `.Type` | 4 | item |
+| `.IsStackable` | 4 | item |
 | `.Description` | 3 | skill |
+| `.AttributeType` | 3 | skill |
 | `.IsInCombat` | 3 | me, creature |
+| `.Heading` | 3 | me, creature |
 | `.MoveToPoint` | 3 | 3.8.17 movement handle (globalThis.MoveToPoint wrap / op.Stop): the shim returns no handle = 3.8.14 behaviour |
-| `.EnchantLvl` | 3 | item |
 | `.Clan` | 3 | creature, shim computed |
 | `.ClanId` | 3 | probe (undefined is right) |
-| `.Type` | 3 | item |
+| `.IsSpoiled` | 3 | creature |
 | `.CollectionCount` | 3 | .NET helper / Options row (stubbed or forwarded) |
+| `.ItemConsumeCount` | 2 | skill |
 | `.Buffs` | 2 | creature, shim computed |
 | `.GetItemByID` | 2 | collection |
 | `.Desc` | 2 | probe (undefined is right) |
-| `.AttributeType` | 2 | skill |
 | `.ReuseDelay` | 2 | skill |
 | `.Elapsed` | 2 | shim computed |
-| `.IsEnabled` | 2 | skill |
-| `.Heading` | 2 | me, creature |
+| `.IsPassive` | 2 | skill |
 | `.Stop` | 2 | 3.8.17 movement handle (globalThis.MoveToPoint wrap / op.Stop): the shim returns no handle = 3.8.14 behaviour |
-| `.GetQuestState` | 2 | event / quest data (serialised whole) or Context probe |
+| `.MaxHp` | 2 | **NOT COVERED** |
+| `.ItemId` | 2 | creature, shim computed |
 | `.Ticks` | 2 | .NET helper / Options row (stubbed or forwarded) |
 | `.IsPartyMember` | 2 | creature |
-| `.IsStackable` | 2 | item |
 | `.AllyName` | 2 | shim computed |
 | `.GetBytes` | 2 | .NET helper / Options row (stubbed or forwarded) |
 | `.GetRuntimeHeapInfo` | 2 | .NET helper / Options row (stubbed or forwarded) |
@@ -567,27 +614,28 @@ Globals not defined by the shim: none.
 | `.SnapshotJson` | 1 | shim computed, collection |
 | `.snapshotJson` | 1 | collection |
 | `.MagicLvl` | 1 | skill |
-| `.ItemConsumeId` | 1 | skill |
-| `.ItemConsumeCount` | 1 | skill |
 | `.DisplayName` | 1 | pet |
-| `.Instrument` | 1 | .NET helper / Options row (stubbed or forwarded) |
+| `.BaseLevel` | 1 | **NOT COVERED** |
+| `.Item` | 1 | **NOT COVERED** |
 | `.IsRunning` | 1 | me, creature |
 | `.dX` | 1 | creature |
 | `.dY` | 1 | creature |
 | `.CollisionRadius` | 1 | creature |
-| `.IsPassive` | 1 | skill |
 | `.IsSleeping` | 1 | me, creature |
 | `.IsParalyzed` | 1 | me, creature |
 | `.IsStunned` | 1 | me, creature |
+| `.AttackElementVal` | 1 | **NOT COVERED** |
 | `.Cond` | 1 | event / quest data (serialised whole) or Context probe |
 | `.State` | 1 | event / quest data (serialised whole) or Context probe |
 | `.Step` | 1 | event / quest data (serialised whole) or Context probe |
 | `.TargetId` | 1 | probe (undefined is right) |
 | `.Enchant` | 1 | probe (undefined is right) |
 | `.EnchantLevel` | 1 | probe (undefined is right) |
+| `.AugmentBonus` | 1 | **NOT COVERED** |
 | `.LegacyId` | 1 | creature |
 | `.StoreType` | 1 | creature |
-| `.ItemId` | 1 | creature, shim computed |
+| `.ClassId` | 1 | me, party, creature |
+| `.IsLeader` | 1 | party, creature |
 | `.Text` | 1 | event / quest data (serialised whole) or Context probe |
 | `.SendTimeout` | 1 | .NET helper / Options row (stubbed or forwarded) |
 | `.ReceiveTimeout` | 1 | .NET helper / Options row (stubbed or forwarded) |
@@ -597,7 +645,6 @@ Globals not defined by the shim: none.
 | `.Read` | 1 | .NET helper / Options row (stubbed or forwarded) |
 | `.GetString` | 1 | .NET helper / Options row (stubbed or forwarded) |
 | `.Close` | 1 | .NET helper / Options row (stubbed or forwarded) |
-| `.IsSpoiled` | 1 | creature |
 | `.GetMinThreads` | 1 | .NET helper / Options row (stubbed or forwarded) |
 | `.GetMaxThreads` | 1 | .NET helper / Options row (stubbed or forwarded) |
 | `.GetAvailableThreads` | 1 | .NET helper / Options row (stubbed or forwarded) |
@@ -606,6 +653,7 @@ Globals not defined by the shim: none.
 | `.Current` | 1 | .NET helper / Options row (stubbed or forwarded) |
 | `.CollectGarbage` | 1 | .NET helper / Options row (stubbed or forwarded) |
 | `.ZoneName` | 1 | probe (undefined is right) |
+| `.BodyPart` | 1 | **NOT COVERED** |
 | `.Distance` | 1 | creature, shim computed |
 
 
@@ -616,10 +664,15 @@ class fields). Each was checked at runtime by the shim: a name that is really mi
 
 | name | uses | line |
 |---|---:|---:|
-| `SetCombatPolygon` | 6 | 16716 |
-| `__extended_host_functions` | 3 | 22068 |
-| `missionAbort` | 2 | 26858 |
-| `zoneSetup` | 2 | 19335 |
-| `acquire` | 1 | 10230 |
-| `finish` | 1 | 12045 |
-| `release` | 1 | 10239 |
+| `SetCombatPolygon` | 10 | 30121 |
+| `__extended_host_functions` | 3 | 38535 |
+| `__agentLink` | 2 | 6654 |
+| `__bagSync` | 2 | 12137 |
+| `__sendAck` | 2 | 5568 |
+| `canSeePoint` | 2 | 38859 |
+| `GeoSight` | 2 | 2574 |
+| `missionAbort` | 2 | 50803 |
+| `teamFighting` | 2 | 41387 |
+| `zoneSetup` | 2 | 34582 |
+| `acquire` | 1 | 18180 |
+| `release` | 1 | 18189 |
