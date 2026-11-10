@@ -51,7 +51,9 @@
   }
   function close() { if (!S.open) return; S.open = false; clearInterval(S.timer); const s = $id(SEC); if (s) s.hidden = true; }
   async function load() { try { const d = await api('/api/runner'); if (d && !d.error) { S.d = d; S.err = ''; } else S.err = (d && d.error) || 'no answer'; } catch (e) { S.err = e.message; } if (S.open) render(); }
-  function flash(t, bad) { const m = $id('rnpMsg'); if (!m) return; m.hidden = !t; m.className = 'rnp-msg' + (bad ? ' bad' : ''); m.textContent = t || ''; clearTimeout(S.msgT); S.msgT = setTimeout(() => { m.hidden = true; }, 6000); }
+  // PICKALL-2026-11-10: the message survives the re-render that follows every save (load() rebuilt the page and wiped it at once)
+  function flash(t, bad) { S.msg = t ? { t, bad: !!bad, until: Date.now() + 6000 } : null; const m = $id('rnpMsg'); if (m) { m.hidden = !t; m.className = 'rnp-msg' + (bad ? ' bad' : ''); m.textContent = t || ''; } clearTimeout(S.msgT); S.msgT = setTimeout(() => { S.msg = null; const x = $id('rnpMsg'); if (x) x.hidden = true; }, 6000); }
+  const msgHtml = () => { const M = S.msg && S.msg.until > Date.now() ? S.msg : null; return `<div class="rnp-msg${M && M.bad ? ' bad' : ''}" id="rnpMsg"${M ? '' : ' hidden'}>${M ? h(M.t) : ''}</div>`; };
   const bar = (p) => `<span class="rnp-bar" title="bag ${Number(p) || 0} %"><i style="width:${Math.max(0, Math.min(100, Number(p) || 0))}%"></i></span> ${Number(p) || 0} %`;
   const STEPS = ['stocking up', 'out', 'handing over', 'back', 'done'];
   function render() {
@@ -62,12 +64,13 @@
       <span class="rnp-pill ${R.on && R.name ? 'ok' : 'bad'}">${R.on && R.name ? 'ON' : 'OFF'}</span>
       <span class="rnp-pill ${R.fresh ? 'ok' : 'bad'}">${R.fresh ? 'online' : 'not seen ' + h(ago(R.seen))}</span>
       <span>${R.town ? 'in ' + h(R.town) : 'in the field'}${R.x != null ? ' <span class="muted">(' + fmt(R.x) + ', ' + fmt(R.y) + ')</span>' : ''}</span>
-      <span class="muted">bank: ${h(R.bank || '?')}</span>
+      <button type="button" data-rnprole="runner">${R.name ? 'Change runner' : 'Pick the runner'}</button>
+      <span class="muted">bank: ${h(R.bank || 'none set')}</span> <button type="button" data-rnprole="bank">Change bank</button>
       ${R.name ? `<button type="button" data-rnpon="${R.on ? '0' : '1'}">${R.on ? 'Switch the runner OFF' : 'Switch the runner ON'}</button>
       <button type="button" data-rnprot="${R.rotateOn ? '0' : '1'}">${R.rotateOn ? 'Rotation OFF' : 'Rotation ON'}</button>
       <button type="button" data-rnpst="${R.stealth !== false ? '0' : '1'}" title="ON: walks in everywhere with Silent Move, no level limit">${R.stealth !== false ? 'Stealth: ON' : 'Stealth: OFF'}</button>` : ''}</div>
       <div class="rnp-row"><span>Now: <b>${h(R.state || '-')}</b></span></div>
-      <div class="rnp-msg" id="rnpMsg" hidden></div>`;
+      ${msgHtml()}`;
     const trip = `<h3>The trip now</h3><div class="rnp-box">${T ? `<div class="rnp-row"><b>${h(T.party)}</b>${T.rotate ? '<span class="rnp-pill">rotation</span>' : '<span class="rnp-pill">call</span>'}<span class="muted">since ${h(hm(T.startedAt))}</span></div>
       <div class="rnp-steps">${STEPS.map(x => `<span class="rnp-step${x === T.step ? ' on' : ''}">${h(x)}</span>`).join('')}</div>
       <div class="muted">${h(T.text || '')}</div>` : '<div class="muted">No trip right now.</div>'}</div>`;
@@ -101,6 +104,14 @@
   }
   async function onClick(e) {
     const t = e.target, g = (q) => t.closest(q); let b;
+    // PICKALL-2026-11-10 (Vykaax: "the Runner is changed from the Crafter tab and NOT the Runner tab"): the same every-character picker as the
+    // Crafter page (window.CrafterPage.pickRole -> crafter.json), here too
+    if ((b = g('[data-rnprole]'))) {
+      if (!window.CrafterPage || typeof window.CrafterPage.pickRole !== 'function') { flash('The picker did not load - reload the page', true); return; }
+      const r = await window.CrafterPage.pickRole(b.dataset.rnprole); if (!r || r.cancelled) return;
+      if (r.error) { flash('Not saved: ' + r.error, true); return; }
+      flash(r.msg); load(); return;
+    }
     if ((b = g('[data-rnpskip]'))) { edit('skip', b.dataset.rnpskip); return; }
     if ((b = g('[data-rnpup]'))) { edit('up', b.dataset.rnpup); return; }
     if ((b = g('[data-rnpcall]'))) {

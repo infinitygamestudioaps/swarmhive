@@ -16,7 +16,41 @@ $memLog    = "$root\Logs\memwatch.log"
 $warnMB    = 10000  # 32 GB PC (RAINBOW) since 2026-10-24 (was 4500 on the 16 GB laptop)
 $restartMB = 14000  # 32 GB PC (RAINBOW) since 2026-10-24 (was 6500 on the 16 GB laptop); the pcFree < 300 MB emergency rule stays
 $minCommitMB = 3000; $emergencyCommitMB = 1500   # user 2026-10-07 19:55: "never restart if we are not utterly out of memory - we have 50-100 GB virtual RAM": restart ONLY when free COMMIT (RAM + 49 GB pagefile, limit 64.6 GB) is below 3 GB; below 1.5 GB also during a live raid / inside the cooldown. Physical RAM running low only means paging.
-$minFreeMB = 800   # user 2026-10-07 19:50: "don't restart L2Swarm all the time" -> restart ONLY when the PC itself is about to run out of RAM (was 600)
+# MEMPAGEFILE-2026-11-10 (tester Vykaax 2026-11-09 14:20: restarted at commitFree=2831MB with pcFree=11572MB - small pagefile, PC nowhere
+# near out of memory): the decision is MemWatchDecide (memwatch_decide.ps1, test test_memwatch_decide.js). Restart only when free commit
+# < hardCommitMB (truly exhausted) or commit low (< min(minCommitMB, minCommitPct % of the commit limit)) AND physical free RAM < ramPlentyMB.
+# Commit low with plenty of RAM = PAGEFILE warning (memwatch.log + Logs/memwatch_alert.json), never a restart.
+# swarm.config.json "memwatch": { "minCommitMB", "minCommitPct", "emergencyCommitMB", "hardCommitMB", "ramPlentyMB" } overrides.
+$minCommitPct = 5; $hardCommitMB = 500; $ramPlentyMB = 2000
+try { . "$PSScriptRoot\memwatch_decide.ps1" } catch { }
+try {
+    $minCommitMB       = [double](SwarmCfgValue $SwarmCfg 'memwatch.minCommitMB' $minCommitMB)
+    $minCommitPct      = [double](SwarmCfgValue $SwarmCfg 'memwatch.minCommitPct' $minCommitPct)
+    $emergencyCommitMB = [double](SwarmCfgValue $SwarmCfg 'memwatch.emergencyCommitMB' $emergencyCommitMB)
+    $hardCommitMB      = [double](SwarmCfgValue $SwarmCfg 'memwatch.hardCommitMB' $hardCommitMB)
+    $ramPlentyMB       = [double](SwarmCfgValue $SwarmCfg 'memwatch.ramPlentyMB' $ramPlentyMB)
+} catch { }
+$memAlert = "$root\Logs\memwatch_alert.json"
+function MemSample($proc) {
+    $os = Get-CimInstance Win32_OperatingSystem
+    $s = [ordered]@{ mb = [int]($proc.PrivateMemorySize64 / 1MB); freeMB = [int]($os.FreePhysicalMemory / 1KB); commitMB = [int]($os.FreeVirtualMemory / 1KB); limitMB = [int]($os.TotalVirtualMemorySize / 1KB) }
+    if (Get-Command MemWatchDecide -ErrorAction SilentlyContinue) {
+        $s.d = MemWatchDecide -CommitFreeMB $s.commitMB -CommitLimitMB $s.limitMB -PcFreeMB $s.freeMB -MinCommitMB $minCommitMB -MinCommitPct $minCommitPct -EmergencyCommitMB $emergencyCommitMB -HardCommitMB $hardCommitMB -RamPlentyMB $ramPlentyMB
+    } else {   # decision file missing (old package): only the hard exhaustion rule restarts
+        $s.d = [pscustomobject]@{ restart = ($s.commitMB -lt 500); emergency = ($s.commitMB -lt 500); warn = ''; reason = "free commit $($s.commitMB) MB (memwatch_decide.ps1 missing)" }
+    }
+    $s.line = "L2Swarm private=$($s.mb)MB threads=$($proc.Threads.Count) handles=$($proc.HandleCount) pcFree=$($s.freeMB)MB commitFree=$($s.commitMB)MB commitLimit=$($s.limitMB)MB"
+    return [pscustomobject]$s
+}
+# the dashboard (or anyone) reads Logs/memwatch_alert.json: kind pagefile (no restart, advice) | restart (restarted for low memory)
+function Write-MemAlert($kind, $s, $text) {
+    try {
+        $o = [ordered]@{ kind = $kind; at = (Get-Date).ToString('s'); pcFreeMB = $s.freeMB; commitFreeMB = $s.commitMB; commitLimitMB = $s.limitMB; reason = $s.d.reason; advice = $text }
+        Set-Content -Path $memAlert -Value ($o | ConvertTo-Json -Compress) -Encoding UTF8
+    } catch { }
+}
+$pagefileAdvice = 'Windows pagefile too small: free commit memory is low although plenty of RAM is free. Increase the pagefile (System > Advanced system settings > Performance > Advanced > Virtual memory: "System managed size" or at least 16 GB). MemWatch keeps L2Swarm running for this.'
+$minFreeMB = 800  # user 2026-10-07 19:50: "don't restart L2Swarm all the time" -> restart ONLY when the PC itself is about to run out of RAM (was 600)
 $cooldown  = 30
 $hardMB    = 14000   # user 2026-10-07 19:50: the 9000 cap restarted at 9.9 GB (18:47) and 11 GB (19:45, mid-raid) with 3.3-3.5 GB still free on the PC; now effectively only the pcFree rules restart. Was 9000.   # 2026-10-07: 38 accounts (2nd master account) -> higher base; was 7000. # 2026-10-06: 2 -> 11 GB within 2 min during route walks (PC 680 MB free) while the cooldown blocked a restart: above this ALWAYS restart
 # NOUI-2026-10-13: L2Swarm 3.8.18+ start options (patches/INSTALL_3.8.18.md). swarm.config.json "l2swarm": { "noUi": true } = headless start
@@ -464,12 +498,10 @@ switch ($Action) {
         # /NoUi (3.8.18): no window for UI Automation -> client_mode.ps1 -NoUi hooks through MCP manage_hook
         $headless = ($p.MainWindowHandle -eq [IntPtr]::Zero) -and (IsHeadless $p)
         try { if ($headless) { & "$root\docs\plan\tools\client_mode.ps1" -NoUi } elseif (Test-Path "$root\Logs\uia_probe.flag") { Remove-Item "$root\Logs\uia_probe.flag" -Force; & "$root\docs\plan\tools\client_mode.ps1" -Probe } else { & "$root\docs\plan\tools\client_mode.ps1" } } catch { Log $ctlLog "client_mode error: $_" }
-        $mb     = [int]($p.PrivateMemorySize64 / 1MB)
-        $freeMB = [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)
-        $line   = "L2Swarm private=${mb}MB threads=$($p.Threads.Count) handles=$($p.HandleCount) pcFree=${freeMB}MB commitFree=${commitMB}MB"
         # 2026-10-05 17:51: restarted at 2.7 GB because Claude Code (1.8 GB), Discord and Chrome filled the PC â€” L2Swarm itself must be big too.
         # user 2026-10-04: no restart just because L2Swarm is big (> $restartMB); only when the PC itself is about to run out of RAM
-        $commitMB = [int]((Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory / 1KB); $need = ($commitMB -lt $minCommitMB); $line = "L2Swarm private=${mb}MB threads=$($p.Threads.Count) handles=$($p.HandleCount) pcFree=${freeMB}MB commitFree=${commitMB}MB"
+        # MEMPAGEFILE-2026-11-10: MemWatchDecide (free commit vs the commit limit AND physical free RAM), see the top of this file
+        $ms = MemSample $p; $mb = $ms.mb; $line = $ms.line; $need = [bool]$ms.d.restart
         # 2026-10-04 17:44: L2Swarm went 2 -> 8.8 GB in < 3 min (PC 30 MB free) between two 2-min checks. Keep watching every 10 s
         # for ~100 s inside this run (the task runs every 2 min, so the watch is practically continuous).
         # CLIENTNOW-2026-10-24 (owner: 'when clicking "In-game (l2.exe)" NOTHING happens'): the dashboard's schtasks /run is ignored while this
@@ -479,14 +511,19 @@ switch ($Action) {
             Start-Sleep 10
             try { $cmNow = (Get-Item "$root\Settings\client_mode.json").LastWriteTime; if ($cmStamp -and $cmNow -gt $cmStamp) { $cmStamp = $cmNow; if ($headless) { & "$root\docs\plan\tools\client_mode.ps1" -NoUi } else { & "$root\docs\plan\tools\client_mode.ps1" } } } catch { Log $ctlLog "client_mode error: $_" }
             $p = Proc; if (-not $p) { exit 0 }
-            $mb     = [int]($p.PrivateMemorySize64 / 1MB)
-            $freeMB = [int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)
-            $commitMB = [int]((Get-CimInstance Win32_OperatingSystem).FreeVirtualMemory / 1KB); $need = ($commitMB -lt $minCommitMB)
-            $line   = "L2Swarm private=${mb}MB threads=$($p.Threads.Count) handles=$($p.HandleCount) pcFree=${freeMB}MB commitFree=${commitMB}MB"
+            $ms = MemSample $p; $mb = $ms.mb; $line = $ms.line; $need = [bool]$ms.d.restart
         }
-        $emergency = $need -and ($commitMB -lt $emergencyCommitMB)   # nearly out of RAM, or L2Swarm above the hard cap: restart even inside the cooldown
+        $emergency = $need -and [bool]$ms.d.emergency   # truly out of memory: restart even inside the cooldown / during a live fight
         if (-not $need) {
-            Log $memLog $(if ($mb -gt $warnMB) { "WARN $line" } else { "ok   $line" })
+            if ($ms.d.warn -eq 'pagefile') {
+                # MEMPAGEFILE: low commit but plenty of RAM = the pagefile is too small; tell the user, never restart for it
+                # (the word RESTART must not appear here: the cooldown below looks for ' RESTART ' lines)
+                Log $memLog "PAGEFILE $line - no restart: $($ms.d.reason). $pagefileAdvice"
+                Write-MemAlert 'pagefile' $ms $pagefileAdvice
+            } else {
+                Log $memLog $(if ($mb -gt $warnMB) { "WARN $line" } else { "ok   $line" })
+                try { if ((Test-Path $memAlert) -and ((Get-Content $memAlert -Raw | ConvertFrom-Json).kind -eq 'pagefile')) { Remove-Item $memAlert -Force } } catch { }
+            }
             if ((Get-Item $memLog).Length -gt 2MB) { Get-Content $memLog -Tail 3000 | Set-Content "$memLog.tmp"; Move-Item "$memLog.tmp" $memLog -Force }
             exit 0
         }
@@ -497,7 +534,7 @@ switch ($Action) {
                       if ($age -lt 60 -and $j.phase -ne 'done') { Log $memLog "HIGH $line (live fight in $(Split-Path $lf -Leaf) - no restart)"; exit 0 } } catch { }
             }
         }
-        $last = Get-Content $memLog -ErrorAction SilentlyContinue | Where-Object { $_ -match ' RESTART ' } | Select-Object -Last 1
+        $last = Get-Content $memLog -ErrorAction SilentlyContinue | Where-Object { $_ -cmatch ' RESTART ' } | Select-Object -Last 1   # -cmatch: only the real RESTART lines (MEMPAGEFILE)
         if (-not $emergency -and $last -and ((Get-Date) - [datetime]::ParseExact($last.Substring(0,19), 'yyyy-MM-dd HH:mm:ss', $null)).TotalMinutes -lt $cooldown) {
             Log $memLog "HIGH $line (restart on cooldown)"; exit 0
         }
@@ -512,7 +549,11 @@ switch ($Action) {
         }
         if (OtherStartRunning) { Log $memLog "HIGH $line (a start/restart is already running)"; exit 0 }
         if (-not (Take-StartLock)) { Log $memLog "HIGH $line (another start/restart holds the start lock)"; exit 0 }   # lock BEFORE the stop (2026-10-07 double start)
-        Log $memLog "RESTART $line"
+        # MEMPAGEFILE: first a plain-words warning line + the alert file for the dashboard, then the restart
+        $rsAdvice = "The PC is really running out of memory ($($ms.d.reason)): L2Swarm is restarted now. Close other programs or add RAM; if free RAM was high, increase the Windows pagefile."
+        Log $memLog "LOWMEM $line - $rsAdvice"
+        Write-MemAlert 'restart' $ms $rsAdvice
+        Log $memLog "RESTART $line ($($ms.d.reason))"
         Stop-L2; Start-Sleep 5; Start-L2
     }
 }

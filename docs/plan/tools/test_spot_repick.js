@@ -184,7 +184,7 @@ check(results[3].before === 12 && results[3].after === 1, 'a fitting automatic s
   check(!/if \(spot && spot !== autoLvl\.spot\)/.test(body), 'source: no object-identity comparison of spots any more');
   has(/const rp = (?:resumedSpot \? 'reshape' : )?spotRepickDecide\(prevSpot, spot, \{ atPrev, localFb: !!localFb \}\)/, 'spotRepickDecide decides new / same / reshape');
   has(/if \(rp === 'new'\) \{[\s\S]{0,200}autoLvl\.spot = spot;[\s\S]{0,600}await writeClaim\(spot/, 'only a NEW spot claims + waits + travels');
-  has(/zoneSetup: \{\s*\n\s*if \(rp === 'same'\) \{[\s\S]{0,900}break zoneSetup;/, "a 'same' re-pick skips the zone setup (no SetCombatPolygon, no notes)");
+  has(/zoneSetup: \{\s*\n\s*if \(rp === 'same'(?: && !zoneReapplyDue\(ZONEEP\))?\) \{[^\n]*\n[\s\S]{0,1000}break zoneSetup;/, "a 'same' re-pick skips the zone setup (no SetCombatPolygon, no notes) - except once after a (re)login (ZONEREAPPLY 2026-11-10)");
   has(/\}\s*\/\/ zoneSetup[\s\S]{0,600}if \(!autoLvl\.expMark \|\| autoLvl\.measureKey !== mk\) \{ autoLvl\.expMark = \{ at: now\(\), exp: expNow\(\) \}/, 'SPOTKEEP: the measuring window restarts only on a NEW spot (never on a same-spot re-pick)');
   has(/const pickLvl = leadMode\(\) && !solo \? teamMinLevel\(\) : num\(Me\.Level\);[\s\S]{0,400}(?:const|let) spot = pickSpot\(pickLvl, solo\);/, 'pickSpot gets the same level as the re-pick test');
   // the resets the other features use are untouched

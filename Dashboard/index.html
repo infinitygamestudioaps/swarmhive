@@ -932,6 +932,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
     </div>
     <div class="box" style="margin-top:10px"><h3>New engine</h3>
       <div id="pcEngine" class="muted">Loading…</div>
+      <div id="pcEngineGap"></div><!-- ONLINEGAP-2026-11-10: logged in but not in Hive + why + fix -->
       <div class="act" style="margin:8px 0">
         <button data-eng="check" title="Dry run: lists which accounts still run swarm.js inside L2Swarm (changes nothing)">Check accounts</button>
         <button data-eng="move" title="Stops swarm.js and starts the small agent, one account at a time">Move accounts to the new engine</button>
@@ -4124,12 +4125,15 @@ async function loadSystem() {
   const ram = `PC RAM free ${(s.freeMB / 1024).toFixed(1)} / ${(s.totalMB / 1024).toFixed(1)} GB · ${s.cpus} CPU threads`;
   const l2 = s.l2;
   // 2026-10-09: the real limits come from the scripts (server ctlLimits); an older server.js still sends the stale numbers -> current defaults
-  const L = s.limits && s.limits.source ? s.limits : { deployGapMin: 15, deployRestarts: false, warnMB: 4500, minCommitMB: 3000, emergencyCommitMB: 1500 };
+  const L = s.limits && s.limits.source ? s.limits : { deployGapMin: 15, deployRestarts: false, warnMB: 4500, minCommitMB: 3000, emergencyCommitMB: 1500, minCommitPct: 5, hardCommitMB: 500, ramPlentyMB: 2000 };
+  const gbTxt = (mb) => String(Math.round(mb / 100) / 10);
   const lvl = !l2 ? '' : l2.mb > L.warnMB ? 'st-maybe' : 'st-alive';
   if ($('pcRules')) $('pcRules').textContent = `Deploy: Scripts_dev/swarm.js is reloaded live on every account (at most once per ${L.deployGapMin} min, never while accounts log in or during a raid/Kamaloka; ` +
     `${L.deployRestarts ? 'above ' + Math.round(L.deployRestartAboveMB / 100) / 10 + ' GB it restarts L2Swarm instead' : 'a deploy never restarts L2Swarm'}). Each reload can leak some memory. ` +
-    `MemWatch (every 2 min) warns above ${Math.round(L.warnMB / 100) / 10} GB and restarts L2Swarm only when the PC is nearly out of memory (free commit memory below ${Math.round(L.minCommitMB / 100) / 10} GB, ` +
-    `at once below ${Math.round(L.emergencyCommitMB / 100) / 10} GB) or when its window is frozen — never just because L2Swarm is big.`;
+    // MEMPAGEFILE-2026-11-10 (requirement memwatch.md R1-R3): the old "restart below 3 GB free commit" restarted a tester with 11.5 GB RAM free
+    `MemWatch (every 2 min) warns above ${Math.round(L.warnMB / 100) / 10} GB and restarts L2Swarm only when the PC is really out of memory: free commit memory below ${gbTxt(L.hardCommitMB != null ? L.hardCommitMB : 500)} GB, ` +
+    `or below ${gbTxt(L.minCommitMB)} GB (or ${L.minCommitPct != null ? L.minCommitPct : 5} % of the commit limit) while less than ${gbTxt(L.ramPlentyMB != null ? L.ramPlentyMB : 2000)} GB RAM is free ` +
+    `(also during a fight below ${gbTxt(L.emergencyCommitMB)} GB) — or when its window is frozen. Low commit memory with plenty of free RAM means the Windows pagefile is too small: a warning, never a restart. Never just because L2Swarm is big.`;
   const depBtn = document.querySelector('#tab-pc [data-sys="deploy"]'); if (depBtn) depBtn.title = `Copy Scripts_dev/swarm.js live (max once per ${L.deployGapMin} min)`;
   patch($('pcStatus'), (l2
     ? `<b class="${lvl}">L2Swarm running</b> · memory ${(l2.mb / 1024).toFixed(2)} GB${l2.mb > L.warnMB ? ' (above the ' + Math.round(L.warnMB / 100) / 10 + ' GB warning)' : ''} · ${l2.threads} threads · ${l2.handles} handles`
@@ -4155,8 +4159,36 @@ async function loadEngine() {
     ? `<b class="st-alive">New engine ON</b> for ${esc(who)}: ${g.brain} of ${g.roster} characters · ${esc(conn)}${esc(wait)}`
     : `<b class="st-maybe">New engine OFF</b> (Scripts/data/brain_host.json "on": false) — every account runs swarm.js inside L2Swarm`);
   $('pcEngineLog').textContent = (g.log || []).slice().reverse().join('\n') || 'no runs yet';
+  try { renderEngineGap(g.gap); } catch (e) { }   // ONLINEGAP-2026-11-10
   document.querySelectorAll('#tab-pc [data-eng]').forEach(b => { b.disabled = !!g.job || !g.on; });
   clearTimeout(ENG_POLL); if (g.job) ENG_POLL = setTimeout(loadEngine, 3000);
+}
+// ONLINEGAP-2026-11-10 (tester LuckyStrikz: "hive got all the accounts online but only recognized 16 of the 27"): every account L2Swarm has
+// logged in whose character does not report to Hive, with the reason (Dashboard/onlinegap.js gapRows) and the fix. "Attach" = the existing
+// "Move accounts to the new engine" (asks first, one account at a time); restarts = the existing buttons; the rest are links / plain words.
+const GAP_WHY = { notInConfig: 'not in swarm.config.json', otherChar: 'login listed for another character', disabled: 'switched off in swarm.config.json', noRole: 'no role',
+  poolDown: 'brain pool not reporting', noAgent: 'no agent2.js connected', silent: 'agent connected, no state yet', noScript: 'no Hive script running' };
+function gapSummary(rows) {
+  const c = {}; (rows || []).forEach(r => { c[r.reason] = (c[r.reason] || 0) + 1; });
+  return Object.keys(c).map(k => `${c[k]} ${GAP_WHY[k] || k}`).join(' · ') + '.';
+}
+function gapFixHtml(r) {
+  if (r.fix === 'attach') return `<button data-eng="move" title="The existing 'Move accounts to the new engine': attaches + starts agent2.js on every brain character that has none (asks first)">Attach the agent</button>`;
+  if (r.fix === 'dashrestart') return `<button data-eng="dashrestart">Restart dashboard</button>`;
+  if (r.fix === 'bhrestart') return `<span class="muted">wait a minute; still silent → </span><button data-eng="bhrestart">Restart brain host</button>`;
+  if (r.fix === 'add') return `<a href="#/accounts">Accounts → + Add account</a> <span class="muted">(existing character: pick its party + role), or run SETUP again (it imports the L2Swarm accounts)</span>`;
+  if (r.fix === 'accounts') return `<a href="#/accounts">Accounts → Characters</a>`;
+  if (r.fix === 'role') return `<span class="muted">set its "role" in swarm.config.json</span>`;
+  return '';
+}
+function renderEngineGap(G) {
+  const el = $('pcEngineGap'); if (!el) return;
+  if (!G) { el.innerHTML = ''; return; }
+  if (G.error) { el.innerHTML = `<div class="muted" style="margin-top:6px">Logged in but not in Hive: ${esc(G.error)}</div>`; return; }
+  const rows = G.rows || [];
+  const head = `${G.online} logged in in L2Swarm · ${G.reporting} report to Hive${rows.length ? ` · <b class="st-maybe">${rows.length} do not</b>` : ' · all of them report'}`;
+  el.innerHTML = `<div class="ogap" style="margin-top:6px"><div>${head}</div>` + (rows.length ? `<ul class="ogap-l" style="margin:4px 0 0;padding-left:18px">${rows.map(r =>
+    `<li data-ogap="${esc(r.reason)}" style="margin:3px 0;overflow-wrap:anywhere"><b>${esc(r.name)}</b>${r.login ? ` <span class="muted">(${esc(r.login)})</span>` : ''} — ${esc(r.text)} ${gapFixHtml(r)}</li>`).join('')}</ul>` : '') + `</div>`;
 }
 // RESTART THE BRAIN HOST (owner 2026-10-21): POST /api/brainhost {action:'restart'}; a live raid / Kamaloka / epic = 409 -> ask again (danger)
 async function brainHostRestart() {
@@ -4541,7 +4573,8 @@ function renderFull(F) {
   const el = $('fullBar'); if (!el) return;
   F = F || {}; const bags = F.bags || [], full = bags.filter(b => b.level === 'full'), near = bags.filter(b => b.level !== 'full'), priv = F.private || [];
   const ore = F.ore || [], stuck = F.stuck || [], flood = F.flood || null;
-  if (!F.clan && !priv.length && !bags.length && !ore.length && !stuck.length && !flood) { el.hidden = true; el.innerHTML = ''; return; }
+  const mem = F.mem || null, gap = (F.gap && Array.isArray(F.gap.rows) ? F.gap.rows : []);   // MEMPAGEFILE / ONLINEGAP 2026-11-10
+  if (!F.clan && !priv.length && !bags.length && !ore.length && !stuck.length && !flood && !mem && !gap.length) { el.hidden = true; el.innerHTML = ''; return; }
   const hm = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' }); };
   const who = (L) => L.map(b => `<a href="#/char/${encodeURIComponent(b.name)}" title="${esc(b.why)}">${esc(b.name)}</a>`).join(', ');
   const lines = [];
@@ -4556,7 +4589,13 @@ function renderFull(F) {
   if (flood) lines.push(`<div class="bk-t">⚠ L2Swarm error loop: <span class="bk-n">its '${esc(flood.thread)}' worker fails ${esc(String(flood.perMin))}× a minute (${esc(flood.error)})</span></div><div class="bk-w">Path walks and town ports of the scripts stall while it runs (a relog does not help). Restart L2Swarm (PC page) to clear it.</div>`);
   // IMMOBILE 2026-10-15: a character that has not moved for 10+ min while every walk / town port failed (Tank1's in-game client, 2 h)
   if (stuck.length) lines.push(`<div class="bk-t">⚠ Cannot move: <span class="bk-n">${stuck.map(s => `<a href="#/char/${encodeURIComponent(s.name)}">${esc(s.name)}</a> (${s.mins} min at one spot, ${s.fails} town ports did nothing${s.why ? ' - ' + esc(s.why) : ''})`).join(', ')}</span></div><div class="bk-w">${flood ? 'Cause: the L2Swarm error loop above - a relog does not help; restart L2Swarm.' : 'Its commands do not reach the game. In-game character: look at its game window (a popup? disconnected?). Otherwise log it out and in again (character page → Client).'}</div>`);
-  el.className = 'brakebar fullbar ' + (F.clan || full.length || priv.length || stuck.length ? 'bad' : '');
+  // MEMPAGEFILE-2026-11-10 (requirement memwatch.md R3/R4): MemWatch's Logs/memwatch_alert.json in plain words
+  if (mem) lines.push(mem.kind === 'pagefile'
+    ? `<div class="bk-t">⚠ Windows pagefile too small <span class="bk-n">(MemWatch ${esc(hm(mem.at))}${mem.pcFreeMB ? `: ${esc(String(Math.round(mem.pcFreeMB / 100) / 10))} GB RAM free, ${esc(String(Math.round((mem.commitFreeMB || 0) / 100) / 10))} GB commit free` : ''})</span></div><div class="bk-w">${esc(mem.advice || 'Increase the Windows pagefile (System managed size).')} L2Swarm is NOT restarted for this.</div>`
+    : `<div class="bk-t">⚠ L2Swarm was restarted: the PC ran out of memory <span class="bk-n">(${esc(hm(mem.at))})</span></div><div class="bk-w">${esc(mem.advice || mem.reason || '')}</div>`);
+  // ONLINEGAP-2026-11-10 (tester LuckyStrikz: "27 of 27 there but ... the dashboard still has them as offline"): logged in, not reporting + why
+  if (gap.length) lines.push(`<div class="bk-t">⚠ Logged in but not in Hive: <span class="bk-n">${gap.slice(0, 8).map(g => `<span title="${esc(g.text)}">${esc(g.name)}</span>`).join(', ')}${gap.length > 8 ? ` +${gap.length - 8}` : ''}</span></div><div class="bk-w">${esc(gapSummary(gap))} <a href="#/pc">PC page → New engine</a> shows each one and the fix.</div>`);
+  el.className = 'brakebar fullbar ' + (F.clan || full.length || priv.length || stuck.length || (mem && mem.kind === 'restart') ? 'bad' : '');
   el.innerHTML = lines.join(''); el.hidden = false;
 }
 async function refresh() {
@@ -4567,7 +4606,7 @@ async function refresh() {
     $('sum').textContent = `${STATE.version ? 'SwarmHive v' + STATE.version + ' · ' : ''}${alive}/${STATE.chars.length} characters reporting · updated ${clock(STATE.now)}`;   // VERSIONHDR-2026-10-27
     // CURSED 2026-10-13: a cursed weapon holder (renamed Zariche / Akamanah by the server) gets its own red line instead of 'not reporting'
     try { const cu = STATE.cursed || [], skip = new Set(cu.map(x => x.holder).concat(cu.map(x => x.weapon), ['Zariche', 'Akamanah'])); renderBrake(STATE.brake, STATE.chars.filter(c => c.ageSec > 30 && !skip.has(c.name)).map(c => c.name), cu); } catch (e) { }
-    try { renderFull(STATE.full); } catch (e) { }   // FULLWARN 2026-10-14
+    try { renderFull(Object.assign({}, STATE.full, { mem: STATE.memAlert, gap: STATE.hiveGap })); } catch (e) { }   // FULLWARN 2026-10-14 (+ MEMPAGEFILE / ONLINEGAP 2026-11-10)
     fillTargets();
     try { if (window.RunSwitch) RunSwitch.paintHeader(); } catch (e) { }   // RUNSTATE: Start all / Stop all
     renderTab();

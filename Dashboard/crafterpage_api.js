@@ -18,7 +18,9 @@ const fs = require('fs'), path = require('path');
 const CA = require('./crafter_api');
 // NPC price of every shot (L2J High Five datapack stats/items "price" = what the grocer charges; "normal cost", owner 2026-11-01)
 const SHOT_PRICE = { 1463: 14, 1464: 22, 1465: 50, 1466: 80, 1467: 100, 2510: 18, 2511: 35, 2512: 100, 2513: 120, 2514: 150, 3948: 28, 3949: 42, 3950: 245, 3951: 290, 3952: 350 };
-const DEF = { crafter: 'Crafter1', bank: 'Crafter1', prices: {}, runner: '', runnerOn: false, pays: {}, cwhWithdraw: true };
+// PICKALL-2026-11-10: no built-in names any more (was 'Crafter1' = the owner's character: a public install without crafter.json showed a bank the
+// bots did not have - swarm.js crafterSet() treats a missing name as none). Nobody set = "none set" + the Change pickers.
+const DEF = { crafter: '', bank: '', prices: {}, runner: '', runnerOn: false, pays: {}, cwhWithdraw: true };
 const NAME_RE = /^[A-Za-z0-9_\-]{1,40}$/;
 // CRAFTRUN-2026-11-01: + npcsale (the crafter sold marked items at the grocer), cry (crystallized marked items), collect (the runner brought loot in)
 const KINDS = ['sale', 'buy', 'deposit', 'payout', 'craft', 'npcsale', 'cry', 'collect'];
@@ -64,6 +66,39 @@ function ledgerRow(b, at) {
   const who = String(b.who || '').trim(); if (!NAME_RE.test(who)) return { error: 'who: a character / party name' };
   const adena = Math.round(num(b.adena)); if (!(adena >= 0) || adena > 5e9) return { error: 'adena: 0 to 5,000,000,000' };
   return { row: { at: at || new Date().toISOString(), kind, who, item: b.item ? Number(b.item) || null : null, count: Math.max(0, Math.round(num(b.count))), adena, note: String(b.note || '').slice(0, 160) } };
+}
+// PICKALL-2026-11-10 (public tester Vykaax: "Crafter1 is locked as the bank on the Crafter tab. No way to change this? ... the Runner is changed
+// from the Crafter tab and NOT the Runner tab ... when you press the 'Change runner' button, you are given a limited selection. I can't even select
+// my Plainswalker 'vRunner'"): the bank / crafter / runner pickers (Crafter page + Runner page) list EVERY character of the install (teamMap = every
+// swarm.config.json account + the swarm.js teams, plus every reporting character) - no class filter, no 40-button cap. A character that cannot take
+// the role is listed GREYED with the reason (crafter.md R16: the bank never leaves Giran, so the runner is never the bank / crafter).
+/** pure: why `name` cannot take `role` ('runner' | 'bank' | 'crafter') with the settings S -> '' = it can */
+function roleBlock(role, name, S) {
+  S = obj(S); name = String(name || '');
+  if (!name) return '';
+  if (role === 'runner') { if (S.bank && name === S.bank) return 'is the bank (the bank never leaves Giran)'; if (S.crafter && name === S.crafter) return 'is the crafter (it crafts in Giran)'; return ''; }
+  if (role === 'bank' || role === 'crafter') return S.runner && name === S.runner ? 'is the runner (it travels) - pick another runner first' : '';
+  return '';
+}
+/** pure: every character for the pickers. tm = { name: partyKey } (server.js teamMap), states = [{ name, cls, level, ageSec }], S = settings
+ *  -> [{ name, party, cls, level, online, block: { runner?, bank?, crafter? } }] sorted by name (no filter, no cap) */
+function charChoices(tm, states, S) {
+  tm = obj(tm); const st = {};
+  (states || []).forEach(s => { if (s && s.name && NAME_RE.test(String(s.name))) st[s.name] = s; });
+  const names = [...new Set(Object.keys(tm).concat(Object.keys(st)).filter(n => NAME_RE.test(n)))].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+  return names.map(n => {
+    const s = st[n] || {}, block = {};
+    ['runner', 'bank', 'crafter'].forEach(r => { const w = roleBlock(r, n, S); if (w) block[r] = w; });
+    const p = tm[n]; return { name: n, party: typeof p === 'string' && p ? p : (Array.isArray(p) ? n : ''), cls: String(s.cls || ''), level: s.level != null ? num(s.level) : null, online: s.ageSec != null && num(s.ageSec) < 120, block };
+  });
+}
+/** pure: a settings change that would make one character both the runner and the bank / crafter -> the error text, else '' */
+function roleClash(next) {
+  next = obj(next); const r = String(next.runner || '');
+  if (!r) return '';
+  if (r === next.bank) return `${r} cannot be the runner and the bank at once (the bank never leaves Giran) - pick another runner or another bank`;
+  if (r === next.crafter) return `${r} cannot be the runner and the crafter at once (the crafter crafts in Giran) - pick another runner or another crafter`;
+  return '';
 }
 /** the sale of shots to a party at normal cost -> { count, price, adena } */
 function salePrice(id, count, prices) { const c = Math.max(0, Math.round(num(count))), p = priceOf(id, prices); return { count: c, price: p, adena: Math.round(c * p) }; }
@@ -123,12 +158,14 @@ function info(ctx) {
   let states = []; try { states = (ctx.readStates && ctx.readStates()) || []; } catch (e) { }
   const bankSt = states.find(s => s && s.name === S.bank) || {};
   const L = ledger(ctx), sum = ledgerSummary(L), bal = obj(rj(balFile(ctx), {}));
-  let parties = []; try { parties = Object.keys(ctx.teamMap ? ctx.teamMap() : {}); } catch (e) { }
-  return { ok: true, crafter: S.crafter, bank: S.bank, prices: S.prices, rev: R.rev, cfg: { on: cfg.on, town: cfg.town, parties: cfg.parties, maxBatches: cfg.maxBatches },
+  let tm = {}; try { tm = (ctx.teamMap && ctx.teamMap()) || {}; } catch (e) { }
+  const parties = Object.keys(tm), leaders = [...new Set(parties.map(n => typeof tm[n] === 'string' && tm[n] ? tm[n] : n))].sort();   // leaders: PICKALL - the sale goes to a party leader
+  const chars = charChoices(tm, states, S), known = (n) => !!n && chars.some(c => c.name === n);   // PICKALL-2026-11-10
+  return { ok: true, crafter: S.crafter, bank: S.bank, chars, roleKnown: { crafter: known(S.crafter), bank: known(S.bank), runner: known(S.runner) }, prices: S.prices, rev: R.rev, cfg: { on: cfg.on, town: cfg.town, parties: cfg.parties, maxBatches: cfg.maxBatches },
     rows: N.rows, total: N.total, mats: Object.keys(CA.CRAFT_MATS).map(id => ({ id: Number(id), name: CA.CRAFT_MATS[id], bag: src.bag[id] || 0, wh: src.wh[id] || 0, clan: src.clan[id] || 0 })),
     seen: src.seen, status: st ? { state: st.state, why: st.why, at: st.at, town: st.town, createLvl: st.createLvl } : null,
     bankNow: { adena: num(bankSt.adena), online: num(bankSt.ageSec) < 120 }, ledger: { summary: sum, last: L.slice(-30).reverse() },
-    balance: Array.isArray(bal.rows) ? bal.rows.slice(-288) : [], parties,
+    balance: Array.isArray(bal.rows) ? bal.rows.slice(-288) : [], parties, leaders,
     runner: Object.assign({ name: S.runner, on: S.runnerOn, pays: S.pays, cwhWithdraw: S.cwhWithdraw, rotateOn: S.rotateOn, rotateMin: S.rotateMin, runnerStealth: S.runnerStealth }, obj(rj(path.join(ctx.LOGS, 'runner_state.json'), {}))) };
 }
 /** every 10 min (server.js): the bank's adena -> Logs/crafter_balance.json (last 2000 samples) */
@@ -144,6 +181,7 @@ function tick(ctx) {
 }
 async function post(ctx, b) {
   b = obj(b); const S = settings(ctx), a = String(b.action || '');
+  if ((a === 'targets' || a === 'craft' || a === 'sell') && !S.crafter) return { code: 400, error: 'no crafter set: pick one first (Change crafter)' };   // PICKALL-2026-11-10
   if (a === 'targets') {
     const t = obj(b.targets), stock = {}; Object.keys(t).forEach(k => { stock[k] = t[k] === null || t[k] === '' ? null : t[k]; });
     const r = CA.post(ctx, { name: S.crafter, values: { stock }, rev: b.rev, by: 'crafter page' });
@@ -161,6 +199,8 @@ async function post(ctx, b) {
     // RUNNERROTATE-2026-11-03: the runner's rotation through the farming parties (empty queue): on/off + at most one visit per party every N min
     if (typeof b.rotateOn === 'boolean') out.rotateOn = b.rotateOn;
     if (typeof b.runnerStealth === 'boolean') out.runnerStealth = b.runnerStealth;   // RUNNERSTEALTH-2026-11-03: walks in everywhere (stealth) / the old level limit
+    // PICKALL-2026-11-10: never one character as the runner AND the bank / crafter (crafter.md R16) - checked only when one of the three changes
+    if (b.runner !== undefined || b.bank !== undefined || b.crafter !== undefined) { const clash = roleClash(out); if (clash) return { code: 400, error: clash }; }
     if (b.rotateMin !== undefined) { const m = Math.round(num(b.rotateMin)); if (!(m >= 10 && m <= 1440)) return { code: 400, error: 'rotateMin: 10 - 1440 minutes' }; out.rotateMin = m; }
     if (b.pays !== undefined) { const p = obj(out.pays); Object.keys(obj(b.pays)).forEach(k => { if (!NAME_RE.test(k)) return; if (b.pays[k] === false) p[k] = false; else delete p[k]; }); out.pays = p; }
     if (b.prices !== undefined) { const p = obj(out.prices); Object.keys(obj(b.prices)).forEach(id => { const v = b.prices[id]; if (v === null || v === '') delete p[id]; else if (num(v) >= 0 && num(v) <= 1e6) p[id] = num(v); }); out.prices = p; }
@@ -220,4 +260,4 @@ async function handle(req, res, url, ctx) {
   try { const r = (await post(ctx, b)) || { code: 500, error: 'no result' }; const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, info, post, tick, runnerView, partyOfName, countIds, priceOf, needRow, needs, ledgerSummary, ledgerRow, salePrice, SHOT_PRICE, settings, ingestLines, ingest, KINDS };
+module.exports = { handle, info, post, tick, runnerView, partyOfName, roleBlock, charChoices, roleClash, countIds, priceOf, needRow, needs, ledgerSummary, ledgerRow, salePrice, SHOT_PRICE, settings, ingestLines, ingest, KINDS };

@@ -263,7 +263,7 @@ function ltaEnv(cfg, me) {
     W.env.isHealerRole = () => true;   // OREUSE-2026-10-15: only a healer's heals count
     W.env.SkillsList = { forEach: (f) => [{ Id: 1401, Name: 'Major Heal', ItemConsumeId: 3031, ItemConsumeCount: 1, IsActive: true }].forEach(f) };
     const ws2 = H2.supplyNeeds(), o2 = ws2.find(w => w.id === 3031) || {};
-    check(o2.want === 300 && o2.need === 300, 'Spirit Ore: a bishop with Major Heal asks for the built-in 300', JSON.stringify(o2));
+    check(o2.want === 2500 && o2.need === 2500, 'Spirit Ore: a bishop with Major Heal asks for the built-in 2500 (owner 2026-11-10 "could be 2000-3000", was 300)', JSON.stringify(o2));
     W.put({ parties: { Tank1: { amounts: { 1: { ore: 40 } } } } }); W.t += 6000;
     const o3 = (H2.supplyNeeds().find(w => w.id === 3031) || {});
     check(o3.want === 40, 'Spirit Ore: the party table wins (40)', JSON.stringify(o3));
@@ -283,7 +283,7 @@ function ltaEnv(cfg, me) {
     const p3 = API.post(ctx2, { party: 'Tank1', amounts: null }), g3 = JSON.parse(fs.readFileSync(F2, 'utf8'));
     check(p3.ok && !g3.parties.Tank1.amounts && g3.parties.Tank1.sell === true, 'API: null removes the party table (back to all parties / standard)');
     const inf = API.info(ctx2);
-    check(inf.amounts && inf.amounts.bands.length === 6 && inf.amounts.keys.length === 8 && inf.amounts.builtin.soulshots === 10000 && inf.amounts.builtin.ore === 300 && inf.amounts.builtin.arrows === 5000   /* ARROWS-2026-10-25 */ && inf.amounts.suggest[1].soulshots < inf.amounts.suggest[76].soulshots, 'API GET: bands, items, standard + suggested amounts for the page');
+    check(inf.amounts && inf.amounts.bands.length === 6 && inf.amounts.keys.length === 11 && inf.amounts.builtin.soulshots === 10000 && inf.amounts.builtin.ore === 2500 && inf.amounts.builtin.arrows === 5000   /* ARROWS-2026-10-25 */ && inf.amounts.builtin.holy === 100 && inf.amounts.builtin.bsym === 0 && inf.amounts.builtin.msym === 0   /* SUP76 + owner 2026-11-10 */ && inf.amounts.suggest[1].soulshots < inf.amounts.suggest[76].soulshots, 'API GET: bands, items, standard + suggested amounts for the page');
     delete process.env.SWARM_PARTYAUTO_FILE; try { fs.rmSync(TMP2, { recursive: true, force: true }); } catch (e) { }
   }
 

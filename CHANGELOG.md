@@ -2,6 +2,29 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.1 (2026-11-10)
+
+- Tester fix release (2026-11-10): every report in Discord #swarmhive since v1.14.0 is fixed
+- Upgrade page works again (1.14 broke every order): the picked item and its real price are ordered, unticked sources are never used, 'Now - only X' goes at once, plain warnings no longer need the enchant tick, and a missing piece falls through: own bag, ticked warehouses, distributors, another character's unused spare piece, then buying (if ticked)
+- MemWatch: no more restarts while plenty of RAM is free - a small pagefile is now a warning (pagefile advice on the dashboard bar), a restart only when the PC is really out of memory
+- Movement: party members stay behind the leader on routes, a member's own errand (grocer, shop, warehouse) is no longer pulled back by follow, and .town from inside a town ports at once when the server takes the party along
+- Hunting time is honored: Until I stop it / Keep hunting never trigger the 12 h town trip, Hunt here 24/7 is exempt, and party plan level steps have their own 'How long at each place?' choice
+- Your chosen spot with 'stay' is never replaced by an automatic spot
+- FoG members follow the leader's path down instead of running into the lava
+- After a restart the current hunting zone is set up again (no more fighting in an old polygon)
+- Raids: casters follow the class guide and cast continuously, skills you untick are never cast (also not by L2Swarm's own combat), 'until X is learned' rows end, healers never heal a full-HP target, a raid target within 300 or hitting us is fought even if a rock blocks the line of sight, and the damage meter counts right (names ending in digits were read as damage)
+- Town button: only fights within 1200 before .town, so a party can leave a catacomb
+- Sit / stand: no more sitting with the setting off or staying seated when full (L2Swarm's /sit is a toggle)
+- Routes: Cruma 2F north-east hallway walked on its centre, bosses behind a locked door (Atraiban) are skipped when nobody can open it, Paniel the Unicorn has a safe valley route
+- Trades: up to 40 item kinds per window, leftovers retried in full windows, gear-up uses as few givers as possible and a busy distributor queues the ask, hidden trade (TransferItems) used when L2Swarm has it
+- Tutorial Guide is never offered in a trade (optional automatic destroy, off by default), and materials that were wrongly blocked from hand-overs move again
+- Archer leaders pass arrows / bolts to the other archers (their own worn stack is split)
+- Supplies: Einhasad's Holy Water for skills that use it, Spirit Ore default 2500, Battle / Magic Symbols only when you set an amount (they are drops)
+- Crafter / Runner tabs: change crafter, bank and runner from both tabs, every character is listed (search box), one character cannot be both runner and bank
+- Teams tab: a moved character really leaves its old in-game party and the old leader stops waiting for it
+- Dashboard explains why a logged-in account shows as offline (not in swarm.config.json, no agent2.js, brain host down ...) with one-click fixes
+- Academy: a kit is bought whole or not at all, never waits for adena, new gear goes on only as a complete set, and a missing shop piece no longer stops the group
+
 ## v1.14.0 (2026-11-07)
 
 - Big update (2026-11-02 to 2026-11-07): Boost page, spot rotation, runner + bank, power leveling, subclass, Forge of the Gods rooms, academy groups, many fixes

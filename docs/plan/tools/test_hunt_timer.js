@@ -179,7 +179,7 @@ function makeHost(fsMem, clock, opts) {
   const names = Object.keys(env);
   const fn = new Function(...names, PURE + '\n' + HOST + '\nreturn { HT, htData, htKey, htStRead, htStWrite, htClockMine, htActiveMine, htHolds, noTownTrip, htPublic, htEndRun };');
   const api = fn(...names.map(k => env[k]));
-  return { api, env, calls, notes, said, tick: () => timers[0](), timers };
+  return { api, env, calls, notes, said, tick: () => timers[timers.length - 1](), timers };   // the leader's clock = the last interval of the block (SPOTROT 2026-11-05 put its own interval before it)
 }
 const mem = {}, clk = { t: T0 };
 const DF = 'D\\Scripts\\data\\hunt_timers.json', SF = 'R\\Logs\\hunt_timer_Tank1.json';

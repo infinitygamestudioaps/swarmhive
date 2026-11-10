@@ -138,7 +138,7 @@
     ev.preventDefault(); ev.stopPropagation();
     if (t.dataset.htext) extend(t.dataset.htext);
     else if (t.dataset.htend) endNow(t.dataset.htend);
-    else if (t.dataset.htclear) post({ party: t.dataset.htclear, act: 'clear' }).then(() => { if (typeof renderParties === 'function') renderParties(); }).catch(er => uiError(er.message, 'Not removed'));
+    else if (t.dataset.htclear) post({ party: t.dataset.htclear, act: 'done' })   // HTSTICKY-2026-11-10: a finished "Keep hunting" stays "until I stop it".then(() => { if (typeof renderParties === 'function') renderParties(); }).catch(er => uiError(er.message, 'Not removed'));
   }, true);
   window.HuntTimer = { load, ask, afterSave, chipHtml, extend, endNow, data: () => D.data };
 })();

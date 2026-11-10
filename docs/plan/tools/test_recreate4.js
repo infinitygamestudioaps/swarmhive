@@ -19,7 +19,7 @@ function listBytes(login, chars) {
 }
 
 async function run({ fixed }) {
-  const LOGIN = 'mylogin82', NEW = 'Nuker20', GRAD = 'Nyxara05';
+  const LOGIN = 'mylogin82', NEW = 'Shadra2793', GRAD = 'Nyxara05';
   let src = A.buildCreateScript('C:/X', LOGIN, { stats: [10, 10, 10, 10, 10, 10], race: 2, sex: 1, classId: 38, names: [NEW], del: [GRAD], resultFile: 'Logs/res.json' }, NEW);
   if (!fixed) src = src.replace(/Options\.EnableJSOnIncomingPacket = true;/, '/* old code: never switched on */');
   let clock = 1793700000000; const logs = [], files = {};
@@ -61,11 +61,11 @@ async function run({ fixed }) {
 
 (async () => {
   const good = await run({ fixed: true });
-  t('fix: the new character ends in game (not the graduate)', good.S.inGame === 'Nuker20');
+  t('fix: the new character ends in game (not the graduate)', good.S.inGame === 'Shadra2793');
   t('fix: the graduate is marked for deletion at the list', good.S.chars.some(c => c.name === 'Nyxara05' && c.del));
-  t('fix: the hook was switched on and the create happened inside the list', good.logs.some(l => /packet hook on/.test(l)) && good.logs.some(l => /CharacterCreate sent at the list: Nuker20/.test(l)));
-  t('fix: the new character was selected by its slot at a later list', good.logs.some(l => /CharacterSelect sent at the list: Nuker20 \(slot 1\)/.test(l)));
-  t('fix: RESULT OK in game, and EnableJSOnIncomingPacket back to its old value', good.logs.some(l => /RESULT OK Nuker20/.test(l)) && good.Options.EnableJSOnIncomingPacket === false && good.Options.AutoReconnect === true);
+  t('fix: the hook was switched on and the create happened inside the list', good.logs.some(l => /packet hook on/.test(l)) && good.logs.some(l => /CharacterCreate sent at the list: Shadra2793/.test(l)));
+  t('fix: the new character was selected by its slot at a later list', good.logs.some(l => /CharacterSelect sent at the list: Shadra2793 \(slot 1\)/.test(l)));
+  t('fix: RESULT OK in game, and EnableJSOnIncomingPacket back to its old value', good.logs.some(l => /RESULT OK Shadra2793/.test(l)) && good.Options.EnableJSOnIncomingPacket === false && good.Options.AutoReconnect === true);
   const old = await run({ fixed: false });
   t('replay of the live failure: without the hook switch the graduate stays in game', old.S.inGame === 'Nyxara05' && !old.logs.some(l => /CharacterCreate sent at the list/.test(l)));
   const SRC = fs.readFileSync(path.join(R, 'Dashboard', 'addaccount_api.js'), 'utf8');

@@ -66,6 +66,24 @@
     if (typeof o.stay === 'boolean') out.stay = o.stay;
     return out;
   }
+  // PLANHUNT-2026-11-10 (owner: YES, plan level steps get the same "how long?" hunting-time choice as the spot picker): a level step's
+  // hunt = { untilStop: true } ("Until I stop it": no 12 h town trip) | { hours, endAction town|resupply|keep } | missing = the 12 h rule (hunting.md R3).
+  // The editor writes { hours: 'default' | 'stop' | '<n>', endAction }; 'hours' decides when present.
+  const HUNT_ACTIONS = ['town', 'resupply', 'keep'];
+  function normHunt(h) {
+    const o = obj(h); const hv = Object.prototype.hasOwnProperty.call(o, 'hours') ? o.hours : (o.untilStop === true ? 'stop' : 'default');
+    if (hv === 'stop' || hv === null) return { untilStop: true };
+    const n = Number(hv);
+    if (hv === 'default' || hv === '' || !isFinite(n) || n < 0.25 || n > 48) return null;
+    return { hours: Math.round(n * 100) / 100, endAction: HUNT_ACTIONS.includes(o.endAction) ? o.endAction : 'town' };
+  }
+  /** the editor's value for the "How long?" buttons */
+  function huntChoice(h) { const o = obj(h); if (Object.prototype.hasOwnProperty.call(o, 'hours')) return String(o.hours); return o.untilStop === true ? 'stop' : 'default'; }
+  function huntText(h) {
+    const n = normHunt(h); if (!n) return '';
+    if (n.untilStop) return ' — until you stop it (no 12 h town trip)';
+    return ` — ${n.hours} h, then ${n.endAction === 'keep' ? 'keep hunting' : n.endAction === 'resupply' ? 'town, supplies, back' : 'town and wait'}`;
+  }
   function normWho(w) { return Array.isArray(w) ? [...new Set(w.map(String).filter(n => NAME_RE.test(n)))].slice(0, 12) : []; }
   function normStep(s) {
     if (!s || typeof s !== 'object' || !KINDS.includes(s.kind)) return null;
@@ -73,7 +91,7 @@
     const note = str(s.note, 200); if (note) out.note = note;
     const who = normWho(s.who);
     switch (s.kind) {
-      case 'level': out.to = int(s.to, 2, 85); if (!out.to) return null; out.spot = normSpot(s.spot); break;
+      case 'level': out.to = int(s.to, 2, 85); if (!out.to) return null; out.spot = normSpot(s.spot); { const h = normHunt(s.hunt); if (h) out.hunt = h; } break;   // PLANHUNT-2026-11-10
       case 'quest':
         out.quest = int(s.quest, 1, 99999); if (!out.quest) return null;
         out.name = str(s.name, 80); out.mode = s.mode === 'solo' || who.length ? 'solo' : 'party';
@@ -140,7 +158,7 @@
   function stepText(step, ctx) {
     const s = obj(step), C = obj(ctx), Q = obj(C.quests);
     switch (s.kind) {
-      case 'level': return `Level ${spotText(s.spot)} until level ${s.to}`;
+      case 'level': return `Level ${spotText(s.spot)} until level ${s.to}${huntText(s.hunt)}`;
       case 'quest': {
         const row = Q[s.quest] || null, nm = s.name || (row && row.name) || `quest ${s.quest}`, w = questWhere(row), r = rewardText(row);
         const who = s.mode === 'solo' ? (s.who && s.who.length ? ` — ${names(s.who)} alone` : ' — each character alone') : '';
@@ -342,7 +360,7 @@
     return { kind: 'ready', text: `📋 Plan ${nm} ready — Start begins at ${cur}` };
   }
 
-  const API = { KINDS, INFO, TOWNS, MAX_STEPS, STATUS, newId, fmt, names, normSpot, normStep, normSteps, normPlan, normFile, slug, planCursor, spotText, rewardText,
+  const API = { KINDS, INFO, TOWNS, MAX_STEPS, STATUS, newId, fmt, names, normSpot, normHunt, huntChoice, huntText, HUNT_ACTIONS, normStep, normSteps, normPlan, normFile, slug, planCursor, spotText, rewardText,
     stepText, planSentence, questEligible, checkPlan, suggestPlan, applySteps, progressLine };
   if (typeof module === 'object' && module.exports) module.exports = API;
   else root.PlanLogic = API;

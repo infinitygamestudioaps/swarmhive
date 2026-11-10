@@ -33,7 +33,8 @@ const loop = cut('const rest = { sitting: false, since: 0 };', '// SOLO: LEAVE A
 check(/const RR = restRule\(\);/.test(loop) && /const low = RR\.on && /.test(loop) && /RR\.on && zoneHoldRest\(/.test(loop), "everyone's rest loop: no low rest and no wait-for-respawn rest when the switch is off");
 check(/const fresh = !RR\.on \|\|/.test(loop), 'switched off while sitting = it stands up at once');
 check(SRC.includes("if ((typeof restRule !== 'function' || restRule().on) && now() - lastAttackerOnMe.at > 5000 && !rest.sitting && (Me.HpPercent < ZONEPOLY.restHp"), "the leader's rest while waiting for respawns: only with the switch on (the guard is only for tests that lift the block alone)");
-const sits = (SRC.match(/RunCommand\('\/sit'\)/g) || []).length;
+// SITTOGGLE-2026-11-10: the 3 automatic rests sit through sitDown() (/sit is a toggle: only when standing) - counted with the raw ones
+const sits = (SRC.match(/RunCommand\('\/sit'\)/g) || []).length + (SRC.match(/^\s+sitDown\(\);/gm) || []).length;
 check(sits === 7, `RunCommand('/sit') places unchanged in number (${sits}): 3 automatic rests (switch), 2 crafting MP waits (craft / craftmake orders), the !sit order, the command docs - a new one must ask restRule() too`);
 
 console.log('3) the dashboard: the switch + numbers, default OFF');

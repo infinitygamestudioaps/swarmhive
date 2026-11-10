@@ -298,8 +298,11 @@ async function plan(ctx, b) {
   const SAFE = R.safe || 4, overSafe = [];
   if ((src === 'wh' || src === 'clan') && cur > SAFE) overSafe.push(`${F.name} +${cur} is above the safe +${SAFE}${cur >= PROTECT_ENCH ? ' — a +' + cur + ' is extremely rare and game changing' : ''}: it leaves the ${src === 'clan' ? 'clan ' : ''}warehouse only because you pick it here.`);
   // BUY WARNINGS (owner 2026-10-17: "not automatically but should warn and give options to purchase items if the user wants, with a warning")
-  if (src === 'shop' && adena >= 3000000) overSafe.push(`This costs about ${IL.kmb(adena)} adena of ${name}'s ${IL.kmb(C.adena)}.`);
-  if (src === 'shop' && F.kind && !IL.levelOk(F.grade, C.level)) overSafe.push(`${name} is level ${C.level || '?'}: ${F.grade}-grade needs level ${IL.GRADE_LEVEL[F.grade]} — worn earlier it gives a heavy penalty.`);
+  // UPGWARN-2026-11-10 (Discord Vykaax: "Order it (0 ready)" with every line on "no enchant" until he found the tick far above): the Upgrade page
+  // (b.softWarn) shows the cost / level notes as plain warnings; only enchanting above the safe level / a plused warehouse piece needs the tick
+  const softW = b.softWarn === true ? warn : overSafe;
+  if (src === 'shop' && adena >= 3000000) softW.push(`This costs about ${IL.kmb(adena)} adena of ${name}'s ${IL.kmb(C.adena)}.`);
+  if (src === 'shop' && F.kind && !IL.levelOk(F.grade, C.level)) softW.push(`${name} is level ${C.level || '?'}: ${F.grade}-grade needs level ${IL.GRADE_LEVEL[F.grade]} — worn earlier it gives a heavy penalty.`);
   if (to > SAFE) overSafe.push(`Enchanting to +${to} goes above the safe +${SAFE}: every try above +${SAFE} can ${b.blessed ? 'drop it to +0' : 'DESTROY the item'}.`);
   const overSafeOk = !!b.overSafeOk && overSafe.length > 0;
   if (missing.some(n => n.ask && !n.choice)) warn.unshift('Choose where each missing thing comes from (below): nothing is taken out of a warehouse or bought unless you pick it.');

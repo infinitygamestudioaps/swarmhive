@@ -109,6 +109,8 @@ fs.writeFileSync(path.join(SB, 'Scripts', 'data', 'gk_live', '_index.json'), JSO
 fs.writeFileSync(path.join(SB, 'Logs', 'clan_state.json'), JSON.stringify({ leader: 'Fundor', at: iso(Date.now()), clan: { name: '', level: 0, id: 777, ally: '' }, level: 52, sp: 100, adena: 1000, clanInfo: CLAN }));
 fs.writeFileSync(path.join(SB, 'Logs', 'daily_Tankard.json'), JSON.stringify({ day: new Date().toLocaleDateString('sv-SE'), done: {}, tries: {} }));
 fs.writeFileSync(path.join(SB, 'Logs', 'memwatch.log'), '2026-10-09 12:00:00 ok   L2Swarm private=3000MB\n');
+// MEMPAGEFILE-2026-11-10 (memwatch.md R3): MemWatch's alert file -> a line in the warning bar under the header
+fs.writeFileSync(path.join(SB, 'Logs', 'memwatch_alert.json'), '﻿' + JSON.stringify({ kind: 'pagefile', at: new Date().toISOString(), pcFreeMB: 11572, commitFreeMB: 2831, commitLimitMB: 20000, reason: 'free commit 2831 MB < 1000 MB but free RAM 11572 MB - pagefile too small, no restart', advice: 'Windows pagefile too small: increase the pagefile.' }));
 
 // ===================================================================== tests ======================================================
 (async () => {
@@ -274,7 +276,10 @@ fs.writeFileSync(path.join(SB, 'Logs', 'memwatch.log'), '2026-10-09 12:00:00 ok 
   await cdp('Page.navigate', { url: U('/#/pc') });
   await waitFor(`/at most once per 15 min/.test((document.getElementById('pcRules') || {}).textContent || '') && /PC RAM free/.test(document.getElementById('pcStatus').textContent)`, 20000);
   const pcT = await ev(`document.getElementById('tab-pc').innerText`);
-  ok('#11 PC tab: 15 min gap, a deploy never restarts, MemWatch only on low memory; no 3 GB / 4.5 GB auto-restart / 20 min', /at most once per 15 min/.test(pcT) && /a deploy never restarts L2Swarm/.test(pcT) && /free commit memory below 3 GB/.test(pcT) && !/20 min|refused above 3 GB|auto-restart at/.test(pcT), pcT.replace(/\s+/g, ' ').slice(0, 300));
+  // MEMPAGEFILE-2026-11-10 (memwatch.md): the restart needs low commit AND little free RAM (hard limit 0.5 GB always); pagefile = warning only
+  ok('#11 PC tab: 15 min gap, a deploy never restarts, MemWatch only when really out of memory (0.5 GB hard / 3 GB + RAM < 2 GB, pagefile = warning); no 4.5 GB auto-restart / 20 min', /at most once per 15 min/.test(pcT) && /a deploy never restarts L2Swarm/.test(pcT) && /free commit memory below 0\.5 GB, or below 3 GB \(or 5 % of the commit limit\) while less than 2 GB RAM is free/.test(pcT) && /pagefile is too small: a warning, never a restart/.test(pcT) && !/20 min|refused above 3 GB|auto-restart at/.test(pcT), pcT.replace(/\s+/g, ' ').slice(0, 400));
+  const fb = await ev(`(() => { const b = document.getElementById('fullBar'); return b && !b.hidden ? b.innerText : ''; })()`);
+  ok('#11 MemWatch alert (Logs/memwatch_alert.json, pagefile) is a line in the warning bar under the header, says no restart', /Windows pagefile too small/.test(fb) && /NOT restarted/.test(fb), fb.replace(/\s+/g, ' ').slice(0, 300));
 
   // #5 Room editor: "added …" stays visible
   await cdp('Page.navigate', { url: U('/#/rooms') });

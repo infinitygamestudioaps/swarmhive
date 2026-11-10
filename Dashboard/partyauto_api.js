@@ -105,18 +105,24 @@ const TOGGLE_NAME_RE = /^[A-Za-z0-9][A-Za-z0-9 '\-:.]{0,39}$/;   // a skill name
 // parties.<leader>.amounts / default.amounts = { "<band start>": { soulshots, spiritshots, mana, healing, soe, sor } }. Same as swarm.js pautoAmounts.
 const BANDS = [1, 20, 40, 52, 61, 76];
 const BAND_LABEL = { 1: 'Level 1–19 (no grade)', 20: 'Level 20–39 (D grade)', 40: 'Level 40–51 (C grade)', 52: 'Level 52–60 (B grade)', 61: 'Level 61–75 (A grade)', 76: 'Level 76+ (S grade)' };
-const AMT_KEYS = ['soulshots', 'spiritshots', 'mana', 'healing', 'soe', 'sor', 'ore', 'arrows'];   // ARROWS-2026-10-25: + arrows / bolts (bow / crossbow users only)   // = swarm.js PAUTO_AMT_KEYS (ORE 2026-10-14: + Spirit Ore)
+const AMT_KEYS = ['soulshots', 'spiritshots', 'mana', 'healing', 'soe', 'sor', 'ore', 'arrows', 'holy', 'bsym', 'msym'];   // SUP76-2026-11-10 (tester #19): + Einhasad's Holy Water / Battle Symbol / Magic Symbol   // ARROWS-2026-10-25: + arrows / bolts (bow / crossbow users only)   // = swarm.js PAUTO_AMT_KEYS (ORE 2026-10-14: + Spirit Ore)
 const AMT_INFO = { soulshots: { label: 'Soulshots', short: 'Soulshots', max: null }, spiritshots: { label: 'Spiritshots', short: 'Spiritshots', max: null },
   mana: { label: 'Mana Potions', short: 'Mana pots', max: 100000 }, healing: { label: 'Healing Potions', short: 'Heal pots', max: 50000 },
   soe: { label: 'Scrolls of Escape', short: 'Escape', max: 2000 }, sor: { label: 'Scrolls of Resurrection', short: 'Res scrolls', max: 2000 },
   ore: { label: 'Spirit Ore (only characters whose skills eat it: Major Heal, cubics, summons)', short: 'Spirit Ore', max: 500000 },
-  arrows: { label: 'Arrows / bolts (only bow and crossbow users, of their weapon grade)', short: 'Arrows', max: 500000 } };   // LIMITS-2026-10-22 (public tester: 25k Spirit Ore was refused): all limits x5-x25
+  arrows: { label: 'Arrows / bolts (only bow and crossbow users, of their weapon grade)', short: 'Arrows', max: 500000 },   // LIMITS-2026-10-22 (public tester: 25k Spirit Ore was refused): all limits x5-x25
+  // SUP76-2026-11-10 (testers #19): only characters whose learned skills eat them (like Spirit Ore)
+  holy: { label: "Einhasad's Holy Water (only characters whose skills eat it, e.g. a Cardinal; bought at the grocer)", short: 'Holy Water', max: 100000 },
+  // OWNER 2026-11-10: symbols "are drops, and should NOT be learned without explicit decision" -> standard 0, only an amount you set here is used
+  bsym: { label: 'Battle Symbols (drops: never bought unless you set an amount here; only characters whose skills eat them)', short: 'Battle Sym.', max: 100000 },
+  msym: { label: 'Magic Symbols (drops: never bought unless you set an amount here; only characters whose skills eat them)', short: 'Magic Sym.', max: 100000 } };
 // = swarm.js CONFIG.lead.supply (shotsFighter, shotsMage, manaPotions, healingPotions || 30, soe, sor): what a character carries when nothing is set
-const BUILTIN = { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300, arrows: 5000 };   // ore = CONFIG.lead.supply.oreUsers
+const BUILTIN = { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 2500, arrows: 5000, holy: 100, bsym: 0, msym: 0 };   // ore = CONFIG.lead.supply.oreUsers (OWNER 2026-11-10 "could be 2000-3000": 2500, was 300); holy = holyWater; symbols 0 (owner)
 // "Fill in suggested amounts" on the dashboard: cheap at low levels, more as the grade (and the shot use) grows
-const SUGGEST = { 1: { soulshots: 1000, spiritshots: 500, mana: 50, healing: 20, soe: 3, sor: 1, ore: 20, arrows: 2000 }, 20: { soulshots: 3000, spiritshots: 1500, mana: 300, healing: 30, soe: 5, sor: 2, ore: 50, arrows: 5000 },
-  40: { soulshots: 5000, spiritshots: 2500, mana: 1000, healing: 30, soe: 5, sor: 3, ore: 100, arrows: 10000 }, 52: { soulshots: 8000, spiritshots: 4000, mana: 1500, healing: 30, soe: 5, sor: 3, ore: 200, arrows: 15000 },
-  61: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 300, arrows: 20000 }, 76: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 500, arrows: 20000 } };
+// OWNER 2026-11-10: Spirit Ore 2000-3000 at the levels where its skills come; Holy Water from 61; symbols never suggested (drops, owner's decision)
+const SUGGEST = { 1: { soulshots: 1000, spiritshots: 500, mana: 50, healing: 20, soe: 3, sor: 1, ore: 500, arrows: 2000, holy: 0, bsym: 0, msym: 0 }, 20: { soulshots: 3000, spiritshots: 1500, mana: 300, healing: 30, soe: 5, sor: 2, ore: 1000, arrows: 5000, holy: 0, bsym: 0, msym: 0 },
+  40: { soulshots: 5000, spiritshots: 2500, mana: 1000, healing: 30, soe: 5, sor: 3, ore: 2000, arrows: 10000, holy: 0, bsym: 0, msym: 0 }, 52: { soulshots: 8000, spiritshots: 4000, mana: 1500, healing: 30, soe: 5, sor: 3, ore: 2500, arrows: 15000, holy: 0, bsym: 0, msym: 0 },
+  61: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 2500, arrows: 20000, holy: 50, bsym: 0, msym: 0 }, 76: { soulshots: 10000, spiritshots: 5000, mana: 2000, healing: 30, soe: 5, sor: 3, ore: 3000, arrows: 20000, holy: 200, bsym: 0, msym: 0 } };
 function pautoAmounts(j, leader, level, builtin) {
   const J = pautoNorm(j), lv = Math.max(1, Number(level) || 1), band = BANDS.filter(b => b <= lv).pop() || 1;
   const pick = (src) => { const a = src && typeof src === 'object' ? src.amounts : null, r = a && typeof a === 'object' ? a[String(band)] : null; return r && typeof r === 'object' ? r : {}; };

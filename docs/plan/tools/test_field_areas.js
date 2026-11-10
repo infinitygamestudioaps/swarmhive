@@ -243,7 +243,7 @@ const M = new Function(blk('// MULTISPOT-PURE-BEGIN', '// MULTISPOT-PURE-END') +
   r = GL.geoBlockMerge(r.doc, { x: -54120, y: 146248, z: -2880, by: 'Tank3', at: t0 + 96 * 60000, why: 'stuck at 16:34' });
   check(r.became && r.point.episodes === 2 && GL.geoBlockActive(r.point), 'geoBlock: the 2nd episode (1.5 h later, 200 away) makes the spot ACTIVE for every route');
   const r2 = GL.geoBlockMerge({ points: [] }, { x: 0, y: 0, z: 0, by: 'A', at: t0 }); const r3 = GL.geoBlockMerge(r2.doc, { x: 50, y: 0, z: 0, by: 'B', at: t0 + 1000 });
-  check(r3.became, 'geoBlock: two different characters stuck at the same spot = active at once');
+  check(!r3.became && r3.point.episodes === 1, 'geoBlock: two characters stuck at the same spot 1 s apart = ONE episode, not active (GEOEPISODE-2026-11-10, walls.md R5)');
   const r4 = GL.geoBlockMerge(r3.doc, { x: 50, y: 0, z: -1500, by: 'C', at: t0 + 2000 });
   check(r4.doc.points.length === 2, 'geoBlock: the same x,y on another floor (1500 lower) is another spot');
   check(GL.geoBlockedIn(r.doc.points, -54080, 146150, -2880, 150) && !GL.geoBlockedIn(r.doc.points, -52824, 143256, -2904, 150), 'geoBlockedIn: a monster in the pocket is skipped, one at the area 3 centre is not');

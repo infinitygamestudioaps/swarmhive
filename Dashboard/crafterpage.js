@@ -77,7 +77,9 @@
     if (d.error) { body.innerHTML = `<div class="cfp-msg bad">${h(d.error)}</div>`; return; }
     const st = d.status, sum = d.ledger.summary;
     const groups = Object.keys(KIND).map(k => ({ k, rows: d.rows.filter(r => r.key.startsWith(k + ':')) }));
-    body.innerHTML = `<div class="cfp-top"><span>Crafter <b>${h(d.crafter)}</b></span><span>Bank <b>${h(d.bank)}</b>: ${fmt(d.bankNow.adena)} adena${d.bankNow.online ? '' : ' (offline)'}</span>
+    const RK = d.roleKnown || {}, stale = (k, n) => n && RK[k] === false ? ' <span class="cfp-pill bad" title="no account / character of this install has this name">not a character of this install</span>' : '';   // PICKALL-2026-11-10
+    body.innerHTML = `<div class="cfp-top"><span>Crafter <b>${h(d.crafter || 'none set')}</b>${stale('crafter', d.crafter)} <button type="button" data-cfrole="crafter">Change crafter</button></span>
+        <span>Bank <b>${h(d.bank || 'none set')}</b>${stale('bank', d.bank)}${d.bank ? `: ${fmt(d.bankNow.adena)} adena${d.bankNow.online ? '' : ' (offline)'}` : ''} <button type="button" data-cfrole="bank">Change bank</button></span>
         <span class="cfp-pill ${d.cfg.on ? 'ok' : 'bad'}">${d.cfg.on ? 'crafts toward the targets by itself in ' + h(d.cfg.town) : 'automatic crafting OFF'}</span>
         ${st ? `<span class="muted">now: ${h(st.state || '')} ${h(st.why || '')}</span>` : ''}</div>
       <div class="muted">Stock = ${h(d.crafter)}'s bag + its warehouse + the clan warehouse (clan seen ${h(d.seen.clan || 'never')}). Type a target per shot, then Save.</div>
@@ -98,7 +100,7 @@
   function runnerBox(d) {
     const R = d.runner || {}, q = Array.isArray(R.queue) ? R.queue : [];
     return `<h3>Runner (supplies out, loot back)</h3>
-      <div class="cfp-row"><span>Runner <b>${h(R.name || 'none set')}</b></span>
+      <div class="cfp-row"><span>Runner <b>${h(R.name || 'none set')}</b>${R.name && (d.roleKnown || {}).runner === false ? ' <span class="cfp-pill bad">not a character of this install</span>' : ''}</span>
         <span class="cfp-pill ${R.on && R.name ? 'ok' : 'bad'}">${R.on && R.name ? 'ON: parties call it instead of a supply run' : 'OFF: parties still do their own supply runs'}</span>
         ${R.name ? `<button type="button" data-cfrunon="${R.on ? '0' : '1'}">${R.on ? 'Switch the runner OFF' : 'Switch the runner ON'}</button>` : ''}
         <button type="button" data-cfrunner="1">${R.name ? 'Change runner' : 'Pick the runner'}</button></div>
@@ -119,11 +121,44 @@
     if (!r || r.error) { flash('Not saved: ' + ((r && r.error) || '?'), true); return; }
     flash(msg); load();
   }
-  async function pickRunner() {
-    const parties = (S.d.parties || []).filter(p => p !== S.d.crafter);
-    const who = await uiChoice({ title: 'Who is the runner?', body: [uiNote('It takes shots from the crafter, brings them to a party that calls, collects its loot / materials / letters and brings everything to the crafter.')], buttons: [{ label: 'nobody', value: '-' }].concat(parties.slice(0, 40).map(p => ({ label: p, value: p }))) });
-    if (!who) return;
-    runnerSet({ runner: who === '-' ? '' : who }, who === '-' ? 'No runner.' : `Runner: ${who} (switch it ON to use it).`);
+  // PICKALL-2026-11-10 (public tester Vykaax: "Crafter1 is locked as the bank ... 'Change runner' ... a limited selection. I can't even select my
+  // Plainswalker 'vRunner'"): ONE picker for the runner / bank / crafter, used by this page AND the Runner page (window.CrafterPage.pickRole).
+  // Lists EVERY character of the install (/api/crafterpage chars: no class filter, no cap) with a filter box; one that cannot take the role is
+  // greyed with the reason (crafter.md R16: the runner is never the bank / crafter). Saved to Scripts/data/crafter.json (the file the bots read).
+  const ROLE = {
+    runner: { title: 'Who is the runner?', note: 'Any class works (a dagger / Plainswalker with Silent Move walks in everywhere). It takes shots from the crafter to a party that calls, collects its loot / materials / letters and brings everything to the bank.', done: (n) => n ? `Runner: ${n}${S.d && S.d.runner && S.d.runner.on ? '' : ' (switch it ON to use it)'}.` : 'No runner.' },
+    bank: { title: 'Who is the clan bank?', note: 'The bank holds the clan money, receives the runner\'s deliveries, sells / crystallizes / stores them and does every clan warehouse job. It never leaves Giran.', done: (n) => `Bank: ${n}.` },
+    crafter: { title: 'Who is the crafter?', note: 'Crafts the shots (a Dwarven Artisan / Warsmith / Maestro with Create Item). The stock targets are kept per crafter; who crafts by itself is the Storage page\'s "Our crafter".', done: (n) => `Crafter: ${n}.` },
+  };
+  async function pickRole(role) {
+    const R0 = ROLE[role]; if (!R0) return { error: 'unknown role ' + role };
+    let d = null; try { d = await api('/api/crafterpage'); } catch (e) { d = { error: e.message }; }
+    if (!d || d.error) return { error: 'could not load the characters: ' + ((d && d.error) || '?') };
+    const cur = role === 'runner' ? String((d.runner && d.runner.name) || '') : String(d[role] || '');
+    const chars = Array.isArray(d.chars) ? d.chars : [];
+    const opt = (c) => {
+      const why = (c.block || {})[role] || '';
+      const bits = [c.cls, c.level != null ? 'lvl ' + c.level : '', c.party ? (c.party === c.name ? 'party leader' : 'party ' + c.party) : '', c.online ? 'online' : 'offline'].filter(Boolean).join(' · ');
+      return { label: `${c.name}${c.name === cur ? ' (now)' : ''}${bits ? ' — ' + bits : ''}${why ? ' — ' + why : ''}`, value: c.name, disabled: !!why, hint: why || bits };
+    };
+    const options = (role === 'runner' ? [{ label: 'nobody (no runner)' + (cur ? '' : ' (now)'), value: '' }] : []).concat(chars.map(opt));
+    if (cur && !chars.some(c => c.name === cur)) options.unshift({ label: `${cur} (now) — not a character of this install`, value: cur, disabled: true, hint: 'no account of this install has this name' });
+    const start = options.find(o => o.value === cur && !o.disabled);
+    const res = await uiForm({ title: R0.title, body: [uiNote(R0.note), uiNote(`${chars.length} characters - type to filter. Greyed = cannot take this role (the reason is in the line).`)],
+      fields: [{ id: 'who', label: 'Character', column: true, search: 'Filter by name, class or party…', options, value: start ? start.value : null }], buttons: [{ label: 'Save', value: 'ok', primary: true }] });
+    if (!res) return { cancelled: true };
+    const who = res.values && res.values.who;
+    if (who == null || (role !== 'runner' && !who)) return { error: 'nobody picked' };
+    if (who === cur) return { ok: true, msg: 'No change.' };
+    let r = null; try { r = await api('/api/crafterpage', { method: 'POST', body: JSON.stringify({ action: 'settings', [role]: who }) }); } catch (e) { r = { error: e.message }; }
+    if (!r || r.error) return { error: (r && r.error) || '?' };
+    return { ok: true, msg: R0.done(who), who };
+  }
+  async function pickRunner() { await rolePick('runner'); }
+  async function rolePick(role) {
+    const r = await pickRole(role); if (!r || r.cancelled) return;
+    if (r.error) { flash('Not saved: ' + r.error, true); return; }
+    flash(r.msg); load();
   }
   async function save() {
     const targets = {}; Object.keys(S.edit).forEach(k => { const v = String(S.edit[k]).trim(); targets[k] = v === '' ? null : Number(v); });
@@ -141,8 +176,8 @@
   }
   async function sell(key) {
     const r0 = S.d.rows.find(x => x.key === key); if (!r0) return;
-    const parties = (S.d.parties || []).filter(p => p !== S.d.crafter);
-    const party = await uiChoice({ title: `Sell ${r0.name} to which party?`, body: [uiNote(`Normal cost: ${fmt(r0.price)} adena each. Both hand over in the same town (nobody travels for it).`)], buttons: parties.slice(0, 40).map(p => ({ label: p, value: p })) });
+    const parties = (S.d.leaders || S.d.parties || []).filter(p => p !== S.d.crafter);   // PICKALL-2026-11-10: the party leaders, no 40 cap
+    const party = await uiChoice({ title: `Sell ${r0.name} to which party?`, body: [uiNote(`Normal cost: ${fmt(r0.price)} adena each. Both hand over in the same town (nobody travels for it).`)], buttons: parties.map(p => ({ label: p, value: p })) });
     if (!party) return;
     const cnt = await uiChoice({ title: `How many ${r0.name} for ${party}?`, body: [uiNote(`${S.d.crafter} has ${fmt(r0.where.bag)} in the bag.`)], buttons: [1000, 5000, 10000, 20000, 50000].filter(x => x <= r0.where.bag).map(x => ({ label: `${fmt(x)} = ${fmt(x * r0.price)} adena`, value: String(x) })) });
     if (!cnt) return;
@@ -157,6 +192,7 @@
     if ((b = g('[data-cfcraft]'))) { craft(b.dataset.cfcraft); return; }
     if ((b = g('[data-cfsell]'))) { sell(b.dataset.cfsell); return; }
     if (g('[data-cfrunner]')) { pickRunner(); return; }
+    if ((b = g('[data-cfrole]'))) { rolePick(b.dataset.cfrole); return; }   // PICKALL-2026-11-10: Change bank / Change crafter
     // RUNNERROTATE-2026-11-03: the runner's rotation through the farming parties
     if ((b = g('[data-cfstealth]'))) { const on = b.dataset.cfstealth === '1'; runnerSet({ runnerStealth: on }, on ? 'Stealth ON: the runner walks in to every party, Silent Move on the whole trip' : 'Stealth OFF: the runner keeps the level limit (a member meets it at the landing)'); return; }   // RUNNERSTEALTH-2026-11-03
     if ((b = g('[data-cfroton]'))) { const on = b.dataset.cfroton === '1'; runnerSet({ rotateOn: on }, on ? 'Rotation ON: with no call waiting the runner visits the farming parties' : 'Rotation OFF: the runner only answers calls'); return; }
@@ -168,5 +204,5 @@
     S.edit[t.dataset.cftarget] = t.value; S.dirty = true;
     const bar = document.querySelector('#tab-crafter [data-cfsave]'); if (bar) bar.disabled = false;
   }
-  window.CrafterPage = { route, open, close, _state: S };
+  window.CrafterPage = { route, open, close, pickRole, _state: S };
 })();

@@ -179,6 +179,14 @@
     const list = (o.raids || []).filter(b => q ? b.name.toLowerCase().includes(q) : (b.level || 0) >= at - 8 && (b.level || 0) <= at + 4).slice(0, 40);
     return `<div class="pp-hint">The party is about level ${E(at)} here (a boss more than 8 levels below the party curses it).</div><div class="pp-list" role="listbox" aria-label="Raid bosses">${list.map(b => `<button type="button" role="option" aria-selected="${s.boss === b.id}" class="pp-opt${s.boss === b.id ? ' sel' : ''}" data-ppraid="${E(b.id)}"><b>${E(b.name)}</b><span>level ${E(b.level)}${b.where ? ' · ' + E(b.where) : ''}</span></button>`).join('') || '<div class="pp-hint">No boss near this level — search a name.</div>'}</div>`;
   }
+  // PLANHUNT-2026-11-10 (owner: YES, plan level steps get the same "how long?" choice as the spot picker's "Hunt here — how long?")
+  function huntBlock(s) {
+    const L = PL(); if (!L.huntChoice) return '';
+    const hv = L.huntChoice(s.hunt), h = s.hunt || {}, timed = hv !== 'stop' && hv !== 'default';
+    return `<div class="pp-lab">How long at each place?</div>${seg('hunt.hours', hv, [['default', '12 h, then a supply trip'], ['stop', 'Until I stop it'], ['1', '1 h'], ['2', '2 h'], ['3', '3 h'], ['4', '4 h'], ['6', '6 h'], ['8', '8 h']])}
+      ${timed ? `<div class="pp-lab">When the time is up</div>${seg('hunt.endAction', h.endAction || 'town', [['town', 'Go to town and wait'], ['resupply', 'Town, supplies, come back'], ['keep', 'Keep hunting']])}` : ''}
+      <div class="pp-hint">${hv === 'stop' ? 'No clock: the party hunts until you stop it — no 12 h town trip.' : hv === 'default' ? 'The normal hunting session: after 12 h one trip to Giran (shots, loot, letters), then back.' : 'The clock starts when the party arrives (at the latest 45 min after the step starts).'}</div>`;
+  }
   function editorBody() {
     const ed = PP.edit, s = ed.step;
     if (!s.kind) {
@@ -193,7 +201,8 @@
         <div class="pp-lab">Where to hunt</div>${seg('spot.mode', sp.mode, [['party', "Party's own place"], ['auto', 'Leader picks'], ['manual', 'Choose a place']])}
         <div class="pp-hint">${sp.mode === 'party' ? 'The hunting place you set on the party card (Parties tab) — or the leader’s pick when none is set.' : sp.mode === 'auto' ? 'The leader picks a place that fits the party’s level, and moves on as it levels.' : 'Tap a place below. Type to search every place.'}</div>
         ${sp.mode === 'manual' && window.openSpotPickerFor ? `<button type="button" class="pp-chip" data-ppmap="1" style="width:100%;margin:6px 0">🗺 Pick rooms or areas on the map${sp.kind ? ' — now: ' + E(PL().stepText({ kind: 'level', to: s.to, spot: sp }, ctxS())) : ''}</button>` : ''}
-        ${sp.mode === 'manual' ? `<input class="pp-search" type="search" data-ppq="spot" placeholder="Search a place…" value="${E(PP.spotQ)}">${spotList(s)}` : ''}`;
+        ${sp.mode === 'manual' ? `<input class="pp-search" type="search" data-ppq="spot" placeholder="Search a place…" value="${E(PP.spotQ)}">${spotList(s)}` : ''}
+        ${huntBlock(s)}`;
     } else if (s.kind === 'quest') {
       const row = (CACHE.qmap || {})[s.quest];
       const rep = row && (row.type === 'repeatable' || row.type === 'daily');

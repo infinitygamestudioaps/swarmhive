@@ -1727,6 +1727,13 @@ function systemInfo() {
  *  $emergencyCommitMB (MemWatch restarts only when the free commit memory is below that). Cached by file time. */
 let CTL_LIM = { k: '', v: null };
 function ctlLimits() {
+  // MEMPAGEFILE-2026-11-10: swarm.config.json "memwatch" { minCommitMB, minCommitPct, emergencyCommitMB, hardCommitMB, ramPlentyMB } wins (l2swarm_ctl.ps1 reads it too)
+  const L = ctlLimitsScripts(); let mw = null; try { mw = SC.cfg && SC.cfg.memwatch; } catch (e) { }
+  if (!mw || typeof mw !== 'object') return L;
+  const o = Object.assign({}, L); ['minCommitMB', 'minCommitPct', 'emergencyCommitMB', 'hardCommitMB', 'ramPlentyMB'].forEach(k => { if (Number(mw[k]) > 0) o[k] = Number(mw[k]); });
+  return o;
+}
+function ctlLimitsScripts() {
   const T = path.join(PLAN, 'tools'), num = (s, re, d) => { const m = s.match(re); return m ? +m[1] : d; };
   try {
     const fd = path.join(T, 'deploy_swarm.ps1'), fc = path.join(T, 'l2swarm_ctl.ps1'), k = fs.statSync(fd).mtimeMs + '|' + fs.statSync(fc).mtimeMs;
@@ -1734,9 +1741,11 @@ function ctlLimits() {
     const d = fs.readFileSync(fd, 'utf8'), c = fs.readFileSync(fc, 'utf8');
     const reloadMB = num(d, /^\s*\$reloadMB\s*=\s*(\d+)/m, 1000000);
     CTL_LIM = { k, v: { deployGapMin: num(d, /^\s*\$minGap\s*=\s*(\d+)/m, 15), deployRestarts: reloadMB < 1000000, deployRestartAboveMB: reloadMB < 1000000 ? reloadMB : null, deployMaxMB: null,
-      warnMB: num(c, /^\s*\$warnMB\s*=\s*(\d+)/m, 4500), minCommitMB: num(c, /\$minCommitMB\s*=\s*(\d+)/, 3000), emergencyCommitMB: num(c, /\$emergencyCommitMB\s*=\s*(\d+)/, 1500), restartMB: null, source: 'scripts' } };
+      warnMB: num(c, /^\s*\$warnMB\s*=\s*(\d+)/m, 4500), minCommitMB: num(c, /\$minCommitMB\s*=\s*(\d+)/, 3000), emergencyCommitMB: num(c, /\$emergencyCommitMB\s*=\s*(\d+)/, 1500), restartMB: null,
+      // MEMPAGEFILE-2026-11-10 (requirement memwatch.md): the restart needs low commit AND little free RAM; below hardCommitMB always
+      minCommitPct: num(c, /\$minCommitPct\s*=\s*(\d+(?:\.\d+)?)/, 5), hardCommitMB: num(c, /\$hardCommitMB\s*=\s*(\d+)/, 500), ramPlentyMB: num(c, /\$ramPlentyMB\s*=\s*(\d+)/, 2000), source: 'scripts' } };
     return CTL_LIM.v;
-  } catch (e) { return { deployGapMin: 15, deployRestarts: false, deployMaxMB: null, warnMB: 4500, minCommitMB: 3000, emergencyCommitMB: 1500, restartMB: null, source: 'defaults' }; }
+  } catch (e) { return { deployGapMin: 15, deployRestarts: false, deployMaxMB: null, warnMB: 4500, minCommitMB: 3000, emergencyCommitMB: 1500, minCommitPct: 5, hardCommitMB: 500, ramPlentyMB: 2000, restartMB: null, source: 'defaults' }; }
 }
 function runTask(name) {
   return new Promise((resolve) => execFile('schtasks', ['/run', '/tn', name], { windowsHide: true },
@@ -1910,6 +1919,13 @@ let bhLastCfg = null, bhDeferSince = 0, bhDeferLogAt = 0;
 /** swarm.config.json accounts[] (the roster for "allowAll"); null = unreadable (allowAll then keeps the last good list) */
 function bhRoster() { return BHS.readRoster(SC.CONFIG_FILE); }
 function bhCfg() { const raw = readJson(BH_FILE, null); const c = BHS.readCfg(raw, bhLastCfg, bhRoster()); if (raw) bhLastCfg = c; return c; }
+// ONLINEGAP-2026-11-10 (tester LuckyStrikz: "27 of 27 there but ... the dashboard still has them as offline"): logged-in accounts that do not
+// report to Hive + WHY (not in swarm.config.json / no agent connected / no role ...) - Dashboard/onlinegap.js; /api/state hiveGap + /api/engine gap
+const OGAP = require('./onlinegap').create({
+  mcpList: async () => { const all = JSON.parse(await mcpCallT('get_accounts_status', {})); return Array.isArray(all) ? all : (all.accounts || []); },
+  accounts: () => bhRoster() || [], engine: () => bhCfg(), connected: () => BHS.connectedNames(BHS.readStats(BH_STATS, 60000)),
+  ages: () => { const o = {}; readStates().forEach(s => { o[s.name] = s.ageSec; }); return o; },
+  handsOff: () => ((readJson(path.join(ROOT, 'Scripts', 'data', 'run_state.json'), {}) || {}).handsOff) || {} });
 function bhFights(c) { try { const cfg = readJson(path.join(ROOT, 'swarm.config.json'), null) || {}; return BHS.liveFights(LOGS, BHS.fightKeys ? BHS.fightKeys(c.allow, cfg.accounts) : BHS.brainParties(c.allow, cfg.accounts), Date.now(), 30000); } catch (e) { return []; } }
 function startBrainHost() {
   const c = bhCfg(); bhSig = BHS.restartSig(c);
@@ -3073,7 +3089,8 @@ http.createServer(async (req, res) => {
     // (docs/plan/tools/attach_agent.js --all [--apply] in the background; its output goes to Logs/engine_switch.log)
     if (url.pathname === '/api/engine' && req.method === 'GET') {
       const c = bhCfg(), roster = BHS.rosterOf(bhRoster() || []), conn = BHS.connectedNames(BHS.readStats(BH_STATS, 60000));
-      return json(res, 200, { on: c.on, allowAll: !!c.allowAll, except: c.except || [], brain: c.on ? c.allow.length : 0, roster: roster.length, poolRunning: !!bhProc,
+      let gap = null; try { gap = await OGAP.get(15000); } catch (e) { }   // ONLINEGAP-2026-11-10: logged in but not reporting + why
+      return json(res, 200, { gap, on: c.on, allowAll: !!c.allowAll, except: c.except || [], brain: c.on ? c.allow.length : 0, roster: roster.length, poolRunning: !!bhProc,
         connected: conn ? conn.length : null, waiting: conn && c.on ? c.allow.filter(n => !conn.includes(n)) : null, job: engineJob.running ? engineJob : null, last: engineJob.last || null,
         log: tail(path.join(LOGS, 'engine_switch.log'), 60) });
     }
@@ -3099,6 +3116,8 @@ http.createServer(async (req, res) => {
         clock: clockWatch.last,                                            // CLOCKWATCH-2026-10-24: PC clock vs internet time
         brake: brakeStatus(),                                              // offline characters: why + next try (2026-10-10)
         full: fullStatus(chars),                                           // FULLWARN 2026-10-14: bags / warehouses full (banner)
+        memAlert: require('./onlinegap').memAlert(path.join(LOGS, 'memwatch_alert.json'), Date.now()),   // MEMPAGEFILE-2026-11-10: pagefile / low-memory restart (banner)
+        hiveGap: (() => { try { return OGAP.peek(); } catch (e) { return null; } })(),   // ONLINEGAP-2026-11-10: logged in but not reporting (banner)
         cursed: cursedStatus(),                                          // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]
         run: require('./runstate_api').summary({ DATA, LOGS, ROOT, readJson, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER }, chars),   // RUNSTATE 2026-10-13: the manual Start / Stop per party (Parties tab)
         plans: (() => { try { return require('./partyplan_api').summary({ DIR: __dirname, DATA, LOGS, ROOT, readJson }, chars); } catch (e) { return {}; } })(),   // PARTY PLAN 2026-10-13: 'step 3/9: ...' on the party card

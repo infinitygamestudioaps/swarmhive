@@ -1,4 +1,4 @@
-// QEHANDOVER guard (2026-11-06, owner: "ret de fastlåste hold"): Nuker21's academy group stood in Giran for 16 h - the runner's automatic
+// QEHANDOVER guard (2026-11-06, owner: "ret de fastlåste hold"): Ashra00's academy group stood in Giran for 16 h - the runner's automatic
 // "!handover crun_..." counted as "a newer order replaced it", quest 412 stopped and the plan step paused for good. Only a REAL newer order
 // ends a quest run; an internal hand-over only pauses it.
 'use strict';
@@ -15,7 +15,7 @@ const M = new Function(`const orderState = { seq: 0, text: '', userSeq: 0 };
   return { orderState, orderBegin, qeReplaced, orderInternalText };`)();
 M.orderBegin('plan: quest 412'); const Q = { orderSeq: M.orderState.seq };
 t('a quest run is not replaced at its start', !M.qeReplaced(Q));
-M.orderBegin('!handover crun_nuker21_mw3mprja');
+M.orderBegin('!handover crun_ashra00_mw3mprja');
 t('the runner hand-over (internal) does NOT end the quest run', !M.qeReplaced(Q));
 M.orderBegin('!handover letters_x');
 t('several internal hand-overs still do not', !M.qeReplaced(Q));

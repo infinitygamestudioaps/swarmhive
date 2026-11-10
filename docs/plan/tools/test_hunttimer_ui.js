@@ -146,7 +146,7 @@ const readTimers = (F) => { try { return JSON.parse(fs.readFileSync(F, 'utf8'));
   await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000);
   await click('[data-spkdp]');
   for (let i = 0; i < 50; i++) { T = readTimers(HTF); if (T && !T.parties[PARTY]) break; await sleep(100); }
-  ok('"Until I stop it": the timer is removed (today\'s behaviour)', T && !T.parties[PARTY]);
+  ok('"Until I stop it": no timer, remembered as untilStop (UNTILSTOP 2026-10-29: no 12 h long hunt)', T && (!T.parties[PARTY] || (T.parties[PARTY].untilStop === true && !T.parties[PARTY].hours)));
   await UID.set(ev, { values: { hours: 1 }, button: 'go' });
   await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('[data-spkdp]')`, 8000); await click('[data-spkdp]');
   for (let i = 0; i < 50; i++) { T = readTimers(HTF); if (T && T.parties[PARTY]) break; await sleep(100); }

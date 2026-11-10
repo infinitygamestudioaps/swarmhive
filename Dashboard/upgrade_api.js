@@ -30,10 +30,12 @@ function lineBody(name, L) {
     augment: L.augment && Number(L.augment.stone) ? { stone: Number(L.augment.stone), wanted: (L.augment.wanted || []).map(Number), max: Number(L.augment.max) || 1 } : null };
 }
 /** plan one line; the materials' sources from the order's ticks: bag (always) -> warehouse -> clan warehouse -> buy */
-async function planLine(ctx, name, L, use, overSafeOk) {
-  const b = Object.assign(lineBody(name, L), { overSafeOk: !!overSafeOk });
+async function planLine(ctx, name, L, use, overSafeOk, taken) {
+  const b = Object.assign(lineBody(name, L), { overSafeOk: !!overSafeOk, softWarn: true });   // UPGWARN: cost / level = plain warnings here
   // PLUSLOCK-2026-11-04 (gear.md R6): a plused piece from a warehouse / another bag only when the owner tapped that piece himself
   { const PL = require('./pluslock'); if (PL.plusLocked(b.item)) return { error: PL.plusLockWhy(Object.assign({ name: 'item ' + b.item.id }, b.item)) }; }
+  let srcNote = '';
+  { const r = await srcCheck(ctx, name, b.item, use || {}, taken); if (r.error) return r; if (r.item) b.item = r.item; srcNote = r.note || ''; }   // UPGSRC-2026-11-10
   let p = await IP.plan(ctx, b); if (p.error) return p;
   const pick = {};
   // NESTEDPICK-2026-10-30 (Chanter1's Homunkulus Acumen): a need that only appears after a pick (the crystals for the soul crystal exchange) is
@@ -52,20 +54,79 @@ async function planLine(ctx, name, L, use, overSafeOk) {
   if (Object.keys(pick).length === before) break;
   p = await IP.plan(ctx, Object.assign(b, { sources: Object.assign({}, pick) })); if (p.error) return p;
   }
+  if (srcNote) (p.warn = p.warn || []).unshift(srcNote);
   return p;
+}
+// UPGSRC-2026-11-10 (Discord Vykaax, Swarm 3.11.5 + Hive 1.14.0: the bank was asked for a piece the clan warehouse did not have and the order
+// stopped there; with "own warehouse" / "clan warehouse" switched OFF it still asked the clan warehouse): a warehouse line is checked against the
+// last warehouse read. Not there, or that source switched off for this order -> the next ALLOWED source: own bag -> own warehouse / clan warehouse
+// (only when ticked) -> buy in Giran (only when "buy in Giran" is ticked); none allowed = the line says why. A plused piece (+1 and up) is the
+// owner's exact pick: never swapped for another piece (gear.md R12); a piece the owner tapped himself counts even with its source switched off.
+const SRC_WHERE = { wh: 'own warehouse', clan: 'clan warehouse' };
+/** pure: the next source for a warehouse line -> { src, row } | null. it = line item, have = { bag, wh, clan } rows, use = ticks, shopRow = adena offer */
+function srcFallback(it, have, use, shopRow) {
+  const id = Number(it.id), e = Number(it.enchant) || 0;
+  if (e > 0) return null;   // gear.md R12: the plused piece the owner picked, never another one
+  const has = (rows) => (rows || []).find(r => Number(r.id) === id && !r.eq && (Number(r.enchant) || 0) === 0);
+  const b = has(have.bag); if (b) return { src: 'bag', row: b };
+  for (const k of ['wh', 'clan']) { if (k === it.src || !use[k]) continue; const r = has(have[k]); if (r) return { src: k, row: r }; }
+  // UPGGIVE-2026-11-10 (owner: "Yes, fall through to distributors and other characters too. IF it's not used by any other character"): before
+  // buying, a distributor's spare piece, then any other character's spare piece (have.givers: only unused pieces, see upgSpare / spareGivers)
+  for (const g of have.givers || []) { const r = (g.rows || [])[0]; if (r) return { src: 'char', row: r, char: g.name, dist: !!g.dist }; }
+  if (use.buy && shopRow) return { src: 'shop', row: shopRow };
+  return null;
+}
+/** UPGGIVE pure: a giver's bag rows -> its UNUSED +0 pieces of item id: not worn, not a quest item, not kept for it (kept_ / jobkeep_ objIds),
+ *  not promised in this plan already (taken objIds), not a piece of the armor set it wears (setIds) or of its own gear plan (planIds) */
+function upgSpare(items, id, keep, setIds, planIds, taken) {
+  id = Number(id); if ((setIds && setIds.has(id)) || (planIds && planIds.has(id))) return [];
+  return (items || []).filter(r => Number(r.id) === id && Number(r.objId) && !r.eq && !r.equipped && !r.q && !r.quest && (Number(r.enchant) || 0) < 1
+    && !(keep && keep.has(Number(r.objId))) && !(taken && taken.has(Number(r.objId)))).map(r => ({ objId: Number(r.objId), id, enchant: 0 }));
+}
+/** UPGGIVE: every other character that could hand over a spare piece of item id now: online, alive, in Giran, fresh bag report (< 6 h);
+ *  distributors (Scripts/data/gear_sources.json distributors.names) first */
+function spareGivers(ctx, id, except, taken) {
+  const states = ctx.readStates ? ctx.readStates() : [], gs = rj(path.join(ctx.DATA, 'gear_sources.json'), {}) || {}, dist = new Set(((gs.distributors || {}).names || []).map(String)), out = [];
+  for (const s of states) {
+    const n = String((s && s.name) || ''); if (!NAME_RE.test(n) || n === except || !(Number(s.ageSec) < 60) || s.dead || !inGiran(s)) continue;
+    const b = rj(path.join(ctx.LOGS, `bag_${n}.json`), null); if (!b || !Array.isArray(b.items) || Date.now() - (Date.parse(b.at || '') || 0) > 6 * 3600000) continue;
+    const keep = new Set(); ((rj(path.join(ctx.LOGS, `kept_${n}.json`), {}) || {}).items || []).forEach(x => keep.add(Number(x && x.objId)));
+    Object.keys(rj(path.join(ctx.LOGS, `jobkeep_${n}.json`), {}) || {}).forEach(k => keep.add(Number(k)));
+    const worn = new Set(b.items.filter(r => r.eq || r.equipped).map(r => Number(r.id))), setIds = new Set();
+    armorSets(ctx).forEach(S => { const all = [].concat(...Object.values(S.pieces || {}).map(a => (a || []).map(Number))); if (all.some(x => worn.has(x))) all.forEach(x => setIds.add(x)); });
+    const planIds = new Set(); { const G = recFor(ctx, s.classId)[levelGrade(s.level)] || {}; Object.values(G).forEach(x => { if (x && x.id) { planIds.add(Number(x.id)); (x.alt || []).forEach(a => planIds.add(Number(a))); } }); }
+    const rows = upgSpare(b.items, id, keep, setIds, planIds, taken); if (rows.length) out.push({ name: n, dist: dist.has(n), rows });
+  }
+  return out.sort((a, c) => (c.dist - a.dist) || a.name.localeCompare(c.name));
+}
+async function srcCheck(ctx, name, it, use, taken) {
+  if (!SRC_WHERE[it.src]) return {};
+  const C = await IP.charInfo(ctx, name, false); if (C.error) return C;
+  const id = Number(it.id), e = Number(it.enchant) || 0, where = SRC_WHERE[it.src];
+  const there = (C[it.src] || []).some(r => Number(r.id) === id && (Number(r.enchant) || 0) === e);
+  const on = !!use[it.src] || it.ownerPick === true, known = !!(it.src === 'clan' ? C.clanSeen : C.whSeen);
+  if (on && (there || !known)) return {};   // never read yet: the bot asks, and falls through itself when it is not there (UPGFALL in swarm.js)
+  const seen = it.src === 'clan' ? C.clanSeen : C.whSeen, why = !on ? `the ${where} is switched off for this order` : `not in the ${where}${seen ? ' (last read ' + String(seen).slice(0, 16).replace('T', ' ') + ')' : ''}`;
+  const shopRow = [].concat(...IP.shops(ctx).shops.map(x => x.rows)).filter(r => r.id === id && !r.cost && r.price > 0).sort((a, c) => a.price - c.price)[0] || null;
+  const givers = e > 0 ? [] : spareGivers(ctx, id, name, taken);   // UPGGIVE: never for a plused piece
+  const fb = srcFallback(it, { bag: C.bag, wh: C.wh, clan: C.clan, givers }, use, shopRow), F = IP.facts(ctx, id);
+  if (!fb) return { error: `${F.name}${e ? ' +' + e : ''}: ${why}${e ? ' — a plused piece is only the exact one you picked' : ''}; ${use.buy || e ? 'no other source' : 'no spare piece on a distributor / another character in Giran - tick "buy in Giran" to buy it instead'}` };
+  const objId = fb.src === 'bag' || fb.src === 'char' ? Number(fb.row.objId) || 0 : 0; if (fb.src === 'char' && taken) taken.add(objId);   // UPGGIVE: one piece promised once
+  const item = Object.assign({}, it, { src: fb.src, enchant: 0, objId, offer: fb.src === 'shop' ? fb.row.offer || null : null, char: fb.src === 'char' ? fb.char : '', ownerPick: false });
+  return { item, note: `${F.name}: ${why} → ${fb.src === 'shop' ? 'buys it at ' + fb.row.npc : fb.src === 'char' ? `${fb.char} (${fb.dist ? 'distributor' : 'a spare piece in its bag'}) hands it over in Giran` : 'takes it from the ' + (fb.src === 'bag' ? 'own bag' : SRC_WHERE[fb.src])}` };
 }
 async function planAll(ctx, b) {
   const orders = Array.isArray(b.orders) ? b.orders : [];
   if (!orders.length) return { code: 400, error: 'Pick at least one character and one item.' };
   if (orders.length > MAX_CHARS) return { code: 400, error: `At most ${MAX_CHARS} characters in one order.` };
   const use = { wh: !!(b.use && b.use.wh), clan: !!(b.use && b.use.clan), buy: !!(b.use && b.use.buy) };
-  const out = [], seen = new Set();
+  const out = [], seen = new Set(), taken = new Set();   // UPGGIVE: a giver's piece is promised to one line only
   for (const o of orders) {
     const name = String(o.name || ''); if (!NAME_RE.test(name) || seen.has(name)) continue; seen.add(name);
     const lines = (Array.isArray(o.lines) ? o.lines : []).slice(0, MAX_LINES);
     const res = [];
     for (const L of lines) {
-      const p = await planLine(ctx, name, L, use, b.overSafeOk);
+      const p = await planLine(ctx, name, L, use, b.overSafeOk, taken);
       const uw = L.unseal && typeof L.unseal === 'object' ? Number(L.unseal.id) || 0 : 0, us = L.unseal && !p.error ? unsealRow(ctx, Number((L.item || {}).id), uw || undefined) : null;   // GEARUPCOL-2026-10-29: the owner ticked "unseal first" -> Pushkin before it goes on; GEARUPCOL-2: the variant picked on the page (checked against unsealOptions)
       if (L.unseal && !p.error && !us) { res.push({ error: uw ? 'that unseal choice does not fit this piece' : 'this piece cannot be unsealed', item: L.item }); continue; }
       // GEARUPCOL-2: a line saved before the variant choice existed (no id) on a Heavy / Light / Robe piece = refused, never the Robe default
@@ -120,11 +181,15 @@ async function start(ctx, b) {
       finalId: r.finalId, wear: r.wear !== false, augment: r.augment || null, unseal: r.unseal || null,   // EPICGET-2026-10-31: a line may stay in the bag (gear.md R7: a set goes on whole)
       needs: (r.needs || []).map(n => ({ id: n.id, what: n.what, need: n.need, from: n.from, buy: n.buy || null, choice: n.choice || '' })) }));
     const solo = when === 'solo' && !isLeaderName(ctx, o.name);
-    const J = { id, doer: o.name, kind: 'upgrade', upgrade: { lines, collector: col && col !== o.name ? col : '', giveBack: !!b.giveBack && !!col && col !== o.name, buyOk: !!(b.use && b.use.buy) },   // CWHNOTTHERE: buying allowed -> a piece missing from the clan warehouse is bought item: { name: `${lines.length} upgrade(s)`, id: 0 }, overSafeOk: !!b.overSafeOk,
+    const J = { id, doer: o.name, kind: 'upgrade', upgrade: { lines, collector: col && col !== o.name ? col : '', giveBack: !!b.giveBack && !!col && col !== o.name, buyOk: !!(b.use && b.use.buy),   /* CWHNOTTHERE: buying allowed -> a piece missing from the clan warehouse is bought */
+        use: { wh: !!(b.use && b.use.wh), clan: !!(b.use && b.use.clan) } },   /* UPGFALL-2026-11-10: the ticked sources (the bot falls through only to these) */
+      item: { name: `${lines.length} upgrade(s)`, id: 0, src: 'none' }, overSafeOk: !!b.overSafeOk,   // UPGCOMMENT-2026-11-10 (Discord Vykaax): the comment above had swallowed item + overSafeOk -> every upgrade order failed; src 'none' = never a single-item fetch
       give: null, needs: [], clanLeader: cl, steps: [].concat(...o.lines.map(r => r.steps)), created: isoNow(), by: String(b.by || 'dashboard upgrade').slice(0, 40),
       solo, queued: when === 'town' ? { since: isoNow() } : null };
     fs.writeFileSync(path.join(dir, id + '.json'), JSON.stringify(J, null, 1));
     if (when === 'town') { writeStatus(ctx, id, { state: 'queued' }, `waits until ${o.name} is in Giran next time (or Send now)`); started.push({ name: o.name, id, queued: true }); continue; }
+    // UPGWHEN-2026-11-10 (Discord Vykaax: "Now — only <name> go" still read "waiting for the next Giran visit"): a job sent now says so at once
+    writeStatus(ctx, id, { state: 'sent' }, solo ? `${o.name} goes to Giran alone now, then back to the party` : when === 'solo' ? `${o.name} leads the party, so the whole party goes to Giran now` : `${o.name}'s party goes to Giran now`);
     started.push({ name: o.name, id, error: await sendJob(ctx, J, solo ? 'alone now' : 'party now'), solo, leaderTakesParty: when === 'solo' && !solo });
   }
   return { ok: true, started, skipped, collector: col, when };
@@ -397,7 +462,8 @@ async function unsealStart(ctx, b) {
 // PRESET-2026-10-25 (owner: "an entire raid waiting to get upgrades to top C-grade gear"): GET /api/upgrade/preset?names=a,b&grade=C ->
 // per character the gear plan's piece for every slot of that grade (Scripts/data/gear_rec/<classId>.json, Dashboard/gear_recommend.js) that it
 // does not wear yet, with a source: its own bag -> the clan warehouse (each piece once) -> a Giran shop; else listed as not available
-function preset(ctx, namesRaw, gradeRaw) {
+function preset(ctx, namesRaw, gradeRaw, useRaw) {
+  const useClan = useRaw == null || /(^|,)clan(,|$)/.test(String(useRaw));   // UPGSRC-2026-11-10: the page sends its ticks (use=wh,clan,buy); none sent = as before
   // RECFIX-2026-10-29: 'auto' (the page's default) = each character's LEVEL grade (GRADE_LEVEL: 61-75 A, 76+ S); was a fixed C for everybody
   const auto = !gradeRaw || /^auto$/i.test(String(gradeRaw)), grade0 = GR_ORDER.slice(1).includes(String(gradeRaw).toUpperCase()) ? String(gradeRaw).toUpperCase() : 'C';
   const all = (IP.chars(ctx).chars || []), names = String(namesRaw || '').split(',').filter(n => NAME_RE.test(n)).slice(0, MAX_CHARS);
@@ -432,20 +498,24 @@ function preset(ctx, namesRaw, gradeRaw) {
       const pairs = /^(earring|ring)$/.test(slot) ? 2 : 1, wornN = Math.min(pairs, good.length);
       if (wornN >= pairs) { have.push(`${slot}: ${good.some(f => ids.includes(f.id)) ? r.name : 'keeps ' + good.map(f => f.name).join(' + ') + ' (as good as the plan)'}`); continue; }
       const F = IP.facts(ctx, ids[0]), base = { id: ids[0], name: r.name || F.name, icon: F.icon, grade: F.grade, slot, enchantTo: 0, saId: 0 };
+      const asId = (id) => { if (Number(id) === ids[0]) return { id: ids[0] }; const f = IP.facts(ctx, Number(id)); return { id: Number(id), name: f.name, icon: f.icon, grade: f.grade }; };   // UPGNAME: an alt keeps its own name
       // never replace a worn Special Ability weapon of the same grade or higher (gear rule 2026-10-06)
       if (slot === 'weapon') { const ww = items.find(x => (x.eq || x.equipped) && IP.facts(ctx, Number(x.id)).kind === 'weapon'); const WF = ww ? IP.facts(ctx, Number(ww.id)) : null;
         if (WF && WF.sa && 'NONE D C B A S S80 S84'.split(' ').indexOf(String(WF.grade)) >= 'NONE D C B A S S80 S84'.split(' ').indexOf(String(F.grade))) { have.push(`weapon: keeps ${WF.name} (Special Ability)`); continue; } }
       for (let k = wornN; k < pairs; k++) {
       const b = inBag.find(x => ids.includes(Number(x.id)) && !usedBag.has(Number(x.objId)) && !SPARE_USED.has(Number(x.objId)));   // PARTYSPARE: not a piece a teammate already got
-      if (b) { usedBag.add(Number(b.objId)); SPARE_USED.add(Number(b.objId)); lines.push(Object.assign({}, base, { id: Number(b.id), src: 'bag', objId: Number(b.objId) || 0, enchant: Number(b.enchant) || 0 })); continue; }
+      if (b) { usedBag.add(Number(b.objId)); SPARE_USED.add(Number(b.objId)); lines.push(Object.assign({}, base, asId(Number(b.id)), { src: 'bag', objId: Number(b.objId) || 0, enchant: Number(b.enchant) || 0 })); continue; }
       // PARTYSPARE-2026-10-29: a better neck / earring / ring of this grade from a bag in this order (own bag first, then the best one) beats buying the plan piece
       const wornMd = items.filter(x => (x.eq || x.equipped) && !ids.includes(Number(x.id)) && (IP.facts(ctx, Number(x.id)) || {}).slot === slot).map(x => Number(IP.facts(ctx, Number(x.id)).md) || 0).sort((p, q) => p - q)[k - wornN] || 0;
       const sp = /^(neck|earring|ring)$/.test(slot) && IL.levelOk(grade, ch.level) ? SPARE.filter(s => !SPARE_USED.has(s.objId) && s.F.slot === slot && s.F.grade === grade && (Number(s.F.md) || 0) > wornMd).sort((p, q) => ((q.char === name) - (p.char === name)) || ((Number(q.F.md) || 0) - (Number(p.F.md) || 0)))[0] : null;
       if (sp) { SPARE_USED.add(sp.objId); if (sp.char === name) usedBag.add(sp.objId); lines.push(Object.assign({}, base, { id: sp.id, name: sp.F.name, icon: sp.F.icon, grade: sp.F.grade, src: sp.char === name ? 'bag' : 'char', char: sp.char === name ? '' : sp.char, objId: sp.objId, enchant: sp.enchant })); continue; }
-      const cid = ids.find(i => (clanLeft[i] || 0) > 0);
-      if (cid) { clanLeft[cid]--; lines.push(Object.assign({}, base, { id: cid, src: 'clan', enchant: 0 })); continue; }
-      const sr = shopRows.find(x => ids.includes(Number(x.id)) && !x.common);
-      if (sr) { lines.push(Object.assign({}, base, { id: Number(sr.id), src: 'shop', offer: sr.offer, enchant: 0, price: sr.price })); continue; }
+      const cid = useClan ? ids.find(i => (clanLeft[i] || 0) > 0) : 0;   // UPGSRC-2026-11-10: the clan warehouse only while it is ticked on the page
+      if (cid) { clanLeft[cid]--; lines.push(Object.assign({}, base, asId(cid), { src: 'clan', enchant: 0 })); continue; }
+      // UPGNAME-2026-11-10 (Discord Vykaax: picked "Sirra's Blade (buy in Giran)", the order bought a Tallum Blade at Galladucci for 16.92m): the
+      // plan piece first (then its alts in the plan's order, never the shop list's order), and the line's name / icon / grade / price are the
+      // piece really bought (was: the plan piece's name on an alt's id)
+      let sr = null; for (const i of ids) { sr = shopRows.filter(x => Number(x.id) === i && !x.common).sort((p, q) => p.price - q.price)[0]; if (sr) break; }
+      if (sr) { lines.push(Object.assign({}, base, asId(Number(sr.id)), { src: 'shop', offer: sr.offer, enchant: 0, price: sr.price })); continue; }
       missing.push(`${slot}: ${r.name} (${String(r.src || 'not in a Giran shop').slice(0, 80)})`);
       }
     }
@@ -667,7 +737,7 @@ async function handle(req, res, url, ctx) {
     if (sub === 'unseal/plan' && req.method === 'POST') { out(await unsealPlan(ctx, b)); return true; }   // UNSEALPICK
     if (sub === 'unseal/start' && req.method === 'POST') { out(await unsealStart(ctx, b)); return true; }
     if (sub === 'collector') { out(collectorStock(ctx, url.searchParams.get('names'))); return true; }   // GEARUPCOL-2026-10-29
-    if (sub === 'preset') { out(preset(ctx, url.searchParams.get('names'), url.searchParams.get('grade'))); return true; }   // PRESET
+    if (sub === 'preset') { out(preset(ctx, url.searchParams.get('names'), url.searchParams.get('grade'), url.searchParams.get('use'))); return true; }   // PRESET
     if (sub === 'doll') { out(await doll(ctx, String(url.searchParams.get('name') || ''))); return true; }   // PAPERDOLL
     if (sub === 'slot') { out(await slotCands(ctx, String(url.searchParams.get('name') || ''), String(url.searchParams.get('slot') || ''))); return true; }
     if (sub === 'status') { out(status(ctx, url.searchParams.get('ids'))); return true; }
@@ -678,4 +748,4 @@ async function handle(req, res, url, ctx) {
     out({ code: 404, error: 'unknown upgrade API' }); return true;
   } catch (e) { out({ code: 500, error: e.message }); return true; }
 }
-module.exports = { collectorStock, unsealOptions, armorKind, unsealList, unsealPlan, unsealStart, unsealRow, catalog, handle, planAll, start, status, collectorName, makePlan, makeStart, preset, doll, slotCands, sendNow, dispatchTick, dispatchStart, jobsFor, recommend, inGiran, levelGrade };
+module.exports = { collectorStock, unsealOptions, armorKind, unsealList, unsealPlan, unsealStart, unsealRow, catalog, handle, planAll, start, status, collectorName, makePlan, makeStart, preset, doll, slotCands, sendNow, dispatchTick, dispatchStart, jobsFor, recommend, inGiran, levelGrade, srcFallback, srcCheck, upgSpare, spareGivers };

@@ -5,6 +5,7 @@
 //                           from ('arrival' default | 'now'), spot (label), addMin (extend: 15..720), by? }
 //        set    = a new timer (new id) for the party's hunting spot choice        clear = no timer ("until I stop it")
 //        extend = more time (a timer that is already over: a new one from now)     end   = "End now" (the leader runs the end action within 15 s)
+//        stop   = "Until I stop it" (no 12 h clock)                                done  = the card's OK on a finished timer ("Keep hunting" -> stop)
 //   lock + atomic write + one line in Logs/dashboard_commands.log.
 // File: Scripts/data/hunt_timers.json (env SWARM_HUNTTIMER_FILE overrides it: the tests use a scratch copy). Missing = no timers (today's
 // behaviour). Read live by swarm.js HUNTTIMER (htData, every 5 s); the leader's clock: Logs/hunt_timer_<leader>.json (swarm.js writes it).
@@ -44,6 +45,12 @@ function applyChange(data, b, nowMs, idFn) {
   if (!NAME_RE.test(party)) return { ok: false, error: 'party (leader name) required' };
   const cur = J.parties[party];
   if (act === 'clear') { delete J.parties[party]; return { ok: true, data: J, entry: null }; }
+  // HTSTICKY-2026-11-10 (Vykaax #3: "they return after 12h no matter what"): the card's OK on a FINISHED timer. A "Keep hunting" timer becomes
+  // "Until I stop it" (deleting it handed the party to the 12 h long-hunt clock = a Giran trip the player never chose); any other one is removed
+  if (act === 'done') {
+    if (cur && typeof cur === 'object' && cur.endAction === 'keep') { J.parties[party] = { untilStop: true, at: iso, spot: String(cur.spot || '').slice(0, 120), by: String(b.by || 'dashboard').slice(0, 40), from: 'keep hunting' }; return { ok: true, data: J, entry: J.parties[party] }; }
+    delete J.parties[party]; return { ok: true, data: J, entry: null };
+  }
   // UNTILSTOP-2026-10-29 (Vykaax: "Until I stop it" was treated as 12 h): the picker's choice is remembered -> swarm.js skips the long-hunt clock
   if (act === 'stop') { J.parties[party] = { untilStop: true, at: iso, spot: String(b.spot || '').slice(0, 120), by: String(b.by || 'dashboard').slice(0, 40) }; return { ok: true, data: J, entry: J.parties[party] }; }
   if (act === 'set') {

@@ -11,6 +11,7 @@
 //     fields = rows of big tap targets (radio groups); render(values) fills a live part under them, redrawn on every change.
 //     KITBUY 2026-10-15: a field with multi: true = CHECKBOXES (options may carry checked / disabled / hint); its value is the array of
 //     ticked option values (field.value = the start array, else the options marked checked); column: true = one option per line.
+//     PICKALL 2026-11-10: search: true | 'placeholder' = a filter box above the options (hides the ones whose label does not contain the text).
 //   Each also takes a plain string (= body). body / details = RICH content, every text is escaped (no HTML from names):
 //     string                 paragraphs split on blank lines, "• x" / "- x" lines become a list, single \n = line break
 //     [block, block, ...]    blocks: string | uiH(...) heading | uiP(...inline) | uiList([...]) | uiPath([...]) | uiWarn(...) | uiNote(...) | uiKV([[k, v]])
@@ -121,14 +122,14 @@
       <div class="uid-head">${kind ? `<span class="uid-ic uid-ic-${kind}" aria-hidden="true">${ICON[kind] || 'i'}</span>` : ''}<h2 id="${id}t">${E(s.title)}</h2></div>
       <div class="uid-body" id="${id}b">${block(s.body)}${s.details ? `<details class="uid-det"><summary>${E(s.detailsLabel || 'Details')}</summary>${block(s.details)}</details>` : ''}
         ${s.type === 'prompt' ? `<label class="uid-field"><span class="uid-lbl">${E(s.label || '')}</span><input id="${id}i" class="uid-in" type="${E(s.inputType || 'text')}" value="${E(s.value == null ? '' : s.value)}" placeholder="${E(s.placeholder || '')}"${s.inputmode ? ` inputmode="${E(s.inputmode)}"` : ''} autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="${id}e"><span class="uid-err" id="${id}e" role="alert"></span></label>` : ''}
-        ${s.fields ? s.fields.map((f, fi) => `<fieldset class="uid-seg${f.multi ? ' uid-multi' : ''}"><legend class="uid-lbl">${E(f.label || '')}</legend><div class="uid-segrow${f.column ? ' uid-col' : ''}">${(f.options || []).map((o, oi) => `<label class="uid-opt${f.multi ? ' uid-chk' : ''}"${o.hint ? ` title="${E(o.hint)}"` : ''}><input type="${f.multi ? 'checkbox' : 'radio'}" name="${id}f${fi}" value="${oi}" data-uidf="${fi}"${(f.multi ? (vals[f.id] || []).includes(o.value) : o.value === vals[f.id]) ? ' checked' : ''}${o.disabled ? ' disabled' : ''}><span>${E(o.label)}</span></label>`).join('')}</div>${f.note ? `<p class="uid-note">${E(f.note)}</p>` : ''}</fieldset>`).join('') : ''}
+        ${s.fields ? s.fields.map((f, fi) => `<fieldset class="uid-seg${f.multi ? ' uid-multi' : ''}"><legend class="uid-lbl">${E(f.label || '')}</legend>${f.search ? `<input class="uid-in uid-search" type="search" data-uidsearch="${fi}" placeholder="${E(typeof f.search === 'string' ? f.search : 'Filter…')}" aria-label="${E(typeof f.search === 'string' ? f.search : 'Filter')}" autocomplete="off" autocapitalize="off" spellcheck="false" style="margin-bottom:6px">` : ''}<div class="uid-segrow${f.column ? ' uid-col' : ''}">${(f.options || []).map((o, oi) => `<label class="uid-opt${f.multi ? ' uid-chk' : ''}"${o.hint ? ` title="${E(o.hint)}"` : ''}><input type="${f.multi ? 'checkbox' : 'radio'}" name="${id}f${fi}" value="${oi}" data-uidf="${fi}"${(f.multi ? (vals[f.id] || []).includes(o.value) : o.value === vals[f.id]) ? ' checked' : ''}${o.disabled ? ' disabled' : ''}><span>${E(o.label)}</span></label>`).join('')}</div>${f.note ? `<p class="uid-note">${E(f.note)}</p>` : ''}</fieldset>`).join('') : ''}
         ${s.fields || s.render ? `<div class="uid-live" id="${id}l" aria-live="polite">${liveHtml()}</div>` : ''}
         ${s.typeToConfirm ? `<label class="uid-field uid-ttc"><span class="uid-lbl">Type <b>${E(s.typeToConfirm)}</b> to confirm</span><input id="${id}i" class="uid-in" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="${id}e"><span class="uid-err" id="${id}e"></span></label>` : ''}
       </div>
       <div class="uid-foot${s.buttons.length > 2 ? ' uid-many' : ''}">${btns}</div></div>`;
     document.body.appendChild(ov);
     document.documentElement.classList.add('uid-open');
-    const card = ov.querySelector('.uid-card'), input = ov.querySelector('.uid-in'), err = ov.querySelector('.uid-err');
+    const card = ov.querySelector('.uid-card'), input = ov.querySelector('.uid-in:not(.uid-search)'), err = ov.querySelector('.uid-err');
     const prim = ov.querySelector('.uid-primary');
     const openedAt = Date.now();
     if (disabledOpener) { disabledOpener.disabled = true; disabledOpener.setAttribute('data-uid-busy', '1'); }
@@ -183,6 +184,8 @@
     if (input) input.addEventListener('input', check);
     const setMulti = (fi, list) => { const f = s.fields[fi]; if (!f) return; const want = (list || []).filter(v => (f.options || []).some(o => o.value === v && !o.disabled)); vals[f.id] = want; (f.options || []).forEach((o, oi) => { const cb = ov.querySelector('input[data-uidf="' + fi + '"][value="' + oi + '"]'); if (cb) cb.checked = want.includes(o.value); }); const l = ov.querySelector('.uid-live'); if (l) l.innerHTML = liveHtml(); };   // KITBUY: checkboxes
     const setField = (fi, oi) => { const f = s.fields[fi], o = f && (f.options || [])[oi]; if (!o) return; if (f.multi) { const cur = (vals[f.id] || []).slice(), cb = ov.querySelector('input[data-uidf="' + fi + '"][value="' + oi + '"]'), on = cb ? cb.checked : !cur.includes(o.value); return setMulti(fi, on ? cur.concat(cur.includes(o.value) ? [] : [o.value]) : cur.filter(v => v !== o.value)); } vals[f.id] = o.value; const rb = ov.querySelector('input[data-uidf="' + fi + '"][value="' + oi + '"]'); if (rb && !rb.checked) rb.checked = true; const l = ov.querySelector('.uid-live'); if (l) l.innerHTML = liveHtml(); };
+    // PICKALL-2026-11-10: a field with search: true (or a placeholder text) = a filter box over its options (long lists, e.g. every character)
+    if (s.fields) ov.addEventListener('input', (e) => { const q = e.target && e.target.dataset ? e.target.dataset.uidsearch : undefined; if (q === undefined) return; const w = String(e.target.value || '').trim().toLowerCase(); ov.querySelectorAll('input[data-uidf="' + q + '"]').forEach(r => { const l = r.closest('.uid-opt'); if (l) l.style.display = !w || l.textContent.toLowerCase().includes(w) ? '' : 'none'; }); });
     if (s.fields) ov.addEventListener('change', (e) => { const r = e.target; if (r && r.dataset && r.dataset.uidf !== undefined) setField(+r.dataset.uidf, +r.value); });
     function focusables() { return [...card.querySelectorAll('button:not([disabled]), input, summary, a[href], [tabindex]:not([tabindex="-1"])')].filter(x => x.offsetParent !== null || x === document.activeElement); }
     function onKey(e) {

@@ -36,7 +36,7 @@
   };
   const GEAR_TYPES = /^(weapon|armor|armour|accessory|accessary|jewel)/i;
   const ID_RE = /^[a-z0-9][a-z0-9_-]{3,40}$/i;
-  const LIMITS = { batch: 8, maxRows: 400, maxGivers: 40 };
+  const LIMITS = { batch: 40, maxRows: 400, maxGivers: 40 };   // TRADEBATCH-2026-11-10 (tester #16): 40 kinds per trade window (= swarm.js HOV_CFG.batch; L2J has no per-window cap)
 
   const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : 0; };
   const setOf = (arr) => { const s = new Set(); (arr || []).forEach(x => s.add(num(x))); return s; };

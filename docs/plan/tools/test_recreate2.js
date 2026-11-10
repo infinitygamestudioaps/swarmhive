@@ -11,7 +11,7 @@ let ok = 0, bad = 0; const t = (m, c) => { if (c) { ok++; console.log('ok   ' + 
 const u16 = (s) => { const a = []; for (let i = 0; i < s.length; i++) { const k = s.charCodeAt(i); a.push(k & 255, (k >> 8) & 255); } a.push(0, 0); return a; };
 const list = (login, names) => { const b = [0, 0, 0x09]; names.forEach(n => { b.push(...u16(n), 1, 2, 3, 4, ...u16(login)); }); return b; };
 async function replay() {
-  const src = AA.buildCreateScript('C:/sandbox', 'mylogin82', { race: 2, sex: 1, classId: 38, stats: [1, 2, 3, 4, 5, 6], names: ['Nuker20', 'Other12'], resultFile: '', del: ['Nyxara05'] }, 'Nuker20');
+  const src = AA.buildCreateScript('C:/sandbox', 'mylogin82', { race: 2, sex: 1, classId: 38, stats: [1, 2, 3, 4, 5, 6], names: ['Shadra2793', 'Other12'], resultFile: '', del: ['Nyxara05'] }, 'Shadra2793');
   const sent = [], logs = [], H = { name: 'Nyxara05' };
   const Options = { SelectedCharacter: 'Nyxara05', AutoReconnect: true };
   let tick = 0;
@@ -28,12 +28,12 @@ async function replay() {
   const askedRestart = sent.some(s => s === 'hex:57'), arOffAtRestart = Options.AutoReconnect === false;
   H.name = '';                                                          // at the character list now
   ctx.OnIncomingPacket(list('mylogin82', ['Nyxara05']));                     // the list: the script must act INSIDE this packet
-  const createdAtList = sent.includes('create:Nuker20'), delAtList = sent.some(s => /^hex:0D/.test(s));
+  const createdAtList = sent.includes('create:Shadra2793'), delAtList = sent.some(s => /^hex:0D/.test(s));
   ctx.OnIncomingPacket([0, 0, 0x0f]);                                   // CharCreateOk
   const liveSel = Options.SelectedCharacter;
   for (let i = 0; i < 3; i++) await new Promise(r => setImmediate(r));
   const arBackAfterCreate = Options.AutoReconnect === true;            // L2Swarm may reconnect again = it logs the NEW one in
-  H.name = 'Nuker20';                                                // L2Swarm enters with the live SelectedCharacter
+  H.name = 'Shadra2793';                                                // L2Swarm enters with the live SelectedCharacter
   for (let i = 0; i < 4; i++) await new Promise(r => setImmediate(r));
   return { askedRestart, arOffAtRestart, arBackAfterCreate, createdAtList, delAtList, liveSel, logs, sent };
 }
@@ -47,9 +47,9 @@ async function replay() {
     t('RECREATE3: max 8 restarts 45 s apart, and AutoReconnect restored on EVERY end (fail, timeout, script stop)', S.includes('if (rs >= 8) { arBack();') && S.includes('Date.now() - rsAt > 45000') && S.includes("arBack(); log('RESULT FAIL timeout');") && S.includes('globalThis.OnBeforeScriptStop = () => arBack();') && S.includes("{ arBack(); log('RESULT FAIL ' + CUR")); }
   t('the graduate is marked for deletion INSIDE the character-list packet (before L2Swarm can select)', r.delAtList);
   t('the new character is created INSIDE the character-list packet', r.createdAtList);
-  t('after the create the LIVE SelectedCharacter names the new character (the next list enters with it)', r.liveSel === 'Nuker20');
-  t('only the new name ends it: "RESULT OK Nuker20"', r.logs.some(l => /RESULT OK Nuker20/.test(l)));
-  t('the script points the live option at the new name from the start', r.logs.some(l => /live SelectedCharacter -> Nuker20/.test(l)));
+  t('after the create the LIVE SelectedCharacter names the new character (the next list enters with it)', r.liveSel === 'Shadra2793');
+  t('only the new name ends it: "RESULT OK Shadra2793"', r.logs.some(l => /RESULT OK Shadra2793/.test(l)));
+  t('the script points the live option at the new name from the start', r.logs.some(l => /live SelectedCharacter -> Shadra2793/.test(l)));
 
   // ---- 2) the manager: back-off, no stale force, keep the name
   const base = '2026-11-03T15:27:00.000Z', at = (min) => new Date(Date.parse(base) + min * 60000).toISOString();
@@ -57,9 +57,9 @@ async function replay() {
   t('a stale dashboard force OLDER than the last try is ignored (the live ~2-min loop)', AL.academyStuckCreate(null, null, { retries: 1, createAt: base, forceRetry: at(-1) }, 'X', at(2)) === null);
   t('a NEW dashboard force (after the last try) retries at once', !!AL.academyStuckCreate(null, null, { retries: 1, createAt: base, forceRetry: at(1) }, 'X', at(2)));
   t('the back-off doubles: due after 30 min at retries 1', !!AL.academyStuckCreate(null, null, { retries: 1, createAt: base }, 'X', at(31)));
-  t('a re-try keeps the name (no create result / in-game failure)', AL.academyRetryName('Nuker20', null) === 'Nuker20' && AL.academyRetryName('Nuker20', { result: 'fail', forChar: 'Nuker20', reason: 'in game as Nyxara05' }) === 'Nuker20');
-  t('a NEW name only when the server refused this name', AL.academyRetryName('Nuker20', { result: 'fail', forChar: 'Nuker20', reason: 2 }) === null);
-  t('slots full is no name problem: the name is kept', AL.academyRetryName('Nuker20', { result: 'fail', forChar: 'Nuker20', slotsFull: true, reason: 1 }) === 'Nuker20');
+  t('a re-try keeps the name (no create result / in-game failure)', AL.academyRetryName('Shadra2793', null) === 'Shadra2793' && AL.academyRetryName('Shadra2793', { result: 'fail', forChar: 'Shadra2793', reason: 'in game as Nyxara05' }) === 'Shadra2793');
+  t('a NEW name only when the server refused this name', AL.academyRetryName('Shadra2793', { result: 'fail', forChar: 'Shadra2793', reason: 2 }) === null);
+  t('slots full is no name problem: the name is kept', AL.academyRetryName('Shadra2793', { result: 'fail', forChar: 'Shadra2793', slotsFull: true, reason: 1 }) === 'Shadra2793');
 
   // ---- 3) source: the retry path does not rewrite the config while the name stays and the account is open
   const API = fs.readFileSync(path.join(R, 'Dashboard', 'academy_api.js'), 'utf8');

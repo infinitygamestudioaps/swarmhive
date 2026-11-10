@@ -260,7 +260,7 @@ async function tick(ctx) {
         log(ctx, `${login}: ${old} graduated — next academy character ${names[0]} (try names ${names.join(', ')}; character ${D.made} on this account; ${del.length ? 'marking for deletion: ' + del.join(', ') : 'nothing to delete'}; open_account: ${out.replace(/\s+/g, ' ').slice(0, 120)})`); acted.push(login);
       } else if (dec.act === 'retry') {   // ACADLOOP-2026-10-31: the slots were full (graduates still in their deletion timer): try again
         const del = AL.academyDeleteList(D, C, []);
-        // RECREATE2-2026-11-03 (live: every ~2 min a NEW name - Shadora6413 -> Ashael07 -> Nuker20 - and swarm.config.json rewritten each time):
+        // RECREATE2-2026-11-03 (live: every ~2 min a NEW name - Shadora6413 -> Ashael07 -> Shadra2793 - and swarm.config.json rewritten each time):
         // the re-try keeps its name unless the server refused it; the same name + an open account = only the create script is rewritten (L2Swarm
         // reloads an attached script by itself), no close / open, no config / brain host / class plan change
         const keepName = AL.academyRetryName(String(acc.character), cr);
@@ -269,7 +269,7 @@ async function tick(ctx) {
         let out;
         if (keepName && names[0] === String(acc.character) && xmlHasScript(ctx, acc.config, mk)) out = 'same name, the account stays open - the create script was rewritten (L2Swarm reloads it)';
         else out = await reopenAs(ctx, acc, names[0], mk);
-        // RECREATE2-2026-11-03 (live 15:48Z: "Nuker21 leads now (was Nuker20)" - clearing setupFor on a same-name retry made the leader 'not ready'
+        // RECREATE2-2026-11-03 (live 15:48Z: "Ashra00 leads now (was Shadra2793)" - clearing setupFor on a same-name retry made the leader 'not ready'
         // for one tick and the group sync handed the group to the next account): the setup stays when the name stays
         if (names[0] !== String(acc.character)) D.setupFor = '';
         D.retries = (Number(D.retries) || 0) + 1; D.createAt = iso(); delete D.forceRetry;   // RECREATE-2026-11-03

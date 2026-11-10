@@ -201,7 +201,7 @@
     try { const c = await call(`/api/upgrade/slot?name=${encodeURIComponent(n)}&slot=${s.slot}`); if (S.cur === n && S.slot === s) { S.cand = c; render(); } } catch (e) { S.cand = { error: e.message }; render(); } }
   function pickCand(id, k) {
     const i = (S.cand.items || []).find(x => x.id === id), s = i && i.sources.slice().sort((a, b) => SRCORDER[a.src] - SRCORDER[b.src])[k]; if (!s) return;
-    return addPick(i, s, S.slot.slot, S.slot.idx, '');
+    return addPick(i, s, S.slot.slot, S.slot.idx, '', { ownerPick: true });   // UPGSRC-2026-11-10: the owner tapped this exact source (PLUSLOCK pick; counts even with that source unticked)
     if (s.src === 'craft') {   // a crafted piece: the crafter makes it and hands it over (Make several, prefilled)
       S.mk = { doer: s.crafter, q: '', item: { id: i.id, name: i.name, icon: i.icon, src: 'craft', recipe: s.recipe }, count: 1, to: 0, give: true, giveTo: [S.cur], plan: null, found: null };
       S.msg = `${i.name}: ${s.crafter} crafts it and hands it to ${S.cur} — check it in "Make several" below.`; render(); const el = $id('upMake'); if (el) el.scrollIntoView({ behavior: 'smooth' }); return;
@@ -263,7 +263,7 @@
             ${L.augment ? `<div class="muted" style="font-size:13px">Augment: ${h(L.augment.stoneName)} · up to ${L.augment.max} stone(s) · aiming for ${L.augment.wanted.length}: ${L.augment.wanted.slice(0, 4).map(id => h((L.augment.names || {})[id] || id)).join(' / ')}${L.augment.wanted.length > 4 ? ' …' : ''}</div>` : ''}
             ${S.aug && S.aug.n === n && S.aug.i === i ? augHtml(n, L) : ''}
             ${R ? `<div class="muted" style="font-size:13px">${R.error ? '<span class="u-bad">' + h(R.error) + '</span>' : (R.steps || []).map(h).join(' → ')}${R.missing && R.missing.length ? '<div class="u-bad">missing: ' + R.missing.map(h).join(', ') + '</div>' : ''}${(R.warn || []).length ? '<div>' + R.warn.map(h).join('<br>') + '</div>' : ''}</div>` : ''}`; }).join('')}</div>`; }).join('')}
-      <div class="u-row"><span class="u-n">Scrolls, soul crystals, gemstones may come from:</span>
+      <div class="u-row"><span class="u-n">Pieces and materials (scrolls, soul crystals, gemstones) may come from <span class="muted">(own bag always; a piece you tapped yourself always counts; a piece not found goes on to the next ticked source, then a distributor's / another character's unused spare piece in Giran, then buying if ticked)</span>:</span>
         ${['wh', 'clan', 'buy'].map(k => `<button class="${S.use[k] ? 'on' : ''}" data-uuse="${k}">${{ wh: 'own warehouse', clan: 'clan warehouse', buy: 'buy in Giran' }[k]}</button>`).join('')}</div>
       ${S.plan && S.plan.orders && S.plan.orders.some(o => o.lines.some(l => (l.overSafe || []).length)) ? `<label style="display:flex;gap:8px;align-items:flex-start;padding:6px 0"><input type="checkbox" id="upSafe" ${S.overSafeOk ? 'checked' : ''} style="min-height:auto;width:22px;height:22px;flex:0 0 auto"> <span class="u-bad">I accept the warnings above (above +4 a failed scroll destroys the item; big costs)</span></label>` : ''}
       <label style="display:flex;gap:8px;align-items:center;padding:6px 0"><input type="checkbox" id="upBack" ${S.giveBack ? 'checked' : ''} style="min-height:auto;width:22px;height:22px;flex:0 0 auto"> <span>Give the replaced pieces back to the collector (never +10, never sold)</span></label>
@@ -375,7 +375,9 @@
   }
   function jobsHtml() {
     if (!S.jobs.length) return '';
-    return `<div class="box"><h3>Upgrade orders <span class="muted">waiting for the next Giran visit · running · finished</span></h3>${S.jobs.map(j => `<div class="u-res"><b>${h(j.name)}</b> <span class="${j.state === 'done' ? 'u-ok' : j.state === 'failed' ? 'u-bad' : 'muted'}">${h(j.state || 'sent')}</span>
+    // UPGWHEN-2026-11-10 (Discord Vykaax: "Now — only <name> go" still read "waiting for the next Giran visit" = this fixed header): the real counts
+    const cnt = (f) => S.jobs.filter(f).length, qn = cnt(j => j.state === 'queued'), dn = cnt(j => /^(done|failed)$/.test(j.state)), rn = S.jobs.length - qn - dn;
+    return `<div class="box"><h3>Upgrade orders <span class="muted">${[qn ? qn + ' waiting for the next Giran visit' : '', rn ? rn + ' sent / running' : '', dn ? dn + ' finished' : ''].filter(Boolean).join(' · ')}</span></h3>${S.jobs.map(j => `<div class="u-res"><b>${h(j.name)}</b> <span class="${j.state === 'done' ? 'u-ok' : j.state === 'failed' ? 'u-bad' : 'muted'}">${h(j.state || 'sent')}</span>
       <div class="muted" style="font-size:13px">${h(j.step || '')}</div>${j.state === 'queued' ? `<div class="u-chips" style="margin:4px 0"><button data-usend="${h(j.id)}|solo">Send now: just ${h(j.name)}</button><button data-usend="${h(j.id)}|party">Send now: whole party</button><button data-usend="${h(j.id)}|cancel">Cancel</button></div>` : ''}${(j.lines || []).map(l => `<div style="font-size:13px">${l.result === 'done' ? '✓' : l.result === 'failed' ? '✗' : '·'} ${h(l.name)}${l.why ? ' — ' + h(l.why) : ''}${l.result === 'done' ? (l.worn ? ' (worn)' : ' (in the bag)') : ''}</div>`).join('')}</div>`).join('')}
       <button data-uclear="1">Clear finished</button></div>`;
   }
@@ -408,7 +410,7 @@
     } else if (typeof uiConfirm === 'function') { if (!(await uiConfirm({ title: `Queue ${ready.length} upgrade order(s)?`, body: `${ready.join(', ')} upgrade the next time they are in Giran (Send now is in the order list).`, confirmText: 'Queue' }))) return; }
     S.busy = true; render();
     try { const r = await call('/api/upgrade/start', Object.assign(body(), { when })); if (r.error) S.msg = r.error; else { S.msg = ((r.skipped || []).length ? 'Not started: ' + r.skipped.map(x => x.name + ' (' + x.why + ')').join(', ') + '. ' : '') + (when === 'town' ? 'Queued: it happens the next time they are in Giran.' : '') + ((r.started || []).some(x => x.leaderTakesParty) ? ' A party leader always takes his party along.' : '');
-      (r.started || []).forEach(x => { S.jobs.unshift({ id: x.id, name: x.name, state: x.error ? 'failed' : x.queued ? 'queued' : 'sent', step: x.error || (x.queued ? 'waits for the next Giran visit' : '') }); delete S.lines[x.name]; }); S.plan = null; save(); } } catch (e) { S.msg = e.message; }
+      (r.started || []).forEach(x => { S.jobs.unshift({ id: x.id, name: x.name, state: x.error ? 'failed' : x.queued ? 'queued' : 'sent', step: x.error || (x.queued ? 'waits for the next Giran visit' : x.solo ? `${x.name} goes to Giran alone now, then back to the party` : `${x.name}'s party goes to Giran now`) /* UPGWHEN */ }); delete S.lines[x.name]; }); S.plan = null; save(); } } catch (e) { S.msg = e.message; }
     S.busy = false; render(); pollJobs();
   }
   async function pollJobs() {
@@ -425,7 +427,7 @@
   async function presetFill(mode) {
       const g = ($id('upGrade') || {}).value || S.grade || 'auto'; S.grade = g;   // RECFIX-2026-10-29: default = each character's level grade (was C for everybody)
       const me = S.chars.find(c => c.name === S.cur) || {}, who = mode === 'party' ? S.chars.filter(c => (c.party || c.name) === (me.party || S.cur)).map(c => c.name) : [S.cur];
-      const r = await call(`/api/upgrade/preset?grade=${g}&names=${encodeURIComponent(who.join(','))}`);
+      const r = await call(`/api/upgrade/preset?grade=${g}&names=${encodeURIComponent(who.join(','))}&use=${['wh', 'clan', 'buy'].filter(k => S.use[k]).join(',')}`);   // UPGSRC-2026-11-10: only the ticked sources
       if (r.error) { S.msg = r.error; render(); return; }
       const notes = [];
       (r.chars || []).forEach(c => {
@@ -494,7 +496,7 @@
     if (d.ucolun) { S.col.rows[Number(d.ucolun)].un = t.checked; render(); return; }
     if (d.ucolto) { S.col.rows[Number(d.ucolto)].to = t.value; render(); return; }   // GEARUPCOL-2: the variant + upgrade text follow the receiver
     if (t.id === 'upBack') { S.giveBack = t.checked; render(); return; }
-    if (t.id === 'upSafe') { S.overSafeOk = t.checked; }
+    if (t.id === 'upSafe') { S.overSafeOk = t.checked; check(); return; }   // UPGWARN-2026-11-10: the tick re-checks the plan (it stayed "0 ready" until a new Check)
     if (d.umkdoer) { S.mk.doer = t.value; S.mk.found = null; S.mk.item = null; S.mk.plan = null; render(); return; }
     if (d.umkto) { S.mk.to = Number(t.value) || 0; S.mk.plan = null; render(); return; }
     if (t.id === 'upMGive') { S.mk.give = t.checked; S.mk.plan = null; render(); return; }

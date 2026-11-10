@@ -7,6 +7,8 @@ const SB = fs.mkdtempSync(path.join(os.tmpdir(), 'crafterpage-'));
 const DATA = path.join(SB, 'data'), LOGS = path.join(SB, 'logs'); fs.mkdirSync(DATA); fs.mkdirSync(LOGS);
 process.env.SWARM_CRAFTERPAGE_DIR = DATA; process.env.SWARM_CRAFTER_FILE = path.join(DATA, 'crafter_rules.json');
 fs.writeFileSync(process.env.SWARM_CRAFTER_FILE, JSON.stringify({ v: 1, crafters: { Crafter1: { on: true, stock: { 'soulshot:A': 50000 } } } }));
+// PICKALL-2026-11-10: the API has no built-in crafter / bank name any more (was 'Crafter1') - the sandbox sets them like a real install
+fs.writeFileSync(path.join(DATA, 'crafter.json'), JSON.stringify({ crafter: 'Crafter1', bank: 'Crafter1' }));
 // Crafter1: 12000 Soulshot A in the bag, 2000 in the clan wh; Soul Ore 3600 bag + 400 clan; A crystals 50 in his warehouse
 fs.writeFileSync(path.join(LOGS, 'bag_Crafter1.json'), JSON.stringify({ at: 'x', name: 'Crafter1', items: [{ id: 1466, objId: 900, count: 12000 }, { id: 1785, objId: 901, count: 3600 }, { id: 57, objId: 902, count: 1000 }] }));
 fs.writeFileSync(path.join(LOGS, 'wh_private_Crafter1.json'), JSON.stringify({ seenAt: 'x', items: [{ id: 1461, count: 50 }] }));
