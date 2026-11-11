@@ -1,6 +1,6 @@
 // KITNEVERBLOCK-2026-11-10 guard (academy.md R21; owner: the academy runs 24/7, "manual interference is a no go"): an academy kit buy step
 // never ends as 'blocked' because one shop piece was not handed over. Live: Nuker31 acbuy18 blocked since 2026-11-06 (Leather Helmet at Radia),
-// Nuker25 acbuyjw blocked 2026-11-10 (Common Item - Elven Necklace at Denkus). Sandbox only (no game, no files written).
+// Rhaeis50 acbuyjw blocked 2026-11-10 (Common Item - Elven Necklace at Denkus). Sandbox only (no game, no files written).
 'use strict';
 const fs = require('fs'), path = require('path');
 const R = path.join(__dirname, '../../..'), SRC = fs.readFileSync(path.join(R, 'Scripts_dev', 'swarm.js'), 'utf8');
@@ -38,7 +38,7 @@ const tryFn = cut('async function acadKitTry(', '\nasync function acadBuy');
 check(/await acadKitHold\(\)/.test(tryFn) && /Distance\(npc\) > 250/.test(tryFn), 'each try waits for my own team walk and checks I still stand at the merchant');
 check(/leadRunBusy \|\| regroupRun/.test(cut('async function acadKitHold(', '\n}\n')), "the hold waits for the leader's team walk / regroup (max 45 s)");
 
-// 4) the old blocked steps (Nuker31, Nuker25) go on by themselves after the deploy
+// 4) the old blocked steps (Nuker31, Rhaeis50) go on by themselves after the deploy
 const ub = cut('function planKitUnblockDecide(o)', '\n}\n') + '\n}\n';
 const D = new Function(ub + '\nreturn planKitUnblockDecide;')();
 const base = { on: true, running: false, planOn: true, status: 'blocked', kind: 'academy', act: 'buy', why: 'still missing: Leather Helmet — ...', lastTry: 0, nowMs: 1e12 };

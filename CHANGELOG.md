@@ -2,6 +2,16 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.2 (2026-11-11)
+
+- Tester fix release (2026-11-11): updates really load the new bot script again, the 1.14.1 waypoint stall, death / resurrect, Forge of the Gods 'Not reachable'
+- IMPORTANT: since v1.8.12 an update made while L2Swarm was running never loaded the new bot script (Scripts\swarm.js) - only the dashboard was new, so many fixes and new buttons did nothing. Fixed. Every update now closes L2Swarm and the dashboard (all its node processes), updates, starts both again and checks that the new bot script is loaded - already for this update (your characters log out and log in again)
+- Movement: parties no longer stand still at a route waypoint (1.14.1 made members wait behind a leader who waited for them)
+- a held party walks back to its hold point
+- Death in a fight: the leader keeps fighting while a dead teammate lies near and the party is hit, the healer resurrects first (a scroll only when the healer is still busy surviving after 30 s), no more 'already alive' mix-ups that delayed the res
+- Forge of the Gods: Lower level rooms are offered again (reached via Chandra / the lava stairs), and old false walls no longer block the Top level rooms
+- Your learned walls are yours: an update no longer overwrites Scripts/data/geo_blocked.json (the package ships an example with only confirmed walls)
+
 ## v1.14.1 (2026-11-10)
 
 - Tester fix release (2026-11-10): every report in Discord #swarmhive since v1.14.0 is fixed

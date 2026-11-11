@@ -132,6 +132,16 @@ function snap(x, y, z, r = 6, anyZ = false) {
 const BLOCKED_FILE = process.env.GEO_BLOCKED || path.join(__dirname, '..', '..', '..', 'Scripts', 'data', 'geo_blocked.json');
 const learnedCache = { mtime: -1, points: [], at: 0 };
 const TOWN_INDEX = process.env.GEO_TOWNS || path.join(__dirname, '..', '..', '..', 'Scripts', 'data', 'town_graph', 'index.json');
+/** the real episode count of a learned point from its hit times (> 10 min apart = a new episode); the stored count when the hits cannot tell */
+function realEpisodes(p) {
+  const H = Array.isArray(p.hits) ? p.hits : [];
+  if (!H.length || H.length >= 20) return Number(p.episodes) || 0;
+  const T = H.map(h => Date.parse(h && h.at) || Number(h && h.t) || NaN);
+  if (T.some(t => !isFinite(t))) return Number(p.episodes) || 0;
+  T.sort((a, b) => a - b); let n = 0, last = null;
+  for (const t of T) { if (last === null || t - last > 600000) n++; last = t; }
+  return n;
+}
 function learnedBlocked() {
   if (Date.now() - learnedCache.at < 5000) return learnedCache.points;
   learnedCache.at = Date.now();
@@ -142,7 +152,9 @@ function learnedBlocked() {
       // GEARFIX-2026-10-24: a LEARNED point inside a town (Scripts/data/town_graph/index.json boxes) is no wall (follow / crowd stalls); manual ones stay
       let boxes = []; try { boxes = (JSON.parse(fs.readFileSync(TOWN_INDEX, 'utf8').replace(/^\uFEFF/, '')).towns || []).map(t => t.box).filter(b => Array.isArray(b) && b.length === 4); } catch (e) { boxes = []; }
       const inTown = (p) => boxes.some(b => p.x >= b[0] && p.x <= b[1] && p.y >= b[2] && p.y <= b[3]);
-      learnedCache.points = (j.points || []).filter(p => p && isFinite(p.x) && isFinite(p.y) && p.disabled !== true && (p.manual === true || p.active === true || (p.episodes || 0) >= 2) && (p.manual === true || !inTown(p)));
+      // FOGPUBLIC-2026-11-10: a learned point needs 2 REAL episodes in its hits (swarm.js GEOLEARN-PURE geoRealEpisodes / geoBlockActive: points
+      // counted before GEOEPISODE - a party stuck together = "2 episodes" in one second - are no walls)
+      learnedCache.points = (j.points || []).filter(p => p && isFinite(p.x) && isFinite(p.y) && p.disabled !== true && (p.manual === true || ((p.active === true || (p.episodes || 0) >= 2) && realEpisodes(p) >= 2)) && (p.manual === true || !inTown(p)));
       learnedCache.mtime = st.mtimeMs;
     }
   } catch (e) { learnedCache.points = []; learnedCache.mtime = -1; }
@@ -408,7 +420,7 @@ function fleeSpot(a, dangers, opts = {}) {
   return { ok: true, flee: true, kind, name, spot, clearance: Math.round(Math.min(clearOf(spot.x, spot.y), 99999)), points: pts.length ? pts : [spot],
     lengthUnits: Math.round((gScore.get(pick) || 0) * 16), expanded, ms: Date.now() - t0 };
 }
-module.exports = { findPath, learnedBlocked, learnedAvoid, fleeSpot, inPoly, lineClear, legOk, sight, layers, layerAt, step, toGeoX, toGeoY, toWorldX, toWorldY, region };
+module.exports = { realEpisodes, findPath, learnedBlocked, learnedAvoid, fleeSpot, inPoly, lineClear, legOk, sight, layers, layerAt, step, toGeoX, toGeoY, toWorldX, toWorldY, region };
 
 if (require.main === module) {
   const ji = process.argv.indexOf('--json');

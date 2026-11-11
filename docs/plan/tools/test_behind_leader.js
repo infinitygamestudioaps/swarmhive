@@ -89,7 +89,7 @@ function sim(opts) {
       setInterval: (f, ms) => { const h = { f, ms, next: S.t + ms }; W.intervals.push(h); return h; }, setTimeout: (f, ms) => { S.timers.push({ at: S.t + ms, r: f }); },
       File: { ReadAllText: (p) => { if (S.files[p] === undefined) throw new Error('no file'); return S.files[p]; }, WriteAllText: (p, t) => { S.files[p] = String(t); }, Exists: (p) => S.files[p] !== undefined },
       SWARM_ROOT: 'X:', loadRaidRoute: () => null, raidRouteFile: () => '', currentTownKey: () => null, townKeyFor: () => null, gkTeleport: async () => true,
-      routeHop: async (p, abort) => walk(p, 200, 30000, abort),        // the real routeHop counts ~200 before a point as reached
+      routeHop: async (p, abort) => walk(p, o.hopDist || 200, 30000, abort),   // the real routeHop counts ~200 before a point as reached (live: the leader up to ~300)
       walkDirect: async (x, y, z, dist, ms, abort) => walk({ x, y, z }, dist, ms, abort),
       geoRoute: async () => { await sleep(500); return { ok: false }; }, inRaid: () => false, standUp: () => { },
     };
@@ -97,6 +97,7 @@ function sim(opts) {
     vm.createContext(ctx);
     vm.runInContext(BLOCK + '\n;globalThis.__H = { leadRouteWalk, memberRoute, mtCum, mtProg };', ctx);
     if (o.noHold) vm.runInContext('mtBehindHold = function () { return false; };', ctx);   // the code before the fix
+    if (o.noGateFlag) vm.runInContext('(function () { const f = mtBehindHold; mtBehindHold = function (q) { return f(Object.assign({}, q, { leaderAtGate: false })); }; })();', ctx);   // the 22:08 deploy (member side of BEHINDFIX off)
     W.H = ctx.__H; S.wins[name] = W; return W;
   }
   function bus(from, n, d, to) {
@@ -128,25 +129,30 @@ function sim(opts) {
   return { S, win, run };
 }
 const line = (n) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: 0, z: -3000 }));
-async function scenario(noHold) {
+async function scenario(noHold, xo) {
+  xo = xo || {};
   const pts = line(6);
   const { S, win, run } = sim({ leader: 'Lead' });
-  const L = win('Lead', { pos: { X: 0, Y: 0 }, speed: 180 });
+  const L = win('Lead', { pos: { X: 0, Y: 0 }, speed: 180, hopDist: xo.leadHop });
   // faster members, two of them standing a little AHEAD of the leader at the start
-  win('A', { pos: { X: 150, Y: 40 }, speed: 260, noHold }); win('B', { pos: { X: 80, Y: -40 }, speed: 220, noHold }); win('C', { pos: { X: -120, Y: 0 }, speed: 200, noHold });
+  const mo = { noHold, noGateFlag: !!xo.noGateFlag };
+  win('A', Object.assign({ pos: { X: 150, Y: 40 }, speed: 260 }, mo)); win('B', Object.assign({ pos: { X: 80, Y: -40 }, speed: 220 }, mo)); win('C', Object.assign({ pos: { X: -120, Y: 0 }, speed: 200 }, mo));
+  S.maxGateMs = 0; let gSince = 0, gIdx = -1;
   const cum = L.H.mtCum(pts);
   let maxAhead = 0, aheadTicks = 0, stuckNotes = 0, legTicks = 0;
   S.watch = () => {
-    const mt = L.ctx.state.mt; if (!mt || mt.phase !== 'leg' || mt.act === 'done') return;
+    const mt0 = L.ctx.state.mt;
+    if (mt0 && mt0.phase === 'gate' && mt0.act !== 'done') { if (gIdx !== mt0.i) { gIdx = mt0.i; gSince = S.t; } S.maxGateMs = Math.max(S.maxGateMs, S.t - gSince); } else gIdx = -1;
+    const mt = mt0; if (!mt || mt.phase !== 'leg' || mt.act === 'done') return;
     legTicks++;
     const g = mt.i, lp = L.H.mtProg(pts, cum, g - 1, { x: L.me.X, y: L.me.Y });
-    ['A', 'B', 'C'].forEach(n => { const W = S.wins[n], m = W.H.memberRoute; if (!m.id) return; const mp = L.H.mtProg(pts, cum, Math.min(m.my, g - 1), { x: W.me.X, y: W.me.Y }); const a = mp - lp; if (a > maxAhead) maxAhead = a; if (a > 30) aheadTicks++; });   // > 30 ahead = ahead (one walk step of slack)
+    ['A', 'B', 'C'].forEach(n => { const W = S.wins[n], m = W.H.memberRoute; if (!m.id) return; const mp = L.H.mtProg(pts, cum, Math.min(m.my, g - 1), { x: W.me.X, y: W.me.Y }); const a = mp - lp; if (a > maxAhead) maxAhead = a; if (a > 60) aheadTicks++; });   // > 60 ahead = ahead (BEHINDFIX: at the waypoint members walk into its reach circle, one step of slack; < L2 close range 80-100)
   };
   let res = null; L.H.leadRouteWalk(pts, 'Behind Test', () => false, '', null, null).then(r => { res = r; });
   await run(400000, () => res !== null);
   ['A', 'B', 'C'].forEach(n => { stuckNotes += S.wins[n].notes.filter(x => /no progress toward point|unstick steps/.test(x)).length; });
   const end = ['A', 'B', 'C'].map(n => Math.hypot(S.wins[n].me.X - L.me.X, S.wins[n].me.Y - L.me.Y));   // at the end: next to the leader (one dot)
-  return { res, maxAhead, aheadTicks, legTicks, stuckNotes, end, errs: S.errs, paces: S.events.length };
+  return { res, maxAhead, aheadTicks, legTicks, stuckNotes, end, errs: S.errs, paces: S.events.length, maxGateMs: S.maxGateMs };
 }
 (async () => {
   const fixed = await scenario(false);
@@ -157,6 +163,16 @@ async function scenario(noHold) {
   ok(!fixed.errs.length, 'no errors' + (fixed.errs.length ? ': ' + fixed.errs[0] : ''));
   const old = await scenario(true);
   ok(old.aheadTicks > 0, `control - the code before the fix: members ran ahead of the leader (max ${Math.round(old.maxAhead)} ahead, ${old.aheadTicks} ticks) = the bug the testers saw`);
+  // BEHINDFIX-2026-11-10 regression (live 22:08 deadlock, 4 parties): the leader's walk counts a waypoint reached ~300 short (outside reachR), he
+  // waits at the gate for members "208-378 away" while they hold "right behind" him. Must finish.
+  const dl = await scenario(false, { leadHop: 320 });
+  ok(dl.res === true, `deadlock case (leader stops 320 short of every waypoint): the walk finishes`);
+  ok(dl.maxGateMs <= 15000, `deadlock case: no gate wait longer than 15 s (longest ${Math.round(dl.maxGateMs / 1000)} s)`);
+  ok(!dl.errs.length, 'deadlock case: no errors' + (dl.errs.length ? ': ' + dl.errs[0] : ''));
+  const net = await scenario(false, { leadHop: 320, noGateFlag: true });
+  ok(net.res === true && net.maxGateMs <= 20000, `the leader's safety net alone (members ignore the 'gate' flag, as on the 22:08 deploy): still finishes (longest gate wait ${Math.round(net.maxGateMs / 1000)} s)`);
+  ok(/if \(o && o\.leaderAtGate\) return false;/.test(SRC) && /L\.ph = 'gate'; L\.emit\(false\);/.test(SRC) && /memberRoute\.ph = d\.ph === 'gate'/.test(SRC), "the leader announces 'at the waypoint' and members never hold then");
+  ok(/phase === 'gate' && pos && reached < g && t - \(L\.gateSince \|\| t\) >= 5000 && Math\.hypot\(pos\.x - me\.x, pos\.y - me\.y\) <= L\.cfg\.paceGap/.test(SRC), 'safety net: after 5 s at the gate a member within the pace gap of the leader (live) counts as arrived');
 
   console.log('3) source wiring');
   const step = SRC.slice(SRC.indexOf('function memberRouteStep() {'), SRC.indexOf('setInterval(memberRouteStep, 1000);'));

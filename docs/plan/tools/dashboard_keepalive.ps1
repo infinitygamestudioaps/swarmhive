@@ -12,6 +12,10 @@ if ($Port -le 0) {
     $Port = 8090
     try { $cfg = Get-Content (Join-Path $root 'swarm.config.json') -Raw -Encoding UTF8 | ConvertFrom-Json; if ($cfg.dashboard.port) { $Port = [int]$cfg.dashboard.port } } catch {}
 }
+# CLEANUPDATE-2026-11-11: update.ps1 closes the dashboard while it replaces the files and starts it again itself -> no start meanwhile
+# (a flag older than 30 min is a crashed update: ignored)
+$uf = Join-Path $root 'Logs\update_running.flag'
+if ((Test-Path $uf) -and ((Get-Date) - (Get-Item $uf).LastWriteTime).TotalMinutes -lt 30) { if ($Check) { 'an update is running (Logs\update_running.flag) - not starting the dashboard' }; exit 0 }
 $up = $false
 try { $r = Invoke-WebRequest -UseBasicParsing -TimeoutSec 8 -Uri "http://127.0.0.1:$Port/"; $up = ($r.StatusCode -ge 200 -and $r.StatusCode -lt 500) } catch { $up = $false }
 if ($up) { if ($Check) { "dashboard answers on port $Port" }; exit 0 }

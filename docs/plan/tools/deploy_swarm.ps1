@@ -21,10 +21,39 @@ if ($LASTEXITCODE -ne 0) { Log "ABORT: syntax error in Scripts_dev\swarm.js"; ex
 
 # REQUIREMENTS GUARDRAIL (owner 2026-10-20: "make sure the system uses the guardrails"): the owner's permanent rules in docs\requirements
 # must hold before anything reaches the bots. -Force does NOT skip this: fix the code (or, with the owner's OK, the requirement) instead.
-$reqOut = & node "$root\docs\plan\tools\requirements_check.js" 2>&1
-$reqOut | ForEach-Object { Write-Output "  $_" }
-if ($LASTEXITCODE -ne 0) { Log ("ABORT: a requirement is broken (docs\requirements) - " + (($reqOut | Where-Object { $_ -match 'BROKEN|not in index|no tests|does not exist' }) -join ' | ')); exit 7 }
-Log "requirements OK"
+# PKGDEPLOY-2026-11-11 (testers: "it doesn't look like it did any of the things it's telling you"): the public package never ships
+# docs\requirements (the owner's rules + tests need the owner's live data), so on EVERY tester install this check failed (exit 7) and
+# update.ps1's deploy never reached Scripts\swarm.js since v1.8.12 (2026-10-21) whenever L2Swarm was running: the testers kept an old script
+# while the dashboard updated. The gate runs wherever docs\requirements exists (the owner's install: unchanged, the release is built only
+# after it passed there); a package install logs that it has no requirement files.
+if (Test-Path "$root\docs\requirements\index.json") {
+    $reqOut = & node "$root\docs\plan\tools\requirements_check.js" 2>&1
+    $reqOut | ForEach-Object { Write-Output "  $_" }
+    if ($LASTEXITCODE -ne 0) { Log ("ABORT: a requirement is broken (docs\requirements) - " + (($reqOut | Where-Object { $_ -match 'BROKEN|not in index|no tests|does not exist' }) -join ' | ')); exit 7 }
+    Log "requirements OK"
+} else {
+    Log "requirements: none on this install (package install - the release was checked before it was built)"
+    # CLEANUPDATE-2026-11-11 (owner: "It should stop everything and update so we make sure its updated correctly"): on a package install
+    # with L2Swarm running, the script is never reloaded live: clean_update.ps1 closes L2Swarm + every node process of the install, the
+    # script is copied, and a detached clean_update.ps1 -Action finish starts everything again once the calling update.ps1 has ended (an OLD
+    # update.ps1 restarts only the dashboard's main process; the finisher closes whatever it started and starts clean). No busy / gap rules here.
+    $l2On = if ($env:PKGDEPLOY_L2_RUNNING) { $env:PKGDEPLOY_L2_RUNNING -eq '1' } else { [bool](Get-Process L2Swarm -ErrorAction SilentlyContinue) }
+    if ($l2On) {
+        & powershell -NoProfile -ExecutionPolicy Bypass -File "$PSScriptRoot\clean_update.ps1" -Action stop
+        if ($LASTEXITCODE -ne 0) { Log 'ABORT: L2Swarm could not be closed - nothing deployed (close L2Swarm and run this again)'; exit 9 }
+        # DEPLOYBAK: the replaced live script is kept here too
+        try { $bakDir = "$root\Scripts\backup\deployed"; New-Item -ItemType Directory -Path $bakDir -Force | Out-Null; $bak = Join-Path $bakDir ("swarm_{0}.js" -f (Get-Date -Format 'yyyy-MM-dd_HHmmss')); if (Test-Path $dst) { Copy-Item $dst $bak -Force; Log "backup of the replaced swarm.js: $bak" } } catch { }
+        New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null
+        Copy-Item $src $dst -Force
+        $devA = "$root\Scripts_dev\agent2.js"; if (Test-Path $devA) { & node --check $devA; if ($LASTEXITCODE -eq 0) { Copy-Item $devA "$root\Scripts\agent2.js" -Force } }
+        # wait for the calling update.ps1 (its dashboard restart would otherwise leave old-code children behind); run by hand = finish at once
+        $waitPid = 0
+        try { $me = Get-CimInstance Win32_Process -Filter "ProcessId=$PID"; $par = Get-CimInstance Win32_Process -Filter "ProcessId=$($me.ParentProcessId)"; if ([string]$par.CommandLine -match 'update\.ps1') { $waitPid = [int]$par.ProcessId } } catch { }
+        Start-Process powershell -WindowStyle Hidden -ArgumentList '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$PSScriptRoot\clean_update.ps1`"", '-Action', 'finish', '-WaitPid', $waitPid
+        Log ("DEPLOYED (package, clean: L2Swarm + dashboard closed, started again {0})" -f $(if ($waitPid) { "when update.ps1 pid $waitPid ends" } else { 'now' }))
+        exit 0
+    }
+}
 
 $last = Get-Content $log -ErrorAction SilentlyContinue | Where-Object { $_ -match ' DEPLOYED' } | Select-Object -Last 1
 if ($last -and -not $Force) {

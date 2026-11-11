@@ -7455,6 +7455,15 @@ function huntGatherDecide(o) {
   const lim = o.lim || 9000, ret = o.returning || (() => false);
   return (o.spread || []).every(m => !m.dead && (m.d <= lim || ret(m.name))) ? 'hunt' : 'gather';
 }
+/** RESFIGHT2-2026-11-10 (public tester: "When a bot dies, the leader stops fighting ... the whole time they are getting hit by a mob"; Destroyer3
+ *  15:59:21 "gather team: waiting for Chanter2 dead" = stopCombatG every 3 s while the mobs hit the team): while the party is being hit and the
+ *  only gap is a dead teammate lying near (<= lim; its res comes from the res tick), the leader skips the gather and FIGHTS on.
+ *  o: { spread: teamSpread(), lim, fighting: partyHitNow(), returning(name) } -> true = fight on */
+function huntDeadFightOk(o) {
+  if (!o || !o.fighting) return false;
+  const lim = o.lim || 9000, ret = o.returning || (() => false), sp = o.spread || [];
+  return sp.some(m => m.dead) && sp.every(m => (m.dead ? m.d <= lim : (m.d <= lim || ret(m.name))));
+}
 /** A second hold right after a finished one (a town port ran the gatekeeper hold AND the .town hold): reuse the first. */
 function holdReuseOk(o) { return !!(o.last && o.last.at && o.now - o.last.at < TEAMJOIN.holdReuseMs && o.moved < 400 && !o.fighting); }
 // STUCK MEMBER ESCALATION (user 2026-10-09 13:05, party Tank3 12:48: "Wait for Nuker9 (1.4k away) — before .giran" for minutes while
@@ -10512,6 +10521,10 @@ function mtGateLimit(pts, gate) { let k = Math.min(gate, (pts || []).length - 1)
  *  o = { pts, cum, gate, my, me {x,y}, lead {x,y,z} | null, wet, left } -> true = hold (do not walk on now) */
 MT.behind = 60; MT.behindAt = 190;
 function mtBehindHold(o) {
+  // BEHINDFIX-2026-11-10 (live deadlock after the 22:08 deploy, 4 parties: the leader stood ~300 from the waypoint (his walk counts it reached
+  // from further than reachR), waited at the gate for members "208-378 away" while they held "right behind" him): the leader says he is AT the
+  // waypoint (phase 'gate') = never hold, walk up to the point - the gate wait is the leader's, it must always be able to end
+  if (o && o.leaderAtGate) return false;
   if (!o || o.left || o.wet || !o.lead || !o.me || !o.pts || !o.pts.length || !isFinite(o.lead.x) || !isFinite(o.lead.y)) return false;
   const pts = o.pts, n = pts.length, g = Math.min(Math.max(0, Math.floor(Number(o.gate) || 0)), n - 1), P = pts[g], cum = o.cum || mtCum(pts);
   const my = Math.floor(Number(o.my)), nx = pts[Math.min(n - 1, my + 1)], cur = pts[Math.max(0, my)];
@@ -10581,6 +10594,9 @@ function mtView(phase) {
     const fresh = !!(rep && rep.id === L.id && t - (rep.at || 0) < MT.freshMs);
     let reached = fresh ? num(rep.r) : (pos ? mtNearest(pts, pos) - 1 : -1);
     if (pos && mtAt(P, pos)) reached = Math.max(reached, g);
+    // BEHINDFIX-2026-11-10 safety net: waiting at the waypoint 5 s+ and the member stands within the pace gap of ME (live position) = it is with me
+    // (I may stand outside the waypoint's reach circle myself) - the gate wait and the member's hold can never wait on each other
+    if (phase === 'gate' && pos && reached < g && t - (L.gateSince || t) >= 5000 && Math.hypot(pos.x - me.x, pos.y - me.y) <= L.cfg.paceGap && !(isFinite(pos.z) && isFinite(me.z) && Math.abs(pos.z - me.z) > MT.zBand)) reached = g;
     const d = pos && P ? Math.hypot(P.x - pos.x, P.y - pos.y) : NaN;
     let stuck = fresh && rep.st ? { stage: rep.st, since: num(rep.stSince) || t } : null;
     const away = !!(L.floor && !fresh && pos && P && isFinite(pos.z) && isFinite(P.z) && Math.abs(pos.z - P.z) > 800);   // a floor walk: still on the floor below / above (its floor teleport turn)
@@ -10706,7 +10722,7 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
   const L = MTL = { id, pts, cum: mtCum(pts), label, floor: opt && opt.dungeon ? { dungeon: opt.dungeon, floor: opt.floor } : null, cfg: mtCfg(routeRulesNow()), gate: Math.max(0, i + 1), trk: {}, trail: new Set(), left: new Set(), gateSince: now(), paceSince: 0, hold: 0, town: startTown || '', chkAt: 0, brk: '' };
   Object.keys(MTREP).forEach(k => delete MTREP[k]);
   routeRewalk.clear();                                               // REWALKFIX-2026-10-15: names from an earlier route never block this one
-  L.emit = (full) => { try { App.emit('swarm.routewalk', Object.assign({ id, gate: L.gate, mt: true, hold: L.hold > now() ? L.hold : 0, fid: L.hold > now() && typeof mtFightId === 'function' ? mtFightId() : 0 }, full ? { points: pts, label, town: startTown || '', start: start || null, floor: L.floor || undefined } : {})); } catch (e) { } };
+  L.emit = (full) => { try { App.emit('swarm.routewalk', Object.assign({ id, gate: L.gate, mt: true, ph: L.ph || 'leg' /* BEHINDFIX-2026-11-10: 'gate' = I stand at the waypoint, members walk up to it */, hold: L.hold > now() ? L.hold : 0, fid: L.hold > now() && typeof mtFightId === 'function' ? mtFightId() : 0 }, full ? { points: pts, label, town: startTown || '', start: start || null, floor: L.floor || undefined } : {})); } catch (e) { } };
   L.emit(true);
   // KEEPHUNT-2026-10-21 rule 4: at the end of the route (last 2 points / within 1500 of the last point on its floor) a fight = arrived (no MTFIX run-on)
   const khEnd = (j) => { const e = pts[n - 1]; return khRouteEnd(j, n, Math.hypot(e.x - Me.X, e.y - Me.Y), (e.z === undefined || e.z === null) ? 0 : num(e.z) - Me.Z); };
@@ -10718,7 +10734,7 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
     while (i < n - 1) {
       if (stopped()) { ok = false; break; }
       const j = i + 1;
-      L.gate = j; L.paceSince = 0; L.chkAt = 0; L.emit(false); mtSave({ sig, gate: j, label });
+      L.gate = j; L.ph = 'leg'; L.paceSince = 0; L.chkAt = 0; L.emit(false); mtSave({ sig, gate: j, label });
       // the leg to waypoint j: pause for the pace / a fight, never skip the waypoint
       let fails = 0;
       for (;;) {
@@ -10766,6 +10782,7 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
       i = j;
       // waypoint j: everyone here (or the max wait for walkers / the stuck limit), then on
       L.gateSince = now(); L.chkAt = 0;
+      L.ph = 'gate'; L.emit(false);                                   // BEHINDFIX-2026-11-10: members stop holding and walk up to the waypoint now
       for (;;) {
         if (stopped()) { ok = false; break; }
         const v = mtView('gate');
@@ -10883,7 +10900,7 @@ App.on('swarm.routewalk', (event) => {
     if (d.mt && d.id && !d.points && memberRoute.leftId !== d.id && now() - (memberRoute.askAt || 0) > 10000) { memberRoute.askAt = now(); try { App.emit('swarm.mt.need', { id: d.id }); } catch (e) { } }
     return;
   }
-  if (d.mt) { memberRoute.mt = true; if (isFinite(d.gate)) memberRoute.gate = Number(d.gate); memberRoute.hold = Number(d.hold) || 0; memberRoute.fid = Number(d.fid) || 0; }   // the leader's current waypoint + a fight hold
+  if (d.mt) { memberRoute.mt = true; memberRoute.ph = d.ph === 'gate' ? 'gate' : 'leg'; memberRoute.behChk = 0; if (isFinite(d.gate)) memberRoute.gate = Number(d.gate); memberRoute.hold = Number(d.hold) || 0; memberRoute.fid = Number(d.fid) || 0; }   // the leader's current waypoint + a fight hold
   memberRoute.until = now() + 120000;                                 // no word from the leader for 2 min: back to following
   try { Options.ActiveFollow = false; } catch (e) { }
 });
@@ -10984,7 +11001,7 @@ function mtBehindNow(m) {
   m.behChk = now();
   try {
     if (m.cumId !== m.id || !m.cum) { m.cum = mtCum(m.pts); m.cumId = m.id; }
-    m.behind = !isLeader() && mtBehindHold({ pts: m.pts, cum: m.cum, gate: m.gate, my: m.my, me: { x: Me.X, y: Me.Y }, lead: mtLeadPos(), wet: !!m.wet, left: !!m.left });
+    m.behind = !isLeader() && mtBehindHold({ pts: m.pts, cum: m.cum, gate: m.gate, my: m.my, me: { x: Me.X, y: Me.Y }, lead: mtLeadPos(), wet: !!m.wet, left: !!m.left, leaderAtGate: m.ph === 'gate' });
   } catch (e) { m.behind = false; }
   return !!m.behind;
 }
@@ -12028,6 +12045,7 @@ function holdBlocks(kind, what, x, y) {
   if (kind === 'walk' && typeof BEETLE !== 'undefined' && BEETLE.stepping) return false;   // TARBEETLE: the step away from a Tar Beetle is allowed in hold
   if (kind === 'walk' && typeof LEAVE !== 'undefined' && LEAVE.active) return false;       // FOGEXIT: the owner's !leaveroom walk is allowed in hold
   if (kind === 'walk' && typeof AOE !== 'undefined' && AOE.placeWalk) return false;        // AOEBACK: back to my place at the owner's AOE centre
+  if (kind === 'walk' && typeof HOLDRET !== 'undefined' && HOLDRET.walking) return false;  // HOLDBACK-2026-11-10: the leader's walk BACK to the hold point (never a teleport)
   let dist; if (kind === 'walk') { const a = holdAnchor(); dist = a ? Math.hypot(num(x) - a.x, num(y) - a.y) : 0; }
   let healer = false; try { healer = kind === 'walk' && isHealerRole(); } catch (e) { }   // HOLDWALK: healers always reach the party to heal
   const d = holdDecide({ on: true, kind, dist, healer });
@@ -12062,6 +12080,70 @@ function holdWrite(on) {
   try { File.WriteAllText(`${SWARM_ROOT}\\Logs\\hold_${CONFIG.leader}.json`, JSON.stringify({ on: !!on, x: Math.round(Me.X), y: Math.round(Me.Y), z: Math.round(Me.Z), at: new Date(now()).toISOString(), by: 'order' })); } catch (e) { logError('hold write', e); }
   HOLDC.at = 0;
 }
+// HOLDBACK-2026-11-10 (owner OK, Destroyer3 FoG lower level: hold at 178492,-113069,-5840 (room forge-2-straight-a), Blazing Ifrits pulled the party
+// ~4.5 km away to 181720,-109928 and from 22:16Z they stood there for over an hour - hold blocked every walk, also the way back): HOLD means "stand
+// still and fight AT the hold point". The LEADER (not played by hand) more than HOLDRET.margin from the hold point on the same floor, with nobody
+// fighting for HOLDRET.quietMs, walks back (walkDirect = room route / wall path on this floor; never a teleport / .town / gatekeeper / floor
+// teleporter) and stands still again; the members follow him (follow distance). A fight on the way stops the walk (fight first, then on). Failed
+// walks back: a pause that grows, after HOLDRET.maxFails one line in party chat and a 5 min pause (no loop spam). Everything else in hold stays.
+// HOLDBACK-PURE-BEGIN
+var HOLDRET = { margin: 600, floorZ: 700, maxWalk: 12000, quietMs: 5000, maxFails: 3, failGapMs: 30000, pauseMs: 300000, walking: false, fails: 0, lastTry: 0, lastFight: 0, at: '', said: {} };
+/** o = { on, leader, hand, busy, me {x,y,z}, hold {x,y,z}, fight, quietMs, fails, sinceTry } -> { go, why, say, dist } */
+function holdReturnDecide(o, cfg) {
+  const C = cfg || HOLDRET;
+  if (!o || !o.on || !o.leader || !o.me || !o.hold) return { go: false, why: '' };
+  const dist = Math.round(Math.hypot(Number(o.me.x) - Number(o.hold.x), Number(o.me.y) - Number(o.hold.y))), dz = Math.abs(Number(o.me.z) - Number(o.hold.z));
+  if (dist <= C.margin && !(dz > C.floorZ)) return { go: false, why: 'at the hold point', dist };
+  if (o.hand) return { go: false, why: 'the owner plays the leader - he walks himself', dist };
+  if (dz > C.floorZ) return { go: false, say: true, why: `the hold point is on another floor (${Math.round(dz)} higher / lower) - no floor teleport in hold, walk me there or send !hold off`, dist };
+  if (dist > C.maxWalk) return { go: false, say: true, why: `the hold point is ${dist} away (more than ${C.maxWalk}) - no teleport in hold, send !hold off or a new !hold`, dist };
+  if (o.busy) return { go: false, why: 'a beetle step / the owner\'s walk runs', dist };
+  if (o.fight || !(o.quietMs >= C.quietMs)) return { go: false, why: 'fighting first', dist };
+  if (o.fails >= C.maxFails && o.sinceTry < C.pauseMs) return { go: false, why: `the way back failed ${o.fails} times - waiting`, dist };
+  if (o.fails > 0 && o.sinceTry < C.failGapMs * o.fails) return { go: false, why: 'the last way back failed - waiting a little', dist };
+  return { go: true, why: `${dist} from the hold point - walking back`, dist };
+}
+// HOLDBACK-PURE-END
+function holdReturnFight() {
+  try { if (Me.IsAttacking || IsInCombat || now() - (lastAttackerOnMe.at || 0) < 6000) return true; } catch (e) { }
+  try { return teamNames().some(n => { const lp = livePos[n]; return !!(lp && now() - (lp.at || 0) < 15000 && !lp.IsDead && (lp.hit || lp.fight)); }); } catch (e) { return false; }
+}
+function holdReturnSay(why) {
+  if (now() - (HOLDRET.said[why] || 0) < HOLDRET.pauseMs) return;
+  HOLDRET.said[why] = now();
+  try { note(`[hold] ${why}`, true); } catch (e) { }   // note(.., true) = also one line in party chat (the card shows state.notes)
+}
+setInterval(() => {
+  try {
+    if (HOLDRET.walking) return;
+    const h = holdState();
+    if (!h) { HOLDRET.fails = 0; HOLDRET.at = ''; return; }
+    if (String(h.at || '') !== HOLDRET.at) { HOLDRET.at = String(h.at || ''); HOLDRET.fails = 0; HOLDRET.said = {}; }   // a new hold point: a fresh start
+    if (!isLeader() || !IsCharacterReady() || Me.IsDead) return;
+    const fight = holdReturnFight(); if (fight) HOLDRET.lastFight = now();
+    let hand = false; try { hand = selfHandPlayed(); } catch (e) { }
+    const busy = !!((typeof BEETLE !== 'undefined' && BEETLE.stepping) || (typeof LEAVE !== 'undefined' && LEAVE.active) || (typeof AOE !== 'undefined' && AOE.placeWalk));
+    const hold = { x: num(h.x), y: num(h.y), z: num(h.z) };
+    const d = holdReturnDecide({ on: true, leader: true, hand, busy, me: { x: Me.X, y: Me.Y, z: Me.Z }, hold, fight, quietMs: now() - HOLDRET.lastFight, fails: HOLDRET.fails, sinceTry: now() - HOLDRET.lastTry });
+    if (d.say) holdReturnSay(d.why);
+    if (!d.go) return;
+    HOLDRET.walking = true; HOLDRET.lastTry = now();
+    const gen = state.stopGen || 0, at0 = HOLDRET.at; let hitStop = false;
+    const abort = () => { if (now() - (lastAttackerOnMe.at || 0) < 3000) hitStop = true; return hitStop || (state.stopGen || 0) !== gen || !holdOn() || HOLDRET.at !== at0 || Me.IsDead; };
+    note(`[hold] ${d.why} (${hold.x},${hold.y}) - no teleport, the team follows`);
+    intent('hold', `back to the hold point ${P(hold.x, hold.y, hold.z)} (pulled ${d.dist} away)`, { x: hold.x, y: hold.y, z: hold.z });
+    walkDirect(hold.x, hold.y, hold.z, Math.round(HOLDRET.margin / 3), 120000, abort).catch(() => false).then(() => {
+      HOLDRET.walking = false;
+      const left = Math.round(Math.hypot(Me.X - hold.x, Me.Y - hold.y));
+      if (left <= HOLDRET.margin) { HOLDRET.fails = 0; try { intentDone('hold', true, 'back at the hold point - standing still and fighting'); } catch (e) { } return; }
+      if (hitStop) { HOLDRET.lastFight = now(); try { intentDone('hold', false, 'attacked on the way back - fighting first, then on'); } catch (e) { } return; }
+      if ((state.stopGen || 0) !== gen || !holdOn() || HOLDRET.at !== at0) { try { intentDone('hold', false, 'stopped (!stop / !hold off / a new hold point)'); } catch (e) { } return; }
+      HOLDRET.fails++;
+      try { intentDone('hold', false, `the way back stopped ${left} from the hold point (try ${HOLDRET.fails})`); } catch (e) { }
+      if (HOLDRET.fails >= HOLDRET.maxFails) holdReturnSay(`I cannot walk back to the hold point (${left} away, ${HOLDRET.fails} tries) - I stand and fight here; walk me there or send !hold off`);
+    });
+  } catch (e) { HOLDRET.walking = false; }
+}, 3000);
 async function walkDirect(x, y, z, dist, timeoutMs, abort, forceDirect) {
   if (forceDirect !== 'route' && typeof onRouteWalk === 'function' && onRouteWalk()) return false;   // walking the user's route: only its own hops move me
   if (typeof stopWindowOpen === 'function' && stopWindowOpen(state.stopAt, now())) return false;              // STOPWALK2: no walk starts right after the owner's !stop
@@ -23016,9 +23098,11 @@ function rgGraphNear(RG, p) { const L = rgLocate(RG, p); return !!(L.length && L
 function rgGraphNearD(d, p) { try { if (!rgHas(d)) return true; return rgGraphNear(rgFor(d, null), p); } catch (e) { return true; } }
 /** roomTripWhy with the room's nav atlas route (Scripts/data/nav_atlas/t/room_<id>.json) */
 const roomTripCache = {};                                 // id -> { why, at }: own 10-min cache (the atlas LRU holds only 24 routes)
-function roomTripWhyHost(r, f, fi) {
+function roomTripWhyHost(r, f, fi, d) {
   const c = roomTripCache[r.id]; if (c && now() - c.at < 600000) return c.why;
-  let why = ''; try { why = roomTripWhy(navAtlasRead(`t\\${navAtlasFileKey('room:' + r.id)}.json`), { maxRoomWalk: (CONFIG.travel && CONFIG.travel.maxRoomWalk) || FOGREACH.maxRoomWalk, walkIn: !!(f && f.enter && f.enter.how === 'walk'), deep: Number(fi) > 0 }); } catch (e) { why = ''; }
+  // FOGPUBLIC-2026-11-10: walkIn = the floor's REAL way in (roomFloorWalkIn, FOG2WALK-PURE): the FoG Lower level's walk-in is verified:false since
+  // FOG2WALK (Chandra / lava stairs instead), but its stale atlas route (100 km "walk not on the geodata") still refused all 12 rooms here
+  let why = ''; try { why = roomTripWhy(navAtlasRead(`t\\${navAtlasFileKey('room:' + r.id)}.json`), { maxRoomWalk: (CONFIG.travel && CONFIG.travel.maxRoomWalk) || FOGREACH.maxRoomWalk, walkIn: d ? roomFloorWalkIn(d, fi) : !!(f && f.enter && f.enter.how === 'walk'), deep: Number(fi) > 0 }); } catch (e) { why = ''; }
   roomTripCache[r.id] = { why, at: now() }; return why;
 }
 const roomTripSaid = {};
@@ -23883,7 +23967,10 @@ async function gatherTeamInner(why) {
     }
     far.forEach(m => { if (m.d > 15000 && !m.dead) gFarSince[m.name] = gFarSince[m.name] || now(); else delete gFarSince[m.name]; });
     if (!far.length) { if (now() - t0 > 5000) note(`team: everyone together again (${why})`, true); return true; }
-    if (IsInCombat) stopCombatG();                 // ingen ny jagt; SELVFORSVAR slår stadig igen
+    // RESFIGHT2-2026-11-10 (Destroyer3 15:59:21 "waiting for Chanter2 dead" while the mobs hit the team): during a hunt a dead teammate lying near
+    // while we are hit = back to the hunt loop at once (it fights on, the res tick raises the body); and never drop the fight while we are hit
+    if (/^during hunt$/.test(String(why)) && huntDeadFightOk({ spread: teamSpread(), lim: leadMode() ? 9000 : CONFIG.together.huntDist, fighting: partyHitNow(), returning: (n) => returningMate(n) })) return false;
+    if (IsInCombat && !partyHitNow()) stopCombatG();   // ingen ny jagt; SELVFORSVAR slår stadig igen (RESFIGHT2: not while the party is being hit)
     const list = far.map(m => `${m.name} ${m.dead ? 'dead' : m.p ? Math.round(m.d) : '?'}`).join(', ');
     setTask(`waiting for team: ${list}${sw.label ? ' — ' + sw.label : ''}`);
     pstHold(why, sw.label || `waiting for ${list}`, t0);                    // PARTY STATUS 2026-10-09 (+ the stuck escalation)
@@ -30742,7 +30829,21 @@ function faAutoPick(F, o) {
 //     room, zone, datapack spot) that could not be reached TWICE in one day (any party) is skipped by every party until the day ends (06:30, the
 //     Kamaloka day); every window merges skipUntil into its skip list (autoLvl.bad).
 const GEOLEARN = { episodeMs: 600000, mergeR: 300, mergeDz: 400, newR: 250, maxHits: 20, failsPerDay: 2 };
-const geoBlockActive = (p) => !!(p && (p.manual === true || p.active === true || (p.episodes || 0) >= 2) && p.disabled !== true);
+/** FOGPUBLIC-2026-11-10: the real episode count of a learned point from its hit times (GEOEPISODE rule: a new episode only after > episodeMs);
+ *  the stored count when the hits cannot tell (none, a time missing, or the list cut at maxHits) */
+function geoRealEpisodes(p) {
+  const H = (p && Array.isArray(p.hits)) ? p.hits : [];
+  if (!H.length || H.length >= GEOLEARN.maxHits) return Number(p && p.episodes) || 0;
+  const T = H.map(h => Date.parse(h && h.at) || Number(h && h.t) || NaN);
+  if (T.some(t => !isFinite(t))) return Number(p.episodes) || 0;
+  T.sort((a, b) => a - b); let n = 0, last = null;
+  T.forEach(t => { if (last === null || t - last > GEOLEARN.episodeMs) n++; last = t; });
+  return n;
+}
+// FOGPUBLIC-2026-11-10: a LEARNED point is active only with 2 REAL episodes in its hits: points counted before GEOEPISODE (a party stuck together
+// = "2 episodes" in the same second, e.g. FoG Top level 179272,-116968 on the first room's centre) were active walls on every install the
+// release shipped them to. Manual points stay active; disabled ones stay off.
+const geoBlockActive = (p) => !!(p && p.disabled !== true && (p.manual === true || ((p.active === true || (p.episodes || 0) >= 2) && geoRealEpisodes(p) >= 2)));
 /** add one "stuck, gave up" hit to the geo_blocked doc -> { doc, point, became: true when it just turned active } */
 function geoBlockMerge(doc, hit) {
   doc = doc && typeof doc === 'object' ? doc : {}; doc.points = Array.isArray(doc.points) ? doc.points : [];
@@ -31383,7 +31484,7 @@ function pickRoom(dName, lvl) {
     if (!r.route || !r.center) return;
     if (r.enabled === false) return;                                    // switched off in the dashboard shape editor (2026-10-08 23:30)
     if (roomNeedsWhy(d, r)) { roomNeedsNote(d, r); return; }            // DUNGEON ENTRY ITEMS 2026-10-12: Pagan Temple marks
-    { const tw = roomTripWhyHost(r, f, fi); if (tw) { roomTripNote(d, f, r, tw); return; } }   // FOGREACH-2026-10-13: no verified / far too long walk (nav atlas) = not offered
+    { const tw = roomTripWhyHost(r, f, fi, d); if (tw) { roomTripNote(d, f, r, tw); return; } }   // FOGREACH-2026-10-13: no verified / far too long walk (nav atlas) = not offered
     const s = r.suitsPartyLevel || r.levelRange; if (!s) return;
     const off = lvl < s[0] ? s[0] - lvl : lvl > s[1] ? lvl - s[1] : 0;
     const c = { x: r.center[0], y: r.center[1], z: r.center[2] }, mineNow = !!(cur && cur.id === r.id);
@@ -31891,6 +31992,16 @@ function walkInFloorOk(d, s) {
   const fl = Number(s.floor || 0), F0 = (d.floors || [])[0];
   if (fl === 0) return !!(F0 && F0.enter && F0.enter.how === 'walk');
   return (d.entryLinks || []).some(l => l && Number(l.from) === -1 && Number(l.to) === fl && l.kind === 'walk');
+}
+/** FOGPUBLIC-2026-11-10 (public testers, v1.14.x: FoG rooms "not reachable now -> auto"): is floor fi of dungeon d entered ON FOOT from outside
+ *  (pickRoom's roomTripWhy walkIn)? Its enter is a walk AND not every walk-in entry link from outside to it is switched off (verified:false, manual:
+ *  the FoG Lower level since FOG2WALK = reached via Chandra / the lava stairs from the Top level, room by room). Before, enter.how alone said
+ *  "walk-in" and the Lower level's stale atlas route (100 km "walk not on the geodata" from the landing) refused all 12 Lower-level rooms. */
+function roomFloorWalkIn(d, fi) {
+  const F = d && (d.floors || [])[Number(fi) || 0];
+  if (!F || !F.enter || F.enter.how !== 'walk') return false;
+  const L = (d.entryLinks || []).filter(l => l && Number(l.from) === -1 && Number(l.to) === (Number(fi) || 0) && l.kind === 'walk');
+  return !(L.length && L.every(l => l.verified === false));
 }
 // FOG2WALK-PURE-END
 /** Leader: the room trip of enterRoom. true = in the room, false = failed (gkFail set), null = no room graph for this dungeon (old way) */
@@ -34550,7 +34661,9 @@ async function autoLevelLoop(solo) {
       // SPINFIX-2026-10-15: a teammate travelling back on its own (gatherTeam: "hunting on") no longer loops gatherTeam forever without a
       // macrotask wait (the brain host watchdog killed + quarantined Char1's worker 3x); the team hunts on, and any quick return waits 1 s
       const huntLim = leadMode() ? 9000 : CONFIG.together.huntDist;
-      if (!solo && teamSpread().some(m => m.d > huntLim || m.dead)) {
+      const deadFight = !solo && huntDeadFightOk({ spread: teamSpread(), lim: huntLim, fighting: partyHitNow(), returning: (n) => returningMate(n) });   // RESFIGHT2-2026-11-10
+      if (deadFight && now() - (state.deadFightSaidAt || 0) > 60000) { state.deadFightSaidAt = now(); try { note(`team: fighting on — ${teamSpread().filter(m => m.dead).map(m => m.name).join(', ')} lies dead next to us, the res comes; we keep killing what hits us`, true); } catch (e) { } }
+      if (!solo && !deadFight && teamSpread().some(m => m.d > huntLim || m.dead)) {
         const tg = now();
         const gok = await gatherTeam('during hunt');
         if (!(gok && huntGatherDecide({ spread: teamSpread(), lim: huntLim, returning: (n) => returningMate(n) }) === 'hunt')) {
@@ -39747,9 +39860,9 @@ async function acadFunds() {
 function acadWorn() { const w = {}; try { const db = gearDb().items || {}, lv = num(Me.Level); Inventory.forEach(i => { const f = db[i.Id]; if (i.IsEquiped && f && acadGradeOk(f.g, lv)) { const c = w[f.s] || { pd: 0, ma: 0, md: 0 }; w[f.s] = { pd: Math.max(c.pd, num(f.pd)), ma: Math.max(c.ma, num(f.ma)), md: Math.max(c.md || 0, num(f.md)) }; } }); } catch (e) { } return w; }
 function acadHolds() { const h = {}; try { (hostSnap.inv() || Inventory).forEach(i => { const id = num(i.Id); h[id] = (h[id] || 0) + Math.max(1, num(i.Count)); }); } catch (e) { } return h; }
 // KITNEVERBLOCK-2026-11-10 (owner: the academy runs 24/7, "manual interference is a no go"; live: Nuker31 "acbuy18" blocked since 2026-11-06
-// "Leather Helmet: NOT bought (the shop did not hand it over)", Nuker25 "acbuyjw" blocked 2026-11-10 "Common Item - Elven Necklace: NOT bought"):
+// "Leather Helmet: NOT bought (the shop did not hand it over)", Rhaeis50 "acbuyjw" blocked 2026-11-10 "Common Item - Elven Necklace: NOT bought"):
 // the data was right (Radia / Denkus sell both, 29 + 14 good buys); both were group LEADERS whose own team walk / town order moved them while the
-// buy packet was on its way (Nuker25 stood 580 from Denkus 1 s later; L2J RequestBuyItem refuses silently when the merchant is not my target in
+// buy packet was on its way (Rhaeis50 stood 580 from Denkus 1 s later; L2J RequestBuyItem refuses silently when the merchant is not my target in
 // reach). Now: the leader's team walk is waited for, every piece gets up to 3 tries with pauses (another merchant that sells it when there is one),
 // and a piece still not obtainable is SKIPPED with its reason - the plan goes on (leveling never waits for one gear piece). Nothing is sold.
 // ACADKIT-PURE-BEGIN (no host calls: docs/plan/tools/test_acad_kit_retry.js runs it in node)
@@ -40859,7 +40972,7 @@ const planResumeIv = setInterval(() => {
   } catch (e) { logError('plan resume', e); }
 }, 15000);
 // KITNEVERBLOCK-2026-11-10: an academy kit step that the OLD code set to 'blocked' ("still missing: ...", Nuker31 acbuy18 since 2026-11-06,
-// Nuker25 acbuyjw since 2026-11-10) goes on by itself when the party is ON: the step runs again with the retries + skip (no owner click)
+// Rhaeis50 acbuyjw since 2026-11-10) goes on by itself when the party is ON: the step runs again with the retries + skip (no owner click)
 function planKitUnblockDecide(o) {
   return !!o.on && !o.running && !!o.planOn && o.status === 'blocked' && o.kind === 'academy' && o.act === 'buy' && /^still missing:/.test(String(o.why || '')) && !(Number(o.lastTry) > 0 && Number(o.nowMs) - Number(o.lastTry) < 10 * 60000);
 }
@@ -42765,9 +42878,13 @@ setInterval(() => {
 // ---------------------------------------------------------------------------
 const HEALER_ROLES = ROLE_RE.healer;   // unchanged: /healer|bishop|shilliensaint/
 const healerHit = { name: '', id: 0, at: 0 };   // HEALERFIRST-2026-10-22: the last time a healer teammate was hit (self-defence steps aside for it)
+var teamHitAt = { at: 0, name: '' };            // RESFIGHT2-2026-11-10: the last time any teammate was hit (partyHitNow)
+/** RESFIGHT2-2026-11-10: the party is being hit right now (me or a teammate < 6 s ago) — the leader keeps fighting, never "waits" idle */
+function partyHitNow() { return now() - (lastAttackerOnMe.at || 0) < 6000 || now() - (teamHitAt.at || 0) < 6000; }
 App.on('swarm.attacked', (event) => {
   const d = event.data;
   if (!state.role || d.name === Me.Name || Me.IsDead || teamOf(d.name) !== teamOf(Me.Name)) return;
+  teamHitAt.at = now(); teamHitAt.name = String(d.name || '');
   try { if (HEALER_ROLES.test(String((livePos[d.name] || {}).role || (CONFIG.roster || {})[d.name] || '')) || (livePos[d.name] || {}).healer) Object.assign(healerHit, { name: d.name, id: num(d.attacker), at: now() }); } catch (e) { }
   if (swarmFightNow()) return;   // SWARMFIGHT: L2Swarm's Follow Attack decides
   if (handsOffMe()) return;      // HANDSOFF-2026-10-26: never runs to help a teammate
@@ -43025,6 +43142,13 @@ const RESX = {
   retryMs: 20000,      // the same resser tries the same body again after this
   raidHpOk: 85,        // raid: a healer's res skill waits until everyone alive is >= this
   zSame: 700,          // same floor: height difference at most
+  // RESFIGHT2-2026-11-10 (public tester: "the healer doesn't resurrect ... eventually another party member decides to use a scroll. The whole
+  // time they are getting hit"): outside raids a healer's res waits ONLY while it is really unsafe, and a scroll never jumps ahead of a healer
+  // whose skill just waits for that moment
+  skillWaitMs: 30000,  // a healer near with a res skill that waits for the fight: no scroll before the body lay this long
+  holdMyHp: 60,        // the healer holds its res below this own HP %
+  holdMateHp: 50,      // ... or while a living teammate is below this HP % (heal first)
+  holdAttackers: 3,    // ... or while this many monsters (not crowd-controlled) are on the healer; 1-2 = res anyway
 };
 function resNum(v) { return typeof v === 'bigint' ? Number(v) : (Number(v) || 0); }
 /** a resurrection skill a character casts on a body (by NAME, so every class / level counts; never Purify, a scroll's or an agathion's skill) */
@@ -43080,6 +43204,8 @@ function resPickScroll(c, how, blessedFirst) {
  * -> { jobs: [{ dead, by, how: 'skill'|'scroll'|'blessed', skillId?, skillName?, itemId?, dist, why }], waits: [{ dead, why }] }
  *    one job per resser; the dead in rank order (a healer gets the nearest / best resser first).
  */
+/** RESFIGHT2-2026-11-10: does this healer hold its res now? its own report (c.hold) when it sent one, else the deciding window's o.fightHold */
+function resHeld(c, o) { return typeof (c && c.hold) === 'boolean' ? c.hold : !!(o && o.fightHold); }
 function resDecide(o) {
   o = o || {};
   const rules = Object.assign({}, RESX.defaults, o.rules || {}), man = o.manual || null, jobs = [], waits = [], used = new Set();
@@ -43114,11 +43240,19 @@ function resDecide(o) {
         const sk = c.skill && c.skill.ready !== false ? c.skill : c.mass && c.mass.ready !== false ? c.mass : null;
         if (!sk) { if (c.skill || c.mass) why = why || `${c.name}'s ${(c.skill || c.mass).name} is not ready yet`; continue; }
         if (!man && o.raid && c.healer && !o.raidHpOk) { why = why || `${c.name} heals first (raid: everyone alive must be at ${RESX.raidHpOk} % or more before a res)`; continue; }
-        if (!man && !o.raid && c.healer && o.fightHold) { why = why || `${c.name} heals first (the fight is still on: a teammate below 50 % or the healer is being hit)`; continue; }   // RESFIGHT-2026-10-22: Tank1 wipe 10:10, the healers tried to res Chanter1 mid-fight and died next
+        // RESFIGHT-2026-10-22 (Tank1 wipe 10:10, the healers tried to res Chanter1 mid-fight and died next); RESFIGHT2-2026-11-10: the HEALER's own hold
+        // (c.hold, reported in its res kit: own HP / a teammate low / 3+ monsters on it), not the deciding window's fight
+        if (!man && !o.raid && c.healer && resHeld(c, o)) { why = why || `${c.name} heals first (unsafe right now: a teammate below ${RESX.holdMateHp} %, the healer below ${RESX.holdMyHp} % or ${RESX.holdAttackers}+ monsters on it)`; continue; }
         job = { dead: d.name, by: c.name, how: 'skill', skillId: resNum(sk.id), skillName: String(sk.name || 'Resurrection'), dist: Math.round(c.d), why: `${c.name} has ${sk.name}` };
         break;
       }
       if (!job && how === 'skill' && !why) why = `nobody near ${d.name} has a resurrection skill`;
+    }
+    // RESFIGHT2-2026-11-10: a healer near whose ready res skill only waits for a safe moment -> no scroll yet (it heals, then resurrects);
+    // the scroll is the fallback after RESX.skillWaitMs (d.deadMs = how long the body lies there; unknown = no wait)
+    if (!job && !man && !o.raid && !how && typeof d.deadMs === 'number' && d.deadMs < RESX.skillWaitMs) {
+      const soon = reachable.find(c => c.healer && resHeld(c, o) && ((c.skill && c.skill.ready !== false) || (c.mass && c.mass.ready !== false)));
+      if (soon) { waits.push({ dead: d.name, why: `${soon.name} resurrects ${d.name} with ${(soon.skill && soon.skill.ready !== false ? soon.skill : soon.mass).name} as soon as it is safe (heals first) — a scroll only after ${Math.round(RESX.skillWaitMs / 1000)} s` }); continue; }
     }
     // 2) a SCROLL: anyone who carries one (a non-healer, non-tank first: the healer keeps healing, the tank keeps the monsters)
     if (!job && how !== 'skill') {
@@ -43190,7 +43324,7 @@ function resWaitReach() { let w = CONFIG.hive.resDist; try { w = Math.max(w, res
 
 const resDone = {};                                  // kept for older readers
 let resBusy = false;                                 // follow / room loops step aside while I walk to a body (also read elsewhere)
-const RES = { job: null, after: null, claims: {}, tried: {}, waits: [], waitsAt: 0, order: null, incomingAt: 0, incomingBy: '', kit: null, kitAt: 0 };
+const RES = { job: null, after: null, claims: {}, tried: {}, waits: [], waitsAt: 0, order: null, incomingAt: 0, incomingBy: '', kit: null, kitAt: 0, deadSince: {} };
 /** my res kit: the best single res skill, a mass res, scroll counts (cached 3 s; readiness read live) */
 function resKit() {
   if (RES.kit && now() - RES.kitAt < 3000) return RES.kit;
@@ -43210,13 +43344,14 @@ function resKit() {
 }
 /** compat: the old callers (swarm.pos resSkill, overrides) */
 function resSkillId() { const k = resKit(); return k.skill ? k.skill.id : k.mass ? k.mass.id : 0; }
-/** busy = I cannot go now (hit, escaping, trading, a gatekeeper, a delevel) — the others then pick someone else */
+/** busy = I cannot go now (hit, escaping, trading, a gatekeeper, a delevel) — the others then pick someone else
+ *  RESFIGHT2-2026-11-10: being hit does NOT make a healer busy (that made a dealer read a scroll mid-fight): its hold (resFightHold) decides */
 function resMeBusy() {
-  return !!(Me.IsDead || state.gkBusy || state.escaping || tradeState || (typeof DLV !== 'undefined' && DLV.on) || (now() - lastAttackerOnMe.at < 4000 && !inRaid()) || (RES.after && RES.after.phase !== 'done'));
+  return !!(Me.IsDead || state.gkBusy || state.escaping || tradeState || (typeof DLV !== 'undefined' && DLV.on) || (now() - lastAttackerOnMe.at < 4000 && !inRaid() && !isHealerRole()) || (RES.after && RES.after.phase !== 'done'));
 }
-/** the res kit for swarm.pos (teammates decide with it) */
+/** the res kit for swarm.pos (teammates decide with it); hold = a healer's own "not safe to res right now" (RESFIGHT2-2026-11-10) */
 function resPosKit() {
-  try { const k = resKit(); return { skill: k.skill, mass: k.mass, sor: k.sor, sorId: k.sorId, bsor: k.bsor, bsorId: k.bsorId, busy: resMeBusy() || !!resBusy }; } catch (e) { return null; }
+  try { const k = resKit(); return { skill: k.skill, mass: k.mass, sor: k.sor, sorId: k.sorId, bsor: k.bsor, bsorId: k.bsorId, busy: resMeBusy() || !!resBusy, hold: isHealerRole() ? resFightHold() : false }; } catch (e) { return null; }
 }
 /** dashboard: my kit (resurrect dialog) */
 function resKitPublic() {
@@ -43262,7 +43397,7 @@ function resGather() {
       if (Me.IsDead) return;
       const k = resKit();
       alive.push({ name: n, x: num(Me.X), y: num(Me.Y), z: num(Me.Z), healer: isHealerRole() || HEALER_ROLES.test(state.role || ''), tank: ROLE_RE.tank.test(state.role || ''),
-        busy: resMeBusy(), skill: k.skill, mass: k.mass, sor: k.sor, sorId: k.sorId, bsor: k.bsor, bsorId: k.bsorId });
+        busy: resMeBusy(), skill: k.skill, mass: k.mass, sor: k.sor, sorId: k.sorId, bsor: k.bsor, bsorId: k.bsorId, hold: isHealerRole() ? resFightHold() : false });
       return;
     }
     const lp = livePos[n], fresh = !!(lp && now() - lp.at < 8000), r = rows[n];
@@ -43272,22 +43407,43 @@ function resGather() {
     if (!pos.x && !pos.y) return;
     if (isDead) {
       const c = RES.claims[n];
+      const ds = RES.deadSince || (RES.deadSince = {});
+      if (!ds[n]) ds[n] = now();                                          // RESFIGHT2-2026-11-10: how long the body lies there (scroll fallback after RESX.skillWaitMs)
       dead.push(Object.assign({ name: n, objId: num((r && r.objId) || (lp && lp.objId)), healer: HEALER_ROLES.test(role(n)) || !!(lp && lp.healer), tank: ROLE_RE.tank.test(role(n)),
-        dlv: !!(lp && lp.dlv), claimedBy: c && now() < c.until ? c.by : '' }, pos));
+        dlv: !!(lp && lp.dlv), claimedBy: c && now() < c.until ? c.by : '', deadMs: now() - ds[n] }, pos));
       return;
     }
+    if (RES.deadSince) delete RES.deadSince[n];
     if (!fresh) return;                                                    // a living teammate's kit is known only from its own report
     const rk = lp.rk || null;
-    alive.push(Object.assign({ name: n, healer: !!lp.healer || HEALER_ROLES.test(role(n)), tank: ROLE_RE.tank.test(role(n)), busy: !!(rk && rk.busy),
+    alive.push(Object.assign({ name: n, healer: !!lp.healer || HEALER_ROLES.test(role(n)), tank: ROLE_RE.tank.test(role(n)), busy: !!(rk && rk.busy), hold: rk && typeof rk.hold === 'boolean' ? rk.hold : undefined,
       skill: rk ? rk.skill || null : (lp.resSkill ? { id: 1016, name: 'Resurrection', ready: true } : null), mass: rk ? rk.mass || null : null,
       sor: rk ? num(rk.sor) : num(lp.scrolls), sorId: rk ? num(rk.sorId) : 737, bsor: rk ? num(rk.bsor) : 0, bsorId: rk ? num(rk.bsorId) : 0 }, pos));
   });
   return { dead, alive };
 }
-/** RESFIGHT-2026-10-22: outside raids a healer holds its res while the fight is on (I was hit < 4 s ago, or a living teammate / me is below 50 %) */
-function resFightHold() { try { return now() - (lastAttackerOnMe.at || 0) < 4000 || num(Me.HpPercent) < 50 || healTargets().some(t => !t.me && num(t.hp) > 0 && num(t.hp) < 50); } catch (e) { return false; } }
+/** RESFIGHT-2026-10-22: outside raids a healer holds its res while the fight is unsafe. RESFIGHT2-2026-11-10 (public tester: the healer never
+ *  resurrected while the party was hit, a dealer read a scroll much later): "being hit < 4 s ago" alone no longer holds it (at FoG that is
+ *  always) — only my HP < RESX.holdMyHp, a living teammate < RESX.holdMateHp (heal first), or RESX.holdAttackers+ monsters on me */
+function resFightHold() {
+  try {
+    if (num(Me.HpPercent) < RESX.holdMyHp) return true;
+    if (healTargets().some(t => !t.me && num(t.hp) > 0 && num(t.hp) < RESX.holdMateHp)) return true;
+    if (typeof escAttackers === 'function' && escAttackers().filter(a => (a.targetsMe || a.hitMe) && !a.cc).length >= RESX.holdAttackers) return true;
+    return false;
+  } catch (e) { return false; }
+}
 function resRaidHpOk() { try { return num(Me.HpPercent) >= RESX.raidHpOk && !healTargets().some(t => num(t.hp) < RESX.raidHpOk); } catch (e) { return true; } }
-function resStillDead(name) { const p = partyMember(name); return !!(p && p.IsDead); }
+/** RESFIGHT2-2026-11-10 (Bishop2 15:59:19 "Chanter2 is already alive" 32 from his body -> the res came 20 s later): the SAME rule as resGather —
+ *  dead when the party row says dead (the Die packet) OR its own fresh report says dead (partyMember preferred the 2 s old report = "alive").
+ *  since = my cast time: a report of its own sent after it that says alive = revived */
+function resStillDead(name, since) {
+  const lp = livePos[name], fresh = !!(lp && now() - lp.at < 8000);
+  if (since && lp && lp.at > since && !lp.IsDead) return false;
+  let row = false;
+  try { (partyRows(['Name', 'IsDead']) || PartyList).forEach(p => { if (String(p.Name) === String(name) && p.IsDead) row = true; }); } catch (e) { }
+  return row || (fresh && !!lp.IsDead);
+}
 function resDecideNow(g, manual) {
   return resDecide({ dead: g.dead, alive: g.alive, rules: resRules(), raid: inRaid(), raidHpOk: resRaidHpOk(), fightHold: resFightHold(), kama: inKamaInstance(), manual });
 }
@@ -43314,7 +43470,7 @@ async function resRun(job, dead, manual) {
       }
     }
     if (RES.job && RES.job.abort) { why = `${RES.job.abort} is resurrecting ${job.dead} — I stepped back`; RES.tried[job.dead] = now(); return { ok, why }; }
-    if (!resStillDead(job.dead)) { ok = true; why = `${job.dead} is already alive`; return { ok, why }; }
+    if (!resStillDead(job.dead)) { ok = true; why = `${job.dead} is already alive`; delete RES.tried[job.dead]; return { ok, why }; }   // RESFIGHT2-2026-11-10: no 20 s pause when that was wrong
     if (far() > RESX.castRange + 250) { why = `could not get within ${RESX.castRange} of ${job.dead}'s body (${Math.round(far())} away)`; return { ok, why }; }
     RES.job.phase = 'cast';
     const oid = num(dead.objId) || num(mateObjId(job.dead));
@@ -43324,7 +43480,7 @@ async function resRun(job, dead, manual) {
     // my bot + combat off while I target and cast (restored in finally)
     try { if (IsEnabled) { botWas = true; DisableBot(); } stopCombatG(); } catch (e) { }
     for (let i = 0; i < 3 && tgt !== oid; i++) { try { Send.Action(oid); } catch (e) { } await sleep(500); try { tgt = Target ? num(Target.objId) : 0; } catch (e) { tgt = 0; } }
-    if (tgt !== oid) { why = `could not target ${job.dead}'s body (object ${oid})`; return { ok, why }; }
+    if (tgt !== oid) { why = `could not target ${job.dead}'s body (object ${oid})`; RES.tried[job.dead] = now() - RESX.retryMs + 5000; return { ok, why }; }   // RESFIGHT2-2026-11-10: try again in 5 s (nothing was used)
     try { App.emit('swarm.res.incoming', { to: job.dead, by: Me.Name, how: job.how }); } catch (e) { }
     if (job.how === 'skill') {
       const k = SkillsList.GetItemByID(job.skillId);
@@ -43337,8 +43493,8 @@ async function resRun(job, dead, manual) {
       UseItem(job.itemId);
     }
     RES.job.phase = 'accept';
-    const t2 = now(); while (now() - t2 < 16000 && resStillDead(job.dead)) await sleep(500);
-    ok = !resStillDead(job.dead);
+    const t2 = now(); while (now() - t2 < 16000 && resStillDead(job.dead, t2)) await sleep(500);
+    ok = !resStillDead(job.dead, t2);
     why = ok ? `${job.dead} is alive again (${label})` : `${label} used, but ${job.dead} is not alive yet (the cast was interrupted, or the yes in the dialog is missing) — trying again in ${Math.round(RESX.retryMs / 1000)} s`;
     return { ok, why };
   } catch (e) { logError('resRun', e); why = 'error: ' + e.message; return { ok, why }; }

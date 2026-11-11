@@ -149,9 +149,10 @@ async function runTrip(start, room, opt) {
   check(t.res === true && inRoom, `rgRoomTrip from the landing -> ${room.id}: ${t.res} at ${Math.round(t.me.X)},${Math.round(t.me.Y)},${Math.round(t.me.Z)} (${t.W.walked} centreline waypoints)`);
   check(t.W.walkTo.length === 1 && Math.hypot(t.W.walkTo[0][0] - enter.x, t.W.walkTo[0][1] - enter.y) < 5 && t.W.walkTo[0][3] === true, 'the walk-in (onEnter) walked to the way in on the geodata with walkOnly set (no teleportNear / Giran)');
   check(!t.W.tps.length && t.W.log.some(l => /walk-in to .* done/.test(l)) && !t.W.log.some(l => /Hall of Flames/.test(l) && /no walkable/.test(l)), `no floor teleporter, no "no walkable way from Hall of Flames" (log: ${t.W.log.filter(l => /walk-in|route:/.test(l)).slice(0, 2).join(' | ')})`);
-  // a Lower-level room is never walked in from outside (onEnter refuses floor 1): the trip fails with a plain reason, no 60 km walk
+  // FOG2WALK-2026-11-05 (check updated FOGPUBLIC-2026-11-10): a Lower-level room is never walked in DIRECTLY from outside: the trip walks into
+  // the Top level, then goes down by Chandra (the mock teleporter refuses here -> the trip fails with that reason, no 60 km walk)
   const t2 = await runTrip(LAND, LOW[0]);
-  check(t2.res === false && t2.W.walkTo.length === 0 && t2.W.log.some(l => /not entered on foot from outside/.test(l)), 'a Lower-level room: no walk-in attempt, a plain "not entered on foot from outside" line');
+  check(t2.res === false && t2.W.walkTo.length === 1 && Math.hypot(t2.W.walkTo[0][0] - enter.x, t2.W.walkTo[0][1] - enter.y) < 5 && t2.W.tps.includes('Chandra'), 'a Lower-level room: walk-in to the Top level only, then Chandra (never a direct walk to the Lower level)');
 
   // ---- 6) pickRoom / zoneSpot for team levels 74-79 ---------------------------------------------------------------------------------------
   console.log('-- 6) the leveling pick');
@@ -201,7 +202,7 @@ async function runTrip(start, room, opt) {
   check(/landFailDecide\(autoLvl\.landFails, now\(\), spot\.zoneName/.test(src) && /spot\.room && spot\.zoneName && !\(lfd && !lfd\.banZone\)/.test(src), 'autoLevelLoop: a failure at the way in bans only the room until landFailMax');
   check(/insideG = \(\) => inside\(\) && \(d\.isTown \|\| typeof rgGraphNear !== 'function' \|\| rgGraphNear\(RG, here\(\)\)\)/.test(src) && /if \(insideG\(\)\) continue;/.test(src), 'rgWalk: "inside" = height band AND near the floor\'s hallways');
   check(/allowNpc: true, onEnter, label/.test(src) && /w\.fi >= 0 && \(!graph \|\| rgGraphNearD\(d,/.test(src), 'rgRoomTrip walks in on the geodata (onEnter); enterRoom\'s inDun needs the hallways too');
-  check(/const rs = roomSpot\(Object\.assign\(\{\}, z, \{ rooms: dn \}\), level\)/.test(src) && /roomTripWhyHost\(r, f, fi\); if \(tw\)/.test(src), 'zoneSpot uses zoneDungeonOf; pickRoom uses roomTripWhy');
+  check(/const rs = roomSpot\(Object\.assign\(\{\}, z, \{ rooms: dn \}\), level\)/.test(src) && /roomTripWhyHost\(r, f, fi, d\); if \(tw\)/.test(src), 'zoneSpot uses zoneDungeonOf; pickRoom uses roomTripWhy');
   console.log(fails ? `${fails} of ${n} checks FAILED` : `all ${n} checks passed`);
   process.exit(fails ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(1); });

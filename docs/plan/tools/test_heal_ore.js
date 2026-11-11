@@ -59,5 +59,5 @@ t('Dashboard/heallogic.js is synced (NOOREPICK)', HLF.includes('NOOREPICK-2026-1
 t('Healing panel: "If out of Spirit Ore, use" picker', HSJ.includes('function noOreSel(sit, R, opts)') && HSJ.includes('data-hspick="${sit}.noOre"'));
 // XMLSELFHEAL / RESFIGHT 2026-10-22 (Tank1 wipe 10:10)
 t('L2Swarm Self Heal is set OFF on every check (no trust in the stale copy)', S.includes("try { a.IsEnabled = false; rec[id] = true; if (on) changed.push(") && S.includes("HSH.xml = rows ? 'off' : 'unknown';"));
-t('healer res waits while the fight is on (outside raids)', S.includes('if (!man && !o.raid && c.healer && o.fightHold)') && S.includes('fightHold: resFightHold()'));
+t('healer res waits while the fight is unsafe (outside raids; RESFIGHT2-2026-11-10: the healer\'s own hold, see test_res_fight.js)', S.includes('if (!man && !o.raid && c.healer && resHeld(c, o))') && S.includes('fightHold: resFightHold()'));
 console.log(`${ok} passed, ${bad} failed`); process.exit(bad ? 1 : 0);

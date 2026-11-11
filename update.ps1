@@ -20,8 +20,12 @@
 #   edited in the dashboard shape editor (manual: true - merged into the new data with docs\plan\tools\manual_guard.js).
 # What it REPLACES: the code (Scripts_dev\swarm.js, Dashboard, tools, SETUP, patches\universal, docs). A changed code file is saved first to
 #   Logs\update_backup\<time>\ and listed - re-apply your change from there if you still need it.
-# It does not stop or start L2Swarm. Scripts\swarm.js (the file L2Swarm watches) is deployed through docs\plan\tools\deploy_swarm.ps1
-# (its time gate / "not during a fight" rules apply). The optional patch is only applied when YOU run patches\universal\apply_patch.ps1 -Apply.
+# CLEANUPDATE-2026-11-11 (owner: "force close of all swarm and nodes so it can update correctly"): before ANY file is replaced, L2Swarm
+# (its Stop task when SETUP registered it - the characters log out) and every node process of this install (dashboard, brain host workers,
+# path finder) are closed; then the files are copied, Scripts\swarm.js + agent2.js are copied live (no live reload, nothing can refuse it),
+# the dashboard and L2Swarm (if it ran before; staggered login) are started again and the live script is checked against the new one.
+#   (owner 2026-11-11: "It should stop everything and update" - there is no update without stopping)
+# The optional patch is only applied when YOU run patches\universal\apply_patch.ps1 -Apply.
 param([switch]$Check, [string]$Version = '', [switch]$NoDeploy, [string]$Zip = '', [string]$Repo = '')
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
@@ -41,6 +45,64 @@ function Backup($rel) {
     $src = Join-Path $root $rel; if (-not (Test-Path -LiteralPath $src)) { return }
     $dst = Join-Path $bak $rel; New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null; Copy-Item -LiteralPath $src $dst -Force
 }
+# ------------------------------------------------------------------ CLEANUPDATE: stop everything before files are replaced, start it again after
+$script:stoppedAll = $false; $script:wasL2 = $false; $script:wasDash = $false
+$updFlag = Join-Path $root 'Logs\update_running.flag'      # dashboard_keepalive.ps1 does not start the dashboard while this is fresh (< 30 min)
+function TaskExists($n) { $eap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'; & schtasks /query /tn $n 2>$null | Out-Null; $ok = ($LASTEXITCODE -eq 0); $ErrorActionPreference = $eap; return $ok }
+function OurNodes {
+    # node processes of THIS install: the one listening on the dashboard port + its whole tree, anything whose command line names this folder,
+    # and our own helper scripts (brain host / pool / geopath service) left over from a dashboard that was killed without its children
+    $all = @(Get-CimInstance Win32_Process -Filter "Name='node.exe'" -ErrorAction SilentlyContinue)
+    $ids = New-Object System.Collections.ArrayList
+    $dport = 8090; try { $cfg = Get-Content (Join-Path $root 'swarm.config.json') -Raw -Encoding UTF8 | ConvertFrom-Json; if ($cfg.dashboard.port) { $dport = [int]$cfg.dashboard.port } } catch { }
+    try { $l = Get-NetTCPConnection -LocalPort $dport -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1; if ($l -and ($all | Where-Object { $_.ProcessId -eq $l.OwningProcess })) { [void]$ids.Add([int]$l.OwningProcess) } } catch { }
+    foreach ($p in $all) { $c = [string]$p.CommandLine; if ($c -and ($c.IndexOf($root, [StringComparison]::OrdinalIgnoreCase) -ge 0 -or $c -match 'brain_host|geopath_service|pool\.js')) { if (-not $ids.Contains([int]$p.ProcessId)) { [void]$ids.Add([int]$p.ProcessId) } } }
+    $more = $true
+    while ($more) { $more = $false; foreach ($p in $all) { if ($ids.Contains([int]$p.ParentProcessId) -and -not $ids.Contains([int]$p.ProcessId)) { [void]$ids.Add([int]$p.ProcessId); $more = $true } } }
+    return @($ids)
+}
+function KillOurNodes {
+    $ids = @(OurNodes)
+    foreach ($id in $ids) { $eap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'; & taskkill /PID $id /T /F 2>$null | Out-Null; $ErrorActionPreference = $eap }
+    Start-Sleep 2
+    return $ids.Count
+}
+function StopEverything {
+    if ($script:stoppedAll) { return }
+    Set-Content -LiteralPath $updFlag (Get-Date -Format s) -ErrorAction SilentlyContinue
+    $script:wasL2 = [bool](Get-Process L2Swarm -ErrorAction SilentlyContinue)
+    $script:wasDash = (@(OurNodes).Count -gt 0)
+    if ($script:wasL2) {
+        Say 'closing L2Swarm so every file can be replaced (your characters log out; they are logged in again at the end) ...' Yellow
+        if (TaskExists 'L2Swarm Stop') { & schtasks /run /tn 'L2Swarm Stop' | Out-Null }   # elevated task (SETUP): also closes hooked clients, sets the stopped flag
+        else { Set-Content (Join-Path $root 'Logs\l2swarm_stopped.flag') (Get-Date -Format s) -ErrorAction SilentlyContinue; Get-Process L2Swarm -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue }
+        $t = (Get-Date).AddSeconds(120)
+        while ((Get-Process L2Swarm -ErrorAction SilentlyContinue) -and (Get-Date) -lt $t) { Start-Sleep 2 }
+        if (Get-Process L2Swarm -ErrorAction SilentlyContinue) {
+            Say 'L2Swarm is still running (it runs as administrator) - close it yourself now; the update waits 3 more minutes ...' Red
+            $t = (Get-Date).AddMinutes(3); while ((Get-Process L2Swarm -ErrorAction SilentlyContinue) -and (Get-Date) -lt $t) { Start-Sleep 3 }
+            if (Get-Process L2Swarm -ErrorAction SilentlyContinue) { Remove-Item -LiteralPath $updFlag -ErrorAction SilentlyContinue; Say 'L2Swarm could not be closed - NOTHING was changed. Close L2Swarm and run update.cmd again.' Red; exit 1 }
+        }
+        Say '  L2Swarm closed.' Green
+    }
+    $n = KillOurNodes
+    if ($n) { Say "  closed $n node process(es) of this install (dashboard, brain host, path finder)." Green }
+    $script:stoppedAll = $true
+}
+function StartEverything {
+    if (-not $script:stoppedAll) { return }
+    [void](KillOurNodes)                                     # a dashboard a keep-alive started with the OLD files during the copy goes too
+    Remove-Item -LiteralPath $updFlag -ErrorAction SilentlyContinue
+    if ($script:wasDash -or $script:wasL2) {
+        Start-Process -FilePath 'cmd.exe' -ArgumentList '/c', "`"$root\Dashboard\start.cmd`"" -WorkingDirectory "$root\Dashboard" -WindowStyle Minimized
+        Say 'dashboard started with the new code - reload the page in your browser.' Green
+    }
+    if ($script:wasL2) {
+        if (TaskExists 'L2Swarm Start') { & schtasks /run /tn 'L2Swarm Start' | Out-Null; Say 'L2Swarm is starting again (accounts log in one by one).' Green }
+        else { Remove-Item (Join-Path $root 'Logs\l2swarm_stopped.flag') -ErrorAction SilentlyContinue; Say 'start L2Swarm again yourself now (no "L2Swarm Start" task on this PC - SETUP.cmd -Apply registers it).' Yellow }
+    }
+}
+
 # files that are YOURS once you changed them (the update's copy is saved next to it as <file>.upstream when it differs)
 function IsProtected($rel) {
     $r = $rel -replace '/', '\'
@@ -51,9 +113,8 @@ $GUARDED = @{ 'Scripts\data\dungeon_rooms.json' = 'room'; 'Scripts\data\hunting_
 $oldVer = if (Test-Path "$root\VERSION") { (Get-Content "$root\VERSION" -Raw).Trim() } else { '(unknown)' }
 Say ''
 Say "L2Swarm swarm package update   folder $root   installed version $oldVer" Cyan
-if (Get-Process L2Swarm -ErrorAction SilentlyContinue) {
-    Say 'note: L2Swarm is running. That is fine: the update does not touch Scripts\swarm.js directly - the new script is deployed with' Yellow
-    Say '      deploy_swarm.ps1 (every account reloads it once). Stop L2Swarm first if you prefer a clean restart.' Yellow
+if ((Get-Process L2Swarm -ErrorAction SilentlyContinue) -and -not $Check) {
+    Say 'note: L2Swarm is running. If there is an update, L2Swarm and the dashboard are closed first and started again at the end.' Yellow
 }
 $git = [bool](Get-Command git -ErrorAction SilentlyContinue)
 $useGit = $git -and (Test-Path "$root\.git") -and -not $Zip
@@ -85,6 +146,7 @@ if ($useGit) {
         $mod = @(& git diff --name-only HEAD) + @(& git diff --name-only --cached) | Where-Object { $_ } | Sort-Object -Unique
         $upChanged = @(& git diff --name-only $old $new)
         foreach ($f in $mod) { Backup $f }
+        StopEverything
         & git reset --hard $new | Out-Null
         if ($LASTEXITCODE -ne 0) { Say ('git reset failed - nothing was restored automatically; your changed files are in ' + $bak) Red; exit 1 }
         foreach ($f in $mod) {
@@ -133,7 +195,20 @@ if ($useGit) {
         $ref = $rel.tag_name
         Say "newest release on $Repo`: $ref"
         $miss = @(MissingFiles "$root\MANIFEST.sha256")        # REPAIR-2026-10-21: same version but files missing -> download it again and repair
-        if (($ref -replace '^v', '') -eq $oldVer -and -not $miss.Count) { Say "already up to date ($oldVer)." Green; exit 0 }
+        if (($ref -replace '^v', '') -eq $oldVer -and -not $miss.Count) {
+            Say "already up to date ($oldVer)." Green
+            # CLEANUPDATE: up to date, but the bots may still run an older script (an earlier update could not load it) -> load it now
+            $dev0 = "$root\Scripts_dev\swarm.js"; $live0 = "$root\Scripts\swarm.js"
+            if (-not $Check -and -not $NoDeploy -and (Test-Path $dev0) -and ((Hash $dev0) -ne (Hash $live0))) {
+                Say 'your bots run an older script than this version - loading the new one.' Yellow
+                if (Get-Process L2Swarm -ErrorAction SilentlyContinue) { StopEverything }
+                & node --check $dev0
+                if ($LASTEXITCODE -eq 0) { Copy-Item $dev0 $live0 -Force; $devA0 = "$root\Scripts_dev\agent2.js"; if (Test-Path $devA0) { Copy-Item $devA0 "$root\Scripts\agent2.js" -Force } }
+                StartEverything
+                if ((Hash $dev0) -eq (Hash $live0)) { Say 'bot script check: Scripts\swarm.js is the new version.' Green } else { Say '!!! bot script check FAILED: Scripts\swarm.js is not the new version !!!' Red; exit 1 }
+            }
+            exit 0
+        }
         if ($miss.Count) { Say "$($miss.Count) file(s) of your version are missing (e.g. $($miss[0])) - downloading $ref to repair" Yellow }
         if ($Check) { Say "update available: $oldVer -> $($ref -replace '^v', '')" Green; exit 0 }
         $asset = @($rel.assets) | Where-Object { $_.name -like 'SwarmKit-*.zip' } | Select-Object -First 1
@@ -224,6 +299,7 @@ if ($useGit) {
         Say "update: $oldVer -> $newVer" Green
         if ($Check) { Remove-Item -Recurse -Force $tmp; exit 0 }
         $files = @($newMan.Keys) + @('MANIFEST.sha256')
+        StopEverything
         foreach ($rel in $files) {
             $live = Join-Path $root $rel; $up = Join-Path $src $rel
             $mine = (Hash $live); $was = $oldMan[$rel]
@@ -293,10 +369,25 @@ if (-not (Test-Path "$root\Scripts\data\npc_strings.json") -and (Test-Path "$roo
 # ------------------------------------------------------------------ deploy swarm.js
 $dev = "$root\Scripts_dev\swarm.js"; $live = "$root\Scripts\swarm.js"
 if (-not $NoDeploy -and (Test-Path $dev) -and ((Hash $dev) -ne (Hash $live))) {
+    # CLEANUPDATE: the files may be up to date while the bots still run an older script (an earlier update could not load it): close
+    # everything here too, so the copy below always happens
+    if (Get-Process L2Swarm -ErrorAction SilentlyContinue) { Say 'your bots run an older script than this version - loading the new one.' Yellow; StopEverything }
     if (Get-Process L2Swarm -ErrorAction SilentlyContinue) {
         Say 'deploying Scripts_dev\swarm.js through deploy_swarm.ps1 (L2Swarm is running: every account reloads the script once) ...'
         & powershell -NoProfile -ExecutionPolicy Bypass -File "$root\docs\plan\tools\deploy_swarm.ps1"
-        if ($LASTEXITCODE -ne 0) { Say "deploy_swarm.ps1 did not deploy now (exit $LASTEXITCODE - see its message above). Run it again later: powershell -File docs\plan\tools\deploy_swarm.ps1" Yellow }
+        # PKGDEPLOY-2026-11-11: a deploy refused only for the moment (a trade / regroup / raid / login running, or the 15 min gap) is retried
+        # for up to 10 minutes; before, the update ended with a yellow line and the bots kept the OLD script while the dashboard was new
+        $until = (Get-Date).AddMinutes(10)
+        while (@(2, 4, 5, 8) -contains $LASTEXITCODE -and (Get-Date) -lt $until) {
+            Say "  waiting for a quiet moment to load the new script (exit ${LASTEXITCODE} - see the line above) - trying again in 30 s ..." Yellow
+            Start-Sleep 30
+            & powershell -NoProfile -ExecutionPolicy Bypass -File "$root\docs\plan\tools\deploy_swarm.ps1"
+        }
+        if ($LASTEXITCODE -ne 0) {
+            Say '' ; Say '!!! YOUR BOTS STILL RUN THE OLD SCRIPT !!!' Red
+            Say "deploy_swarm.ps1 did not load Scripts_dev\swarm.js (exit $LASTEXITCODE - see its message above). The dashboard is already new, so new buttons may do nothing until it is loaded." Red
+            Say 'Finish it with:  powershell -File docs\plan\tools\deploy_swarm.ps1 -Force   (or stop L2Swarm and run update.cmd again)' Red
+        }
     } else {
         New-Item -ItemType Directory -Force (Split-Path $live) | Out-Null
         & node --check $dev; if ($LASTEXITCODE -ne 0) { Say 'Scripts_dev\swarm.js has a syntax error - not deployed' Red } else { Copy-Item $dev $live -Force; Say 'deployed Scripts_dev\swarm.js -> Scripts\swarm.js (L2Swarm is not running)' }
@@ -330,6 +421,16 @@ if ($updated) {
         foreach ($l in $cl) { if ($l -match '^## ') { $sec++; if ($sec -gt 1) { break } }; if ($sec -eq 1) { Say "  $l"; $i++; if ($i -gt 25) { break } } }
     }
     Say ''; Say 'If swarm.config.example.json gained new fields, copy the ones you want into swarm.config.json and run SETUP.cmd (dry run) again.'
+}
+# CLEANUPDATE: everything that was closed is started again, and the live script is checked
+if ($script:stoppedAll) {
+    StartEverything
+    if (-not $NoDeploy -and (Test-Path $dev)) {
+        if ((Hash $dev) -eq (Hash $live)) { Say 'bot script check: Scripts\swarm.js is the new version - your bots run it once they are logged in.' Green }
+        else { Say '!!! bot script check FAILED: Scripts\swarm.js is not the new version (see the messages above) !!!' Red }
+    }
+    if ($engineStatus) { Say "New engine: $engineStatus" }
+    exit 0
 }
 if ($updated -or $engineMigrated) {
     # what the user must do now (2026-10-13: the new engine is the default; the dashboard runs it, so it needs the new server code)
