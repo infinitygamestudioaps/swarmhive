@@ -72,7 +72,7 @@ const live = JSON.parse(fs.readFileSync(path.join(R, 'Scripts/data/powerlevel.js
 { const SRC2 = fs.readFileSync(path.join(__dirname, '../../../Scripts_dev/swarm.js'), 'utf8');
   const far = new Function(SRC2.slice(SRC2.indexOf('function plHealerFar('), SRC2.indexOf('function plHealerMove(')) + '\nreturn plHealerFar;')();
   t('PLTRAVEL: 200k away or another floor = travel; 900 away on the floor = follow', far(200000, 0) && far(2000, 1200) && !far(900, 0) && !far(3000, 100));
-  t('PLTRAVEL: the far healer travels to the pair spot with travelToSpot (town, gatekeeper, dungeon), max one try a minute', /if \(plHealerFar\(d, Math\.abs\(num\(lv\.z\) - Me\.Z\)\)\) \{[\s\S]{0,1400}await travelToSpot\(tsp\);[\s\S]{0,120}await sleep\(60000 - \(now\(\) - t0\)\)/.test(SRC2)); }
+  t('PLTRAVEL: the far healer travels to the pair spot with travelToSpot (town, gatekeeper, dungeon), max one try a minute', /if \(plHealerFar\(d, Math\.abs\(num\(lv\.z\) - Me\.Z\)\)\) \{[\s\S]{0,3200}await travelToSpot\(tsp\);[\s\S]{0,120}await sleep\(60000 - \(now\(\) - t0\)\)/.test(SRC2)); }
 // R1: a pair is OFF until the OWNER starts it - a switched-on pair carries his start (changedAt / changedBy: owner 2026-11-05 started Inspector1 + Healer1)
 t('no pair is switched on without the owner\'s start (changedAt + changedBy)', !(live.pairs || []).some(p => p.on === true && !(p.changedAt && p.changedBy)));
 t('PLTAKEOVER: a running ordinary leveling makes way for the pair\'s power leveling', /if \(autoLvl\.active && !autoLvl\.pl && !inRaid\(\)\) \{ if \(!autoLvl\.stop\) \{ autoLvl\.stop = true;/.test(fs.readFileSync(path.join(__dirname, '../../../Scripts_dev/swarm.js'), 'utf8')));

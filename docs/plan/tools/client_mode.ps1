@@ -115,6 +115,19 @@ function InGame($name, $since) {
     return $null
 }
 
+function NoScreenReason {
+    # '' = L2Swarm's Windows session has a usable desktop; else why not (locked / RDP disconnected)
+    $sid = $null; try { $sid = (Get-Process L2Swarm -ErrorAction Stop | Select-Object -First 1).SessionId } catch { $sid = (Get-Process -Id $PID).SessionId }
+    if (Get-Process LogonUI -ErrorAction SilentlyContinue | Where-Object { $_.SessionId -eq $sid }) { return "the Windows session $sid is locked" }
+    try {
+        foreach ($l in @(query session 2>$null)) {
+            $p = ($l.Trim() -replace '^>', '') -split '\s+'
+            $i = [array]::IndexOf($p, [string]$sid)
+            if ($i -ge 0 -and $i + 1 -lt $p.Count -and $p[$i + 1] -match '^(Disc|Afbrudt)') { return "the Windows session $sid is disconnected (RDP closed)" }
+        }
+    } catch { }
+    return ''
+}
 function FindAll($cond) { $win.FindAll([Windows.Automation.TreeScope]::Descendants, $cond) }
 function HookCharacter($name) {
     # 0) guards (see the header)
@@ -122,6 +135,11 @@ function HookCharacter($name) {
     if (-not $cfg) { Log "hook ${name}: no config with <SelectedCharacter>$name< in Settings - not pressing Hook"; return $false }
     $exe = ''; try { if ((Get-Content $cfg -Raw) -match '<L2ExePath>([^<]+)<') { $exe = $Matches[1] } } catch { }
     if (-not $exe -or -not (Test-Path $exe)) { Log "hook ${name}: $(Split-Path $cfg -Leaf) has no valid <L2ExePath> ('$exe') - L2Swarm would open a modal 'Select L2.exe' dialog; set the path first (close account, edit XML, open) - not pressing Hook"; return $false }
+    # L2EXE2-2026-11-11 (Inspector1 16:52): on a LOCKED PC l2.exe dies at once ("Critical: No Direct3D adapters found", crash box) after the
+    # Hook already logged the out-of-game session out -> the character stood offline. Only L2Swarm's OWN Windows session counts (the owner works
+    # over RDP: the console session 1 shows a lock screen all the time while session 2 is active): its lock screen, or the session disconnected.
+    $why = NoScreenReason
+    if ($why) { Log "hook ${name}: $why - the game client cannot start (no Direct3D screen); waiting, the character stays out of game"; return $false }
     if ($NoUi) {
         WaitTypingPause $name
         $before = @(Get-Process l2 -ErrorAction SilentlyContinue | ForEach-Object Id)

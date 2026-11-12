@@ -360,6 +360,13 @@ function Open-Configs($configs) {
             # here logs it in OUT of game on top of its game client (hook-mode audit 2026-10-07)
             $ingame = InGameChars
             $missing = @($accs | Where-Object { $_.config_path -and -not $_.is_logged_in -and ($ingame -notcontains (CharOfConfig $_.config_path)) })
+            # DUPLOGIN-2026-11-12 (owner: "Nuker29 and Nuker25 relogin over and over"): one config file opened TWICE (C:\l2\... and
+            # C:\RainbowControl\... = the same file through the C:\L2 junction); this check logged the second entry in and the two kicked each
+            # other every ~12 s for 13 h (4,000 relogins each). An entry whose config FILE NAME has another entry logged in is a duplicate: never loaded.
+            $inByFile = @{}; foreach ($a in @($accs)) { if ($a.config_path -and $a.is_logged_in) { $inByFile[[IO.Path]::GetFileName([string]$a.config_path).ToLower()] = $true } }
+            $dups = @($missing | Where-Object { $inByFile[[IO.Path]::GetFileName([string]$_.config_path).ToLower()] })
+            foreach ($d in $dups) { Log $ctlLog "start: $($d.account_name) ($($d.config_path)) is a DUPLICATE entry - the same config is in game in another entry; not logging it in (close it: docs/plan/tools/close_dup_accounts.ps1)" }
+            $missing = @($missing | Where-Object { -not $inByFile[[IO.Path]::GetFileName([string]$_.config_path).ToLower()] })
             # 2026-10-07 15:50: "open Bishop1.xml failed: timeout" -> the account never appeared in the list, the check said "everyone is in game"
             # and the healer stayed offline for 75 min (party Tank1 wiped at Hellion without her). Configs missing from the list are opened again.
             $have = @{}; foreach ($a in @($accs)) { if ($a.config_path) { $have[[IO.Path]::GetFileName([string]$a.config_path).ToLower()] = $true } }

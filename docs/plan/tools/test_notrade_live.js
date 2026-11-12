@@ -26,6 +26,18 @@ ok(!/if \(n >= 3 && !o\.sure\)/.test(tb), "the old 'third in-window refusal bloc
 ok(/g\.naRefused/.test(tb) && /return \{ moved: mv, why: [^\n]*na: \[\.\.\.naObj\] \}/.test(tb), 'giveItems reports the refused-to-add rows; the batch hands them back (never retried one by one)');
 const gi = src.slice(src.indexOf('async function giveItems(d)'), src.indexOf('async function receiveItems(d)'));
 ok(/if \(readded && !earlyLock\) naRefused = /.test(gi) && /earlyLock = true;/.test(gi), 'refused-to-add = still missing after the re-add and the receiver did not confirm early (#122 is never a refusal)');
+// 3b) NAMOVED-2026-11-12: Nuker29 02:17 "trade window checked: 4/5 in - not added: Stem x3" while Dagger1 took Stem x3 -> learned untradeable
+{
+  const L = new Function(PURE + '\nreturn hovNaLearn;')();
+  const stem = { objId: '9001', id: 1864, name: 'Stem', count: 3, stack: true }, bone = { objId: '9002', id: 1872, name: 'Animal Bone', count: 2, stack: true }, guide = { objId: '9003', id: 5588, name: 'Tutorial Guide', count: 1 };
+  const r1 = L([stem, bone], [{ row: stem, moved: 3 }, { row: bone, moved: 2 }], new Set(['9001']));
+  ok(r1.naRows.length === 0, 'replay Nuker29 02:17: Stem reported "not added" but it LEFT the bag -> no refusal counted');
+  ok(r1.cleared.includes(1864) && r1.cleared.includes(1872), 'items that moved are cleared (tradeable): their learned refusals go');
+  const r2 = L([guide, bone], [{ row: guide, moved: 0 }, { row: bone, moved: 2 }], new Set(['9003']));
+  ok(r2.naRows.length === 1 && r2.naRows[0].id === 5588 && !r2.cleared.includes(5588), 'a real refusal (stayed in my bag) still counts');
+  ok(L([{ adena: true, objId: '57', id: 57, count: 5 }], [], new Set(['57'])).naRows.length === 0, 'adena is never learned');
+  ok(/const nl = hovNaLearn\(live, mv, naObj\), naRows = nl\.naRows/.test(tb) && /nl\.cleared\.forEach\(id => \{ const o = j\[String\(id\)\]; if \(o && !o\.sure && num\(o\.na\) > 0\) \{ o\.na = 0/.test(tb), 'hovTradeBatch learns through hovNaLearn and clears refusals of items that traded (never a hand-set one)');
+}
 // 4) the live file: no ordinary material blocked any more
 const LIVE = path.join(ROOT, 'Logs', 'notrade_live.json');
 if (fs.existsSync(LIVE)) {

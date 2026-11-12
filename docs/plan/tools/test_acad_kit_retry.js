@@ -1,5 +1,5 @@
 // KITNEVERBLOCK-2026-11-10 guard (academy.md R21; owner: the academy runs 24/7, "manual interference is a no go"): an academy kit buy step
-// never ends as 'blocked' because one shop piece was not handed over. Live: Nuker31 acbuy18 blocked since 2026-11-06 (Leather Helmet at Radia),
+// never ends as 'blocked' because one shop piece was not handed over. Live: Morra77 acbuy18 blocked since 2026-11-06 (Leather Helmet at Radia),
 // Rhaeis50 acbuyjw blocked 2026-11-10 (Common Item - Elven Necklace at Denkus). Sandbox only (no game, no files written).
 'use strict';
 const fs = require('fs'), path = require('path');
@@ -23,7 +23,7 @@ check(!P.acadKitRetry({ tries: 1, why: 'not enough adena (6431 with tax, I have 
 const done = P.acadKitOutcome('level18', [], 'Tunic of Devotion: bought for 18018 adena');
 check(done.ok && !done.skipped && done.state === 'leveling', 'all pieces there -> ok, leveling');
 const sk = P.acadKitOutcome('level18', [{ name: 'Leather Helmet', why: 'NOT bought at Radia (the shop did not hand it over)' }], "Tunic of Devotion: bought; Magnus' Chant: still 2.7 h left — not bought");
-check(sk.ok === true && sk.skipped === true && !sk.fail, 'Nuker31 case: Leather Helmet missing -> ok + skipped (never fail / blocked)');
+check(sk.ok === true && sk.skipped === true && !sk.fail, 'Morra77 case: Leather Helmet missing -> ok + skipped (never fail / blocked)');
 check(/skipped Leather Helmet \(NOT bought at Radia/.test(sk.result) && /plan goes on/.test(sk.result) && sk.state === 'leveling' && sk.state !== 'blocked', 'the skip is shown with its reason, state leveling');
 check(!/Magnus/.test(sk.text), "Magnus' Chant (a buff timer) is never named as missing");
 
@@ -38,11 +38,11 @@ const tryFn = cut('async function acadKitTry(', '\nasync function acadBuy');
 check(/await acadKitHold\(\)/.test(tryFn) && /Distance\(npc\) > 250/.test(tryFn), 'each try waits for my own team walk and checks I still stand at the merchant');
 check(/leadRunBusy \|\| regroupRun/.test(cut('async function acadKitHold(', '\n}\n')), "the hold waits for the leader's team walk / regroup (max 45 s)");
 
-// 4) the old blocked steps (Nuker31, Rhaeis50) go on by themselves after the deploy
+// 4) the old blocked steps (Morra77, Rhaeis50) go on by themselves after the deploy
 const ub = cut('function planKitUnblockDecide(o)', '\n}\n') + '\n}\n';
 const D = new Function(ub + '\nreturn planKitUnblockDecide;')();
 const base = { on: true, running: false, planOn: true, status: 'blocked', kind: 'academy', act: 'buy', why: 'still missing: Leather Helmet — ...', lastTry: 0, nowMs: 1e12 };
-check(D(base) === true, 'Nuker31: blocked "still missing" academy buy step + party ON -> runs again by itself');
+check(D(base) === true, 'Morra77: blocked "still missing" academy buy step + party ON -> runs again by itself');
 check(!D(Object.assign({}, base, { on: false })) && !D(Object.assign({}, base, { act: 'join' })) && !D(Object.assign({}, base, { why: 'no Academy invite from X in 30 min' })), 'only a kit step, only while the party is ON');
 check(!D(Object.assign({}, base, { lastTry: 1e12 - 60000 })), 'at most once per 10 min');
 check(/planKitUnblockDecide\(\{ on: runOn\(\)/.test(SRC) && /setLeadPaused\(false\);\s*note\(`plan: the academy kit step/.test(SRC), 'the unblock clears the lead pause and restarts the plan');

@@ -1,6 +1,6 @@
-// CRLINES + NODMGCALL guard (owner 2026-11-06): Nuker31's academy group (level-4 Dark Elven Mystics, plan Dark Elven Wizard -> Spellhowler)
+// CRLINES + NODMGCALL guard (owner 2026-11-06): Morra77's academy group (level-4 Dark Elven Mystics, plan Dark Elven Wizard -> Spellhowler)
 // cast nothing for hours - the Shillien Saint row "never Wind Strike in a party" of the shared Dark Elven Mystic file blocked every DE Mystic.
-// And "a bot that does no damage for several minutes calls the group, or walks away" (Nuker34: 25 min under a Kaboo Orc Fighter at 100 %).
+// And "a bot that does no damage for several minutes calls the group, or walks away" (Myriel20: 25 min under a Kaboo Orc Fighter at 100 %).
 'use strict';
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '../../..');

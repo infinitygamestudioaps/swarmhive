@@ -275,9 +275,10 @@ function Set-AccountXml([string]$file, $a, [bool]$write) {
     if ($loginIp) { & $set 'LoginServerIP' $loginIp $false }
     if ($loginPort) { & $set 'LoginServerPort' $loginPort $false }
     if ($serverId) { & $set 'SelectedServer/id' $serverId $false }
-    # client path: only where it is set already (re-rooted) or where the character plays in game (Hook needs it)
+    # client path: EVERY account whose node exists gets it (L2EXE2-2026-11-11, owner: "make sure that ALL accounts work in game" - the
+    # dashboard's In game switch / Hook refuses an empty path); an existing node is filled, a missing one is only added for 'ingame'
     $exeNode = $o.SelectSingleNode('L2ExePath')
-    if ($l2Client -and (($a.clientMode -eq 'ingame') -or ($exeNode -and $exeNode.InnerText))) { & $set 'L2ExePath' $l2Client ($a.clientMode -eq 'ingame') }
+    if ($l2Client -and (Test-Path $l2Client) -and (($a.clientMode -eq 'ingame') -or $exeNode)) { & $set 'L2ExePath' $l2Client ($a.clientMode -eq 'ingame') }
     $isLeader = $a.character -and ($a.party -eq $a.character)
     if ($isLeader) { & $set 'ActiveFollow' 'false' $false }
     elseif ($a.party) {

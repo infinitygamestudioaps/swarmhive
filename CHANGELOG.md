@@ -2,6 +2,21 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.3 (2026-11-12)
+
+- Tester fix release (2026-11-12): team walks, supply runs, Forge of the Gods entry, resurrect, runner
+- Team walks: the leader only pauses when someone is more than 400 behind (was 100: the team stopped every few steps)
+- a member's own L2Swarm combat (Start Combat / Fight with L2Swarm) is paused during the leader's route walk and switched back on at the end (no more fighting monsters 3k away while the team walks)
+- on the way the team stops and fights when 3+ monsters are on it or someone is below 40 % HP (it ran through packs and died)
+- members standing at a dungeon route walk always join it
+- Supply runs: Einhasad's Holy Water and Battle / Magic Symbols never start a supply run (no shop sells Holy Water, so parties went back to town every 30 min for nothing)
+- Forge of the Gods: one locked dry route from the Goddard landing over the bridge to the Top level - parties no longer walk into the pool under the bridge ('swimming experts')
+- a party in the pool goes out via .goddard and walks the route
+- Resurrect: a teammate that already stands up alive is no longer 'resurrected' over and over (stale dead rows stalled the team walk)
+- Runner: enchant scrolls (Scroll: Enchant Weapon / Armor) are always handed to the bank
+- items that left the bag are never learned as untradeable
+- Power leveling: the healer's buff plan and heal-at % are used, the healer counts as the leveler's healer, an unreachable target is put aside longer
+
 ## v1.14.2 (2026-11-11)
 
 - Tester fix release (2026-11-11): updates really load the new bot script again, the 1.14.1 waypoint stall, death / resurrect, Forge of the Gods 'Not reachable'

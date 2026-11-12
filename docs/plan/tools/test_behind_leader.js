@@ -172,7 +172,7 @@ async function scenario(noHold, xo) {
   const net = await scenario(false, { leadHop: 320, noGateFlag: true });
   ok(net.res === true && net.maxGateMs <= 20000, `the leader's safety net alone (members ignore the 'gate' flag, as on the 22:08 deploy): still finishes (longest gate wait ${Math.round(net.maxGateMs / 1000)} s)`);
   ok(/if \(o && o\.leaderAtGate\) return false;/.test(SRC) && /L\.ph = 'gate'; L\.emit\(false\);/.test(SRC) && /memberRoute\.ph = d\.ph === 'gate'/.test(SRC), "the leader announces 'at the waypoint' and members never hold then");
-  ok(/phase === 'gate' && pos && reached < g && t - \(L\.gateSince \|\| t\) >= 5000 && Math\.hypot\(pos\.x - me\.x, pos\.y - me\.y\) <= L\.cfg\.paceGap/.test(SRC), 'safety net: after 5 s at the gate a member within the pace gap of the leader (live) counts as arrived');
+  ok(/phase === 'gate' && pos && reached < g && t - \(L\.gateSince \|\| t\) >= 5000 && Math\.hypot\(pos\.x - me\.x, pos\.y - me\.y\) <= Math\.min\(L\.cfg\.paceGap, MT\.gateNear\)/.test(SRC), 'safety net: after 5 s at the gate a member within min(pace gap, 200) of the leader (live) counts as arrived (PACE400: the wider leg gap never loosens the gate)');
 
   console.log('3) source wiring');
   const step = SRC.slice(SRC.indexOf('function memberRouteStep() {'), SRC.indexOf('setInterval(memberRouteStep, 1000);'));

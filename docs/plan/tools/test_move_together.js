@@ -27,7 +27,7 @@ vm.createContext(pc);
 vm.runInContext(SRC.slice(pa, pb) + '\n;globalThis.__M = { MT, mtCfg, mtCum, mtAt, mtProg, mtSig, mtNearest, mtFlat, mtSideStep, mtLadderNext, mtStuckTick, mtResume, mtCut, mtDecide, mtBreath, mtGateLimit, mtSwimDist, mtPullGate, mtCorners };', pc);
 const M = pc.__M;
 {
-  const c = M.mtCfg({}); ok(c.on && c.neverLeave === true && c.maxWaitMs === 60000 && c.leaveMs === 90000 && c.paceGap === 100, 'defaults (owner 2026-10-24 LEADTOGETHER): ON, nobody left behind, pace gap 100 (L2 close range 80-100) (60 s / 90 s only with mtNeverLeave off)');
+  const c = M.mtCfg({}); ok(c.on && c.neverLeave === true && c.maxWaitMs === 60000 && c.leaveMs === 90000 && c.paceGap === 400, 'defaults (owner 2026-10-24 LEADTOGETHER, PACE400 owner 2026-11-12): ON, nobody left behind, pace gap 400 (60 s / 90 s only with mtNeverLeave off)');
   ok(M.mtCfg({ mtNeverLeave: false }).neverLeave === false, 'mtNeverLeave false = the old 60 s / 90 s go-on rule (only when the owner switches it)');
   ok(!M.mtCfg({ moveTogether: false }).on, 'moveTogether false = off');
   const c2 = M.mtCfg({ mtMaxWaitSec: 5, mtLeaveSec: 99999 }); ok(c2.maxWaitMs === 10000 && c2.leaveMs === 1800000, 'numbers clamped (10..600 s, 20..1800 s)');
@@ -64,7 +64,8 @@ const M = pc.__M;
     ok(nw.act === 'wait' && !nw.trail.length, 'default: 10 min waited for a walking member -> still waiting (no trailing)');
     const ns = D({ members: [mm({ name: 'B', reached: 2, stuck: { stage: 'around', since: 100000 - 600000 } }), mm({ name: 'C' })] });
     ok(ns.act === 'wait' && !ns.leave.length, 'default: stuck 10 min -> the leader waits, nobody is left behind');
-    ok(D({ phase: 'leg', gate: 4, leaderProg: 3400, members: [mm({ name: 'B', reached: 3, prog: 3000 })] }).act === 'pace', 'default pace: 400 behind the leader -> the leader slows down (one dot)'); }
+    ok(D({ phase: 'leg', gate: 4, leaderProg: 3500, members: [mm({ name: 'B', reached: 3, prog: 3000 })] }).act === 'pace', 'default pace: 500 behind the leader -> the leader slows down (one dot)');
+    ok(D({ phase: 'leg', gate: 4, leaderProg: 3300, members: [mm({ name: 'B', reached: 3, prog: 3000 })] }).act === 'go', 'PACE400-2026-11-12 (owner): 300 behind -> the leader walks on (no stop every few steps)'); }
   const DO = (o) => D(Object.assign({ cfg: M.mtCfg({ mtNeverLeave: false, mtPaceGap: 600 }) }, o));   // the old rule, switched on by a party
   const mw = DO({ since: 100000 - 61000, members: [mm({ name: 'B', reached: 2, d: 900 })] });
   ok(mw.act === 'go' && mw.trail.includes('B') && /still walking/.test(mw.line), 'max wait (60 s) ran out for a member that IS walking: go on, it trails on the same points');
@@ -276,6 +277,9 @@ const line = (n, y) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: y 
     const L = win('Lead', { pos: { X: 0, Y: 0 } }); win('A', { pos: { X: -100, Y: 0 } }); win('B', { pos: { X: -100, Y: 80 } });
     let res = null; L.H.leadRouteWalk(pts, 'Test Boss', () => false, '', null, null).then(r => { res = r; });
     await run(12000);
+    // PACE400-2026-11-12: with the wider pace gap the leader reaches waypoints sooner - start the fight while he is really ON A LEG (this case's point)
+    for (let k = 0; k < 80 && !((L.ctx.state.mt || {}).phase === 'leg' && /running together/.test((L.ctx.state.mt || {}).line || '')); k++) await run(250);
+    ok((L.ctx.state.mt || {}).phase === 'leg', 'the fight starts while the leader is on a leg');
     S.fightUntil = S.t + 20000; S.fighter = 'A';
     const g0 = L.ctx.state.mt.i, pos0 = { x: L.me.X, y: L.me.Y };
     let sawGateFight = false, sawLegFight = false;
@@ -461,10 +465,10 @@ const line = (n, y) => Array.from({ length: n }, (_, k) => ({ x: k * 1000, y: y 
     const rc = { Math, JSON, String, Number, Object, Array, isFinite, console }; vm.createContext(rc);
     vm.runInContext(SRC.slice(ra, rb) + '\n;globalThis.__Q = { RSM_RULES, RSM_LIMITS, rsmRules };', rc);
     const Q = rc.__Q;
-    ok(Q.RSM_RULES.mtMaxWaitSec === 60 && Q.RSM_RULES.mtLeaveSec === 90 && Q.RSM_RULES.mtPaceGap === 100 && Q.RSM_RULES.mtStuckSec === 8 && Q.RSM_RULES.mtNeverLeave === true, 'RSM_RULES: number defaults 60 s / 90 s / 100 / 8 s + never leave anyone (owner 2026-10-24)');
+    ok(Q.RSM_RULES.mtMaxWaitSec === 60 && Q.RSM_RULES.mtLeaveSec === 90 && Q.RSM_RULES.mtPaceGap === 400 && Q.RSM_RULES.mtStuckSec === 8 && Q.RSM_RULES.mtNeverLeave === true, 'RSM_RULES: number defaults 60 s / 90 s / 400 (PACE400 owner 2026-11-12) / 8 s + never leave anyone (owner 2026-10-24)');
     ok(JSON.stringify(Q.RSM_LIMITS) === JSON.stringify(M.MT.limits), 'RSM_LIMITS = MT.limits');
     const eff = Q.rsmRules({ rules: [], parties: { P: { mtMaxWaitSec: 30, mtLeaveSec: 99999, mtPaceGap: 'x', mtStuckSec: true } } }, 'P');
-    ok(eff.mtMaxWaitSec === 30 && eff.mtLeaveSec === 1800 && eff.mtPaceGap === 100 && eff.mtStuckSec === 8, 'rsmRules: a party number is used, clamped to its limits; a wrong type is ignored');
+    ok(eff.mtMaxWaitSec === 30 && eff.mtLeaveSec === 1800 && eff.mtPaceGap === 400 && eff.mtStuckSec === 8, 'rsmRules: a party number is used, clamped to its limits; a wrong type is ignored');
     const c = M.mtCfg(Q.rsmRules({ rules: [], parties: { P: { mtMaxWaitSec: 30, mtLeaveSec: 120, mtPaceGap: 900, mtStuckSec: 15 } } }, 'P'));
     ok(c.maxWaitMs === 30000 && c.leaveMs === 120000 && c.paceGap === 900 && c.stuckMs === 15000, 'mtCfg: the party numbers reach the walk (max wait, leave, pace gap, stuck seconds)');
     const RVA2 = require(path.join(ROOT, 'Dashboard', 'routeview_api.js'));

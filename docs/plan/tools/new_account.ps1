@@ -83,7 +83,10 @@ if ($ServerId) { $n = $o.SelectSingleNode('SelectedServer/id'); if ($n) { $n.Inn
 # L2EXE-2026-10-28 (tester Vykaax: "I have the path in swarm.config.json, but it doesn't seem to write it to new char profiles"): an empty
 # <L2ExePath> takes swarm.config.json "l2Client" (only when that file exists), so "Open in game" works without editing the profile by hand
 try {
-  $cli = ''; try { $cli = [string](([IO.File]::ReadAllText("$root\swarm.config.json") | ConvertFrom-Json).l2Client) } catch { }
+  # L2EXE2-2026-11-11: the field lives at paths.l2Client (swarm.config.example.json); the old top-level read was always empty,
+  # so 103 of 112 configs had no client path and "In game" refused them (owner: "make sure that ALL accounts work in game")
+  $cli = ''; try { $sc = [IO.File]::ReadAllText("$root\swarm.config.json") | ConvertFrom-Json; $cli = [string]$sc.paths.l2Client; if (-not $cli) { $cli = [string]$sc.l2Client } } catch { }
+  if (-not $cli -and (Test-Path 'C:\Lineage2\system\l2.exe')) { $cli = 'C:\Lineage2\system\l2.exe' }
   if ($cli -and (Test-Path $cli)) {
     $n = $o.SelectSingleNode('L2ExePath')                                 # every template has the node; never append one (3.10 checks the element order)
     if ($n -and -not $n.InnerText.Trim()) { $n.InnerText = $cli }
