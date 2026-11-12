@@ -82,6 +82,19 @@ console.log('ROUTECOMBAT');
   ok(/routeCombatPauseAct\(\{ inCombat: !!IsInCombat, handsOff: ho, dead: !!Me\.IsDead, hiveFight: now\(\) - selfDefAt < 20000 \}\)/.test(SRC) && /const selfDefAt = typeof selfDef !== 'undefined' \? \(selfDef\.started \|\| 0\) : 0;/.test(SRC), 'the host passes the live L2Swarm combat flag, hands off and the Hive-fight time');
 }
 
+console.log('SFBUFF');
+{
+  const line = (head) => { const i = SRC.indexOf(head); return SRC.slice(i, SRC.indexOf('\n', i)); };
+  const a = SRC.indexOf('function swarmKeepDecide(o) {'), b = SRC.indexOf('\nfunction swarmEscapeBlocked', a);
+  const K = new Function(line('const SWKEEP_ERRAND') + '\n' + SRC.slice(a, b) + '\nreturn swarmKeepDecide;')();
+  ok(K({ sfNow: true, why: 'rebuff turn' }).stop === true, "replay Vykaax PurpleFive: Fight with L2Swarm in its fight phase - Hive may pause the member's combat for its rebuff turn");
+  ok(K({ sfNow: true, why: 'back to the middle' }).stop === false && K({ handsOff: true, why: 'rebuff turn' }).stop === false, 'everything else stays the player\'s (SWARMKEEP), hands off is never touched');
+  ok(/const calm = \(\) => \{ try \{ stopCombatG\('rebuff turn'\); \}/.test(SRC), "the buff turn stops combat with the reason 'rebuff turn'");
+  ok(/if \(wasFa \|\| Options\.FollowAtk\) Options\.FollowAtk = false;/.test(SRC), 'Follow Attack is off for the turn (also when another loop switched it on meanwhile)');
+  ok(/if \(state\.buffTurn\) return;\s+\/\/ SFBUFF-2026-11-12/.test(SRC), 'the Fight-with-L2Swarm member loop restarts no combat / Follow Attack during the turn');
+  ok(/if \(sf && !isLeader\(\)\) SF\.hiveStopAt = now\(\);/.test(SRC), "the stop is stamped as Hive's, so the SF loop gives the combat back after the turn");
+}
+
 console.log('FOGENTRYPKG');
 {
   const RB = fs.readFileSync(path.join(ROOT, 'docs', 'plan', 'tools', 'release_build.js'), 'utf8');

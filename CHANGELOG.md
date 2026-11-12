@@ -2,6 +2,11 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.4 (2026-11-12)
+
+- Tester fix (2026-11-12): rebuffing with Fight with L2Swarm
+- Buffs: with Fight with L2Swarm on, a follower's rebuff turn now pauses its L2Swarm combat and Follow Attack (it still fights back when a monster hits it) and switches them back on after the turn - before, the follower kept assisting, never got out of combat and the board never gave the buffs
+
 ## v1.14.3 (2026-11-12)
 
 - Tester fix release (2026-11-12): team walks, supply runs, Forge of the Gods entry, resurrect, runner

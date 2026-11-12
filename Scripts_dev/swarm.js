@@ -3303,7 +3303,7 @@ async function runBuffTurn() {
   // once (self-defence is NOT paused), then the wait starts again. Such a fight never counts as a failed attempt; max fightCycles fights per turn.
   const wasCombat = IsInCombat; let wasFa; try { wasFa = Options.FollowAtk; } catch (e) { }
   const cycles = b.fightCycles || 4, deadline = now() + Math.max(30000, (b.turnTimeoutMs || 150000) - 10000);
-  const calm = () => { try { stopCombatG(); } catch (e) { } try { if (wasFa) Options.FollowAtk = false; } catch (e) { } };
+  const calm = () => { try { stopCombatG('rebuff turn'); } catch (e) { } try { if (wasFa || Options.FollowAtk) Options.FollowAtk = false; } catch (e) { } };   // SFBUFF-2026-11-12: 'rebuff' = an errand Fight with L2Swarm lets Hive stop; Follow Attack off also when another loop switched it on meanwhile
   let ok = false, inCombatFail = false, tries = 0, fights = 0, fightSeen = 0;
   try {
     note(`my turn: buffing while I follow the party (no assist; I only fight back if a monster hits me) — ${longBuffCount()} buffs, ${fmtTime(buffSecondsLeft())} left`);
@@ -38518,7 +38518,10 @@ function combatStopSay(why) {
 // HANDS OFF = Hive never stops L2Swarm's combat (only the owner's own orders); FIGHT WITH L2SWARM in its fight phase = Hive stops it only for a
 // real errand: supply / town / bag full / trade / teleport / death / raid / order. Everything else (flee, escape, solo fight, help, back to the
 // middle, tight ball, rest, toggles) leaves L2Swarm's combat running.
-const SWKEEP_ERRAND = /supply|restock|town|\.giran|giran|bag|full|unload|trade|hand.?over|teleport|gatekeeper|\bgk\b|dead|death|raid|order|stop|park|logout|graduat|class|kamaloka|mission|instance|circuit|recording/i;
+// SFBUFF-2026-11-12 (tester Vykaax: "bots seem to have a problem rebuffing now in combat. Followers should stop assisting and attempt to buff, but they
+// just keep assisting constantly and never get their buffs"): a REBUFF turn is a real errand too - the buff turn's stop was refused here, and the SF
+// member loop started the combat again, so the follower never got out of combat and the board refused 'Buffs'. Back on after the turn (SF loop).
+const SWKEEP_ERRAND = /supply|restock|town|\.giran|giran|bag|full|unload|trade|hand.?over|teleport|gatekeeper|\bgk\b|dead|death|raid|order|stop|park|logout|graduat|class|kamaloka|mission|instance|circuit|recording|rebuff/i;
 /** pure: may Hive stop L2Swarm's combat now? o = { handsOff, ownerOrder, sfNow, why } */
 function swarmKeepDecide(o) {
   if (o.handsOff && !o.ownerOrder) return { stop: false, why: 'hands off: Hive never stops your L2Swarm combat' };
@@ -43048,6 +43051,7 @@ setInterval(() => {
     if (!swarmFightNow()) { SF.atkSet = false; return; }
     if (typeof AOE !== 'undefined' && AOE.pulling) return;              // OWNERRUN2-2026-11-04: a runner on his route - no L2Swarm combat / follow restart under him
     if (errandNow()) return;                                            // ERRAND-2026-10-23: on a sell / buy errand: never re-enable the bot (its Follow pulled the seller back)
+    if (state.buffTurn) return;                                         // SFBUFF-2026-11-12: my rebuff turn - no combat / Follow Attack restart under it (given back after the turn)
     if (!IsEnabled) EnableBot();
     if (sfStart) { SF.ownStartAt = now(); hostCallMark('StartCombat pending'); try { StartCombat(); } catch (e) { } finally { hostCallMark('StartCombat done'); } note(`Fight with L2Swarm: my own L2Swarm combat is back on (Hive had stopped it: ${(CSTOP.last && CSTOP.last.why) || 'a Hive task'})`); }   // SFKEEP
     if (state.followHoldUntil > now()) return;                          // a trade / teleport / route holds the follow
