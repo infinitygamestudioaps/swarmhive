@@ -26,7 +26,7 @@ console.log('SUPHOLY');
   ok(T({ id: 737, have: 0, need: 3 }) === true && T({ id: 728, have: 99, need: 1901 }) === true && T({ id: 1061, have: 4, need: 26 }) === true, 'SoR < 1 / Mana Potion < 100 / Healing Potion < 5 start a run (unchanged)');
   ok(T({ id: 1467, have: 150, need: 49850 }) === true && T({ id: 1467, have: 250, need: 49750 }) === false, 'shots below 200 start a run, 250 do not (unchanged)');
   ok(T({ id: 1467, have: 0, need: 0 }) === false, 'nothing needed = no run');
-  ok(/const low = supplyNeeds\(\)\.filter\(supplyTriggers\);/.test(SRC), 'the supply watch uses this one rule');
+  ok(/const low0 = supplyNeeds\(\)\.filter\(supplyTriggers\);/.test(SRC), 'the supply watch uses this one rule (SUPSTUCK 2026-11-13 then drops items a run could not refill)');
 }
 
 console.log('PACE400');

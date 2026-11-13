@@ -2,6 +2,24 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.5 (2026-11-13)
+
+- Tester fixes (2026-11-13): spots, park, supply runs, route walks, runner
+- Spots: two parties with stay ticked on the same chosen zone now share it (it said claimed by party X)
+- after an L2Swarm restart a party resumes its own spot and sets its combat zone at once (it stood still with the old polygon of the profile)
+- Park / Stop: a parked or stopped party really stays put - no stash, sell, fund, clan item, plan, Seven Signs or return trips for the leader or the members
+- survival, trades and your own orders still run
+- Supply runs: an item a run could not refill (not sold, not affordable, hand-over failed) no longer starts a new run every 30 min - it waits 24 h
+- Route walks: the end of your waypoints at the edge of the hunting zone counts as arrived (no more charge across the zone into the pack)
+- a member held by a leftover L2Swarm combat flag walks on, and a member stuck at a waypoint is sent back on its own way instead of the team waiting half an hour
+- before a town port with nothing on the team only a short safe walk (it pulled the next pack)
+- the Gift of Vitality visit no longer leashes a member between the leader and the priest
+- Runner: waits until every hand-over to it is finished before it ports to town (it ran away mid-trade, then traded one item at a time with the target and the collector)
+- nobody gives while receiving
+- plused gear never goes to the runner, bank or clan warehouse
+- the Storage page Never store list now also stops the bank from putting junk into the clan warehouse
+- Sprint is no longer spammed against a wall
+
 ## v1.14.4 (2026-11-12)
 
 - Tester fix (2026-11-12): rebuffing with Fight with L2Swarm
