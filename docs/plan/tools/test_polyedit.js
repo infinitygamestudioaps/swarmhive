@@ -39,7 +39,15 @@ console.log('validation');
 }
 // ---------------------------------------------------------------------------------------------------------- room: get, save, format, history, guard fields
 console.log('room save');
-const RID = 'cruma-1-left-a';
+// 2026-11-17: a room NOT edited by hand (the owner redrew cruma-1-left-a on the dashboard on 2026-11-04 - a manual room cannot show a tool
+// write being undone, nor a reset back to "good"). Same kind of room as before: generated outline quality good, all own monsters inside, Cruma first.
+const RID = (() => {
+  const free = (r) => r && !r.manual && !r.edited && r.polyInfo && r.polyInfo.quality === 'good' && r.polyInfo.ownInside === 100 && (r.poly || []).length > 3 && (r.spawnCount || 0) > 0;
+  const all = rd('dungeon_rooms.json'), list = [];
+  for (const d of all) for (const F of d.floors || []) for (const r of F.rooms || []) if (free(r)) list.push(r.id);
+  return list.includes('cruma-1-left-a') ? 'cruma-1-left-a' : (list.find(id => /^cruma-/.test(id)) || list[0]);
+})();
+console.log(`  test room: ${RID}`);
 let g = PE.handle('GET', q({ kind: 'room', id: RID }));
 ok(g.code === 200 && g.body.item.shape === 'poly' && g.body.context.neighbours.length > 5 && g.body.context.spawns.length > 0, `GET room: ${g.body.item && g.body.item.poly.length} points, ${g.body.context && g.body.context.neighbours.length} neighbours, ${g.body.context && g.body.context.spawns.length} spawns`);
 ok(g.body.context.stats.ownPct === 100, 'own monsters 100 % inside the generated outline');
@@ -83,14 +91,18 @@ console.log('manual guard (tools)');
 {
   const toolData = JSON.parse(JSON.stringify(before));                    // what a tool read BEFORE the user's edit
   const tr = roomOf(toolData, RID); tr.poly = [[1, 1], [2, 2], [3, 1]]; tr.polyInfo = { quality: 'good' };    // and "recomputed"
-  const other = toolData[0].floors[0].rooms.find(r => r.id !== RID); other.notes = 'tool changed this';
+  // 2026-11-17: the "other" room is one NOT edited by hand (a manual room keeps its fields - the owner has hand-drawn rooms in the live data),
+  // and every manual room on disk counts as kept (the owner's own + the one this test just edited)
+  const allRooms = (D) => { const L = []; for (const d of D) for (const F of d.floors || []) for (const r of F.rooms || []) L.push(r); return L; };
+  const other = allRooms(toolData).find(r => r.id !== RID && !r.manual); other.notes = 'tool changed this';
+  const manualOnDisk = allRooms(rd('dungeon_rooms.json')).filter(r => r.manual).length;
   const kept = G.writeGuarded(path.join(SB, 'dungeon_rooms.json'), toolData, 'room', { quiet: true });
   const now = rd('dungeon_rooms.json'), nr = roomOf(now, RID);
-  ok(kept === 1 && nr.manual && nr.polyInfo.quality === 'manual' && nr.poly.length > 3, 'writeGuarded: the dashboard-edited room survives a tool write');
-  ok(now[0].floors[0].rooms.find(r => r.id === other.id).notes === 'tool changed this', 'writeGuarded: the tool\'s own changes to other rooms are written');
+  ok(manualOnDisk >= 1 && kept === manualOnDisk && nr.manual && nr.polyInfo.quality === 'manual' && nr.poly.length > 3, `writeGuarded: the dashboard-edited room survives a tool write (kept ${kept} of ${manualOnDisk} manual rooms)`);
+  ok(roomOf(now, other.id).notes === 'tool changed this', 'writeGuarded: the tool\'s own changes to other rooms are written');
   ok(!fs.readFileSync(path.join(SB, 'dungeon_rooms.json'), 'utf8').includes('\n'), 'writeGuarded keeps the compact format');
   // a tool that dropped the room entirely: it is put back
-  const td2 = JSON.parse(JSON.stringify(now)); td2[0].floors[0].rooms = td2[0].floors[0].rooms.filter(r => r.id !== RID);
+  const td2 = JSON.parse(JSON.stringify(now)); for (const d of td2) for (const F of d.floors || []) F.rooms = (F.rooms || []).filter(r => r.id !== RID);   // dropped wherever it sits
   G.writeGuarded(path.join(SB, 'dungeon_rooms.json'), td2, 'room', { quiet: true });
   ok(!!roomOf(rd('dungeon_rooms.json'), RID), 'writeGuarded: a manual room dropped by a tool is put back');
   // spots: name + original centre
@@ -179,7 +191,7 @@ console.log('field area');
   const ai = JSON.parse(JSON.stringify(g.body.item)); ai.poly[0] = [-50648, 145206]; ai.levelMax = 27;
   s = PE.handle('POST', q({ kind: 'area', id: 'fa-1' }), { rev: g.body.rev, item: ai });
   const fa = rd('field_areas.json'), a = fa.areas[0], ft = fs.readFileSync(path.join(SB, 'field_areas.json'), 'utf8');
-  ok(s.code === 200 && Array.isArray(a.poly[0]) && a.poly[0][0] === -50648 && a.levelRange[1] === 27 && a.manual && G.formatOf(ft).indent === 2, 'area saved in its own formats ([[x,y]], levelRange, indent 2)');
+  ok(s.code === 200 && Array.isArray(a.poly[0]) && a.poly[0][0] === -50648 && a.levelRange[1] === 27 && a.manual && G.formatOf(ft).indent === null && !ft.includes('\n') && ft.charCodeAt(0) !== 0xFEFF, 'area saved in its own formats ([[x,y]], levelRange) and compact (ROOMSCOMPACT 2026-11-17: field_areas.json is always compact)');
   const L = PE.handle('GET', q({ list: 'room,zone,spot,area' })).body;
   ok(L.room.length > 800 && L.zone.length > 10 && L.spot.length > 300 && L.area.length === 1 && L.areaFile, `lists: ${L.room.length} rooms, ${L.zone.length} zones, ${L.spot.length} spots, ${L.area.length} areas`);
   // the real format of docs/plan/tools/field_areas.js: { regions: [{ id, name, safeSpots, areas: [{ id, poly [[x,y]], zRange, levelRange, suitsPartyLevel, monsters, polyInfo }] }] }, compact

@@ -2,6 +2,14 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.7 (2026-11-17)
+
+- v1.14.7 (2026-11-17) - the map data files stay small (please give your L2Swarm + SwarmHive version in every report)
+- Map data: dungeon_rooms.json and field_areas.json (read by every bot) are now always saved compact - by every map tool and by the dashboard room / area editor. Before, one tool save in the wrong layout made the rooms file more than twice as big (2.4 MB -> 5.7 MB) and every later save kept it that way.
+- Your hand-drawn rooms and areas are kept exactly as before
+- other files keep their own layout.
+- Release tool: release notes with quotation marks no longer break the build.
+
 ## v1.14.6 (2026-11-17)
 
 - v1.14.6 (2026-11-17) - #swarmhive fixes for L2Swarm 3.12.7 (please give your L2Swarm + SwarmHive version in every report)

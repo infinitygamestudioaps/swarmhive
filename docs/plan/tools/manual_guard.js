@@ -148,6 +148,12 @@ function mergeQuestPlan(data, disk) {
   return disk.override && Object.keys((disk.override && disk.override.steps) || {}).length + (disk.override.skip || disk.override.manual ? 1 : 0) ? 1 : 0;
 }
 const MERGE = { room: mergeRooms, spot: mergeSpots, subarea: mergeSubareas, area: mergeAreas, questplan: mergeQuestPlan };
+// ROOMSCOMPACT-2026-11-17: dungeon_rooms.json and field_areas.json are big files every bot reads - ALWAYS compact, no BOM, whoever writes
+// them (tools with or without a kind, the dashboard room editor). Keeping "the format on disk" let one indented write (2026-11-10 20:58:
+// 2.4 MB -> 5.7 MB) stay indented through every later write.
+const COMPACT_FILE_RE = /(^|[\\/])(dungeon_rooms|field_areas)\.json$/i;
+/** the format to write `file` in: compact for the bot data files above, else the given (on-disk) format */
+function fmtFor(file, fmt) { return COMPACT_FILE_RE.test(String(file || '')) ? { bom: false, indent: null, eol: '\n' } : fmt; }
 
 /**
  * For the generator tools: write `data` to `file` (format of the file on disk kept: BOM, indent, compact) under the lock, after copying
@@ -162,11 +168,12 @@ function writeGuarded(file, data, kind, opt = {}) {
       let disk = null; try { disk = JSON.parse(t.text); } catch (e) { disk = null; }
       if (disk && MERGE[kind]) kept = MERGE[kind](data, disk);
     }
+    fmt = fmtFor(file, fmt);                                                       // ROOMSCOMPACT: never copy an indented / BOM layout
     atomicWrite(file, stringifyLike(data, fmt || { bom: false, indent: opt.indent === undefined ? null : opt.indent, eol: '\n' }));
     if (kept && !opt.quiet) console.log(`manual_guard: kept ${kept} item(s) edited on the dashboard (${path.basename(file)})`);
     return kept;
   }, { who: opt.who || path.basename(process.argv[1] || 'tool') });
 }
 
-module.exports = { USER_FIELDS, isManual, readText, formatOf, stringifyLike, readJson, atomicWrite, withLock, saveHistory, copyFields,
+module.exports = { USER_FIELDS, isManual, readText, formatOf, fmtFor, stringifyLike, readJson, atomicWrite, withLock, saveHistory, copyFields,
   mergeRooms, mergeSpots, mergeSubareas, mergeAreas, mergeQuestPlan, writeGuarded, sleepSync };

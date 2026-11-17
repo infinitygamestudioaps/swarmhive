@@ -472,7 +472,7 @@ module.exports = function polyEdit(opts) {
         if (kind === 'area' && hit.R && (changed.poly || reset)) hit.R.safeSpotsStale = { at: new Date().toISOString(), area: hit.raw.id };   // field_areas.js --only <region> recomputes them
         if (kind === 'zone' && (changed.poly || changed.x || changed.y || changed.radius || reset) && !hit.raw.rooms && !hit.raw.dungeon) jobs.push(['subareas', 'all', path.join(TOOLS, 'zone_subareas.js'), []]);
         const hist = G.saveHistory(file, DATA, 50);
-        G.atomicWrite(file, G.stringifyLike(data, t.fmt));
+        G.atomicWrite(file, G.stringifyLike(data, G.fmtFor ? G.fmtFor(file, t.fmt) : t.fmt));   // ROOMSCOMPACT-2026-11-17: rooms / field areas always compact
         delete cache[kind];
         const nid = idOf(kind, hit.raw, hit.idx);
         log(`${reset ? 'reset' : 'save'} ${kind} ${nid} (${Object.keys(changed).join(',') || 'no change'}) history ${hist ? path.basename(hist) : '-'}`);
@@ -636,7 +636,7 @@ module.exports = function polyEdit(opts) {
   function remapFile(name, alias) {
     const f = path.join(DATA, name); if (!fs.existsSync(f)) return 0;
     let n = 0;
-    G.withLock(f, () => { const t = G.readText(f), j = JSON.parse(t.text); n = require('./roommerge').remapIds(j, alias); if (!n) return; G.saveHistory(f, DATA, 50); G.atomicWrite(f, G.stringifyLike(j, t.fmt)); }, { who: 'polyedit merge' });
+    G.withLock(f, () => { const t = G.readText(f), j = JSON.parse(t.text); n = require('./roommerge').remapIds(j, alias); if (!n) return; G.saveHistory(f, DATA, 50); G.atomicWrite(f, G.stringifyLike(j, G.fmtFor ? G.fmtFor(f, t.fmt) : t.fmt)); }, { who: 'polyedit merge' });   /* ROOMSCOMPACT */
     return n;
   }
   function merge(b) {
@@ -647,7 +647,7 @@ module.exports = function polyEdit(opts) {
         const t = G.readText(file), data = JSON.parse(t.text);
         try { R = require('./roommerge').mergeRooms(data, b.ids, { name: b.name }); } catch (e) { result = { code: 400, body: { error: e.message } }; return; }
         const hist = G.saveHistory(file, DATA, 50);
-        G.atomicWrite(file, G.stringifyLike(data, t.fmt));
+        G.atomicWrite(file, G.stringifyLike(data, G.fmtFor ? G.fmtFor(file, t.fmt) : t.fmt));   // ROOMSCOMPACT-2026-11-17: rooms / field areas always compact
         delete cache.room;
         log(`merge rooms ${(b.ids || []).join('+')} -> ${R.id} (${R.dungeon} floor ${R.floor + 1}) history ${hist ? path.basename(hist) : '-'}`);
         result = { code: 200, body: { ok: true, id: R.id, absorbed: R.absorbed, alias: R.alias, dungeon: R.dungeon, floor: R.floor, room: R.room, history: hist ? path.relative(ROOT, hist) : null } };
