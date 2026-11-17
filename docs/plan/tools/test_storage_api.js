@@ -178,7 +178,7 @@ const M = new Function(PURE + '\nreturn { stashSettings, stashKindFor, STASH_LET
     assert.ok(!API.storageSanitize({ collector: { on: true, name: 'a b', town: 'Giran' } }).ok); assert.ok(!API.storageSanitize({ collector: { on: true, town: 'Atlantis' } }).ok);
   });
   await t('COLLECTOR: swarm.js - no hunting (runOn false), chores still run, stays in its town', async () => {
-    assert.ok(/function runOn\(\) \{ return !collectorOn\(\) && !!runMine\(\)\.on; \}/.test(src) && /const COLLECTOR_KINDS = \/\^\(warehouse stash\|town sell\)\$\//.test(src));
+    assert.ok(/function runOn\(\) \{ return !collectorOn\(\) && (!\(typeof townRoleMe === 'function' && townRoleMe\(\)\) && )?!!runMine\(\)\.on; \}/.test(src)   /* TOWNROLE 2026-11-17 adds the town-role gate */ && /const COLLECTOR_KINDS = \/\^\(warehouse stash\|town sell\)\$\//.test(src));
     assert.ok(/if \(collectorOn\(\)\) \{ if \(RUN_ALWAYS\.test/.test(src) && (src.match(/runOnOrCollector\(\)/g) || []).length >= 4 && /collector: going back to/.test(src) && /giranGo\('start'\)/.test(src));
   });
   await t('the live stash_rules.json is unchanged', async () => { const now = liveBytes(); assert.ok(!LIVE0 || (now && Buffer.compare(now, LIVE0) === 0)); });

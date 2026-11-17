@@ -38,10 +38,15 @@ check(!el.hidden && /CLAN warehouse is full/.test(el.innerHTML) && /Bag FULL: .*
 renderFull({ bags: [], clan: null, private: [], ore: [{ name: 'Bishop1', skill: 'Major Heal' }] });
 check(!el.hidden && /Out of Spirit Ore: .*Bishop1/.test(el.innerHTML) && /no trip for it/.test(el.innerHTML), 'ORE: "out of Spirit Ore" line (they keep healing with other heals)');
 { const sw = src.slice(src.indexOf('const supplyLow = {'), src.indexOf('const supplyLow = {') + 2500);
-  check(!/n\.id === 3031 && n\.have </.test(sw) && /n\.id !== 3031/.test(sw), 'ORE: low Spirit Ore never starts a supply run (owner: a long hunt is not broken off for it)'); }
+  // SUPHOLY-2026-11-12: the trigger rule moved into supplyTriggers(n) + SUPPLY_NO_TRIGGER; run that code: Spirit Ore (3031) low never starts a run
+  let oreTrig = null, shotTrig = null;
+  try { const a = sw.indexOf('const SUPPLY_NO_TRIGGER'), b = sw.indexOf('function supplyTriggers('), c = sw.indexOf('\n}\n', b);
+    const T = new Function(sw.slice(a, c + 3) + '\nreturn supplyTriggers;')();
+    oreTrig = T({ id: 3031, have: 0, need: 50 }); shotTrig = T({ id: 1463, have: 0, need: 500 }); } catch (e) { }
+  check(!/n\.id === 3031 && n\.have </.test(sw) && oreTrig === false && shotTrig === true, `ORE: low Spirit Ore never starts a supply run (owner: a long hunt is not broken off for it) (ore ${oreTrig}, shots ${shotTrig})`); }
 check(/st\.oreOut = /.test(src) && /ore = \(chars \|\| \[\]\)\.filter\(c => c && c\.oreOut/.test(sv), 'ORE: the bot reports it, server.js passes it to the bar');
 renderFull({ bags: [], clan: null, private: [] });
 check(el.hidden && !el.innerHTML, 'banner hidden when nothing is full');
-check(/id="fullBar"/.test(ix) && /renderFull\(STATE\.full\)/.test(ix), 'the bar sits under the header and is drawn on every refresh (every page)');
+check(/id="fullBar"/.test(ix) && /renderFull\((?:Object\.assign\(\{\}, )?STATE\.full[,)]/.test(ix), 'the bar sits under the header and is drawn on every refresh (every page)');
 console.log(fails ? `\n${fails} FAILED` : '\nall full-warning checks passed');
 process.exit(fails ? 1 : 0);

@@ -27,6 +27,8 @@ ok(casts.includes(221) && stealthOn, 'aggressive monster near: Silent Move switc
 casts = []; T += 3000; tick(); ok(!casts.length, 'while sneaking: no recast, no Dash (a cast could break stealth)');
 casts = []; mobs = []; T += 3000; tick(); ok(!casts.includes(221) && stealthOn, 'calm for 0 s: Silent Move still on');
 T += 9000; tick(); ok(casts.includes(221) && !stealthOn, 'calm for 9 s: Silent Move switched OFF again (full speed)');
+// SPRINTSPAM-2026-11-13: a cast whose buff is never seen up counts as "did not land" (2 of them = 60 s rest); the next ticks (every 1.2 s) see the Dash up first (only after the 2.5 s recast pause is the buff checked)
+T += 2600; casts = []; tick(); ok(!casts.includes(4), 'Dash up: no recast');
 casts = []; T += 3000; dashUntil = 0; tick(); ok(casts.includes(4), 'Dash again when it ran out');
 env.scoutCtl.on = false; casts = []; T += 5000; tick(); ok(!casts.length, 'no scout trip: nothing happens');
 console.log(fails ? `${fails} FAILED` : 'all scout speed checks passed'); process.exit(fails ? 1 : 0);

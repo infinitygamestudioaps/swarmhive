@@ -4,12 +4,12 @@
 
 *Lead the swarm.* A swarm kit for L2Swarm.
 
-![version](https://img.shields.io/badge/version-1.14.5-blue)
+![version](https://img.shields.io/badge/version-1.14.6-blue)
 ![L2Swarm](https://img.shields.io/badge/L2Swarm-3.8.14%2B-green)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 ![platform](https://img.shields.io/badge/Windows-10%20%7C%2011-lightgrey)
 
-**Version 1.14.5 (2026-11-13)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
+**Version 1.14.6 (2026-11-17)** · [Changelog](CHANGELOG.md) · [History](docs/HISTORY.md) · [User guide](docs/guide/README.md) · [PDF manual](docs/guide/L2Swarm_User_Manual.pdf) · [Installer zip (Releases)](../../releases/latest) · [Quick start](#quick-start-automatic-installer)
 
 This kit runs a **whole swarm of Lineage 2 characters with L2Swarm**: up to 40 accounts in several parties that level,
 restock, gear up, run Kamaloka and hunt raid bosses on their own, with one leader per party making the decisions. It
@@ -214,6 +214,16 @@ INSTALL.cmd -SkipCopy -SkipImport -SkipSetup -SkipImages -SkipDashboard -SkipPre
 (encrypted) password in their own `Settings\<name>.xml`. Only when SETUP has to *create* a config for a new account does it ask
 for that account's password (hidden prompt, in the admin window) and store it encrypted by L2Swarm's own function.
 
+### Your first party in 10 minutes (new users)
+1. Get **L2Swarm working on its own first**: one account logs in and fights with L2Swarm alone. SwarmHive sits on top of a working L2Swarm.
+2. Run `INSTALL.cmd` (above). It imports your accounts and opens the dashboard (`http://localhost:8090`).
+3. **Parties** page: make a party (pick the leader, add the members). Each character gets a role (tank / healer / damage / buffer) from its class.
+4. Party card -> **Choose** a hunting spot near the party's level (or leave **Auto**), then **Start**. The leader regroups the team in Giran,
+   teleports and hunts; members follow and assist; healers heal.
+5. Want to play a party yourself? Party card -> **Hands off (party)**: Hive lets go of every member until you press **Hive back on**.
+6. Stop a party: **Stop** (it stands still) or **Park** (stays in town, does nothing automatic). Your next order (Level / Start) ends a park.
+7. Questions: the manual below, or #swarmhive on Discord - always give your **L2Swarm version and SwarmHive version** (`VERSION` file).
+
 **Manual (PDF):** the whole user guide with screenshots (about 650 pages), for reading offline, is [docs/guide/L2Swarm_User_Manual.pdf](docs/guide/L2Swarm_User_Manual.pdf) (also in the release zip and as its own download on the release page). Online: [docs/guide/README.md](docs/guide/README.md).
 
 ---
@@ -412,6 +422,11 @@ Updating L2Swarm itself to 3.8.14 or newer is recommended.
 
 ## Uninstall
 
+**Easiest:** double-click **`STOP_ALL.cmd`** to stop everything (L2Swarm, the dashboard and its helpers; the keep-alive tasks are switched off so
+nothing comes back - `SETUP.cmd` starts it all again), or **`UNINSTALL.cmd`** to also delete every `L2Swarm *` scheduled task. Neither deletes a file.
+Log: `Logs\uninstall.log`. Then delete or move the folder.
+
+By hand:
 1. Stop the bots: `schtasks /run /tn "L2Swarm Stop"`.
 2. **Remove the scheduled tasks** (admin prompt):
    ```
@@ -419,6 +434,7 @@ Updating L2Swarm itself to 3.8.14 or newer is recommended.
    schtasks /delete /tn "L2Swarm Stop" /f
    schtasks /delete /tn "L2Swarm Restart" /f
    schtasks /delete /tn "L2Swarm MemWatch" /f
+   schtasks /delete /tn "L2Swarm Dashboard" /f
    ```
 3. Stop the dashboard (close its window, or end the `node server.js` process).
 4. Delete what the kit added: `.git\`, `.gitignore`, `.gitattributes`, `Dashboard\`, `docs\`, `Scripts\data\`,

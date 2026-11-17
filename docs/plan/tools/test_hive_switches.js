@@ -43,7 +43,7 @@ check(JSON.stringify(P.pautoToggles({ chars: { Doombringer1: { toggles: [' War F
 check(Object.keys(P.PAUTO_KINDS).join() === API.KEYS.join() && Object.keys(P.PAUTO_KINDS).filter(k => P.PAUTO_KINDS[k].char).join() === API.CHAR_KEYS.join(), 'swarm.js and the API know the same switches');
 check(C3.every(k => { const K = API.KINDS.find(x => x.key === k); return K && K.group === 'combat' && K.def === true; }), 'API: the three are group "combat" with def true');
 check(API.KINDS.filter(k => k.group === 'combat' && k.key === 'rest').length === 1 && !(API.KINDS.find(k => k.key === 'rest') || {}).def && !P.PAUTO_KINDS.rest.def, 'API + swarm.js: RESTOPT-2026-10-30 "Sit down to rest" (group combat, default OFF, owner)');
-check(API.KINDS.filter(k => k.group === 'combat').map(k => k.key).filter(k => k !== 'recommend' && k !== 'rest').join() === C3.concat(['swarmFight', 'spotLevelCheck']).join() && !(API.KINDS.find(k => k.key === 'swarmFight') || {}).def, 'API: + SWARMFIGHT (group combat, default OFF) + SPOTLVL-2026-10-23 spotLevelCheck');
+check(API.KINDS.filter(k => k.group === 'combat').map(k => k.key).filter(k => k !== 'recommend' && k !== 'rest' && k !== 'partyBuff').join() === C3.concat(['swarmFight', 'spotLevelCheck']).join() && !(API.KINDS.find(k => k.key === 'swarmFight') || {}).def && !(API.KINDS.find(k => k.key === 'partyBuff') || {}).def,   /* partyBuff: its own switch, default OFF */ 'API: + SWARMFIGHT (group combat, default OFF) + SPOTLVL-2026-10-23 spotLevelCheck');
 { const files = [{}, J1, { default: { skills: false, heals: true, potions: false, sell: true }, parties: { Tank1: { potions: true } }, chars: { Bishop1: { skills: true } } }, { parties: [], chars: 'x' }, null];
   let same = true; files.forEach(f => ['Tank1', 'Bishop1', 'Destroyer1', 'Destroyer3'].forEach(me => C3.concat(['sell', 'supplyWatch']).forEach(k => { const L = me === 'Destroyer3' ? 'Destroyer3' : 'Tank1'; const a = E(f, k, me, L), b = API.pautoEffective(f, k, me, L); if (a.on !== b.on || a.src !== b.src) same = false; })));
   check(same, 'the bot and the dashboard give the same answer (matrix of files x characters x switches)');
@@ -125,7 +125,7 @@ check(JSON.stringify(T.FIGHT_TOGGLES) === JSON.stringify(API.FIGHT_TOGGLES), 'th
 const has = (re, what) => check(re.test(src), what);
 const gate = (head, re, what) => { const b = fnBody(head); check(!!b && re.test(b.slice(0, 600)), what); };
 const S = /if \(!hiveSkillsOn\(\)\)/;
-gate('async function castNow(info, opts)', /if \(!hiveSkillsOn\(\)\) return \{ started: false, off: true \};/, 'castNow (CAST LOOP): nothing cast with skills OFF');
+gate('async function castNow(info, opts)', /if \(!hiveSkillsOn\(\)( && !l2sP)?\) return \{ started: false, off: true \};/, 'castNow (CAST LOOP): nothing cast with skills OFF');
 gate('async function autoSkillTick()', /if \(!hiveSkillsOn\(\)\) return \{ next: 2000 \};/, 'autoSkillTick: no attacks / self buffs / class party buffs');
 gate('async function cast(skillId', S, 'cast() helper (necro / inspector / doombringer raid routines)');
 gate('async function castOn(creature', S, 'castOn() helper');
@@ -204,7 +204,7 @@ gate('function hiveOwnCombat()', /!hiveSkillsOn\(\) && !recHold\(\) && deadlockF
 gate('function memberScriptFight(mob)', /if \(hiveOwnCombat\(\)\) return false;/, 'member help / self-defence: L2Swarm combat (the player\'s Combat Skills) instead of script hits');
 has(/UISAFE\.memberScriptFight && !isLeader\(\) && !hiveOwnCombat\(\)\)\) \{ try \{ startCombatG\(\); \}/, 'members switch L2Swarm combat back on after the fight-check (skills OFF)');
 has(/soloScriptFight\(\) && !hiveOwnCombat\(\)/, 'solo character with skills OFF: L2Swarm combat');
-has(/if \(hiveOwnCombat\(\)\) \{ try \{ if \(!IsInCombat\) startCombatG\(\); \} catch \(e\) \{ \} \}\s+\/\/ HIVESW-2026-10-15: skills OFF = L2Swarm combat casts the player's Combat Skills on the focus/, 'raid dealer: L2Swarm combat on the focus with skills OFF');
+has(/if \(hiveOwnCombat\(\)\) \{[\s\S]{0,600}?try \{ if \(!IsInCombat\) startCombatG\(\); \} catch \(e\) \{ \}\s+(\}\s+)?\/\/ HIVESW-2026-10-15: skills OFF = L2Swarm combat casts the player's Combat Skills on the focus/, 'raid dealer: L2Swarm combat on the focus with skills OFF');
 { // memberScriptFight decision on stubs
   const body = fnBody('function hiveOwnCombat()') + fnBody('function memberScriptFight(mob)');
   const run = (skills, fixed, scriptFlag, leader) => { const calls = []; const f = new Function('hiveSkillsOn', 'recHold', 'deadlockFixed', 'UISAFE', 'isLeader', 'casterOwnsAttacks', 'srvAttack', 'selfDef', 'now', 'Target', 'Send', 'num', 'sfMember', 'handsOffMe', body + '\nreturn memberScriptFight;')(

@@ -2,6 +2,45 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.6 (2026-11-17)
+
+- v1.14.6 (2026-11-17) - #swarmhive fixes for L2Swarm 3.12.7 (please give your L2Swarm + SwarmHive version in every report)
+- Trades on L2Swarm 3.11.3+: TransferItems is L2Swarm's automatic trade (it walks, opens the window, both sides confirm). SwarmHive now sends every item in ONE call by its exact object (no more one-item trades), targets the receiver by name, and waits for the trade to finish before anything else.
+- Followers no longer switch L2Swarm combat on and off: a follower with Hive skills fights by script (no 1200 combat square that pulled random monsters). A follower on Swarm skills defends itself only in the small square around the monster that hits it.
+- Swarm-skills followers use their skills on the way to the hunting spot (not only auto attack).
+- Casters never melee: they select once and cast (also on the way and when a teammate is hit)
+- the next spell is sent just before the current cast ends (no gap between casts).
+- Raids: a bot that died and was resurrected goes back into its raid part
+- the guide's debuffs (e.g. Violent Temper) only on the boss, never on every minion
+- the class guide order is kept in raids (no low-level element skill jumping to the top).
+- Park: your Level order ends the park (no more Stop + Start needed).
+- Party re-forms after a reconnect: a member still in an old party leaves it and joins its leader
+- the leader stops spamming invites (every 5 min after 3 tries).
+- Seven Signs: a priest page that still shows last week's period right after the Monday change is read again (no "closed until next Monday" for a whole week).
+- Adena: the collector hands out to parties below their target again. A leader without adena for a teleport collects the fare from the party and tries again.
+- Clan warehouse: the bank / crafter with clan warehouse rights now looks into the clan warehouse itself (the "nothing ... as last seen" stale list is gone).
+- Manor: Harvester, seeds and crops stay with the character that carries them.
+- Wind Walker & co: no Sprint spam when a speed buff (Improved Movement, Wind Walk ...) is already up
+- Haste is not a run-speed skill.
+- Route walks: a member that keeps moving is no longer taken for "stuck" (fewer detours and stops).
+- Runner settings live on the Runner tab only (the Crafter tab shows a summary + link).
+- New: STOP_ALL.cmd (stop everything, keep-alive tasks off) and UNINSTALL.cmd (also removes the "L2Swarm *" scheduled tasks
+- no files are deleted).
+- Raids: Swarm-skills members cast their own L2Swarm Combat Skills on the boss (no more auto attack only).
+- Party settings: supply runs "when running low" or "once a day" (shots that really run out still send the party to town).
+- Crafter page: new "Town role" list - those characters stay in town (craft / distribute / trade), never level, never supply-run, even when their party is started.
+- Party "Hands off" switch on the dashboard (one click for the whole party)
+- a hands-off character is never moved, buffed, potted or traded by the Hive.
+- Hive "potions" switch is respected everywhere (healers, buffers, boss fights).
+- Starter gear is kept by default (never sold unless you choose it).
+- Plused (+1 and up) items are never handed to a teammate by the loot unload.
+- Orders: a failed order (unknown place / dead) is recognised at once
+- a !sell after the town trip is no longer dropped
+- a quest is resumed after a script reload before the quest circuit moves on.
+- Adena deposits to the collector are no longer blocked by a supply run in the same town.
+- Runner tab: the rotation minutes you type are kept while the page refreshes.
+- Leaving town: a party walks out the town gate first (no more stuck routes in town), and routes only take a detour when it is really shorter.
+
 ## v1.14.5 (2026-11-13)
 
 - Tester fixes (2026-11-13): spots, park, supply runs, route walks, runner

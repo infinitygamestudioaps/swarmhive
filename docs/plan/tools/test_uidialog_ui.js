@@ -101,6 +101,8 @@ const KEY = (() => { try { return fs.readFileSync(path.join(ROOT, 'Dashboard', '
   await click('.cpl-mrow[data-cpname="Nuker1"] [data-cpact="pick"]');
   await waitFor(`!document.getElementById('cpSheet').hidden && document.querySelectorAll('.cpl-col').length === 3`);
   await click('.cpl-opt[data-cpstep="2"][data-cpid="27"]'); await sleep(250);
+  // the live plan may already hold Spellsinger (then no single-child auto-fill happens): pick Mystic Muse (103) as step 3 when it is not chosen
+  if (await ev(`!!document.querySelector('.cpl-opt[data-cpstep="3"][data-cpid="103"]') && !document.querySelector('.cpl-opt.on[data-cpstep="3"][data-cpid="103"]')`)) { await click('.cpl-opt[data-cpstep="3"][data-cpid="103"]'); await sleep(250); }
   const before = JSON.stringify((file().parties.Tank2.members || {}).Nuker1 || null);
   await click('[data-cpact="saveApprove"]');
   ok('Save & approve opens the shared dialog (not a browser confirm)', await open() && !native.length);
@@ -108,7 +110,9 @@ const KEY = (() => { try { return fs.readFileSync(path.join(ROOT, 'Dashboard', '
   let d = await dlg();
   ok('title "Approve class plan", role=dialog aria-modal, labelled + described', d.title === 'Approve class plan' && d.role === 'dialog' && d.modal === 'true' && d.desc, `${d.title} / ${d.role} / ${d.modal}`);
   ok('the class path is a highlighted path (… Elven Wizard › Spellsinger › Mystic Muse)', d.path.slice(-3).join(' › ') === 'Elven Wizard › Spellsinger › Mystic Muse', d.path.join(' › '));
-  ok('"What happens" is a list with the levels', /What happens/i.test(d.text) && d.list.some(l => /^at level 40: Spellsinger/.test(l)) && d.list.some(l => /^at level 76: Mystic Muse/.test(l)), d.list.join(' | '));
+  // only the changes still ahead are listed: the level-40 line only while the character is below 40 (the live Nuker1 is past it)
+  const nowLv = +((/\(now (\d+)\)/.exec(d.text) || [])[1] || 0);
+  ok('"What happens" is a list with the levels', /What happens/i.test(d.text) && (nowLv >= 40 || d.list.some(l => /^at level 40: Spellsinger/.test(l))) && d.list.some(l => /^at level 76: Mystic Muse/.test(l)), `now ${nowLv}: ` + d.list.join(' | '));
   ok('who orders it + where + fee rows', /Who orders it/.test(d.text) && /party leader Tank2/.test(d.text) && /Community Board/.test(d.text), d.text.split('\n').filter(l => /orders|Fee|Where/.test(l)).join(' | '));
   ok('"cannot be undone" is a warning line', d.warn.some(w => /cannot be undone/.test(w)));
   ok('buttons "Cancel" | "Approve plan", primary on the right', d.btns.map(b => b.t).join('|') === 'Cancel|Approve plan' && d.btns[1].prim && d.btns[1].x > d.btns[0].x, JSON.stringify(d.btns.map(b => [b.t, b.x])));

@@ -129,6 +129,11 @@ async function post(ctx, b) {
     const leaders = Object.keys(P); if (!leaders.length) return bad(404, 'no parties known');
     r = write(ctx, (J) => { leaders.forEach(l => setParty(J, l, b.on)); J.chars = {}; }, `all ${b.on ? 'ON' : 'OFF'}`, by);
     leaders.forEach(l => sends.push({ cmd: b.on ? '!start' : '!stop', target: 'party:' + l }));
+  } else if (b.party != null && b.handsOff !== undefined) {            // PARTYHOFF-2026-11-17 (LuckyStrikz: "a button on a party to stop hive from taking control so I can do things manually, then turn hive back on per party"): { party, handsOff } = every member's Hands off
+    const leader = String(b.party); if (!NAME_RE.test(leader) || leader.startsWith('_')) return bad(400, 'party (leader name) required');
+    if (typeof b.handsOff !== 'boolean') return bad(400, 'handsOff: true | false');
+    const members = P[leader]; if (!members || !members.length) return bad(404, `no party ${leader}`);
+    r = write(ctx, (J) => { const H = J.handsOff && typeof J.handsOff === 'object' && !Array.isArray(J.handsOff) ? J.handsOff : {}; members.forEach(n => { if (b.handsOff) H[n] = { on: true, at, by, party: leader }; else delete H[n]; }); if (Object.keys(H).length) J.handsOff = H; else delete J.handsOff; }, `party ${leader} hands off ${b.handsOff ? 'ON' : 'OFF'} (${members.join(',')})`, by);
   } else if (b.party != null) {
     const leader = String(b.party); if (!NAME_RE.test(leader) || leader.startsWith('_')) return bad(400, 'party (leader name) required');
     if (typeof b.on !== 'boolean') return bad(400, 'on (true / false) required');

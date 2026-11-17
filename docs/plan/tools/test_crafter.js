@@ -138,7 +138,7 @@ check(P.craftDay(new Date(2026, 9, 15, 6, 29)) === '2026-10-14' && P.craftDay(ne
   check(/myTown !== cfg\.town/.test(tk) && /never travel/.test(tk), 'crafts only in its own town, never travels for it');
   check(!/Crystallize|crystallize\(/.test(tk) && !/RequestCrystallize/.test(cut('// CRAFT-PURE-BEGIN', 'async function crafterSupplyStep(')), 'never crystallizes anything');
   const iv = src.slice(src.indexOf('const CRAFTX = {'), src.indexOf('async function crafterSupplyStep('));
-  check(/!cfg\.on \|\| !runOnOrCollector\(\)/.test(iv), 'automatic crafting only when switched on AND its party runs (or it is the collector); !craft always works');
+  check(/!cfg\.on \|\| !(\()?runOnOrCollector\(\)( \|\| \(townRoleMe\(\) && !handsOffMe\(\)\)\))?/.test(iv),   /* TOWNROLE 2026-11-17: a town-role character crafts too */ 'automatic crafting only when switched on AND its party runs (or it is the collector); !craft always works');
   check(/case '!craft'/.test(src) && /craftCommand\(parts\)/.test(src), '!craft order'); }
 
 // ---- 8. the dashboard API

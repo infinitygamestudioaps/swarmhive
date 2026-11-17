@@ -142,8 +142,10 @@ function collector(ctx) {
  *  out of the clan warehouse, sells and crystallizes them = the crafter of Scripts/data/crafter.json (cwhWithdraw false = the clan leader as before) */
 function worker(ctx) {
   const c = readJ(path.join(ctx.DATA, 'crafter.json'), {}) || {}, cl = clanLeaderOf(ctx);
-  const cr = NAME_RE.test(String(c.crafter || '')) ? String(c.crafter) : '';
-  return workerPick(cr, c.cwhWithdraw, cl);
+  // CWHLOOK-2026-11-17: the same actor as swarm.js cwhActorPick (bank > crafter, while cwhWithdraw is on) - an order sent to the crafter while a bank is
+  // set was silently ignored by whSell on the crafter (not the actor)
+  const bk = NAME_RE.test(String(c.bank || '')) ? String(c.bank) : '', cr = NAME_RE.test(String(c.crafter || '')) ? String(c.crafter) : '';
+  return workerPick(bk || cr, c.cwhWithdraw, cl);
 }
 /** pure: the clan warehouse worker */
 function workerPick(crafter, withdraw, clanLeader) { return crafter && withdraw !== false ? crafter : String(clanLeader || ''); }

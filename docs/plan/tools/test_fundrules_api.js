@@ -130,6 +130,17 @@ async function t(name, fn) { try { await fn(); pass++; console.log('  ok  ' + na
     assert.ok(!fs.existsSync(RFILE + '.lock'));
     assert.ok(!fs.readdirSync(DATA).some(n => /\.tmp$/.test(n)), 'no tmp files');
   });
+  // FUNDNOTE-2026-11-17 (partysettings save dropped the owner's "_note" of Inspector1 / Crafter1): a party's _note survives a save that does not send it
+  await t('owner notes in a party entry (_note) survive a save, sent or not', async () => {
+    const g = await call('GET', '/api/fundrules'), r = JSON.parse(JSON.stringify(g.body.rules));
+    r.parties = Object.assign({}, r.parties, { Notey: { receive: false, deposit: { above: 0 }, _note: 'never deposit - test note' } });
+    let x = await call('POST', '/api/fundrules', { rules: r, rev: g.body.rev }); assert.strictEqual(x.code, 200, JSON.stringify(x.body));
+    assert.strictEqual(JSON.parse(fs.readFileSync(RFILE, 'utf8')).parties.Notey._note, 'never deposit - test note');
+    const r2 = JSON.parse(JSON.stringify(x.body.rules)); delete r2.parties.Notey._note; r2.parties.Notey.leaderTarget = 5000000;
+    x = await call('POST', '/api/fundrules', { rules: r2 }); assert.strictEqual(x.code, 200, JSON.stringify(x.body));
+    const P = JSON.parse(fs.readFileSync(RFILE, 'utf8')).parties.Notey;
+    assert.deepStrictEqual(P, { receive: false, leaderTarget: 5000000, deposit: { above: 0 }, _note: 'never deposit - test note' });
+  });
   await t('parseAmount', () => {
     const P = API.parseAmount;
     assert.strictEqual(P('8m'), 8000000); assert.strictEqual(P('300k'), 300000); assert.strictEqual(P('8,000,000'), 8000000); assert.strictEqual(P('1.5M'), 1500000);

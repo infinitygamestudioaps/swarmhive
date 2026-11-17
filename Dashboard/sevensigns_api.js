@@ -38,7 +38,9 @@ function ssgNow(s, t, h, everyMs) {
   let period = s.period, winner = s.winner || 'unknown';
   if (Math.abs(k) % 2 === 1) { period = s.period === 'competition' ? 'validation' : 'competition'; winner = 'unknown'; }
   else if (k > 0) winner = 'unknown';
-  return { period, winner: period === 'validation' ? winner : '', cycle: ssgCycleOf(period, t, h), stale: k > 0 || t - s.checkedAt > everyMs, nextChange: ssgNextChange(t, h) };
+  // SSWEEK-2026-11-17 (= swarm.js ssgNow): a suspect page (still last week's period right after the change) is re-read after 30 min
+  const rc = k === 0 && !!s.suspect && t - s.checkedAt > 30 * 60000, st = k > 0 || t - s.checkedAt > everyMs || rc;
+  return { period, winner: period === 'validation' ? winner : '', cycle: ssgCycleOf(period, t, h), stale: st, recheck: rc, nextChange: ssgNextChange(t, h) };
 }
 /** what a character record says for this cycle: 'dawn' | 'dusk' | '' (= swarm.js ssgSide) */
 function sideOf(r, cycle) { r = r || {}; return r.cycle && r.cycle === cycle ? (/^(signed|member)$/.test(r.status || '') ? 'dawn' : r.status === 'dusk' ? 'dusk' : '') : ''; }

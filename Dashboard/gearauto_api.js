@@ -10,8 +10,8 @@
 const fs = require('fs'), path = require('path');
 const fileOf = (ctx) => process.env.SWARM_GEARAUTO_FILE || path.join(ctx.DATA, 'gear_auto.json');
 const DEF = { auto: false, sameGradeSwap: false, keepArmorType: true };   // = swarm.js GEARGUARD.defaults (test_gear_guard.js compares)
-const STARTER_MODES = ['sell', 'destroy', 'keep'];                         // = swarm.js STARTERGEAR.modes (sgMode: anything else = 'sell')
-const starterOf = (F) => STARTER_MODES.includes(String((F && F.starterGear) || '').toLowerCase()) ? String(F.starterGear).toLowerCase() : 'sell';
+const STARTER_MODES = ['sell', 'destroy', 'keep'];                         // = swarm.js STARTERGEAR.modes (sgMode: anything else = 'keep', AUDIT-2026-11-17: never sell unasked)
+const starterOf = (F) => STARTER_MODES.includes(String((F && F.starterGear) || '').toLowerCase()) ? String(F.starterGear).toLowerCase() : 'keep';
 const GRADES = ['D', 'C', 'B', 'A', 'S', 'S80', 'S84'];   // SKIPGRADE-2026-10-14: grades nobody buys (swarm.js ggSkipGrades)
 // OLDGEAR-2026-10-26 (tester Vykaax's old-gear filter; owner: 'Add the last 3 as optional i dont want them to affect the system'): what happens to a
 // replaced NON-starter piece, per grade + enchanted + special (S.A.): 'keep' (default, = KEEPOLD today) | 'collector' (the Storage page's collector).

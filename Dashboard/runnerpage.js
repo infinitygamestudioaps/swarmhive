@@ -47,7 +47,8 @@
     try { TAB = 'runner'; [...$id('tabs').children].forEach(b => b.classList.toggle('on', b.dataset.tab === 'runner')); } catch (e) { }
     document.querySelectorAll('main > section').forEach(x => { if (x.id !== SEC) x.hidden = true; });
     s.hidden = false; S.open = true; render(); load();
-    clearInterval(S.timer); S.timer = setInterval(() => { if (S.open && !document.hidden) load(); }, 10000);
+    // AUDIT-2026-11-17: no timed refresh while the rotation-minutes box is being edited (the re-render reset the typed value before Save)
+    clearInterval(S.timer); S.timer = setInterval(() => { const ae = document.activeElement; if (S.open && !document.hidden && !(ae && ae.id === 'rnpRotMin')) load(); }, 10000);
   }
   function close() { if (!S.open) return; S.open = false; clearInterval(S.timer); const s = $id(SEC); if (s) s.hidden = true; }
   async function load() { try { const d = await api('/api/runner'); if (d && !d.error) { S.d = d; S.err = ''; } else S.err = (d && d.error) || 'no answer'; } catch (e) { S.err = e.message; } if (S.open) render(); }
@@ -68,6 +69,7 @@
       <span class="muted">bank: ${h(R.bank || 'none set')}</span> <button type="button" data-rnprole="bank">Change bank</button>
       ${R.name ? `<button type="button" data-rnpon="${R.on ? '0' : '1'}">${R.on ? 'Switch the runner OFF' : 'Switch the runner ON'}</button>
       <button type="button" data-rnprot="${R.rotateOn ? '0' : '1'}">${R.rotateOn ? 'Rotation OFF' : 'Rotation ON'}</button>
+      <label>each party at most every <input type="number" id="rnpRotMin" min="10" max="1440" step="5" value="${h(String(S.rotDraft != null ? S.rotDraft : (R.rotateMin || 60)))}" oninput="window.RunnerPage && (window.RunnerPage._state.rotDraft = this.value)" style="width:5em"> min</label> <button type="button" data-rnprotmin="1">Save</button>
       <button type="button" data-rnpst="${R.stealth !== false ? '0' : '1'}" title="ON: walks in everywhere with Silent Move, no level limit">${R.stealth !== false ? 'Stealth: ON' : 'Stealth: OFF'}</button>` : ''}</div>
       <div class="rnp-row"><span>Now: <b>${h(R.state || '-')}</b></span></div>
       ${msgHtml()}`;
@@ -122,6 +124,8 @@
     if ((b = g('[data-rnpon]'))) { const on = b.dataset.rnpon === '1'; const ok = typeof uiConfirm === 'function' ? await uiConfirm({ title: on ? 'Switch the runner ON?' : 'Switch the runner OFF?', confirmText: on ? 'Switch ON' : 'Switch OFF' }) : true; if (ok) setting({ runnerOn: on }, on ? 'Runner ON' : 'Runner OFF'); return; }
     if ((b = g('[data-rnpst]'))) { const on = b.dataset.rnpst === '1'; setting({ runnerStealth: on }, on ? 'Stealth ON: the runner walks in everywhere (Silent Move)' : 'Stealth OFF: the old level limit'); return; }   // RUNNERSTEALTH-2026-11-03
     if ((b = g('[data-rnprot]'))) { const on = b.dataset.rnprot === '1'; setting({ rotateOn: on }, on ? 'Rotation ON' : 'Rotation OFF: the runner only answers calls'); return; }
+    // RUNNERTAB-2026-11-17 (review): the rotation interval moved here from the Crafter page (10-1440 min, like before)
+    if ((b = g('[data-rnprotmin]'))) { const el = document.getElementById('rnpRotMin'), m = Math.round(Number(el && el.value)); if (!(m >= 10 && m <= 1440)) { flash('Rotation: 10 - 1440 minutes', true); return; } S.rotDraft = null; setting({ rotateMin: m }, `Rotation: each party at most every ${m} min`); return; }
   }
   window.RunnerPage = { route, open, close, load, _state: S };
 })();

@@ -80,11 +80,12 @@
       const server = e.server || [];
       const inServer = new Set(server.map(m => m.name));
       const unitsSeen = {}; (e.units || []).forEach(u => { unitsSeen[u.type] = u; });
-      server.forEach(m => { if (!unitsSeen[m.unit]) unitsSeen[m.unit] = { type: m.unit, name: '', leader: '' }; });
+      // GUIDEBUGS-2026-11-17: a member without a unit (an older bot / L2Swarm list) is a main clan member (unit 0), not dropped from every squad
+      server.forEach(m => { const t = +m.unit || 0; if (!unitsSeen[t]) unitsSeen[t] = { type: t, name: '', leader: '' }; });
       const row = (m) => { const c = byName[m.name] || null; return { name: m.name, level: +m.level || (c && +c.level) || 0, classId: m.classId, cls: c ? c.cls : '', online: m.online !== false, grade: m.grade != null ? m.grade : null,
         title: m.title || '', sponsor: m.sponsor || '', ours: !!c, party: c ? c.party : null, leader: m.name === e.leader }; };
       const squads = UNITS.map(u => {
-        const s = unitsSeen[u.type] || null, mem = server.filter(m => +m.unit === u.type).map(row).sort((a, b) => (b.leader - a.leader) || (b.level - a.level) || a.name.localeCompare(b.name));
+        const s = unitsSeen[u.type] || null, mem = server.filter(m => (+m.unit || 0) === u.type).map(row).sort((a, b) => (b.leader - a.leader) || (b.level - a.level) || a.name.localeCompare(b.name));
         const unlockLevel = u.type === 0 ? 0 : unlockOf(levels, u.key, u.unlock);
         const out = { type: u.type, label: u.label, name: (s && s.name && !(u.type === 0)) ? s.name : (u.type === 0 ? name : ''), leader: (s && s.leader) || (u.type === 0 ? e.leader : ''),
           limit: e.level >= unlockLevel ? limitOf(levels, e.level, u.key) : 0, unlockLevel, locked: e.level < unlockLevel, created: u.type === 0 || !!s, members: mem };

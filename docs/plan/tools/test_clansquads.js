@@ -75,6 +75,11 @@ ok(!c.squads.some(s => s.members.some(m => m.name === 'Spoiler12')), 'B10 a char
 ok(main.members.find(m => m.name === 'Spoiler7').ours && main.members.find(m => m.name === 'Spoiler7').party === 'Spoiler7', 'B11 our characters link to their party');
 const v2 = CS.build([{ name: 'Spoiler12', level: 44, party: 'Spoiler12', clanInfo: stale }], levels, {});
 ok(v2.clans.length === 1 && v2.clans[0].unknown && v2.clans[0].name === 'clan 270098570', 'B12 without any server list the clan says "unknown" instead of looking like a real clan name');
+// GUIDEBUGS-2026-11-17: a server list WITHOUT unit numbers (older bot / L2Swarm) puts everyone into the main clan, not into no squad at all
+{ const ci = { id: 777, name: 'DemoClan', level: 1, leader: 'Fundor', isLeader: true, seenAt: new Date().toISOString(), members: [{ name: 'Fundor', level: 52 }, { name: 'Mira', level: 51 }, { name: 'Pell', level: 51 }] };
+  const v3 = CS.build(['Fundor', 'Mira', 'Pell'].map(n => ({ name: n, level: 51, party: 'Fundor', clanInfo: ci })), levels, {});
+  const m3 = v3.clans[0].squads.find(s => s.type === 0);
+  ok(m3 && m3.members.length === 3 && !v3.clans[0].left.length, 'B13 members without a unit number are main clan members (3), nobody "left", got ' + (m3 && m3.members.length)); }
 
 console.log(fail ? `clansquads: ${pass} passed, ${fail} failed` : `clansquads: ALL OK (${pass} checks)`);
 process.exit(fail ? 1 : 0);

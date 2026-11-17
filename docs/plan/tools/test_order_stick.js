@@ -308,7 +308,7 @@ function makeEnv(o) {
   check(/while \(regroupRun && state\.running && orderState\.seq === seq/.test(lr) && /for \(let k = 1; k <= 3 && regroupAlive\(runId\); k\+\+\)/.test(lr) && !/SayToParty\(`\[regroup\][^`]*try !return again/.test(lr), 'source: old leaderRegroup waits when busy and retries its farm teleport (3)');
   const gp = blk('async function gotoPlace(text) {', '// JAGT-HJ');
   check(/orderRetry\(`!goto \$\{p\.name\}`/.test(gp) && !/if \(!\(await waitFree\(30000\)\)\) return;/.test(gp), 'source: gotoPlace retries, no silent busy return');
-  has(/if \(orderNewFor\(parts, Me\.Name, CONFIG\.roster\)\) orderBegin\(text\.trim\(\)\);/, 'handleSay starts a new order for every ORDER_CMDS command');
+  has(/if \(orderNewFor\(parts, Me\.Name, CONFIG\.roster\)( && !startKeepsQuest\([^\n]*?\))?\) orderBegin\(text\.trim\(\)\);/,   /* STARTKEEPSQUEST-2026-11-01: a plain !start keeps the running quest */ 'handleSay starts a new order for every ORDER_CMDS command');
   { const i = src.indexOf('if (orderNewFor(parts'), j = src.indexOf("if (cmd === '!gearup')"), k = src.indexOf("if (leadMode() && cmd === '!restock')"); check(i > 0 && i < j && i < k, 'source: ...before the early handlers (!restock, !autolevel, !gearup) and the switch'); }
   const town = blk("case '!town': {", "case '!gk': {");
   check(/setLeadPaused\(true, tag\)/.test(town) && /orderPauseTag\('town', want\)/.test(town), 'source: !town leaves the lead pause (order:town-<x>) like !park');

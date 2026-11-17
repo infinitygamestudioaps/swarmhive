@@ -57,6 +57,9 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   await click('#peRaFitG');
   ok('"Fit to safe ground" replaces the circle with the trimmed outline', await waitFor(`/safe ground within 900/.test(document.getElementById('peToast').textContent)`, 15000), await ev(`document.getElementById('peToast').textContent`));
   await sleep(800); await shot('01_iphone_fit');
+  // the live raid_areas.json may already have Stay inside ON for this boss (25007 since 2026-10-15): switch it off first (no question), nothing is saved
+  if (await ev(`/Stay inside: ON/.test(document.getElementById('peRaStay').textContent)`)) { await click('#peRaStay'); await sleep(600); }
+  dialogs.length = 0;
   await click('#peRaStay'); await sleep(600);
   ok('"Stay inside" asks first (uidialog), then shows ON', await waitFor(`/Stay inside: ON/.test(document.getElementById('peRaStay').textContent)`, 5000) && dialogs.some(d => /Stay inside the fight area/.test(d.title || '')));
   await shot('02_iphone_stay');

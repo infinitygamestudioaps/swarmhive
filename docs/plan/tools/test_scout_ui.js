@@ -21,8 +21,9 @@ fs.readdirSync(__dirname).filter(f => /\.js$/.test(f)).forEach(f => fs.copyFileS
 fs.writeFileSync(path.join(SB, 'Logs', 'pause_supervisor'), 'sandbox');
 const DSRC = path.join(ROOT, 'Scripts', 'data');
 fs.readdirSync(DSRC).filter(f => /\.json$/.test(f) && fs.statSync(path.join(DSRC, f)).size < 6e6).forEach(f => fs.copyFileSync(path.join(DSRC, f), path.join(SB, 'Scripts', 'data', f)));
-const PARTY = [['Shieldy', 55, 'sk', 'Shillien Knight'], ['Hero01', 55, 'bishop', 'Bishop'], ['Hero02', 52, 'destroyer', 'Destroyer'], ['Hero03', 51, 'dagger', 'Treasure Hunter'],
-  ['Hero04', 53, 'nuker', 'Sorcerer'], ['Hero05', 53, 'nuker', 'Spellhowler'], ['Hero06', 54, 'shilliensaint', 'Shillien Elder']];
+// levels 45-48: Core's zone cap 49 / raid curse above 48 (epic guide, verified live 2026-10-10) - the old 51-55 party is refused there now
+const PARTY = [['Shieldy', 48, 'sk', 'Shillien Knight'], ['Hero01', 48, 'bishop', 'Bishop'], ['Hero02', 46, 'destroyer', 'Destroyer'], ['Hero03', 45, 'dagger', 'Treasure Hunter'],
+  ['Hero04', 47, 'nuker', 'Sorcerer'], ['Hero05', 47, 'nuker', 'Spellhowler'], ['Hero06', 48, 'shilliensaint', 'Shillien Elder']];
 fs.writeFileSync(path.join(SB, 'accounts.json'), JSON.stringify(PARTY.map((p, i) => ({ login: 'sc' + i, character: p[0], party: 'Shieldy' }))));
 const iso = (ms) => new Date(ms).toISOString();
 fs.writeFileSync(path.join(SB, 'Logs', 'raid_status.json'), '{}');
@@ -76,7 +77,7 @@ function writeStates() {
     const g = await ev(`(() => { const q = (s) => [...document.querySelectorAll(s)]; return { ok: q('#rpbGuide .rpg-r.ok').length, warn: q('#rpbGuide .rpg-r.warn').length, bad: q('#rpbGuide .rpg-r.bad').length,
       verdict: (document.querySelector('#rpbGuide .rpg-verdict') || {}).className || '', src: !!document.querySelector('#rpbGuideSrc a[href*="topic/477"]'), hscroll: document.documentElement.scrollWidth > innerWidth + 1 }; })()`);
     console.log('   ', JSON.stringify(g));
-    ok('Guide: the synthetic party (2 nukers, 1 melee + dagger, lvl 51-55) MAY go — composition is advice (amber), nothing red', /ok/.test(g.verdict) && g.bad === 0 && g.warn >= 1 && g.ok >= 3);
+    ok('Guide: the synthetic party (2 nukers, 1 melee + dagger, lvl 45-48) MAY go — composition is advice (amber), nothing red', /ok/.test(g.verdict) && g.bad === 0 && g.warn >= 1 && g.ok >= 3, JSON.stringify(g).slice(0, 300) + ' | ' + await ev(`[...document.querySelectorAll('#rpbGuide .rpg-r.bad, #rpbGuide .rpg-verdict')].map(e => e.textContent.trim().slice(0, 80)).join(' || ')`).catch(e => e.message));
     ok('Guide: the L2Toggle guide link', g.src);
     ok('no horizontal page scroll', !g.hscroll);
     ok('Scout button in the boss header', await waitFor(`!!document.getElementById('rpbScout')`, 5000));

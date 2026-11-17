@@ -179,10 +179,10 @@ has(/const k = dailyDue\(\);\n  if \(!k\) return;\n  if \(!runAuto\('daily Kamal
 has(/if \(!low\.length\) return;\n  if \(!runAuto\('supply run'\)\) return;/, 'supply watch asks the switch');
 has(/const runOK = runOn\(\);[^\n]*\n(?:\s*\/\/[^\n]*\n)*  if \(ok && runOK && leadMode\(\)[^\n]*supplyDue/, 'Giran regroup: no automatic supply run while OFF');
 ['fund other teams', 'seven signs'].forEach(s => has(new RegExp("if \\(ok && runOK && leadMode\\(\\)[^\\n]*pstStep\\('regroup', '" + s + "'\\)"), `Giran regroup: no automatic "${s}" while OFF`));
-has(/if \(ok && runOK && leadMode\(\) && !rcHub && !leadRunBusy && !regroupRun && Me\.Name === clanLeaderName\(\)\)/, 'Giran regroup: no automatic clan warehouse look while OFF');
+has(/if \(ok && runOK && leadMode\(\) && !rcHub && !leadRunBusy && !regroupRun && Me\.Name === (clanLeaderName|cwhActorName)\(\)\)/, 'Giran regroup: no automatic clan warehouse look while OFF');
 has(/if \(!runAuto\('split regroup'\)\) return;[^\n]*\n  if \(!takeControl\('regroup: left behind'/, 'split watchdog asks the switch');
 has(/if \(!runAuto\('class change'\)\) return;/, 'automatic class change order asks the switch');
-has(/if \(!runOn(?:OrCollector)?\(\)\) return;[^\n]*\n  fund\.lastIdleRound = now\(\);/, 'idle fund round asks the switch');
+has(/if \(!runOn(?:OrCollector)?\(\)\) return;[^\n]*\n(  if \(partyUserPaused\(\) && !collectorOn\(\)\) return;[^\n]*\n)?  fund\.lastIdleRound = now\(\);/,   /* PARKHOLD 2026-11-13 */ 'idle fund round asks the switch');
 has(/if \(!runAuto\('town sell'\)\) return;/, 'town sell asks the switch');
 has(/if \(!runAuto\('warehouse stash'\)\) return;/, 'automatic warehouse stash asks the switch');
 has(/scriptStartAt < 180000 \|\| !runOn(?:OrCollector)?\(\)\) return; lettersTick\(false\)/, 'automatic letters hand-over asks the switch');
@@ -197,10 +197,10 @@ has(/inKamaInstance\(\)\) return;\n    if \(!runOn(?:OrCollector)?\(\)\) return;
 has(/CONFIG\.gear\.autoShare \|\| !runOn(?:OrCollector)?\(\)\) return;/, 'automatic gear share asks the switch');
 has(/if \(!runAuto\('back-to-the-middle walk'\)\) return;/, 'member "back to the middle" walk asks the switch');
 has(/if \(!runAuto\('left-behind trip'\)\) return;[^\n]*\n  if \(!takeControl\('left behind: to Giran'/, 'member left-behind trip asks the switch');
-has(/if \(autoLvl\.active\) return;\n  if \(!runAuto\('leveling'\)\) return;/, 'autoLevelLoop: entry gate');
+has(/if \(autoLvl\.active\) return;\n  if \(!runAuto\('leveling'\)( && !plLevelerOn\(\))?\) return;/,   /* POWERLEVEL: the pair's switch is its Start */ 'autoLevelLoop: entry gate');
 has(/async function raidHuntLoop\(minL, maxL\) \{\n  if \(raidHunt\.active \|\| !isLeader\(\)\) return;\n  if \(!runAuto\('raidhunt'\)\) return;/, 'raidHuntLoop: entry gate');
 has(/if \(!runAuto\('raid circuit'\)\) return;[^\n]*\n  const cfg0 = rcConfigOf/, 'raidCircuitLoop: entry gate');
-has(/async function leadLevel\(why\) \{\n  if \(!isLeader\(\)\) return;\n  if \(!runAuto\('leveling'\)\)/, 'leadLevel: entry gate');
+has(/async function leadLevel\(why\) \{\n  if \(!isLeader\(\)\) return;\n(  parkEndForOrder\(why\);[^\n]*\n)?  if \(!runAuto\('leveling'\)\)/,   /* PARKLEVEL 2026-11-17: only YOUR order ends a park, before the gate */ 'leadLevel: entry gate');
 has(/runOff: !runOn\(\), now: now\(\) \}\);/, 'circuit keeper passes the switch');
 // survival / orders are NOT gated
 ['async function leadSupply(why, opts) {', 'async function leaderMission(kind, arg, opt) {', 'async function orderSupply('].forEach(h => { const b = fnBody(h); check(b && !/runAuto\(|runOn\(\)/.test(b), `order path ${h.split('(')[0].replace('async function ', '')} is never gated (your order runs while OFF)`); });

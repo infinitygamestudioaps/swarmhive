@@ -137,7 +137,7 @@ async function startServer(env) {
   // ---- the Storage page line
   await cdp('Page.navigate', { url: BASE + '#/storage' });
   ok('A: Storage page: "Loot from hunting" with one line per party', await waitFor(`!!document.querySelector('#stgLoot [data-psopensec="loot"]') && /Loot settings/.test(document.getElementById('stgLoot').textContent)`, 25000));
-  ok(`A: Storage page: party ${L}'s line says the rule`, await ev(`(() => { const r = [...document.querySelectorAll('#stgLoot .stg-lootrow')].find(x => x.textContent.includes('Party ${L}')); return !!r && /stays with the finder|goes to|Off/.test(r.textContent); })()`));
+  ok(`A: Storage page: party ${L}'s line says the rule`, await waitFor(`(() => { const r = [...document.querySelectorAll('#stgLoot .stg-lootrow')].find(x => x.textContent.includes('Party ${L}')); return !!r && /stays with the finder|goes to|Off/.test(r.textContent); })()`, 15000), await ev(`[...document.querySelectorAll('#stgLoot .stg-lootrow')].map(x => x.textContent.replace(/\\s+/g, ' ').slice(0, 90)).join(' | ')`));
   await ev(`(() => { const b = document.querySelector('#stgLoot [data-psopen="${L}"]'); b.scrollIntoView(); return true; })()`); await sleep(200);
   await shot('03_iphone_storage_line');
   await click(`#stgLoot [data-psopen="${L}"]`);

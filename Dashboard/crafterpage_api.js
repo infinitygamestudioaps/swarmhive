@@ -130,7 +130,7 @@ function ingest(ctx) {
     return rows.length;
   } catch (e) { return 0; }
 }
-function settings(ctx) { const j = obj(rj(setFile(ctx), {})); return { runner: NAME_RE.test(j.runner || '') ? j.runner : '', runnerOn: j.runnerOn === true, pays: obj(j.pays), cwhWithdraw: j.cwhWithdraw !== false, rotateOn: j.rotateOn !== false, rotateMin: Math.max(10, Math.min(1440, num(j.rotateMin) || 60)), runnerStealth: j.runnerStealth !== false, crafter: NAME_RE.test(j.crafter || '') ? j.crafter : DEF.crafter, bank: NAME_RE.test(j.bank || '') ? j.bank : DEF.bank, prices: obj(j.prices) }; }
+function settings(ctx) { const j = obj(rj(setFile(ctx), {})); return { runner: NAME_RE.test(j.runner || '') ? j.runner : '', runnerOn: j.runnerOn === true, pays: obj(j.pays), cwhWithdraw: j.cwhWithdraw !== false, rotateOn: j.rotateOn !== false, rotateMin: Math.max(10, Math.min(1440, num(j.rotateMin) || 60)), runnerStealth: j.runnerStealth !== false, crafter: NAME_RE.test(j.crafter || '') ? j.crafter : DEF.crafter, bank: NAME_RE.test(j.bank || '') ? j.bank : DEF.bank, prices: obj(j.prices), townRole: (Array.isArray(j.townRole) ? j.townRole : []).filter(n => NAME_RE.test(String(n || ''))) }; }   // TOWNROLE-UI
 function ledger(ctx) { const j = rj(ledFile(ctx), null); return Array.isArray(j && j.rows) ? j.rows : []; }
 function ledgerAdd(ctx, row) {
   const F = ledFile(ctx), j = obj(rj(F, {})); const rows = Array.isArray(j.rows) ? j.rows : [];
@@ -161,7 +161,7 @@ function info(ctx) {
   let tm = {}; try { tm = (ctx.teamMap && ctx.teamMap()) || {}; } catch (e) { }
   const parties = Object.keys(tm), leaders = [...new Set(parties.map(n => typeof tm[n] === 'string' && tm[n] ? tm[n] : n))].sort();   // leaders: PICKALL - the sale goes to a party leader
   const chars = charChoices(tm, states, S), known = (n) => !!n && chars.some(c => c.name === n);   // PICKALL-2026-11-10
-  return { ok: true, crafter: S.crafter, bank: S.bank, chars, roleKnown: { crafter: known(S.crafter), bank: known(S.bank), runner: known(S.runner) }, prices: S.prices, rev: R.rev, cfg: { on: cfg.on, town: cfg.town, parties: cfg.parties, maxBatches: cfg.maxBatches },
+  return { ok: true, crafter: S.crafter, bank: S.bank, townRole: S.townRole, chars, roleKnown: { crafter: known(S.crafter), bank: known(S.bank), runner: known(S.runner) }, prices: S.prices, rev: R.rev, cfg: { on: cfg.on, town: cfg.town, parties: cfg.parties, maxBatches: cfg.maxBatches },
     rows: N.rows, total: N.total, mats: Object.keys(CA.CRAFT_MATS).map(id => ({ id: Number(id), name: CA.CRAFT_MATS[id], bag: src.bag[id] || 0, wh: src.wh[id] || 0, clan: src.clan[id] || 0 })),
     seen: src.seen, status: st ? { state: st.state, why: st.why, at: st.at, town: st.town, createLvl: st.createLvl } : null,
     bankNow: { adena: num(bankSt.adena), online: num(bankSt.ageSec) < 120 }, ledger: { summary: sum, last: L.slice(-30).reverse() },
@@ -202,11 +202,19 @@ async function post(ctx, b) {
     // PICKALL-2026-11-10: never one character as the runner AND the bank / crafter (crafter.md R16) - checked only when one of the three changes
     if (b.runner !== undefined || b.bank !== undefined || b.crafter !== undefined) { const clash = roleClash(out); if (clash) return { code: 400, error: clash }; }
     if (b.rotateMin !== undefined) { const m = Math.round(num(b.rotateMin)); if (!(m >= 10 && m <= 1440)) return { code: 400, error: 'rotateMin: 10 - 1440 minutes' }; out.rotateMin = m; }
+    // TOWNROLE-UI-2026-11-17 (audit, Discord M08/M10): the characters that stay in their town (craft / distribute / trade, never level, never supply-run) - swarm.js townRole
+    if (b.townRole !== undefined) {
+      const L = Array.isArray(b.townRole) ? b.townRole : String(b.townRole || '').split(/[\s,;]+/);
+      const names = [...new Set(L.map(x => String(x || '').trim()).filter(Boolean))];
+      const badN = names.find(n => !NAME_RE.test(n)); if (badN) return { code: 400, error: `townRole: "${badN}" is not a character name` };
+      if (out.runner && names.includes(out.runner)) return { code: 400, error: `townRole: ${out.runner} is the runner (the runner travels)` };
+      out.townRole = names;
+    }
     if (b.pays !== undefined) { const p = obj(out.pays); Object.keys(obj(b.pays)).forEach(k => { if (!NAME_RE.test(k)) return; if (b.pays[k] === false) p[k] = false; else delete p[k]; }); out.pays = p; }
     if (b.prices !== undefined) { const p = obj(out.prices); Object.keys(obj(b.prices)).forEach(id => { const v = b.prices[id]; if (v === null || v === '') delete p[id]; else if (num(v) >= 0 && num(v) <= 1e6) p[id] = num(v); }); out.prices = p; }
     out._about = 'CRAFTERPAGE-2026-11-01: the clan crafter page (#/crafter): crafter = who crafts, bank = who holds the clan money, prices = per shot item id an override of the NPC price. The stock targets live in crafter_rules.json crafters.<crafter>.stock.';
     wjAtomic(setFile(ctx), out); logLine(ctx, `settings ${JSON.stringify({ crafter: out.crafter, bank: out.bank, prices: out.prices }).slice(0, 300)}`);
-    return { code: 200, ok: true, settings: { crafter: out.crafter, bank: out.bank, prices: out.prices, runner: out.runner || '', runnerOn: out.runnerOn === true, pays: obj(out.pays), cwhWithdraw: out.cwhWithdraw !== false } };
+    return { code: 200, ok: true, settings: { crafter: out.crafter, bank: out.bank, prices: out.prices, runner: out.runner || '', runnerOn: out.runnerOn === true, pays: obj(out.pays), cwhWithdraw: out.cwhWithdraw !== false, townRole: Array.isArray(out.townRole) ? out.townRole : [] } };
   }
   if (a === 'ledger') { const r = ledgerRow(b); if (r.error) return { code: 400, error: r.error }; ledgerAdd(ctx, r.row); logLine(ctx, `ledger ${JSON.stringify(r.row)}`); return { code: 200, ok: true, row: r.row }; }
   if (b.confirm !== true) return { code: 400, error: 'confirm: true is needed (this sends an order)' };

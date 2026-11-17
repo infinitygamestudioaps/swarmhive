@@ -48,7 +48,7 @@ has(/leftBehind\.size && !khMeHunting\(\) && autoLvl\.spot && !currentTownKey\(\
 has(/if \(khMeHunting\(\)\) \{ khAskReturn\(who, 'not with the team'\); leftBehind\.clear\(\); return; \}/, 'the split watchdog never takes a hunting team to Giran');
 has(/khMeHunting\(\) && far\.some\(m => m\.dead \|\| m\.d > 15000\)\)/, "gatherTeam: no 'team split' Giran regroup while hunting");
 has(/App\.on\('swarm\.khreturn'[\s\S]{0,900}memberReturnTrip\(/, 'members answer the return request with their own return trip');
-has(/const khHub = [\s\S]{0,700}supplyDue\(lastSupplyAtGet\(\), now\(\)\) && pautoOn\('supplyWatch'\)/, 'travel: the Giran regroup only when a supply run is due (party switch respected)');
+has(/const khHub = [\s\S]{0,700}(supplyDue\(lastSupplyAtGet\(\), now\(\)\)|supplyDueNow\(\)) && pautoOn\('supplyWatch'\)/ /* SUPPLYDAILY-2026-11-17: supplyDueNow = the same rule + once-a-day */, 'travel: the Giran regroup only when a supply run is due (party switch respected)');
 has(/if \(khHub && leadMode\(\)/, 'the hub regroup is gated by khHub');
 has(/b === 'fight'\) \{ if \(khEnd\(j\)\) \{ L\.khArrived = true; break; \}/, 'route walk: a fight at the destination = arrived');
 has(/!\(L\.khEnd && L\.khEnd\(L\.gate\)\)/, 'MTFIX run-on never at the destination');

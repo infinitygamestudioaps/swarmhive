@@ -34,7 +34,7 @@ t('ledger: npcsale + collect count as income', CP.ledgerSummary([{ kind: 'npcsal
 }
 // B. crafter mode
 t('B: crafter mode = I am the crafter AND my crafter switch is on', P.crunCrafterMode('Crafter1', 'Crafter1', true) && !P.crunCrafterMode('Crafter1', 'Crafter1', false) && !P.crunCrafterMode('Spoiler1', 'Crafter1', true));
-t('B: the crafter never levels / autolevels / supply-runs (gates in leadLevel, autoLevelLoop, the supply watch)', /async function leadLevel\([^)]*\) \{(?:\s*\n[^\n]*){0,3}\s*\n\s*if \(crafterModeMe\(\)\)/.test(SRC) && /async function autoLevelLoop\([^)]*\) \{\s*\n\s*if \(crafterModeMe\(\)\)/.test(SRC) && /if \(typeof crafterModeMe === 'function' && crafterModeMe\(\)\) return;\s+\/\/ CRAFTRUN B: the clan crafter never goes on a supply run/.test(SRC));
+t('B: the crafter never levels / autolevels / supply-runs (gates in leadLevel, autoLevelLoop, the supply watch)', /async function leadLevel\([^)]*\) \{(?:\s*\n[^\n]*){0,3}\s*\n\s*if \(crafterModeMe\(\)\)/.test(SRC) && /async function autoLevelLoop\([^)]*\) \{\s*\n\s*if \(crafterModeMe\(\)\)/.test(SRC) && /if \(typeof crafterModeMe === 'function' && \(crafterModeMe\(\)( \|\| townRoleMe\(\))?\)\) return;\s+\/\/ CRAFTRUN B: the clan crafter never goes on a supply run/.test(SRC));   // TOWNROLE-2026-11-17
 t('B: it goes back to Giran when idle elsewhere (once in 10 min)', SRC.includes("townCommand('crafter mode: back to Giran', 'Giran', { only: true })"));
 // C. paid shots
 t('C: NPC price x count (owner price overrides)', P.crunPay([{ id: 1466, n: 1000 }, { id: 3949, n: 500 }], {}) === 80000 + 21000 && P.crunPay([{ id: 1466, n: 10 }], { 1466: 100 }) === 1000 && P.crunPrice(99999, {}) === 0);

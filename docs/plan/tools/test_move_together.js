@@ -35,8 +35,9 @@ const M = pc.__M;
   ok(M.mtAt(p, { x: 150, y: 100, z: -3100 }) && !M.mtAt(p, { x: 150, y: 150, z: -3000 }) && !M.mtAt(p, { x: 10, y: 0, z: -3500 }), 'at a waypoint = within 200 in x,y AND within 300 in height (another floor is not "there")');
   const pts = [{ x: 0, y: 0 }, { x: 1000, y: 0 }, { x: 2000, y: 0 }], cum = M.mtCum(pts);
   ok(cum[2] === 2000 && M.mtProg(pts, cum, 0, { x: 400, y: 0 }) === 400 && M.mtProg(pts, cum, 2, { x: 0, y: 0 }) === 2000 && M.mtProg(pts, cum, -1, { x: -300, y: 0 }) === -300, 'route progress along the waypoints');
-  ok(M.mtLadderNext({ stage: 0 }, { flat: true }) === 'sidestep' && M.mtLadderNext({ stage: 1 }, { flat: true }) === 'replan' && M.mtLadderNext({ stage: 2 }, { flat: true }) === 'back' && M.mtLadderNext({ stage: 3 }, { flat: true }) === 'around' && M.mtLadderNext({ stage: 4 }, { flat: true }) === 'wait', 'ladder: side-step -> re-plan -> back one waypoint -> detours -> wait');
-  ok(M.mtLadderNext({ stage: 0 }, { flat: false }) === 'replan' && M.mtLadderNext({ stage: 0 }, { flat: true, special: true }) === 'replan', 'no side-step on a slope / ledge / swim / drop leg (the Cletu ravine fall)');
+  // ROUTENEAR-2026-11-17 (Vykaax: members veer off the custom waypoints): back to the last waypoint (straight retry) BEFORE a path-finder re-plan
+  ok(M.mtLadderNext({ stage: 0 }, { flat: true }) === 'sidestep' && M.mtLadderNext({ stage: 1 }, { flat: true }) === 'back' && M.mtLadderNext({ stage: 2 }, { flat: true }) === 'replan' && M.mtLadderNext({ stage: 3 }, { flat: true }) === 'around' && M.mtLadderNext({ stage: 4 }, { flat: true }) === 'wait', 'ladder: side-step -> back one waypoint -> re-plan -> detours -> wait');
+  ok(M.mtLadderNext({ stage: 0 }, { flat: false }) === 'back' && M.mtLadderNext({ stage: 0 }, { flat: true, special: true }) === 'back', 'no side-step on a slope / ledge / swim / drop leg (the Cletu ravine fall)');
   let r = M.mtStuckTick(null, { now: 0, idx: 3, d: 1000 }); r = M.mtStuckTick(r.tr, { now: 4000, idx: 3, d: 950 }); r = M.mtStuckTick(r.tr, { now: 8100, idx: 3, d: 960 });
   ok(r.stuck, 'no progress (< 100 closer) for 8 s = stuck');
   let r2 = M.mtStuckTick(null, { now: 0, idx: 3, d: 1000 }); r2 = M.mtStuckTick(r2.tr, { now: 5000, idx: 3, d: 800 }); r2 = M.mtStuckTick(r2.tr, { now: 9000, idx: 3, d: 790 });

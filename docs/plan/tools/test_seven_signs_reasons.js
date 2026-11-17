@@ -61,6 +61,8 @@ const S = [
   ['fee', 'closed', [m('Aa', { cycle: '2026-10-12', status: 'fee' })], COMP, {}, enrolledAll, /^Not open for Aa this week: the Priest of Dawn asked for a fee or an item \(not paid\)/],
   ['tries', 'closed', [m('Aa', { cycle: '2026-10-12', status: 'failed', tries: 3 })], COMP, {}, enrolledAll, /^Not open for Aa this week: the Dawn sign-up failed 3 times — press Sign up on the 7 Signs tab to try again\.$/],
   ['break', 'check', [m('Aa')], null, {}, enrolledAll, /^Short Seven Signs break \(15 minutes at the Monday change\)/],
+  // SSWEEK-2026-11-17 (LuckyStrikz): a page read right after the Monday change that still showed last week's period (suspect) -> read again, not closed
+  ['recheck', 'check', [m('Aa')], Object.assign(VALD('dawn'), { suspect: true, checkedAt: T('2026-10-15T09:00:00Z') }), {}, enrolledAll, /^Checking again: the Priest of Dawn still showed last week's period/],
 ];
 const run = (L, sc, o) => {
   let cur = sc[3] ? L.ssgNow(sc[3], NOW, H, EVERY) : { period: 'results', winner: '', cycle: '2026-10-12', stale: false, nextChange: L.ssgNextChange(NOW, H) };   // 'break' = the 15-min results break

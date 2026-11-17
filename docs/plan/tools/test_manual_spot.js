@@ -311,11 +311,11 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   check(est < 180, `nothing needed: ~${est} s + the gather (target < 3 min; was 7m45s at 19:16)`);
   // call sites
   const lg = src.slice(src.indexOf('async function leadGoGiran'), src.indexOf('async function leadGoGiran') + 3500);
-  check(/supplyDue\(lastSupplyAtGet\(\), now\(\)\)/.test(lg), 'Giran-regroup auto-supply uses the persisted timestamp');
+  check(/supplyDue\(lastSupplyAtGet\(\), now\(\)\)|supplyDueNow\(\)/.test(lg) && /function supplyDueNow\(\) \{ return supplyDueMode\(supplyModeOf\(\), lastSupplyAtGet\(\), now\(\)\); \}/.test(src),   /* SUPPLYDAILY 2026-11-17 */ 'Giran-regroup auto-supply uses the persisted timestamp');
   check(/!supplyDue\(lastSupplyAtGet\(\), now\(\)\)\) return;/.test(src), 'the supply watch uses the same timestamp');
   check(!/now\(\) - lastSupplyAt\b/.test(src) && /lastSupplyAtSet\(now\(\)\);/.test(src), 'no in-memory-only timestamp left; leadSupply persists it');
   check(/control\.gen\+\+; state\.supplyHold = runId;/.test(src) && /if \(state\.supplyHold === runId\) state\.supplyHold = null;/.test(src), 'the supply run holds the team: other walks/holds step aside, the hold is released in finally');
-  check(/async function gkTeleport\(wanted, why\) \{(?:\s*if \(\/\^autolevel\/i[^\n]*)?\s*if \(supplyHoldsTeam\(\)\)/.test(src) && /if \(supplyHoldsTeam\(\)\) \{ note\(`town: NOT using \.town/.test(src), 'no .town / gatekeeper teleport by the leader during the supply run (the 18:35:17 .dion)');
+  check(/async function gkTeleport\(wanted, why\) \{(?:\s*if \(typeof holdTrip === 'function'[^\n]*)?(?:\s*if \(\/\^autolevel\/i[^\n]*)?\s*if \(supplyHoldsTeam\(\)\)/.test(src)   /* HOLD-2026-11-04 line first */ && /if \(supplyHoldsTeam\(\)\) \{ note\(`town: NOT using \.town/.test(src), 'no .town / gatekeeper teleport by the leader during the supply run (the 18:35:17 .dion)');
   check(/state\.inHubRegroup \|\| state\.goingHub \|\| \(control\.owner && control\.owner !== 'leveling'/.test(src), 'idle watchdog: no 2nd regroup/supply while a regroup / order still runs (18:34:38)');
   check(/if \(rank < 0 && data && Array\.isArray\(data\.order\)\) return \{ ok: true, msg: 'nothing to buy \(plan step\)' \}/.test(src), 'gearrun: characters not on the buyers list answer at once');
   check(/dyeUnavailMark\(e\.dyeId/.test(src) && /todoAll\.filter\(e => !unavailActive\(UA, e\.dyeId, now\(\)\)\)/.test(src), 'dyeMine remembers + skips dyes no shop sold');

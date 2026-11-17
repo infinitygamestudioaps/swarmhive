@@ -109,7 +109,7 @@ has(/teamRegroupBeforePortOne\(what, destTown\) \{[\s\S]{0,300}pairsTravel\(`bef
 has(/pairsTravel\(`regroup in \$\{CONFIG\.lead\.hub\}`/, 'the Giran regroup (!town / !level / left behind) is a travel');
 has(/async function travelToSpot\(spot\) \{[\s\S]{0,200}pairsTravel\(/, 'a leveling trip is a travel');
 has(/async function gatherTeam\(why\) \{[\s\S]{0,200}pairsTravel\(/, 'a gather is a travel');
-has(/async function townCommand\(why, wantTown\) \{\s*\n\s*if \(isLeader\(\)\) pairsTravelStop/, '.town by the leader stops the pairs');
+has(/async function townCommand\(why, wantTown\) \{\s*\n(?:\s*if \(typeof holdTrip === 'function' && holdTrip\([^\n]*\) return false;[^\n]*\n)?\s*if \(isLeader\(\)\) pairsTravelStop/,'.town by the leader stops the pairs');
 has(/level < PRIO\.LEVEL && name !== 'leveling'\) \{ try \{ pairsTravelStop\(name\)/, 'any order / regroup above leveling (takeControl) stops the pairs');
 has(/leadRunBusy = true; try \{ pairsTravelStop\('supply run'\)/, 'the supply run stops the pairs');
 has(/pairsTravelStop\(`mission \$\{kind\}`\)/, 'a mission stops the pairs');

@@ -98,7 +98,8 @@ if (M.sgIsStarter) {
   check(["Squire's Sword", "Squire's Shirt", "Squire's Pants", "Apprentice's Wand", "Apprentice's Tunic", "Apprentice's Stockings", "Guild Member's Club", 'Training Gloves', "Apprentice Adventurer's Long Sword"].every(n => M.sgIsStarter(I(n))), 'starter pieces are recognised (fighter / mystic / orc / dwarf / newbie-guide weapons)');
   check(!M.sgIsStarter(I('Composite Bow')) && !M.sgIsStarter(I('Long Sword')) && !M.sgIsStarter(I('Tunic')) && !M.sgIsStarter(null), 'bought / looted no-grade gear is NOT starter gear');
   check(!M.sgIsStarter(Object.assign({}, I("Squire's Sword"), { g: 'D' })), 'only no-grade pieces');
-  check(M.sgMode({}) === 'sell' && M.sgMode({ starterGear: 'destroy' }) === 'destroy' && M.sgMode({ starterGear: 'keep' }) === 'keep' && M.sgMode({ starterGear: 'junk' }) === 'sell' && M.sgMode(null) === 'sell', 'gear_prefs.json starterGear: sell (default) | destroy | keep');
+  // owner 2026-10-26 (never sell unasked): starterGear default "keep"; sell / destroy only when the owner picks it
+  check(M.sgMode({}) === 'keep' && M.sgMode({ starterGear: 'sell' }) === 'sell' && M.sgMode({ starterGear: 'destroy' }) === 'destroy' && M.sgMode({ starterGear: 'keep' }) === 'keep' && M.sgMode({ starterGear: 'junk' }) === 'keep' && M.sgMode(null) === 'keep', 'gear_prefs.json starterGear: keep (default) | sell | destroy');
   const before = [{ objId: 11, id: idOf("Squire's Sword"), info: I("Squire's Sword") }, { objId: 12, id: idOf("Squire's Shirt"), info: I("Squire's Shirt") }, { objId: 13, id: idOf('Composite Bow'), info: I('Composite Bow') }];
   const bag = [
     { objId: 11, Id: idOf("Squire's Sword"), IsEquiped: false, IsQuestItem: false, EnchantLvl: 0, Name: "Squire's Sword", Count: 1 },
@@ -117,7 +118,7 @@ if (M.sgIsStarter) {
   const os = require('os'), TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'gearstarter-'));
   process.env.SWARM_GEARAUTO_FILE = path.join(TMP, 'gear_auto.json');
   const API = require(path.join(ROOT, 'Dashboard', 'gearauto_api.js')), ctx = { DATA: TMP, ROOT };
-  check(API.info(ctx).starterGear === 'sell', 'API: no file -> starterGear "sell" (default)');
+  check(API.info(ctx).starterGear === 'keep', 'API: no file -> starterGear "keep" (default, owner 2026-10-26)');
   check(API.post(ctx, { scope: 'policy', starterGear: 'destroy' }).starterGear === 'destroy' && JSON.parse(fs.readFileSync(process.env.SWARM_GEARAUTO_FILE, 'utf8')).starterGear === 'destroy', 'API: policy starterGear "destroy" is written to gear_auto.json');
   check(API.post(ctx, { scope: 'policy', starterGear: 'burn' }).code === 400, 'API: an unknown starterGear value is refused');
   if (M.sgMode) check(['sell', 'destroy', 'keep', 'x', ''].every(v => API.starterOf({ starterGear: v }) === M.sgMode({ starterGear: v })), 'dashboard resolution = bot resolution (sgMode)');

@@ -121,6 +121,7 @@ const P = (n, x, extra) => Object.assign({ Name: n, X: x, Y: 2, Z: 3, IsDead: fa
       const c = load(ctx({ Me: { Name: 'Me', X: 0, Y: 0, Z: 0, IsDead: false }, livePos: lp || {}, PartyList: coll, CONFIG: { roster: {} }, state: { role: 'nuker' },
         HEALER_ROLES: /bishop|healer|saint/, ROLE_RE: { tank: /^sk$|tank/ }, RES: { claims: {} }, isHealerRole: () => false, resMeBusy: () => false,
         resKit: () => ({ skill: null, mass: null, sor: 0, sorId: 0, bsor: 0, bsorId: 0 }), teamNames: () => ['Me'].concat(live.map(o => o.Name)),
+        resIsDead: (dead) => !!dead, resRowDeadSince: () => 0,   // STALEDEAD (2026-11): resGather asks the dead rule
         partyRows: () => { snapCalls++; return rows; } }), ['resGather']);
       return { g: c.resGather(), cnt, snapCalls };
     };

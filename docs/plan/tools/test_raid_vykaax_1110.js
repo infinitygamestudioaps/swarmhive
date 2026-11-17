@@ -68,7 +68,7 @@ const NECRO = [[1148, 'Death Spike'], [1220, 'Blaze'], [1263, 'Curse Gloom'], [1
   ok(r.restore.includes(1220), 'l2sGuardPlan: given back when the script no longer owns the attacks');
 }
 { const rd = fnBody('async function raidDealer(boss)', 22000);
-  ok(rd.includes('crOrder: crOn') && rd.includes('crLive(cands, tgt, dT, true)') && rd.includes('crNoteCast(pk.skill, pk.why, num(tgt.objId))'), 'raidDealer: guide order + live row rules + target marks (same as autoSkillTick)');
+  ok(rd.includes('crOrder: crOn') && rd.includes('crLive(cands, tgt, dT, worthT)') /* RAIDSKILL-2026-11-17: big-target rows on the boss only */ && rd.includes('crNoteCast(pk.skill, pk.why, num(tgt.objId))'), 'raidDealer: guide order + live row rules + target marks (same as autoSkillTick)');
   ok(rd.includes('if (castOne) { castStats.fightMs += now() - itT0; await sleep(20); }'), 'raidDealer: the next cast right after the previous one ended');
   const ds = fnBody('function raidDebuffSkills()', 2500);
   ok(ds.includes('if (crBlocked(num(k.Id))) return;'), 'raid debuffs skip guide never / owner-off skills (they bypass castNow)');

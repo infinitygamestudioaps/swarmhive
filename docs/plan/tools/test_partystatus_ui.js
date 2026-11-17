@@ -203,6 +203,7 @@ function writeFixtures() {
   for (const dev of [{ tag: 'phone', w: 390, h: 844, s: 2, mobile: true }, { tag: 'desktop', w: 1920, h: 1080, s: 1, mobile: false }]) {
     console.log(`--- ${dev.tag} ${dev.w}x${dev.h}`);
     await cdp('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
+    await cdp('Page.navigate', { url: 'about:blank' }); await sleep(300);   // a fresh page load per device (the phone pass ends in reduced motion; a hash-only navigate kept its static lines)
     await cdp('Emulation.setDeviceMetricsOverride', { width: dev.w, height: dev.h, deviceScaleFactor: dev.s, mobile: dev.mobile });
     await cdp('Emulation.setTouchEmulationEnabled', dev.mobile ? { enabled: true, maxTouchPoints: 5 } : { enabled: false });
     if (dev.mobile) await cdp('Emulation.setUserAgentOverride', { userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' });
@@ -241,7 +242,9 @@ function writeFixtures() {
     ok('walking the recorded Giran route', /walking to the Giran start point \(1\.\dk left\)/.test(R.Embera), R.Embera);
     ok('waiting for its turn at Helvetia', /waiting for its turn at Helvetia \(grocer\) — 3rd in line, ~\d+ s/.test(R.Kaelor), R.Kaelor);
     ok('older member without a team-step report: the leader\'s trade', /waiting while Tankard trades with Healix/.test(R.Necra), R.Necra);
-    ok('stuck member: line + chip', /stuck for \d+ s — re-planning \(try 1\) on the way to the Giran start/.test(R.Ashen) && /stuck \d+/.test(R.Ashen), R.Ashen);
+    // PARTY LAYOUT 2026-10-13 (partystatus.js taskCell split): the chips sit in their own slot of the member row, not in the .task text
+    const ashenRow = await ev(`(document.querySelector('.mem2[data-char="Ashen"]') || {}).innerText || ''`);
+    ok('stuck member: line + chip', /stuck for \d+ s — re-planning \(try 1\) on the way to the Giran start/.test(R.Ashen) && /stuck \d+/.test(ashenRow.replace(/\s+/g, ' ').replace(/stuck for/g, '')), R.Ashen + ' | row: ' + ashenRow.replace(/\s+/g, ' ').slice(0, 160));
     ok('following', /following Tankard/.test(R.Grumm), R.Grumm);
     ok('fund receiver of another team', /Trading with Fundor: receiving 2\.0M adena \(fund round\) \(window open, waiting for the items/.test(R.Quill), R.Quill);
     ok('old script receiver: partner found by the task', /trading with Oldie \(receiving\)/.test(R.Moss), R.Moss);

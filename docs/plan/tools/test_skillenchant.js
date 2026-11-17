@@ -112,7 +112,9 @@ else {
   ok(!/setInterval|setTimeout/.test(block), 'no timer in the skill enchant block (never automatic)');
   ok((s.match(/skillEnchantOrder\(/g) || []).length === 2, 'skillEnchantOrder is called only by the !skillenchant order');
   ok(block.indexOf(String.fromCharCode(92)) < 0, 'no backslash in the inserted block');
-  ok(s.slice(b - 1500, b).includes("case '!skillenchant'"), '!skillenchant case before !enchant');
+  // BOOST-2026-11-05: the '!boost' case now sits between them (the only case allowed in between; same switch, just before !enchant)
+  { const se = s.lastIndexOf("    case '!skillenchant': {", b), mid = se > 0 ? (s.slice(se + 10, b).match(/\n    case '[^']+'/g) || []) : null;
+    ok(se > 0 && mid && mid.every(c => c === "\n    case '!boost'"), '!skillenchant case before !enchant'); }
   // run the inserted SENPURE in a sandbox: same answers as the module
   const pure = s.slice(a, s.indexOf('// SENPURE-END'));
   const fn = new Function(pure + '; return { senDecide, senOrderText };')();

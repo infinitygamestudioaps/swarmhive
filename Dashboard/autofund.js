@@ -133,7 +133,10 @@ async function depositTick(ctx) {
   const d = depositDecide(dep, states, col, busy, partyDep, mem, Date.now(), keepG); if (!d) return;
   const o = await ctx.post('/api/trade/order', { receiver: col, sel: {}, adena: { [d.giver]: d.amount }, confirm: true, sameTown: true, note: `adena to the collector (automatic): ${d.why}` });
   try { fs.appendFileSync(path.join(ctx.LOGS, 'autofund.log'), `${new Date().toISOString()} DEPOSIT ${d.giver} -> ${col} ${d.amount} adena: ${o && o.ok ? 'order ' + o.id + ' sent (same town)' : 'NOT sent - ' + ((o && o.error) || 'no answer')} (${d.why})\r\n`); } catch (e) { }
-  if (o && o.ok) { mem.dep[d.giver] = Date.now(); try { fs.writeFileSync(memF, JSON.stringify(mem, null, 1)); } catch (e) { } }
+  if (o && o.ok) { mem.dep[d.giver] = Date.now(); try { fs.writeFileSync(memF, JSON.stringify(mem, null, 1)); } catch (e) { }
+    // DEPOSITLOG-2026-11-17 (Vykaax: "doesn't seem like handouts or extra adena hand off to the collector is working"): the deposit order shows in the Adena page's
+    // "Recent hand-outs" (a label key, never the collector's own name: that would tell fundNeedy the collector was just funded)
+    try { const LF = path.join(ctx.LOGS, 'fund_log.json'), L = readJson(LF, {}) || {}; L[`${d.giver} → ${col} (deposit)`] = Date.now(); fs.writeFileSync(LF, JSON.stringify(L)); } catch (e) { } }
 }
 /** the giver rule of fund_rules.json givers (Adena page): collector (default) | list | none | auto (old: null = richest in scope) */
 function giverRule(ctx) {

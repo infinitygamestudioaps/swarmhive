@@ -368,6 +368,7 @@ async function main() {
         huntSkip: {}, soloSafe: {}, SOLOSAFE: {}, note: () => { }, intents, isHealerRole: () => false, recHold: () => false,
         intent: (a, d) => { intents.push(a + ': ' + d); }, Send: { Action: () => { } }, sleep: () => Promise.resolve(), inst: { on: false }, srvAttack: () => { },
         walkDirect: () => Promise.resolve(), engageState: { id: 0, at: 0, ids: {} },
+        tightGroup: () => false, soloRoomAll: () => [], isLeader: () => true, mageMember: () => false, memberNoCombat: () => false, hiveOwnCombat: () => false, handsOffMe: () => false, leadMode: () => false, IsInCombat: false, casterOwnsAttacks: () => false,   // 2026-11-17: TIGHTBALL / room helpers huntTarget uses now
       };
       sb.snapMobs = () => [zero, good].map(d => Object.assign({}, d, { ref: Object.assign({}, d) }));
       vm.createContext(sb); vm.runInContext(ht + '\n' + eg + '\n' + (kc || ''), sb);

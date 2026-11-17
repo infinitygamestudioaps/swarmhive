@@ -26,7 +26,7 @@ const ROLEKIND = {
           // that member (logged once, never a cast loop); buffMax = the server's normal buff slots (L2Toggle 24; L2J default 20; Divine
           // Inspiration skill divineId adds its level), 0 = no slot check
           skipMs: 600000, buffMax: 24, divineId: 1405 },
-  archer: { tooClose: 220, want: 520, gapMs: 2500 },
+  archer: { tooClose: 220, want: 520, gapMs: 2500, space: true },   // owner 2026-10-25: "Dont switch off step back!!" (space: false would stop the archer spacing)
   // summoner: resummon gap, min MP, servitor attack resend gap, consumable stock (resummons summons + upkeep margin, low below lowSummons),
   // servitor care thresholds, own nukes only as filler above fillerMinMpPct (fillerNukes false = never)
   summon: { gapMs: 20000, minMpPct: 30, attackGapMs: 3000, resummons: 10, upkeepMargin: 20, lowSummons: 3, petHealBelow: 70, petMpBelow: 40, selfDangerHp: 35,

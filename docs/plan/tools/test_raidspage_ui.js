@@ -25,7 +25,7 @@ if (process.argv[2] === '--server') {
     if (/:8083\b/.test(u)) {
       const b = JSON.parse(opt.body || '{}');
       const result = b.method === 'initialize' ? { protocolVersion: '2025-03-26', capabilities: {} } : { content: [{ type: 'text', text: b.params && b.params.name === 'get_accounts_status' ? '[]' : '{"mobs":[]}' }] };
-      process.stdout.write('MCP ' + (b.params ? b.params.name : b.method) + '\n');
+      process.stdout.write('MCP ' + ((b.params && b.params.name) || b.method) + '\n');   // notifications/initialized carries params {} (no name)
       const txt = JSON.stringify({ jsonrpc: '2.0', id: b.id, result });
       return { headers: { get: (h) => (h.toLowerCase() === 'mcp-session-id' ? 'mock' : null) }, text: async () => txt, json: async () => JSON.parse(txt) };
     }
@@ -162,7 +162,7 @@ function writeFixtures() {
   await cdp('Page.enable'); await cdp('Runtime.enable');
   const UID = await require('./uidialog_testhook')(cdp, handlers, { answer: false, onDialog: (d) => dialogs.push(d.msg) });   // UIDIALOG 2026-10-10: the shared dialog answers itself
   await cdp('Fetch.enable', { patterns: [{ urlPattern: '*/api/*', requestStage: 'Request' }] });
-  const FS_OK = new Set([11, 12, 13, 14, 16, 20]);
+  const FS_OK = new Set([11, 12, 13, 14, 15, 16, 20]);   // 15 = --fs-em / --fs-section on phones (Dashboard/ui_kit.css 2026-10-13)
 
   let first = true;
   for (const dev of [{ tag: 'iphone', w: 390, h: 844, s: 2, mobile: true }, { tag: 'ipad', w: 820, h: 1180, s: 2, mobile: true }, { tag: 'desktop', w: 1920, h: 1080, s: 1, mobile: false }]) {
@@ -188,7 +188,7 @@ function writeFixtures() {
     if (first) ok("'Saved routes' is COLLAPSED by default (no route cards built)", s1.routesOpen === false && s1.routeCards === 0);
     ok('LIVE raid pinned at the top with links to the live views', /LIVE/.test(s1.live) && /Watch/.test(s1.live) && /Party view/.test(s1.live), s1.live.replace(/\s+/g, ' ').slice(0, 120));
     ok('raidhunt per party: the hunting party (phase + Next) and the idle one (Next if it hunts)', s1.hunting === 1 && s1.idle >= 1 && /Next:/.test(s1.nextTxt) && /Next if it hunts/.test(s1.nextTxt), s1.nextTxt.slice(0, 160));
-    ok('live respawn countdowns on the cards', s1.cd.length > 0 && s1.cd.every(t => /\d+(d|h|m)/.test(t)), s1.cd.join(', '));
+    ok('live respawn countdowns on the cards', s1.cd.length > 0 && s1.cd.every(t => /\d+(d|h|m)/.test(t)), s1.cd.join(', ') || await ev(`[...document.querySelectorAll('#rpBoard .rp-card')].slice(0, 8).map(c => c.dataset.st + ':' + c.querySelector('.rp-name').textContent).join(', ') + ' | cdto ' + document.querySelectorAll('[data-cdto]').length`));
     ok('fit chips per party on the cards', s1.fitChips > 0, String(s1.fitChips));
     ok('no horizontal page scroll', !s1.hscroll);
     // countdown really ticks
@@ -252,7 +252,7 @@ function writeFixtures() {
       await ev(`JSON.stringify({ it: document.querySelectorAll('.rpb-it').length, area: document.getElementById('rpAreaInfo').innerText.slice(0, 60), red: !!document.querySelector('#routeEd #redSvg') })`));
     ok('boss page: no horizontal page scroll', !(await ev(`document.documentElement.scrollWidth > window.innerWidth + 1`)));
     const badB = await ev(`[...document.querySelectorAll('#tab-raidspage .rpb-head *, #tab-raidspage .rpb-grid > .box:not(#rpbRouteBox) *')].filter(e => [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()) && !e.closest('svg') && e.offsetParent !== null)
-      .map(e => Math.round(parseFloat(getComputedStyle(e).fontSize))).filter(v => !${JSON.stringify([...FS_OK])}.includes(v))`);
+      .filter(e => !${JSON.stringify([...FS_OK])}.includes(Math.round(parseFloat(getComputedStyle(e).fontSize)))).map(e => Math.round(parseFloat(getComputedStyle(e).fontSize)) + ':' + (e.id ? '#' + e.id : (typeof e.className === 'string' && e.className ? '.' + e.className.split(' ')[0] : e.tagName.toLowerCase())) + ' "' + e.textContent.trim().slice(0, 20) + '"')`);
     ok('boss page type scale: only the site tokens', badB.length === 0, badB.slice(0, 6).join(','));
     await ev(`window.scrollTo(0, 0)`); await sleep(400);
     await shot(`raidspage_${dev.tag}_3_boss.png`);
@@ -276,7 +276,9 @@ function writeFixtures() {
     first = false;
   }
   ok('no JavaScript errors', jsErr.length === 0, jsErr.slice(0, 3).join(' | '));
-  ok('only the intercepted route lock POST was made (no orders sent)', posts.length === 1, posts.join(' || '));
+  // RAIDMAP-2026-10-15: the boss page asks /api/polyedit?action=fit (a read-only geodata fit of the fight area, POST only for its body) = not an order
+  const posts2 = posts.filter(p => !/\/api\/polyedit\?action=fit&kind=raidarea&id=\d+ \{\}$/.test(p));
+  ok('only the intercepted route lock POST was made (no orders sent; the read-only area fits aside)', posts2.length === 1 && /\/api\/route \{"id":"\d+","action":"lock"\}/.test(posts2[0]), posts2.join(' || '));
   ok('MCP: no mutating call', mcp.every(l => /^MCP (initialize|get_|notifications)/.test(l)), mcp.filter(l => !/^MCP (initialize|get_|notifications)/.test(l)).slice(0, 3).join(' | '));
   clearInterval(fx);
   try { sock.close(); } catch (e) { }

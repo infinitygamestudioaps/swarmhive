@@ -88,10 +88,11 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   ok('search finds the character Bishop1', await ev(`[...document.querySelectorAll('#ccBody .ccrow b')].slice(0, 3).some(b => b.textContent === 'Bishop1')`));
   await shot('04_iphone_search');
   // every command reachable from the palette by its title
-  const reach = await ev(`(() => { const miss = []; SWARM_COMMANDS.COMMANDS.forEach(c => { if (!CmdCenter.search(c.title).some(o => o.kind === 'cmd' && o.c.id === c.id)) miss.push(c.id); }); return { n: SWARM_COMMANDS.COMMANDS.length, miss }; })()`);
-  ok('every catalog command is found in the palette', !reach.miss.length, `${reach.n - reach.miss.length}/${reach.n} ${reach.miss.join(',')}`);
+  // CMDFIX 2026-10-12: hidden catalog entries (dead / duplicate, commands.js hideWhy) are never offered; every other one is found
+  const reach = await ev(`(() => { const miss = [], shown = []; SWARM_COMMANDS.COMMANDS.forEach(c => { const f = CmdCenter.search(c.title).some(o => o.kind === 'cmd' && o.c.id === c.id); if (c.hidden) { if (f) shown.push(c.id); } else if (!f) miss.push(c.id); }); return { n: SWARM_COMMANDS.COMMANDS.filter(c => !c.hidden).length, miss, shown }; })()`);
+  ok('every (not hidden) catalog command is found in the palette, no hidden one', !reach.miss.length && !reach.shown.length, `${reach.n - reach.miss.length}/${reach.n} ${reach.miss.join(',')}${reach.shown.length ? ' HIDDEN SHOWN: ' + reach.shown.join(',') : ''}`);
   const sheetReach = await ev(`(() => { const ids = new Set(); Object.keys(STATE.chars.reduce((m, c) => (m[c.party || c.name] = 1, m), {})).forEach(L => CmdCenter.sheetCommands('party:' + L).forEach(i => ids.add(i))); STATE.chars.forEach(c => CmdCenter.sheetCommands('char:' + c.name).forEach(i => ids.add(i)));
-    const miss = SWARM_COMMANDS.COMMANDS.filter(c => !ids.has(c.id) && !c.targets.includes('none')).map(c => c.id); return { n: ids.size, miss }; })()`);
+    const miss = SWARM_COMMANDS.COMMANDS.filter(c => !ids.has(c.id) && !c.targets.includes('none') && !c.hidden).map(c => c.id); return { n: ids.size, miss }; })()`);
   ok('every character/party command is on some command sheet', !sheetReach.miss.length, `${sheetReach.n} on sheets ${sheetReach.miss.join(',')}`);
   // town teleport form
   await type('#ccQ', 'town teleport'); await sleep(200);

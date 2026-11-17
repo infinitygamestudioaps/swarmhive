@@ -85,6 +85,7 @@ const inBox = (d, m) => d.lines.every(l => { for (let i = 0; i + 1 < l.length; i
 
   const G = await req(base, '/api/townpaths?town=Giran', K);
   const gr = JSON.parse(fs.readFileSync(path.join(DATA, 'giran_routes.json'), 'utf8'));
+  const NR = Object.keys(gr.routes).length;   // 2026-11-17: the live file grew from 7 to 8 recorded routes = count them, not a fixed 7
   ok('Giran (by name): the full street graph too', G.code === 200 && G.j.key === 'giran' && G.j.lines.length > 1000 && inBox(G.j, 2000), G.j && G.j.lines.length);
   ok('Giran: every recorded route (giran_routes.json) with its NPC + points', G.j.giran && G.j.giran.routes.length === Object.keys(gr.routes).length && G.j.giran.routes.every(r => r.pts.length === gr.routes[r.name].points.length && r.npc === (gr.routes[r.name].npc || '')), JSON.stringify(G.j.giran && G.j.giran.routes.map(r => r.name)));
   ok('Giran: the start point of the routes', G.j.giran.start && G.j.giran.start[0] === Math.round(gr.start[0]));
@@ -121,7 +122,7 @@ const inBox = (d, m) => d.lines.every(l => { for (let i = 0; i + 1 < l.length; i
     T.layer(v, { active: T.activeOf(act) }); for (let i = 0; i < 60 && !T.town('giran'); i++) await sleep(50);
     const r = T.layer(v, { active: T.activeOf(act), fs: 9 });
     ok('activeOf() reads the walked Giran route from the intent', T.activeOf(act) === 'grocer' && T.activeOf({}) === '' && T.activeOf({ intent: { what: 'Giran recorded route to grocer', result: 'ok' } }) === '');
-    ok('layer(): one street <path> + 7 route polylines (grocer thick) + labels', /<g class="tp-g" data-town="giran"/.test(r.base) && (r.base.match(/<polyline/g) || []).length === 7 && (r.base.match(/<polyline[^>]*stroke-width="4"/g) || []).length === 1 && /grocer/.test(r.labels), r.key);
+    ok(`layer(): one street <path> + ${NR} route polylines (grocer thick) + labels`, /<g class="tp-g" data-town="giran"/.test(r.base) && (r.base.match(/<polyline/g) || []).length === NR && (r.base.match(/<polyline[^>]*stroke-width="4"/g) || []).length === 1 && /grocer/.test(r.labels), r.key);
     ok('the base part does not depend on the zoom (same key + string at 2x zoom)', (() => { const r2 = T.layer(view(81800, 148200, 1700), { active: 'grocer' }); return r2.key === r.key && r2.base === r.base; })());
     ok('zoomed out past a town scale (W > 70000): nothing', T.layer(view(81800, 148200, 40000), {}).base === '');
     ok('legend names the Giran routes only when Giran is in view', /Giran recorded routes/.test(T.legendHtml(r.towns)) && !/Giran/.test(T.legendHtml([{ key: 'heine' }])));
@@ -170,7 +171,7 @@ const inBox = (d, m) => d.lines.every(l => { for (let i = 0; i + 1 < l.length; i
         routeOnTop: (() => { const all = [...document.querySelectorAll('#pm svg > *')]; return all.indexOf(document.getElementById('myroute')) > all.indexOf(g); })(),
         legend: document.querySelector('#pm .pmlegend').innerText, ls: (() => { try { return localStorage.getItem('townPaths.on'); } catch (e) { return 'x'; } })() }; })()`);
     ok('street path is long and zoom-independent (non-scaling stroke)', a.d > 20000 && a.nss === 'non-scaling-stroke', JSON.stringify({ d: a.d, nss: a.nss }));
-    ok('7 recorded routes, the walked one (grocer) thicker', a.routes === 7 && a.thick === 1, JSON.stringify({ routes: a.routes, thick: a.thick }));
+    ok(`${NR} recorded routes, the walked one (grocer) thicker`, a.routes === NR && a.thick === 1, JSON.stringify({ routes: a.routes, thick: a.thick }));
     // labelsOf() drops a label that would overlap one already placed (2026-10-12 23:14): weapons sits next to jewelry/armor at this zoom
     const rl = ['grocer', 'warehouse', 'weapons', 'jewelry', 'armor', 'blacksmith', 'symbol'].filter(n => a.labels.some(t => t.startsWith(n)));
     ok('route labels per place (grocer, warehouse + at least 4 places; overlapping ones dropped)', rl.includes('grocer') && rl.includes('warehouse') && rl.length >= 4, a.labels.slice(0, 12).join(' | '));
@@ -194,7 +195,7 @@ const inBox = (d, m) => d.lines.every(l => { for (let i = 0; i + 1 < l.length; i
         await ev(`document.querySelector('.tp-info').textContent + ' / ' + Object.keys(TownPaths._s.ll).join()`));
       ok('Map legend shown', /town paths/.test(await ev(`document.getElementById('tpMapLegend').innerText`)));
       await ev(`(() => { const s = document.querySelector('#tab-map select[data-tppick]'); s.value = 'giran'; s.dispatchEvent(new Event('change')); })()`);
-      ok('picking Giran: recorded routes listed in the info line', await waitFor(`!!TownPaths._s.ll.giran && /7 recorded routes/.test(document.querySelector('.tp-info').textContent)`, 10000));
+      ok('picking Giran: recorded routes listed in the info line', await waitFor(`!!TownPaths._s.ll.giran && /${NR} recorded routes/.test(document.querySelector('.tp-info').textContent)`, 10000));
       await sleep(500);
       await cdp('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: 390, height: 844, scale: 1 }, captureBeyondViewport: true }).catch(() => null);
     }

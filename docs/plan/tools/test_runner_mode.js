@@ -26,7 +26,7 @@ t('bank store: Stem + Flamberge Blade go in; crystals, ore, adena and items not 
 // source checks
 t('autoLevelLoop + leadLevel + planRun + the supply watch refuse in runner mode', (SRC.match(/runnerModeMe\(\)\) \{ note\(/g) || []).length >= 3 && /typeof runnerModeMe === 'function' && runnerModeMe\(\)\) return;\s+\/\/ RUNNERMODE/.test(SRC));
 t('the runner tick stops an old leveling, parks in Giran, keeps the queue on disk', /autoLvl\.stop = true; note\('runner: stopping my own leveling/.test(SRC) && /runner: waiting for calls next to the crafter/.test(SRC) && /runner_queue\.json/.test(SRC) && /crunQueueSave\(\)/.test(SRC));
-t('after the hand-over to the bank: swarm.runner.delivered -> crunBankStore -> stashDepositAt(npc, put, \'clan\')', /App\.emit\('swarm\.runner\.delivered'/.test(SRC) && /async function crunBankStore\([\s\S]{0,3000}stashDepositAt\(npc, put, 'clan'\)/.test(SRC));
+t('after the hand-over to the bank: swarm.runner.delivered -> crunBankStore -> stashDepositAt(npc, put, \'clan\')', /App\.emit\('swarm\.runner\.delivered'/.test(SRC) && /async function crunBankStore\([\s\S]{0,3600}stashDepositAt\(npc, put, 'clan'\)/.test(SRC) /* CWHJUNK-2026-11-17 added the junk filter in between */);
 // BANKSELL (owner: "Also crafter1 should sell junk from teams" + "When they deliver it")
 { const P2 = new Function(cut('// CRAFTRUN-PURE-BEGIN', '// CRAFTRUN-PURE-END') + '\nreturn { crunBankSellOnly };')();
   const list = [{ id: 1864, count: 300, objIds: [11] }, { id: 2059, count: 2, objIds: [21, 22] }, { id: 999, count: 5, objIds: [31] }];

@@ -236,7 +236,8 @@ function writeFixtures() {
         sum: document.getElementById('lpSum').innerText, infoLine: document.getElementById('lpInfo').innerText,
         hscroll: document.documentElement.scrollWidth > window.innerWidth + 1 }; })()`);
     console.log('   activities:', JSON.stringify(info.act, null, 1).replace(/\n/g, '\n     '));
-    ok('fighting line', /fighting Ol Mahum Patrol \(64% HP/.test(info.act.Grumm), info.act.Grumm);
+    // TGTLVL 2026-10-14 (Dashboard/activity.js): the target line is "<name> [L<lvl>] <hp bar> <hp>%" (+ " · <skill>"), no "fighting ... (64% HP)" any more
+    ok('fighting line', /^Ol Mahum Patrol\b.*\b64%/.test(info.act.Grumm), info.act.Grumm);
     ok('casting line (time left is on the cast bar)', /casting Prominence/.test(info.act.Embera), info.act.Embera);
     ok('stuck line (route reports stuck, re-planning)', /stuck for \d+ s.*re-planning.*try 2/.test(info.act.Kaelor), info.act.Kaelor);
     ok('selling line (NPC + item n/m)', /selling at Helvetia.*item 3\/7/.test(info.act.Novara), info.act.Novara);
@@ -305,7 +306,8 @@ function writeFixtures() {
       const el = document.getElementById('lpMap'); const o = { bubbles: true, clientX: px, clientY: py, pointerId: 7, isPrimary: true };
       el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); return lp.sel; })()`);
     ok('tap a marker on the map selects that member', tapOk === 'Embera', tapOk);
-    await ev(`document.getElementById('lpFollow').click()`); await sleep(300);
+    // the button TOGGLES follow; a floor change of the leader (MapFloors view) may already have switched it back on = then no click
+    if (!(await ev(`LiveParty._lp.follow === true`))) { await ev(`document.getElementById('lpFollow').click()`); await sleep(300); }
     ok('follow button fits the party again', await ev(`LiveParty._lp.follow === true`));
     // back to the parties tab closes the live page (no timer left)
     await ev(`document.getElementById('lpBack').click()`);

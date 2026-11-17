@@ -119,6 +119,9 @@ function fundSanitize(input, prev) {
     }
     // FUNDCOLLECTOR-2026-10-25: the party's own surplus rule for the collector { above, keep } (blank = the shared deposit values)
     if (p.deposit && typeof p.deposit === 'object') { const da = amt(p.deposit.above, `party ${k} surplus above`, { blank: true }), dk = amt(p.deposit.keep, `party ${k} surplus keeps`, { blank: true }); const od = {}; if (da !== null) od.above = da; if (dk !== null) od.keep = dk; if (Object.keys(od).length) o.deposit = od; }
+    // FUNDNOTE-2026-11-17: the owner's notes in a party entry ("_note": "never deposit - ...") travel along (the page sent them or the file has them)
+    const oldP = old.parties && typeof old.parties === 'object' && old.parties[k] && typeof old.parties[k] === 'object' ? old.parties[k] : {};
+    Object.keys(Object.assign({}, oldP, p)).forEach(nk => { const v = p[nk] !== undefined ? p[nk] : oldP[nk]; if (/^_[A-Za-z0-9_]{1,30}$/.test(nk) && typeof v === 'string' && v.length <= 1000) o[nk] = v; });
     out.parties[k] = o;
   });
   // FUNDCOLLECTOR-2026-10-25: surplus to the collector { on, above, keep, againMin }

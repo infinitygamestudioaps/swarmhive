@@ -165,7 +165,7 @@ function writeFixtures() {
   await cdp('Page.enable'); await cdp('Runtime.enable');
   const UID = await require('./uidialog_testhook')(cdp, handlers, { answer: false, onDialog: (d) => dialogs.push(d.msg) });   // UIDIALOG 2026-10-10: the shared dialog answers itself
   await cdp('Fetch.enable', { patterns: [{ urlPattern: '*/api/*', requestStage: 'Request' }, { urlPattern: '*/readability.css*', requestStage: 'Request' }] });
-  const FS_OK = new Set([11, 12, 13, 14, 16, 20]);
+  const FS_OK = new Set([11, 12, 13, 14, 15, 16, 20]);   // 15 = --fs-em / --fs-section since Dashboard/ui_kit.css (2026-10-13, :root:root override)
   const DEVS = [{ tag: 'iphone', w: 390, h: 844, s: 2, mobile: true }, { tag: 'ipad', w: 820, h: 1180, s: 2, mobile: true }, { tag: 'desktop', w: 1920, h: 1080, s: 1, mobile: false }];
   const setDev = async (dev) => {
     await cdp('Emulation.setDeviceMetricsOverride', { width: dev.w, height: dev.h, deviceScaleFactor: dev.s, mobile: dev.mobile });
@@ -244,15 +244,21 @@ function writeFixtures() {
         await ev(`(() => { const s = document.getElementById('gpBuy'); s.value = 'real'; s.dispatchEvent(new Event('change', { bubbles: true })); })()`);
         ok('buy rule "real only" saved', await waitFor(`GearPage._gp.data.plan.chest.buy === 'real'`, 6000) && prefs()._class['46'].C.chest.buy === 'real');
         await ev(`document.querySelector('[data-gpclose]').click()`);
-        // a MANUAL item: a necklace that Giran does not sell
-        await ev(`document.querySelector('#gpPlan .gp-row[data-gpslot="neck"]').click()`); await waitFor(`!document.getElementById('gpPick').hidden`, 4000);
-        const man = await ev(`(() => { const L = GearPage._gp.data.cand.neck; const x = L.find(c => !c.gc && !c.gr && !c.gx && c.src && !c.src.sh && (c.src.dr || c.src.cr)) || L.find(c => !c.gc && !c.gr && !c.gx && c.src && (c.src.dr || c.src.cr)); return x ? x.id : null; })()`);
-        await ev(`document.querySelector('#gpPanel [data-gpexp="${man}"]').click()`); await sleep(250);
-        await ev(`document.querySelector('#gpPanel .gp-it.open [data-gpchoose]').click()`);
-        await waitFor(`(GearPage._gp.data.plan.neck || {}).id === ${man}`, 6000);
-        await ev(`document.querySelector('[data-gpclose]').click()`); await sleep(300);
-        const neckRow = await ev(`document.querySelector('#gpPlan .gp-row[data-gpslot="neck"]').innerText`);
-        ok('an item no shop sells is saved and shows "manual" with where it comes from', /manual/.test(neckRow) && /drop|craft/.test(neckRow), neckRow.replace(/\s+/g, ' ').slice(0, 160));
+        // a MANUAL item: jewellery / armour Giran does not sell (2026-11-17: the shop data now sells every C necklace in Giran = the first slot
+        // that still has such an item; same checks)
+        const MAN = await ev(`(() => { const C = GearPage._gp.data.cand || {}; for (const s of ['neck', 'earring', 'ring', 'head', 'gloves', 'feet', 'legs', 'shield', 'weapon']) { const L = C[s] || [];
+          const x = L.find(c => !c.gc && !c.gr && !c.gx && c.src && !c.src.sh && (c.src.dr || c.src.cr)) || L.find(c => !c.gc && !c.gr && !c.gx && c.src && (c.src.dr || c.src.cr)); if (x) return { slot: s, id: x.id }; } return null; })()`);
+        const manSlot = MAN ? MAN.slot : 'neck', man = MAN ? MAN.id : null;
+        let manRow = 'no slot has an item that no shop sells';
+        if (MAN) {
+          await ev(`document.querySelector('#gpPlan .gp-row[data-gpslot="${manSlot}"]').click()`); await waitFor(`!document.getElementById('gpPick').hidden`, 4000);
+          await ev(`document.querySelector('#gpPanel [data-gpexp="${man}"]').click()`); await sleep(250);
+          await ev(`document.querySelector('#gpPanel .gp-it.open [data-gpchoose]').click()`);
+          await waitFor(`(GearPage._gp.data.plan[${JSON.stringify(manSlot)}] || {}).id === ${man}`, 6000);
+          await ev(`document.querySelector('[data-gpclose]').click()`); await sleep(300);
+          manRow = await ev(`document.querySelector('#gpPlan .gp-row[data-gpslot="${manSlot}"]').innerText`);
+        }
+        ok(`an item no shop sells is saved and shows "manual" with where it comes from (${manSlot})`, !!MAN && /manual/.test(manRow) && /drop|craft/.test(manRow), manRow.replace(/\s+/g, ' ').slice(0, 160));
         const chestRow = await ev(`document.querySelector('#gpPlan .gp-row[data-gpslot="chest"]').innerText`);
         ok('a chest sold in Giran shows the gold "Giran" chip', /Giran/.test(chestRow), chestRow.replace(/\s+/g, ' ').slice(0, 160));
         // belt: the bots do not buy belts
@@ -297,7 +303,7 @@ function writeFixtures() {
         await shot(`gear_${dev.tag}_4_planned.png`); await shot(`gear_${dev.tag}_4_planned_full.png`, true);
         // clear (confirm dismissed = nothing happens)
         const nd = dialogs.length; await ev(`document.querySelector('[data-gpclear]').click()`); await sleep(400);
-        ok('Clear asks first (dismissed = plan stays)', dialogs.length === nd + 1 && !!prefs()._class['46'].C.neck);
+        ok('Clear asks first (dismissed = plan stays)', dialogs.length === nd + 1 && !!prefs()._class['46'].C[manSlot]);
       } else {
         await ev(`document.querySelector('[data-gpclose]').click()`); await sleep(200);
         await ev('window.scrollTo(0, 0)'); await sleep(300);
@@ -411,7 +417,7 @@ function writeFixtures() {
           const vis = [...document.querySelectorAll('main > section')].filter(s => !s.hidden && s.offsetParent !== null);
           const els = vis.flatMap(s => [...s.querySelectorAll('*')]).filter(e => [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()) && !e.closest('svg') && e.offsetParent !== null);
           const sizes = {}; els.forEach(e => { const v = Math.round(parseFloat(getComputedStyle(e).fontSize)); sizes[v] = (sizes[v] || 0) + 1; });
-          const odd = els.filter(e => ![11, 12, 13, 14, 16, 20].includes(Math.round(parseFloat(getComputedStyle(e).fontSize)))).map(e => Math.round(parseFloat(getComputedStyle(e).fontSize)) + 'px ' + (e.id ? '#' + e.id : '') + (typeof e.className === 'string' && e.className ? '.' + e.className.split(' ')[0] : e.tagName.toLowerCase()) + ' "' + e.textContent.trim().slice(0, 24) + '"');
+          const odd = els.filter(e => ![11, 12, 13, 14, 15, 16, 20].includes(Math.round(parseFloat(getComputedStyle(e).fontSize)))).map(e => Math.round(parseFloat(getComputedStyle(e).fontSize)) + 'px ' + (e.id ? '#' + e.id : '') + (typeof e.className === 'string' && e.className ? '.' + e.className.split(' ')[0] : e.tagName.toLowerCase()) + ' "' + e.textContent.trim().slice(0, 24) + '"');
           const wide = vis.flatMap(s => [...s.querySelectorAll('table, pre, .box, .win, img, svg')]).filter(e => e.getBoundingClientRect().right > window.innerWidth + 2 && !e.closest('.leaflet-container, .scroll, .lgwrap, pre.log, .cp-igrid, .gp-grades, nav, .peers, .dmap, .tl, [style*="overflow"]')).map(e => (e.id ? '#' + e.id : e.tagName.toLowerCase() + (typeof e.className === 'string' && e.className ? '.' + e.className.split(' ')[0] : '')) + ' ' + Math.round(e.getBoundingClientRect().right));
           return { sizes, odd: [...new Set(odd)].slice(0, 12), oddN: odd.length, wide: [...new Set(wide)].slice(0, 6), hscroll: document.documentElement.scrollWidth > window.innerWidth + 1, n: els.length };
         })()`);

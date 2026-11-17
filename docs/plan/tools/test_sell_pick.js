@@ -145,7 +145,7 @@ const ids = (r) => r.list.map(x => x.id).sort((a, b) => a - b);
   ok(/data\.grades/.test(sr) && /sellAt\(npc, 'team sale', grades\)/.test(sr), 'sellrun uses the grades the leader sent');
   const tw = cut('function teamWantedIds() {', 1500);
   ok(/teamOf\(n\) !== mine/.test(tw) && /spBandOfLevel\(lp\.lvl\)/.test(tw), 'teammateWants: only my team, only its current band');
-  ok(/function sellCandidatesEx\(grades\)/.test(src) && /hostSnap\.inv\(\) \|\| Inventory/.test(cut('function sellBagRows() {', 600)), 'one host snapshot of the bag');
+  ok(/function sellCandidatesEx\(grades(?:, opts)?\)/.test(src) && /hostSnap\.inv\(\) \|\| Inventory/.test(cut('function sellBagRows() {', 600)), 'one host snapshot of the bag');
   ok(fs.existsSync(path.join(ROOT, 'Scripts', 'data', 'nosell_items.json')), 'Scripts/data/nosell_items.json exists (node docs/plan/tools/nosell_items.js)');
 }
 // ---- 9. replay over the REAL bags (informational; asserts only what must hold for any data)

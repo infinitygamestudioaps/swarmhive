@@ -22,7 +22,15 @@
     const p = party(leader), on = !!(p && p.on);
     const hold = !!(p && p.hold);   // HOLD-2026-11-04: the big "stand still and fight" button next to Start / Stop
     return `<button class="runsw ${on ? 'on' : 'off'}" data-runsw="party" data-name="${E(leader)}" data-on="${on ? 0 : 1}" title="${on ? 'Running — Stop: the party stops and does nothing on its own until Start' : 'Stopped — Start: switch the party on and start ' + E(p && p.plan ? p.plan.text : 'its activity')}">${on ? '■ Stop' : '▶ Start'}</button>`
-      + `<button class="runsw ${hold ? 'on' : 'off'}" data-holdsw="${E(leader)}" data-on="${hold ? 0 : 1}" style="font-weight:700" title="${hold ? 'HOLD is ON — click: normal automation again' : 'HOLD: the party stands still where it is and fights (no trips, teleports, pulls, hand-overs, jobs); healers keep healing'}">${hold ? '✋ HOLD ON' : '✋ HOLD'}</button>`;
+      + `<button class="runsw ${hold ? 'on' : 'off'}" data-holdsw="${E(leader)}" data-on="${hold ? 0 : 1}" style="font-weight:700" title="${hold ? 'HOLD is ON — click: normal automation again' : 'HOLD: the party stands still where it is and fights (no trips, teleports, pulls, hand-overs, jobs); healers keep healing'}">${hold ? '✋ HOLD ON' : '✋ HOLD'}</button>`
+      + partyHoffButton(leader, p);
+  }
+  /** PARTYHOFF-2026-11-17 (LuckyStrikz: "a button on a party to stop hive from taking control so I can do things manually, then turn hive back on"):
+   *  Hands off for every member of the party in one click; shown once the server sends handsOff */
+  function partyHoffButton(leader, p) {
+    const d = data(); if (!d || !d.handsOff || typeof d.handsOff !== 'object') return '';
+    const mem = (p && p.members && p.members.length) ? p.members : [leader], allHo = mem.every(n => d.handsOff[n]);
+    return `<button class="runsw ${allHo ? 'on' : 'off'}" data-runsw="partyhoff" data-name="${E(leader)}" data-on="${allHo ? 0 : 1}" title="${allHo ? 'Hive takes the whole party back' : 'Hive leaves every member of this party to you (your own orders still run)'}">${allHo ? '▶ Hive back on' : '✋ Hands off (party)'}</button>`;
   }
   /** the fixed-height state line under the party head */
   function partyLine(leader) {
@@ -93,6 +101,11 @@
         body: [uiP('Every party stops now and does ', uiEm('nothing on its own'), ' until you press Start. Survival, trades and your orders still work.'), uiList(ps.map(p => p.leader))],
         confirmText: '■ Stop all', cancelText: 'Cancel' });
     }
+    if (kind === 'partyhoff') {                                  // PARTYHOFF-2026-11-17
+      const p = party(name) || { members: [name] };
+      return uiConfirm(on ? { title: `Hands off party ${name}?`, body: [uiP(`Hive leaves every member of party ${name} (${(p.members || []).join(', ')}) alone until you press Hive back on. Your own orders still run.`), uiNote(HOFF_EXPLAIN)], confirmText: '✋ Hands off (party)', cancelText: 'Cancel' }
+        : { title: `Hive back on for party ${name}?`, body: [uiP(`Hands off ends for every member; the party's Start / Stop decides what it does again.`)], confirmText: '▶ Hive back on', cancelText: 'Cancel' });
+    }
     if (kind === 'handsoff') {                                   // HANDSOFF-2026-10-26
       return uiConfirm(on ? {
         title: `Hands off ${name}?`,
@@ -113,7 +126,7 @@
     if (BUSY) return; BUSY = true;
     try {
       if (!(await ask(kind, name, on))) return;
-      const body = kind === 'all' ? { all: true, on } : kind === 'party' ? { party: name, on } : kind === 'handsoff' ? { char: name, handsOff: !!on } : { char: name, on: on ? null : false };   // HANDSOFF-2026-10-26
+      const body = kind === 'all' ? { all: true, on } : kind === 'party' ? { party: name, on } : kind === 'partyhoff' ? { party: name, handsOff: !!on } : kind === 'handsoff' ? { char: name, handsOff: !!on } : { char: name, on: on ? null : false };   // HANDSOFF-2026-10-26
       const r = await call('/api/runstate', { method: 'POST', body: JSON.stringify(body) });
       if (!r || r.error) { uiError((r && r.error) || 'no answer from the dashboard server', 'Not switched'); return; }
       if (r.state) { OWN = r.state; OWNAT = Date.now(); try { if (typeof STATE !== 'undefined' && STATE) STATE.run = r.state; } catch (e) { } }

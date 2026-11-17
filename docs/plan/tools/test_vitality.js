@@ -49,7 +49,8 @@ console.log('2) vitalityMine on stubs');
       currentTownKey: () => opt.town === undefined ? 'Giran' : opt.town, snapNpcs: () => opt.npcs || [{ Name: 'Steve Shyagel', Title: "Eva's High Priest", X: 82792, Y: 149448, Z: -3472, ref: { Name: 'Steve Shyagel' } }],
       intent() { }, intentDone() { }, openNpc: async () => opt.page === undefined ? '<a action="bypass -h 00">Receive the Gift of Vitality</a>' : opt.page,
       npcLinks: (h) => /Gift of Vitality/.test(h) ? [{ cmd: '00', text: 'Receive the Gift of Vitality' }] : [], dlgPage: async (l) => { clicks.push(l.text); return opt.answer === undefined ? '<html>You have received the Gift of Vitality.</html>' : opt.answer; },
-      htmlText: (h) => String(h || '').replace(/<[^>]+>/g, ''), lastSysMsg: null, giranGo: async () => true
+      htmlText: (h) => String(h || '').replace(/<[^>]+>/g, ''), lastSysMsg: null, giranGo: async () => true,
+      errandStart() { }, errandEnd() { }, errandNow: () => false, isLeader: () => true   // 2026-11-17: the ERRAND helpers the vitality walk now uses
     };
     const names = Object.keys(env);
     const f = new Function(...names, PURE + '\n' + MINE + '\nreturn { vitalityMine, vitState };');

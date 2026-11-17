@@ -66,12 +66,18 @@ const G = new Function('num', fn('gdBestOffer') + '\n' + fn('gdPickOffers') + '\
     { objId: 8, id: 2386, name: 'Zubei Gauntlet', count: 1 }, { objId: 9, id: 2386, name: 'Zubei Gauntlet', count: 1, enchant: 5 } ];
   const rows = [{ objId: 1, id: 881, count: 1 }, { objId: 3, id: 2384, count: 1 }, { objId: 4, id: 2385, count: 1 }, { objId: 5, id: 1835, count: 2000, stack: true },
     { adena: true, objId: 6, count: 50000 }, { objId: 7, id: 1341, count: 3000, stack: true }, { objId: 8, id: 2386, count: 1 }];
-  const sp = X.xferSplit(rows, bag), xo = sp.xfer.map(r => r.objId).sort().join(), to = sp.trade.map(r => r.objId).sort().join();
-  check(xo === '3,5,6', 'hidden trade carries: the only piece of its id, stacks, adena', xo);
-  check(to === '1,4,7,8', 'normal trade window keeps: a ring with a twin, a plused piece, a worn stack, a piece whose twin is plused (the API picks by item id)', to);
-  check(JSON.stringify(X.xferArgs(sp.xfer)) === JSON.stringify([{ itemId: 2384, count: 1 }, { itemId: 1835, count: 2000 }, { itemId: 57, count: 50000 }]), 'TransferItems gets [{ itemId, count }] (adena = 57)');
+  // XFER2-2026-11-17 (3.12.7 JS Ref: items { itemId | objId, count? }, objId = one exact object): every listed, not-worn row goes in one call
+  const sp = X.xferSplit(rows, bag), xo = sp.xfer.map(r => r.objId).sort((a, b) => a - b).join(), to = sp.trade.map(r => r.objId).sort().join();
+  check(xo === '1,3,4,5,6,8', 'automatic trade carries every listed row that is not worn (exact objIds: a ring with a twin, the listed plused piece, stacks, adena)', xo);
+  check(to === '7', 'only the worn stack stays for the trade window', to);
+  check(JSON.stringify(X.xferArgs(sp.xfer)) === JSON.stringify([{ objId: 1 }, { objId: 3 }, { objId: 4 }, { objId: 5, count: 2000 }, { itemId: 57, count: 50000 }, { objId: 8 }]), 'TransferItems gets exact objIds (stacks with count), adena as itemId 57');
   const both = X.xferSplit([{ objId: 1, id: 881, count: 1 }, { objId: 2, id: 881, count: 1 }], bag);
-  check(both.xfer.length === 0, 'two pieces of one id are never sent by item id (exact pieces go through the window)'); }
+  check(both.xfer.length === 2 && both.trade.length === 0, 'two pieces of one id go together by their own objIds (no more one at a time)');
+  const gone = X.xferSplit([{ objId: 99, id: 881, count: 1 }], bag);
+  check(gone.xfer.length === 0 && gone.trade.length === 1, 'a row no longer in my bag is never sent blind'); }
+{ const xg2 = fn('xferGive');
+  check(/r = fn\(String\(d\.receiver\), args\)/.test(xg2) && !/fn\(Number\(pm\.objId\)/.test(xg2), 'XFER2: the target is the receiver\'s name (an objId is no valid TransferItems target)');
+  check(/i \* 250 < XFER\.waitMs/.test(xg2) && /waitMs: 60000/.test(src), 'XFER2: waits up to 60 s for the started trade before any own trade window'); }
 { const xh = fn('xferHost'), xg = fn('xferGive'), gi = fn('giveItems');
   check(/typeof TransferItems !== 'undefined' && TransferItems/.test(xh) && /if \(!XFER\.on \|\| now\(\) < XFER\.badUntil\) return null/.test(xh), 'feature-detected: no TransferItems (L2Swarm 3.10.10) = normal trade');
   const env = { XFER: { on: true, badUntil: 0 }, now: () => 1 };
@@ -79,7 +85,7 @@ const G = new Function('num', fn('gdBestOffer') + '\n' + fn('gdPickOffers') + '\
   check(xhRun(env) === null, 'an old host without TransferItems: xferHost() = null (falls back)');
   check(typeof xhRun(Object.assign({}, env, { TransferItems: () => true })) === 'function', 'a 3.11.3+ host with TransferItems: used');
   check(/const reach = await tradeApproach\(/.test(between('if (xferHost()) {', 'System message 142')) && /reach\.ok \? await xferGive\(/.test(gi), 'hidden trade only after tradeApproach says within reach (trade.md R2: never through a wall)');
-  check(/if \(!movedAny\(\)\) \{\s*try \{ r = fn\(String\(d\.receiver\), args\); how = 'name'; \}/.test(xg), 'a refused call is tried once by name, never a second call after something moved (no double give)');
+  check(/if \(!movedAny\(\) && d\.receiverAccountId\) \{\s*try \{ r = fn\(String\(d\.receiverAccountId\), args\); how = 'account id'; \}/.test(xg), 'a refused call is tried once by account id, never a second call after something moved (no double give)');
   check(/d\.items = xr\.left; chk = d\.items;/.test(gi) && /xferAll = true; endOk = true;/.test(gi), 'what the transfer did not move goes through the trade window; all moved = done without a window');
   check(/'swarm\.trade\.end', \{ giver: Me\.Name, tok, ok: endOk, xfer: xferAll \}/.test(gi) && /if \(d\.xfer && d\.ok && d\.giver\)/.test(src) && /XFER\.doneFrom\[String\(d\.giver\)\]/.test(fn('receiveItems')), 'the receiver\'s waiting session ends when the giver moved everything hidden'); }
 

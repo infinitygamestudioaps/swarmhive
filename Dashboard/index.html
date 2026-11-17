@@ -1890,7 +1890,9 @@ function ssgNow(s, t, h, everyMs) {
   let period = s.period, winner = s.winner || 'unknown';
   if (Math.abs(k) % 2 === 1) { period = s.period === 'competition' ? 'validation' : 'competition'; winner = 'unknown'; }
   else if (k > 0) winner = 'unknown';                                       // a later validation period: its winner is not known yet
-  return { period, winner: period === 'validation' ? winner : '', cycle: ssgCycleOf(period, t, h), stale: k > 0 || t - s.checkedAt > everyMs, nextChange: ssgNextChange(t, h) };
+  // SSWEEK-2026-11-17: a page that still showed LAST week's period right after the computed change (s.suspect, ssSaveState) is re-read after 30 min
+  const rc = k === 0 && !!s.suspect && t - s.checkedAt > 30 * 60000, st = k > 0 || t - s.checkedAt > everyMs || rc;
+  return { period, winner: period === 'validation' ? winner : '', cycle: ssgCycleOf(period, t, h), stale: st, recheck: rc, nextChange: ssgNextChange(t, h) };
 }
 function ssgSide(r, cycle) { r = r || {}; return r.cycle && r.cycle === cycle ? (/^(signed|member)$/.test(r.status || '') ? 'dawn' : r.status === 'dusk' ? 'dusk' : '') : ''; }
 function ssgOne(cur, m, kind, o) {
@@ -1908,6 +1910,9 @@ function ssgOne(cur, m, kind, o) {
     return R('signup', `competition period: ${n} is not signed up yet`);
   }
   // seal validation: nobody can sign up now
+  // SSWEEK-2026-11-17 (tester LuckyStrikz: "hive thinks cata/necros are closed but reopened today ... when the new week started it wanted to continue
+  // to say they were still closed"): a 'closed' read from an OLD / suspect priest page is never a week-long verdict - read the priest again first
+  if (cur.recheck && (!side || ((cur.winner === 'dawn' || cur.winner === 'dusk') && side !== cur.winner))) return R('check', `the priest still showed last week's period right after the Monday change — the Priest of Dawn is read again before ${n} is kept out`, 0, 'recheck');
   if (!side) return R('closed', `seal validation period: ${n} was not signed up in the last competition (nobody can sign up before the next competition)`, cur.nextChange, 'notsigned');
   if (cur.winner === 'dawn' || cur.winner === 'dusk') return side === cur.winner ? R('enter', `seal validation period: ${cur.winner} won and ${n} is ${side}`, 0, 'winner') : R('closed', `seal validation period: only the winners (${cur.winner}) may enter — ${n} is ${side}`, cur.nextChange, 'loser');
   return R('enter', `seal validation period (${cur.winner === 'none' ? 'no decisive winner' : 'winner not read yet'}); ${n} is ${side}`, 0, 'nowinner');
@@ -1963,6 +1968,7 @@ function ssgReason(g, cur) {
   if (c === 'signup') return `Not signed up yet: ${who(g.need || g.who)} — it is the competition week, so the leader takes them to the Priest of Dawn (free) first, then goes in.`;
   if (c === 'unknown') return 'Unknown: no character has read the Priest of Dawn\'s page this cycle yet — the leader reads it in a town first, then decides.';
   if (c === 'break') return 'Short Seven Signs break (15 minutes at the Monday change) — the leader reads the Priest of Dawn again, then decides.';
+  if (c === 'recheck') return 'Checking again: the Priest of Dawn still showed last week\'s period right after the Monday change — the leader reads the priest again before the party is kept out.';
   if (c === 'optin-check') return 'Seven Signs sign-up is switched off for this party (opt-in on the 7 Signs tab) and nobody has read the Priest of Dawn this cycle yet — enroll the party or press Sign up now on the 7 Signs tab.';
   if (c === 'optin') return `Not open for ${who(g.who)}: not signed up with the Lords of Dawn, and the Seven Signs sign-up is switched off for ${(g.who || []).length === 1 ? 'this character' : 'them'} — sign up on the 7 Signs tab (enroll, or Sign up now).`;
   if (c === 'notsigned') return `Closed this week: it is the Seven Signs validation period and ${who(same)} ${wasWere(same)} not signed up in the last competition — opens again ${nx} (next competition)${plus}.`;

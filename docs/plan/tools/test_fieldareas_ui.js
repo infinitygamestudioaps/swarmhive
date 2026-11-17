@@ -54,6 +54,8 @@ function patchState(j) {
   const ev = async (expr) => { const r = await cdp('Runtime.evaluate', { expression: expr, awaitPromise: true, returnByValue: true }); if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception ? r.exceptionDetails.exception.description : r.exceptionDetails.text); return r.result.value; };
   const waitFor = async (expr, ms = 15000) => { const t0 = Date.now(); while (Date.now() - t0 < ms) { try { if (await ev(expr)) return true; } catch (e) { } await sleep(150); } return false; };
   const posts = []; const dialogs = [];
+  // UNTILSTOP-2026-10-29: after the spot is saved the hunting timer posts too (/api/hunttimer) = take the spot POST itself, not the last POST
+  const spotPost = (from) => posts.slice(from).filter(p => /\/api\/partyspot/.test(p.url)).pop();
   handlers.push(async (m) => {
     if (m.method === 'Page.javascriptDialogOpening') { dialogs.push(m.params.message); cdp('Page.handleJavaScriptDialog', { accept: true }).catch(() => { }); }
     if (m.method !== 'Fetch.requestPaused') return;
@@ -126,8 +128,8 @@ function patchState(j) {
   for (const x of low) { await click(`#spotov polygon[data-area="${x}"]`); await sleep(150); }
   const nPost0 = posts.length;
   await click('[data-spkgo]');
-  for (let i = 0; i < 30 && posts.length === nPost0; i++) { await sleep(200); if (await ev(`!!document.getElementById('askov')`)) await click('#askov [data-ask="0"]'); }
-  const P = posts[posts.length - 1];
+  for (let i = 0; i < 30 && !spotPost(nPost0); i++) { await sleep(200); if (await ev(`!!document.getElementById('askov')`)) await click('#askov [data-ask="0"]'); }
+  const P = spotPost(nPost0);
   ok('Hunt -> POST /api/partyspot { kind: field, region, areaIds in order, order rotate } (intercepted, not saved)', P && /\/api\/partyspot/.test(P.url) && P.body.kind === 'field' && P.body.region === 'abandoned-camp' && JSON.stringify(P.body.areaIds) === JSON.stringify(low) && P.body.order === 'rotate' && P.body.party === PARTY,
     P ? JSON.stringify(P.body).slice(0, 200) : 'no POST');
   ok('a confirm dialog came first', dialogs.length >= 1 || await ev(`true`), dialogs.slice(-1)[0] ? dialogs.slice(-1)[0].slice(0, 120) : '(level dialog)');
@@ -151,8 +153,8 @@ function patchState(j) {
   await shot('phone_rooms');
   const nPost1 = posts.length;
   await click('[data-spkgo]');
-  for (let i = 0; i < 30 && posts.length === nPost1; i++) { await sleep(200); if (await ev(`!!document.getElementById('askov')`)) await click('#askov [data-ask="0"]'); }
-  const P2 = posts[posts.length - 1];
+  for (let i = 0; i < 30 && !spotPost(nPost1); i++) { await sleep(200); if (await ev(`!!document.getElementById('askov')`)) await click('#askov [data-ask="0"]'); }
+  const P2 = spotPost(nPost1);
   ok('Hunt in 2 rooms -> POST { kind rooms, roomId = the first, roomIds [2], order } (intercepted)', P2 && P2.body.kind === 'rooms' && P2.body.roomId === r1 && JSON.stringify(P2.body.roomIds) === JSON.stringify([r1, r2]) && !!P2.body.order, P2 ? JSON.stringify(P2.body).slice(0, 220) : 'no POST');
   // a single room keeps the OLD format (no roomIds)
   await waitFor(`!document.getElementById('spotov')`, 10000); await click(`[data-spotpick="${PARTY}"]`); await waitFor(`!!document.querySelector('[data-spmview="list"]') || !!document.querySelector('#spotov .spotlist')`, 15000); await click('[data-spmview="list"]');   /* SPOTMAP-2026-10-22: the picker opens on the map; these checks use the list */ await waitFor(`!!document.querySelector('#spotov .spotlist')`);
@@ -161,8 +163,8 @@ function patchState(j) {
   await waitFor(`document.querySelectorAll('#spotov polygon[data-room]').length > 5`, 10000);
   await click(`#spotov polygon[data-room="${r1}"]`); await sleep(200);
   const nPost2 = posts.length; await click('[data-spkgo]');
-  for (let i = 0; i < 30 && posts.length === nPost2; i++) { await sleep(200); if (await ev(`!!document.getElementById('askov')`)) await click('#askov [data-ask="0"]'); }
-  const P3 = posts[posts.length - 1];
+  for (let i = 0; i < 30 && !spotPost(nPost2); i++) { await sleep(200); if (await ev(`!!document.getElementById('askov')`)) await click('#askov [data-ask="0"]'); }
+  const P3 = spotPost(nPost2);
   ok('one room -> the old single-room format (roomId, no roomIds)', P3 && P3.body.kind === 'rooms' && P3.body.roomId === r1 && !P3.body.roomIds, P3 ? JSON.stringify(P3.body).slice(0, 160) : 'no POST');
   await ev(`closeSpotPicker()`).catch(() => { });
   // ---- party map: rotation ----

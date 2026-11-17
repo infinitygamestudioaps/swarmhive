@@ -77,7 +77,7 @@ const LIVE0 = Object.fromEntries(LIVE.map(f => [f, rd(f)]));
 
   // ---- build: level step with a chosen place
   await click('#ppBody [data-ppact="add"]');
-  ok('add: the 8 step kinds', await waitFor(`document.querySelectorAll('#ppBody [data-ppkind]').length === 8`, 5000));
+  ok('add: the 9 step kinds (ACADEMY-2026-10-21: + academy)', await waitFor(`document.querySelectorAll('#ppBody [data-ppkind]').length === 9 && !!document.querySelector('#ppBody [data-ppkind="academy"]')`, 5000));
   await shot('02_kinds_phone');
   await click('#ppBody [data-ppkind="level"]');
   await setVal('#ppBody [data-ppf="to"]', '20');

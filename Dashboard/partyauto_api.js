@@ -279,6 +279,10 @@ function applyChange(data, b) {
     }
     if (Object.keys(P).length) J.parties[party] = P; else delete J.parties[party];
   }
+  if (b.supplyMode !== undefined) {   // SUPPLYDAILY-2026-11-17: 'daily' = at most one automatic supply run per 24 h; null / 'low' = whenever someone runs low
+    if (!(b.supplyMode === null || b.supplyMode === 'low' || b.supplyMode === 'daily')) errors.push('supplyMode: low, daily or null');
+    else { const P = Object.assign({}, obj(J.parties[party])); if (b.supplyMode === 'daily') P.supplyMode = 'daily'; else delete P.supplyMode; if (Object.keys(P).length) J.parties[party] = P; else delete J.parties[party]; }
+  }
   if (b.pshop !== undefined) {   // PSHOP-2026-10-15: this party's whole player-shop table (null = removed: the all-parties table / OFF)
     const t = pshopIn(b.pshop, errors);
     if (t !== undefined) { const P = Object.assign({}, obj(J.parties[party])); if (t) P.pshop = t; else delete P.pshop; if (Object.keys(P).length) J.parties[party] = P; else delete J.parties[party]; }

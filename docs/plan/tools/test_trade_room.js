@@ -70,7 +70,7 @@ check(/errandNow\(\)/.test(rgf), 'dungeon centreline follow waits for the errand
 check(/errandNow\(\)/.test(ch), 'come-here waits for the errand');
 check(/errandNow\(\)/.test(ab), 'assist waits for the errand');
 check(/if \(errandNow\(\)\) \{ stuckFollow\.since = 0; return; \}/.test(src), 'back-to-the-middle / stuck follow waits for the errand');
-check(/if \(errandNow\(\)\) return;[^\n]*\n\s*if \(!IsEnabled\) EnableBot\(\);/.test(src), 'Fight-with-L2Swarm keeper never re-enables the bot during an errand');
+check(/if \(errandNow\(\)\) return;[^\n]*\n(?:\s*if \([^\n]*\) return;[^\n]*\n)*\s*if \(!IsEnabled\) EnableBot\(\);/.test(src),'Fight-with-L2Swarm keeper never re-enables the bot during an errand');
 check(/DLV\.on \|\| errandNow\(\)\) \{ lb\.since = 0; return; \}/.test(src), 'left-behind trip waits for the errand');
 check(/errandStart\('buy'/.test(src), 'a member\'s gear-shopping errand (swarm.gearup) is an errand too');
 

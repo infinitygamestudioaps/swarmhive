@@ -140,7 +140,7 @@
       // SUPPLYAMT 2026-10-14: how much each character carries per level band (strings while typing; '' = the all-parties / built-in amount)
       const PA = obj(obj(obj(d.parties)[L]).amounts), amt = {};
       amtBands().forEach(b => { const r = obj(PA[String(b.start)]); amt[b.start] = {}; amtKeys().forEach(k => { amt[b.start][k.key] = isSet(r[k.key]) ? String(r[k.key]) : ''; }); });
-      W.supplies = { party, chars, amt, allToo: false };
+      W.supplies = { party, chars, amt, allToo: false, supplyMode: P.supplyMode === 'daily' ? 'daily' : '' };   // SUPPLYDAILY-2026-11-17
       W.supplies.pshop = pshopModel(d, L);   // PSHOP-2026-10-15: shots from player shops (strings while typing)
       // HIVESW-2026-10-15: Combat (null = no own setting: the all-parties setting / like the party)
       const cp = {}, cc = {};
@@ -348,7 +348,8 @@
       ${seg('money.gmode', m.gmode, [['collector', 'Collector'], ['list', 'Only chosen'], ['none', 'Nobody']].concat(m.gmode === 'auto' ? [['auto', 'Any rich leader (old)']] : []), 'Givers')}
       ${giverPick}
       <div class="ps-grid">${inp('money.keep', m.keep, 'A giver always keeps at least', { ph: fmtN(d.keep) + ' (default)' })}</div>
-      <details class="ps-more"><summary>Per character</summary><div class="ps-grid">${PS.M.map(n => inp('money.chars.' + n, m.chars[n] || '', n + (n === PS.leader ? ' (leader)' : ''), { ph: 'party amount', hint: '0 = never receives', small: true })).join('')}</div></details>
+      <details class="ps-more"${PS.M.some(n => m.chars[n]) ? ' open' : ''}><summary>Per character target (wins over the "Top up" amounts above — the same values as the Adena page)</summary><div class="ps-grid">${PS.M.map(n => inp('money.chars.' + n, m.chars[n] || '', n + (n === PS.leader ? ' (leader)' : ''), { ph: 'party amount', hint: '0 = never receives', small: true })).join('')}</div>
+        <div class="ps-what">How it works: a character of this party is topped up to ITS OWN target when one is set here, else to "Top up the leader to" / "Top up each member to". Empty = the party amount. (MONEYTEXT-2026-11-17, tester Vykaax: "What's the top up setting compared to the per character?")</div></details>
       </div>
       <div class="ps-acts">${quick('!collect', 'Collect adena to the leader', 'Collect spare adena to the leader now', 'Members keep 2M / 2.5M / 3M by level; the rest goes to the leader')}${link('#/adena', 'Adena page (all parties)')}</div>
       ${adv(note('File: Scripts/data/fund_rules.json — parties.' + E(PS.leader) + '.purse (on, leaderKeep, memberCap, budget = Leader pays), memberKeep (pocket money by level, shared), parties.' + E(PS.leader) + ' (receive, targets, givers = who may give to this party; missing = the shared givers), chars.<member>.target, givers (shared), on (shared). Amounts accept 8m / 300k / 8,000,000. Order: !purse give <name|all>.'))}`;
@@ -398,7 +399,9 @@
       // RESUPOPT-2026-10-27 (owner: "Make the resupply optional"): default ON; off = this path buys nothing by itself (a note says so), your orders still buy
       if (/^(circuitResupply|dpScrolls|missionSupplies)$/.test(k.key)) offTxt = (own ? 'Off' : 'Off (the setting for all parties)') + ' — nothing is bought here by itself (a note says so); your orders still buy.';
       const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="supplies.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
-      return item(sw('supplies.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset + allLine('supplies', k.key, eff, d));   // ALLPARTIES
+      // SUPPLYDAILY-2026-11-17 (LuckyStrikz): how often the automatic supply run may go
+      const how = k.key === 'supplyWatch' && eff ? sel('supplies.supplyMode', s.supplyMode || '', [['', 'Whenever someone runs low (at most every 30 min)'], ['daily', 'Once a day (shots that really ran out may still trigger one)']], 'How often') : '';
+      return item(sw('supplies.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset + allLine('supplies', k.key, eff, d) + how);   // ALLPARTIES
     }).join('');
     const ck = K.filter(k => k.char);
     const rows = PS.M.map(n => { const c = s.chars[n] || {};
@@ -1135,6 +1138,7 @@
       supKinds().forEach(k => { if (a.party[k.key] !== b.party[k.key]) values[k.key] = b.party[k.key]; });
       PS.M.forEach(n => supKinds().filter(k => k.char).forEach(k => { const x = (a.chars[n] || {})[k.key], y = (b.chars[n] || {})[k.key]; if (x !== y) (chars[n] = chars[n] || {})[k.key] = y === undefined ? null : y; }));
       const body = { party: PS.leader, values, chars, rev: fresh.rev, by: 'party settings' };
+      if ((a.supplyMode || '') !== (b.supplyMode || '')) body.supplyMode = b.supplyMode || null;   // SUPPLYDAILY-2026-11-17
       const t = amtTable(b.amt); if (J(t) !== J(amtTable(a.amt))) body.amounts = t;   // SUPPLYAMT 2026-10-14
       if (b.allToo) body.defaultAmounts = t;
       if (b.defs && Object.keys(b.defs).length) body.defaultValues = Object.assign({}, b.defs);   // ALLPARTIES-2026-10-23

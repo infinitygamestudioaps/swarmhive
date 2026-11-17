@@ -69,6 +69,9 @@
     { key: 'recommend', group: 'fight', title: 'Recommend each other', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['recommend'],   // RECOMMEND-2026-10-23
       what: 'Once a minute, out of combat, each character recommends the teammate near it with the fewest recommendations, up to 255.',
       switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
+    { key: 'partyBuff', group: 'fight', title: 'Support buffs the whole party', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['partyBuff'],   // PARTYBUFF-2026-11-06
+      what: 'When on, the party\'s doomcryer / warcryer (else a healer) out of combat gives the whole party the fighter buffs at once (Buff Party), at most every 5 minutes; off (the default) everyone takes its own buffs.',
+      switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
     { key: 'spotLevelCheck', group: 'level', title: 'Ask before a spot above our level', gate: 'switch', def: 'off', eval: 'pauto', pauto: ['spotLevelCheck'],   // SPOTCHOICE-2026-10-23
       what: 'When on, the party waits for your OK before hunting a spot you chose above its level; off (the default) it goes there and warns in party chat.',
       switch: 'party Settings → Combat', where: { label: 'Combat settings', settings: 'combat' } },
@@ -83,7 +86,7 @@
       switch: 'party Settings → Fighting', where: { label: 'Fighting settings', settings: 'fight' } },
     // ------------------------------------------------------------------------------------------------ leveling / moving
     { key: 'leveling', group: 'level', title: 'Leveling', gate: 'start', def: 'off', eval: 'leveling',
-      kinds: ['leveling', 'watchdog', 'watchdog leveling', 'resume', 'leveling after an automatic pause'],
+      kinds: ['leveling', 'level', 'watchdog', 'watchdog leveling', 'resume', 'leveling after an automatic pause'],
       what: 'Hunts at the spot you chose (or picks one for the party\'s level) and starts again by itself after an idle pause or a restart.',
       switch: 'Start on the party card (+ the hunting spot: Choose…)', where: { label: 'Party card', card: true } },
     { key: 'hunttimer', group: 'level', title: 'Hunting timer', gate: 'start', def: 'off', eval: 'hunttimer',
@@ -197,6 +200,9 @@
     { key: 'clanSkills', group: 'clan', scope: 'clan', title: 'Clan skills', gate: 'start', def: 'on', eval: 'clan', clan: ['skillLearn', 'skillFocus'],
       what: 'The clan leader learns the next clan skill when the reputation is there (and can pick which one by itself).',
       switch: 'Clan tab → Runs by itself', where: { label: 'Clan tab', hash: '#/clan' } },
+    { key: 'clanAcademy', group: 'clan', scope: 'clan', title: 'Academy invites', gate: 'start', def: 'on', eval: 'clan', clan: ['academyAuto'],   // CLANTABS-2026-10-30
+      what: 'The clan leader invites our own characters below level 40 that are not in the clan into the Academy when they stand next to him.',
+      switch: 'Clan tab → Academy', where: { label: 'Clan tab', hash: '#/clan' } },
   ];
   const GATE_TEXT = { always: 'always on', start: 'needs Start', switch: 'own switch', order: 'your order', manual: 'never automatic' };
   const byKey = {}; E.forEach(e => { byKey[e.key] = e; });

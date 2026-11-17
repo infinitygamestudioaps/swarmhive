@@ -21,10 +21,12 @@ ok(D('tradepage.js').includes('ids, items, adena }') && D('tradepage_api.js').in
 ok(/SAJUNK-2[^\n]*/.test(src) && src.includes("if (Number(b.enchant) > 0 || (gi && / - /.test(String(gi.n || ''))"), 'SAJUNK-2: never-store sale skips enchanted / SA pieces');
 
 // STOPTRIP
-ok(src.includes("const stale = (where) => { if (autoLvl.stop || leadPaused() || !runOnOrCollector())"), 'STOPTRIP: the trip ends at the next step after Stop');
+// POWERLEVEL-2026-11-03: the power-level healer's own trip (spot.plHeal) ignores only ITS leveling stop; leadPaused / run off still end it
+ok(/const stale = \(where\) => \{ if \(\(?autoLvl\.stop(?: && !\(spot && spot\.plHeal\)\))? \|\| leadPaused\(\) \|\| !runOnOrCollector\(\)\)/.test(src), 'STOPTRIP: the trip ends at the next step after Stop');
 ok(src.includes("if (stale('before the way in')) return false;"), 'STOPTRIP: checked before the dungeon / room way in');
 ok(src.includes("globalThis.__spotTripAt = now();") && src.includes("pstEnd('travel'); globalThis.__spotTripAt = 0;") && src.includes('(globalThis.__spotTripAt && now() - globalThis.__spotTripAt < 1800000)'), 'STOPTRIP: no automatic supply run starts during a spot trip');
-ok((src.match(/if \(supStopped\('/g) || []).length === 3, 'STOPTRIP: the supply run stops after the Giran regroup, before the grocer, before the hand-out');
+// STOPWALK-2026-11-04 added a 4th check ('on the way to the grocer'); the three original ones must stay
+ok((src.match(/if \(supStopped\('/g) || []).length >= 3 && ['after the Giran regroup', 'before the grocer', 'before the hand-out'].every(w => src.includes(`if (supStopped('${w}')) return 'stopped';`)),'STOPTRIP: the supply run stops after the Giran regroup, before the grocer, before the hand-out');
 
 // OWNFIGHT
 // OWNSTALL-2026-10-29: the step-aside now also checks that L2Swarm's target is the attacker and that it swings (window 600 -> 600 + the OWNSTALL block)

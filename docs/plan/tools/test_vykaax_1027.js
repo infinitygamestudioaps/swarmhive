@@ -93,7 +93,7 @@ function world(o) {
 }
 { // the member loop source: no StopCombat left in it
   check(!/StopCombat\(\)/.test(cb), 'the Fight-with-L2Swarm member loop contains no StopCombat any more');
-  check(/function stopCombatG\(why\) \{ if \(NNAV\) NNAV\.wantCombat = false; try \{ if \(IsInCombat\) combatStopSay\(why\); \} catch \(e\) \{ \} return StopCombat\(\); \}/.test(src), 'stopCombatG names its reason only when a combat really ran');
+  check(/function stopCombatG\(why\) \{[\s\S]{0,400}?if \(NNAV\) NNAV\.wantCombat = false; try \{ if \(IsInCombat\) combatStopSay\(why\); \} catch \(e\) \{ \} return StopCombat\(\);\s*\}/.test(src),   /* SWARMKEEP added a keep-decision line first */ 'stopCombatG names its reason only when a combat really ran');
 }
 { // deadlockFixed on 3.10.x (UISAFE / hiveOwnCombat need it): version.txt is never rewritten by L2Swarm's updater
   const V = src.slice(src.indexOf('let fixesDllSeen = null'), src.indexOf('function v4Patch()')) + fnBody('function deadlockFixed()');

@@ -62,7 +62,7 @@ ok(Z.zoneHoldRest({ hold: false, sitting: true, byHold: true, hp: 70, mp: 50 }) 
 ok(Z.zoneHoldRest({ hold: false, sitting: true, byHold: false, hp: 30, mp: 50 }) === '', 'a normal low-HP rest is not touched by the hold');
 
 // ---- zoneSpot: a drawn zone is not scaled, not split ----
-const zs = piece('function zoneSpot(z, level, why) {', '\n}\n') + '\n}';
+const zs = piece('function zoneSpot(z, level, why, opt) {', '\n}\n') + '\n}';   // STAYSHARE-2026-11-13: 4th parameter opt ({ stay })
 const envZ = { roomSpot: () => null, zoneDungeonOf: () => '', dungeonRooms: () => [], zoneAreaSpot: () => { throw new Error('a drawn zone must not become field areas'); },
   zoneSubAreas: () => ({ radius: 1500, areas: [{ x: 1, y: 1 }, { x: 2, y: 2 }] }), areaTaken: () => '', zoneShared: () => [], spotBlock: () => '', num: Number,
   autoLvl: { spot: null }, zonePolyInner: Z.zonePolyInner };
@@ -88,7 +88,8 @@ const envH = { now: () => T, num: Number, Me: { Level: 22 }, soloChar: () => fal
   npcLevel: () => 22, autoLvl, nearPolygon: (x, y, P, m) => Z.zpNear(x, y, P, m), inPolygon: (x, y, P) => Z.zpIn(x, y, Z.zpPts(P)), foreignTagged: () => false, geoBlockedAt: () => false,
   soloPullOk: () => ({ ok: true }), SOLOSAFE: {}, soloSafe: {}, note: () => { },
   inRaid: () => false, isRaidBossMob: () => false, minionNames: () => [], canSee: () => true,   // RAIDKEEP / WALLSIGHT 2026-10-24
-  tightGroup: () => false, isLeader: () => false, TIGHT: { pullOthers: 1 } };                 // TIGHTBALL 2026-11-03: not a caster ball here
+  tightGroup: () => false, isLeader: () => false, TIGHT: { pullOthers: 1 },                  // TIGHTBALL 2026-11-03: not a caster ball here
+  soloRoomAll: () => false, plLevelerOn: () => false, rkKnownBosses: () => [], skipSayText: () => '' };   // SWARMKEEP / POWERLEVEL / RAIDKEEP-KNOWN / SKIPSAY: off here
 const H = new Function(...Object.keys(envH), ht + '\nreturn { huntTarget, huntSkip };')(...Object.values(envH));
 mobs.push(mk(1, C.x + 1500, C.y), mk(2, C.x, C.y + 1200));      // outside the polygon, inside the old x3 circle (2100)
 ok(H.huntTarget(C.x, C.y, 700 * 3) === null, 'empty polygon: monsters OUTSIDE it (even inside the old x3 circle) are never targets');
@@ -132,6 +133,7 @@ ok(R.inHuntRoom({ X: C.x + 100, Y: C.y, Z: -3100 }) && !R.inHuntRoom({ X: C.x + 
     lastAttackerOnMe: { at: 0 }, rest: { sitting: false }, Me: { get HpPercent() { return hp; }, get MpPercent() { return mp; } },
     soloRestClear: () => true, stopCombatG: () => { }, toggleOffOne: () => false,
     RunCommand: (c) => { if (c === '/sit') calls.sit++; if (c === '/stand') calls.stand++; },
+    sitDown: () => { calls.sit++; }, standUp: () => { calls.stand++; },   // SITTOGGLE: the hold now sits / stands through sitDown / standUp (sitSet -> RunCommand)
     huntTarget: () => { htCalls++; return tgtAfter && htCalls >= tgtAfter ? { objId: 9 } : null; },
   };
   const Mod = new Function(...Object.keys(env), hs + '\nreturn { zoneHoldStep, zoneHoldEnd, ZHOLD };')(...Object.values(env));

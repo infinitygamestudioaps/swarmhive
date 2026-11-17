@@ -140,8 +140,7 @@ fs.writeFileSync(path.join(SB, 'Logs', 'memwatch_alert.json'), '﻿' + JSON.stri
     .some(f => { try { return fs.readFileSync(path.join(SB, fs.existsSync(path.join(SB, 'Logs', f)) ? 'Logs' : path.join('Scripts', 'data'), f), 'utf8').includes(pw); } catch (e) { return false; } });
   ok('#3 the password is in no log / data file', !leak);
   const clan = await (await fetch(U('/api/clan'))).json();
-  ok('#4 clan roster filled although clan_state.clan.name is blank', (clan.roster || []).length === 7, `${(clan.roster || []).length} members`);
-  const sys = await (await fetch(U('/api/system'))).json();
+  ok('#4 clan roster filled although clan_state.clan.name is blank', (clan.roster || []).length === 7, `${(clan.roster || []).length} members`);  const sys = await (await fetch(U('/api/system'))).json();
   ok('#11 PC limits are read from the scripts (15 min gap, no deploy restart, commit rule; warn 10 GB on RAINBOW 2026-10-24)', sys.limits && sys.limits.source === 'scripts' && sys.limits.deployGapMin === 15 && sys.limits.deployRestarts === false && sys.limits.minCommitMB === 3000 && sys.limits.warnMB === 10000, JSON.stringify(sys.limits));
   const gc = await (await fetch(U('/api/gearcatalog?role=dagger&grade=C&all=1'))).json();
   ok('#12 gear roles include nuker + dagger', (gc.roles || []).some(r => r.key === 'nuker') && (gc.roles || []).some(r => r.key === 'dagger'), (gc.roles || []).map(r => r.key).join(','));
@@ -264,9 +263,12 @@ fs.writeFileSync(path.join(SB, 'Logs', 'memwatch_alert.json'), '﻿' + JSON.stri
   ok('#6 teleport prices read "9400 adena", no literal &#57;', chips.includes('Town of Oren - 9400 adena') && !chips.some(t => /&#|&amp;/.test(t)), chips.join(' | '));
 
   // #4 Clan roster in the page
-  await cdp('Page.navigate', { url: U('/#/clan') });
-  const hasRoster = await waitFor(`[...document.querySelectorAll('#tab-clan h2')].some(h => /Clan roster/.test(h.textContent)) && /7 \\/|7 members/.test(document.getElementById('tab-clan').innerText)`, 20000);
-  ok('#4 clan roster shows the 7 members', hasRoster, await ev(`(([...document.querySelectorAll('#tab-clan .whead')].find(h => /Clan roster/.test(h.textContent)) || {}).innerText || '').replace(/\\s+/g, ' ')`).catch(e => e.message));
+  // CLANTABS-2026-10-30: the roster is the Squads tab ("Members & squads": "<n> / <limit> members", one row per member)
+  await cdp('Page.navigate', { url: U('/#/clan/squads') });
+  await waitFor(`!!document.querySelector('#tab-clan [data-cpxtab="squads"]')`, 20000);
+  await ev(`(() => { const b = document.querySelector('#tab-clan [data-cpxtab="squads"]'); if (b && !b.classList.contains('on')) b.click(); return true; })()`);
+  const hasRoster = await waitFor(`/\\b7<\\/b> \\/ \\d+ members|\\b7 \\/ \\d+ members/.test(document.getElementById('tab-clan').innerHTML)`, 20000);
+  ok('#4 clan roster shows the 7 members', hasRoster, await ev(`((document.querySelector('#tab-clan .csq-h') || {}).innerText || 'no squads view').replace(/\\s+/g, ' ')`).catch(e => e.message));
 
   // #7 daily boxes: "Party <leader>" for every party
   const dh = await ev(`(async () => { const d = await api('/api/daily'); const box = document.createElement('div'); box.innerHTML = dailyHtml(d); return [...box.querySelectorAll('h3')].map(h => h.textContent.trim()); })()`);

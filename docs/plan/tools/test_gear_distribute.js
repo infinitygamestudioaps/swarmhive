@@ -142,7 +142,11 @@ function host(o) {
   const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'gearpass-')); process.env.SWARM_GEARAUTO_FILE = path.join(TMP, 'gear_auto.json');
   delete require.cache[require.resolve(path.join(ROOT, 'Dashboard', 'gearauto_api.js'))];
   const API = require(path.join(ROOT, 'Dashboard', 'gearauto_api.js'));
-  const ctx = { DATA: TMP, ROOT, LOGS: TMP };
+  // 2026-11-17: own fixture roster (the live swarm.config.json may have every account switched off - all characters on Hive)
+  const FROOT = path.join(TMP, 'root'); fs.mkdirSync(path.join(FROOT, 'docs', 'plan', 'tools'), { recursive: true });
+  fs.copyFileSync(path.join(ROOT, 'docs', 'plan', 'tools', 'manual_guard.js'), path.join(FROOT, 'docs', 'plan', 'tools', 'manual_guard.js'));
+  fs.writeFileSync(path.join(FROOT, 'swarm.config.json'), JSON.stringify({ accounts: [{ character: 'Distone', party: 'Distone' }, { character: 'Distwo', party: 'Distone' }, { character: 'Distoff', party: 'Distone', enabled: false }] }));
+  const ctx = { DATA: TMP, ROOT: FROOT, LOGS: TMP };
   const SF = path.join(TMP, 'gear_sources.json');
   const names = [].concat(...(API.info(ctx).parties || []).map(p => p.members.map(m => m.name)));
   ok(names.length >= 2, 'API: swarm.config.json has characters to use as distributors', names.length);

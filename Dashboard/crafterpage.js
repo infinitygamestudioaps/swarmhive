@@ -88,6 +88,10 @@
         ${d.total.filter(t => t.need > 0).map(t => `<tr><td>${img(t.id)}${h(t.name)}</td><td>${fmt(t.need)}</td><td>${fmt(t.have)}</td><td${t.missing ? ' class="cfp-mat miss"' : ''}>${fmt(t.missing)}</td></tr>`).join('') || '<tr><td colspan="4" class="muted">No shortfall — nothing needed.</td></tr>'}</table></div>
       <div class="muted">Crystals come from crystallizing (Storage page marks); Soul Ore / Spirit Ore from loot and shops.</div>
       ${runnerBox(d)}
+      <h3>Town role</h3>
+      <div class="cfp-row"><label>Characters that stay in their town (shot crafters, distributors): <input type="text" id="cfTownRole" style="width:28em" value="${h((d.townRole || []).join(', '))}" placeholder="names, comma separated"></label>
+        <button type="button" data-cftownrole="1">Save</button></div>
+      <div class="muted">They never level, never go on a supply run and never follow their party out of town; crafting, distributing, trades, selling and your own orders still run - whether their party is started or stopped. (TOWNROLE, Discord: shot crafters went leveling on Start)</div>
       <h3>Clan bank</h3>
       <div class="cfp-row"><span>income <b>${fmt(sum.income)}</b></span><span>spending <b>${fmt(sum.spending)}</b></span><span>net <b>${fmt(sum.net)}</b></span><span>${sum.rows} ledger rows</span></div>
       ${line(d.balance)}
@@ -97,24 +101,17 @@
   }
   // CRAFTRUN-2026-11-01 (owner: "the collector role now can run to parties and collect items, letters, materials and refill them with soulshots,
   // blessed spiritshots"): the runner - who it is, its switch, where it is, its queue; and the clan warehouse worker (the crafter takes out itself)
+  // RUNNERTAB-2026-11-17 (tester Vykaax: "this section of runner settings is under the Crafter tab instead of the Runner tab, and it has some of the
+  // same buttons (wouldn't need the duplication)"): the Crafter page shows one summary line + a link; the switches live on the Runner tab only
   function runnerBox(d) {
     const R = d.runner || {}, q = Array.isArray(R.queue) ? R.queue : [];
-    return `<h3>Runner (supplies out, loot back)</h3>
-      <div class="cfp-row"><span>Runner <b>${h(R.name || 'none set')}</b>${R.name && (d.roleKnown || {}).runner === false ? ' <span class="cfp-pill bad">not a character of this install</span>' : ''}</span>
-        <span class="cfp-pill ${R.on && R.name ? 'ok' : 'bad'}">${R.on && R.name ? 'ON: parties call it instead of a supply run' : 'OFF: parties still do their own supply runs'}</span>
-        ${R.name ? `<button type="button" data-cfrunon="${R.on ? '0' : '1'}">${R.on ? 'Switch the runner OFF' : 'Switch the runner ON'}</button>` : ''}
-        <button type="button" data-cfrunner="1">${R.name ? 'Change runner' : 'Pick the runner'}</button></div>
-      ${R.name ? `<div class="cfp-row"><span>Runner walks in everywhere (stealth): Silent Move on the whole trip, no level limit (OFF: no monster above its level + 5 - a member meets it at the landing)</span>
-        <span class="cfp-pill ${R.runnerStealth !== false ? 'ok' : 'bad'}">${R.runnerStealth !== false ? 'ON' : 'OFF'}</span>
-        <button type="button" data-cfstealth="${R.runnerStealth !== false ? '0' : '1'}">${R.runnerStealth !== false ? 'Stealth OFF' : 'Stealth ON'}</button></div>` : ''}
-      ${R.name ? `<div class="cfp-row"><span>Rotation (no call waiting): visits the farming parties and brings their drops to the bank</span>
-        <span class="cfp-pill ${R.rotateOn !== false ? 'ok' : 'bad'}">${R.rotateOn !== false ? 'ON' : 'OFF'}</span>
-        <button type="button" data-cfroton="${R.rotateOn !== false ? '0' : '1'}">${R.rotateOn !== false ? 'Rotation OFF' : 'Rotation ON'}</button>
-        <label>each party at most every <input type="number" id="cfRotMin" min="10" max="1440" step="5" value="${h(String(R.rotateMin || 60))}" style="width:5em"> min</label>
-        <button type="button" data-cfrotmin="1">Save</button></div>` : ''}
-      ${R.name && R.at ? `<div class="muted">${h(R.name)} ${R.town ? 'in ' + h(R.town) : 'in the field'} · ${h(R.state || '')}${R.cur ? ' · serving ' + h(R.cur) : ''} · seen ${h(String(R.at).slice(11, 16))}</div>` : ''}
-      ${q.length ? `<div class="cfp-scroll"><table><tr><th>Party</th><th>Out of shots</th><th>Called</th></tr>${q.map(c => `<tr><td>${h(c.party)}</td><td>${c.out ? 'yes' : ''}</td><td>${h(String(c.at).slice(11, 16))}</td></tr>`).join('')}</table></div>` : '<div class="muted">No party waiting for the runner.</div>'}
-      <div class="muted">Clan warehouse: ${R.cwhWithdraw !== false ? `<b>${h(d.crafter)}</b> takes the Storage page's sell / crystallize marks out himself, sells and crystallizes them` : 'the clan leader takes the marks out'}. Shots cost the NPC price, paid by the party leader to the bank${Object.keys(R.pays || {}).length ? ' (free for: ' + h(Object.keys(R.pays).join(', ')) + ')' : ''}.</div>`;
+    return `<h3>Runner</h3>
+      <div class="cfp-row"><span>Runner <b>${h(R.name || 'none set')}</b></span>
+        <span class="cfp-pill ${R.on && R.name ? 'ok' : 'bad'}">${R.on && R.name ? 'ON' : 'OFF'}</span>
+        <span class="muted">${q.length ? q.length + ' part' + (q.length === 1 ? 'y' : 'ies') + ' waiting' : 'no party waiting'}</span>
+        <button type="button" data-cfrunner="1">${R.name ? 'Change runner' : 'Pick the runner'}</button>
+        <a href="#/runner">Runner settings (switch, stealth, rotation, queue) are on the Runner tab</a></div>
+      <div class="muted">Clan warehouse: ${R.cwhWithdraw !== false ? `<b>${h(d.crafter)}</b> takes the Storage page's sell / crystallize marks out himself, sells and crystallizes them` : 'the clan leader takes the marks out'}.</div>`;
   }
   async function runnerSet(body, msg) {
     let r = null; try { r = await api('/api/crafterpage', { method: 'POST', body: JSON.stringify(Object.assign({ action: 'settings' }, body)) }); } catch (e) { r = { error: e.message }; }
@@ -192,6 +189,7 @@
     if ((b = g('[data-cfcraft]'))) { craft(b.dataset.cfcraft); return; }
     if ((b = g('[data-cfsell]'))) { sell(b.dataset.cfsell); return; }
     if (g('[data-cfrunner]')) { pickRunner(); return; }
+    if (g('[data-cftownrole]')) { const el = document.getElementById('cfTownRole'); const names = String((el && el.value) || '').split(/[\s,;]+/).map(x => x.trim()).filter(Boolean); runnerSet({ townRole: names }, names.length ? 'Town role: ' + names.join(', ') : 'Town role: nobody'); return; }   // TOWNROLE-UI-2026-11-17
     if ((b = g('[data-cfrole]'))) { rolePick(b.dataset.cfrole); return; }   // PICKALL-2026-11-10: Change bank / Change crafter
     // RUNNERROTATE-2026-11-03: the runner's rotation through the farming parties
     if ((b = g('[data-cfstealth]'))) { const on = b.dataset.cfstealth === '1'; runnerSet({ runnerStealth: on }, on ? 'Stealth ON: the runner walks in to every party, Silent Move on the whole trip' : 'Stealth OFF: the runner keeps the level limit (a member meets it at the landing)'); return; }   // RUNNERSTEALTH-2026-11-03

@@ -14,7 +14,7 @@ const H = new Function(PURE + '\nreturn { NEWBIE_NOTRADE, hovNtCounts };')();
 // 1) reading
 const hn = src.slice(src.indexOf('function hovNotrade()'), src.indexOf('function hovNotrade()') + 2200);
 ok(/NEWBIE_NOTRADE\.forEach\(id => hovNT\.add\(id\)\)/.test(hn), 'hovNotrade always blocks the newbie items (Tutorial Guide)');
-ok(/if \(hovNtCounts\(j\[k\]\)\) hovNT\.add\(Number\(k\)\)/.test(hn) && !/num\(e\.n\) >= 3/.test(hn), 'hovNotrade reads live entries only through hovNtCounts (the old n >= 3 rule is gone)');
+ok(/if \(hovNtCounts\(j\[k\]\)( && !AM\.has\(Number\(k\)\))?\) hovNT\.add\(Number\(k\)\)/.test(hn) /* ARROWS3-2026-11-17: arrows never count */ && !/num\(e\.n\) >= 3/.test(hn), 'hovNotrade reads live entries only through hovNtCounts (the old n >= 3 rule is gone)');
 ok(H.NEWBIE_NOTRADE.includes(5588), 'Tutorial Guide 5588 is a newbie item that is never traded');
 // 2) the rule
 ok(!H.hovNtCounts({ n: 3 }) && !H.hovNtCounts({ n: 50 }), "'in my window but did not move' (n) never blocks, however often");

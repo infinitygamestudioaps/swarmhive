@@ -120,7 +120,7 @@ function engine(classId, skills, weapon, extra) {
 ok(src.includes('  return crApplyPlan(plan);'), 'buildSkillPlan returns the guide plan');
 ok(src.includes("attacks2 = skFilterAttacks(attacks, state.role || '', myBuffEntry());"), 'agreed switches hold: caster buffers attack only when ticked (Chanter1 got nukes after the first deploy)');
 ok(src.includes("if (plan.cr) crLive(cands, T, dist, worth);") && src.includes('chase, crOrder: !!plan.cr });'), 'autoSkillTick: live rules + guide order');
-ok(src.includes("if (crBlocked(info && info.id) && !(opts && opts.user)) return { started: false, never: true };"), 'castNow: never rows are blocked on every automatic path');
+ok(src.includes("if (crBlocked(info && info.id) && !(opts && (opts.user || opts.l2sProfile))) return { started: false, never: true };"), 'castNow: never rows are blocked on every automatic path (RAIDL2S-2026-11-17: the player\'s own L2Swarm list is not the guide)');
 ok(src.includes("if (plan.cr && await crEmergencyStep()) return { next: 0 };") && src.includes('await crBuffStep(sbCtx.town)'), 'emergency rows first, the guide buffs');
 ok(src.includes('(skillPlan.cr.toggles.has(id) && !skillPlan.cr.toggleOff.has(id))'), 'toggle keeper: the guide toggles');
 ok(src.includes('combatPlan: (() => { try { return crPublic(); }'), 'swarm_state.combatPlan for the dashboard');

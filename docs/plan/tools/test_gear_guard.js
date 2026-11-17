@@ -112,7 +112,7 @@ if (M.ammoFor) {
   }
   const ww = src.slice(src.indexOf('function weaponWatch('), src.indexOf('function weaponWatch(') + 2500);
   check(/DLV\.on/.test(ww) && /tradeState/.test(ww) && /\+\+WW\.miss < 2/.test(ww) && /Send\.UseItem\(num\(pick\.objId\)\)/.test(ww), 'weaponWatch: not while deleveling / trading; two looks before it acts (Kamael Change Weapon); puts the pick on');
-  check(/setInterval\(\(\) => \{ weaponWatch\('weapon watch'\); \}, 10000\)/.test(src), 'weapon watch runs every 10 s');
+  check(/setInterval\(\(\) => \{ (try \{ if \(handsOffMe\(\)\) return; \} catch \(e\) \{ \} )?weaponWatch\('weapon watch'\); \}, 10000\)/.test(src),   /* AUDIT 2026-11-17: hands-off skip */ 'weapon watch runs every 10 s');
   const ep = src.slice(src.indexOf('async function equipPiece('), src.indexOf('async function equipBought('));
   check(/if \(worn0\) \{ keep\.add\(oid\); return true; \}/.test(ep) && ep.indexOf('worn0') < ep.indexOf('Send.UseItem(oid)'), 'equipPiece never uses a piece that is already worn (that takes it OFF)');
   const gu3 = src.slice(src.indexOf('async function gearUpgrade('), src.indexOf('// --- DYES / SYMBOLS'));
