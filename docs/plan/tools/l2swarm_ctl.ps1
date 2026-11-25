@@ -23,6 +23,7 @@ $minCommitMB = 3000; $emergencyCommitMB = 1500   # user 2026-10-07 19:55: "never
 # swarm.config.json "memwatch": { "minCommitMB", "minCommitPct", "emergencyCommitMB", "hardCommitMB", "ramPlentyMB" } overrides.
 $minCommitPct = 5; $hardCommitMB = 500; $ramPlentyMB = 2000
 try { . "$PSScriptRoot\memwatch_decide.ps1" } catch { }
+try { . "$PSScriptRoot\login_order.ps1" } catch { }   # LOGINPARTY-2026-11-25: LoginOrderByParty
 try {
     $minCommitMB       = [double](SwarmCfgValue $SwarmCfg 'memwatch.minCommitMB' $minCommitMB)
     $minCommitPct      = [double](SwarmCfgValue $SwarmCfg 'memwatch.minCommitPct' $minCommitPct)
@@ -307,6 +308,8 @@ function Start-L2 {
     } finally { Release-StartLock }
 }
 function Open-Configs($configs) {
+    # LOGINPARTY-2026-11-25: each party logs in as one block (leader first, $loginGapSec apart) - docs/plan/tools/login_order.ps1
+    try { if (Get-Command LoginOrderByParty -ErrorAction SilentlyContinue) { $ord = @(LoginOrderByParty $configs (SwarmCfgValue $SwarmCfg 'accounts' @())); if ($ord.Count -eq @($configs).Count) { $configs = $ord; Log $ctlLog 'start: login order = party by party (leader first)' } } } catch { Log $ctlLog "start: party login order failed ($_) - the list order is kept" }
     # wait for MCP
     $up = $false
     for ($i = 0; $i -lt 60 -and -not $up; $i++) { Start-Sleep 2; try { [void](Mcp 'get_accounts_status' @{}); $up = $true } catch { } }

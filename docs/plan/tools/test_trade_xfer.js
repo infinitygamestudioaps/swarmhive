@@ -87,7 +87,7 @@ const G = new Function('num', fn('gdBestOffer') + '\n' + fn('gdPickOffers') + '\
   check(/const reach = await tradeApproach\(/.test(between('if (xferHost()) {', 'System message 142')) && /reach\.ok \? await xferGive\(/.test(gi), 'hidden trade only after tradeApproach says within reach (trade.md R2: never through a wall)');
   check(/if \(!movedAny\(\) && d\.receiverAccountId\) \{\s*try \{ r = fn\(String\(d\.receiverAccountId\), args\); how = 'account id'; \}/.test(xg), 'a refused call is tried once by account id, never a second call after something moved (no double give)');
   check(/d\.items = xr\.left; chk = d\.items;/.test(gi) && /xferAll = true; endOk = true;/.test(gi), 'what the transfer did not move goes through the trade window; all moved = done without a window');
-  check(/'swarm\.trade\.end', \{ giver: Me\.Name, tok, ok: endOk, xfer: xferAll \}/.test(gi) && /if \(d\.xfer && d\.ok && d\.giver\)/.test(src) && /XFER\.doneFrom\[String\(d\.giver\)\]/.test(fn('receiveItems')), 'the receiver\'s waiting session ends when the giver moved everything hidden'); }
+  check(/const end = \{ giver: Me\.Name, tok, ok: endOk, xfer: xferAll, receiver: String\(d\.receiver\) \}[^\n]*if \(to\) App\.emitTo\(to, 'swarm\.trade\.end', end\); else App\.emit\('swarm\.trade\.end', end\)/.test(gi) && /if \(d\.xfer && d\.ok && d\.giver\)/.test(src) && /XFER\.doneFrom\[String\(d\.giver\)\]/.test(fn('receiveItems')), 'the receiver\'s waiting session ends when the giver moved everything hidden'); }
 
 // ---- #17 NOTRADE2 / JUNKDEL ---------------------------------------------------------------------------------------------------
 { const NT = new Set(H.NEWBIE_NOTRADE);

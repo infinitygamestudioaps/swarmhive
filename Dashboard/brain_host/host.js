@@ -356,6 +356,10 @@ function createHost(o) {
     // missing z into 0 (dz = z === undefined ? 0 : parseInt(z)), so a missing z goes out as 0 = the same call for every agent version.
     GoToPoint: (x, y, z, ms) => { const args = [x, y]; if (z != null || ms !== undefined) args.push(z == null ? 0 : z);   /* review: null z too (an older agent passes it on: parseInt(null) = NaN) */ if (ms !== undefined) args.push(ms); return promiseCall('GoToPoint', args, (Number(ms) || 60000) + 10000); },
     GoToNpc: (n) => promiseCall('GoToNpc', [n], 120000),
+    // XFERBRAIN-2026-11-22 (tester: trade windows still pop up): L2Swarm's automatic trade was never callable from the brain, so xferHost() was always
+    // null here and every hand-over opened a trade window. agent2.js FN has the other half; an older agent rejects -> the normal trade window.
+    __itemAttr: (objId) => promiseCall('ItemAttr', [objId], 4000),   // BOOSTATTR-2026-11-22
+    TransferItems: (target, items) => promiseCall('TransferItems', [target, items], 20000),
     TriggerJsEvent: (name, ...args) => { count('TriggerJsEvent'); const f = (H.global || g)[name];   /* FARMPERF-2026-10-20: H.global = the plain context global with DONT_CONTEXTIFY */ if (typeof f === 'function') T.setTimeout(() => f.apply(null, args), 0); },
     Login: () => fwd('Login', [], false), Logout: () => fwd('Logout', [], false),
     Say: (a, b, c) => typeof a === 'number' ? fwd('Send.Say2', [a, b, c || ''], false) : fwd('Say', [a], false),

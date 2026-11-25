@@ -312,7 +312,8 @@ const calm = () => ({ team: [{ name: 'Spoiler1', hp: 80, fight: true }, { name: 
   // call sites
   const lg = src.slice(src.indexOf('async function leadGoGiran'), src.indexOf('async function leadGoGiran') + 3500);
   check(/supplyDue\(lastSupplyAtGet\(\), now\(\)\)|supplyDueNow\(\)/.test(lg) && /function supplyDueNow\(\) \{ return supplyDueMode\(supplyModeOf\(\), lastSupplyAtGet\(\), now\(\)\); \}/.test(src),   /* SUPPLYDAILY 2026-11-17 */ 'Giran-regroup auto-supply uses the persisted timestamp');
-  check(/!supplyDue\(lastSupplyAtGet\(\), now\(\)\)\) return;/.test(src), 'the supply watch uses the same timestamp');
+  // SUPWHY-2026-11-25: the watch now says why it waits - the same timestamp check, followed by its reason text
+  check(/!supplyDue\(lastSupplyAtGet\(\), now\(\)\) \? 'the last supply run was less than 30 min ago'/.test(src), 'the supply watch uses the same timestamp');
   check(!/now\(\) - lastSupplyAt\b/.test(src) && /lastSupplyAtSet\(now\(\)\);/.test(src), 'no in-memory-only timestamp left; leadSupply persists it');
   check(/control\.gen\+\+; state\.supplyHold = runId;/.test(src) && /if \(state\.supplyHold === runId\) state\.supplyHold = null;/.test(src), 'the supply run holds the team: other walks/holds step aside, the hold is released in finally');
   check(/async function gkTeleport\(wanted, why\) \{(?:\s*if \(typeof holdTrip === 'function'[^\n]*)?(?:\s*if \(\/\^autolevel\/i[^\n]*)?\s*if \(supplyHoldsTeam\(\)\)/.test(src)   /* HOLD-2026-11-04 line first */ && /if \(supplyHoldsTeam\(\)\) \{ note\(`town: NOT using \.town/.test(src), 'no .town / gatekeeper teleport by the leader during the supply run (the 18:35:17 .dion)');

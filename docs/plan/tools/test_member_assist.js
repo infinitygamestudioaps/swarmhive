@@ -26,6 +26,9 @@ const fmt = (v) => v === null || v === undefined ? '-' : (v / 1000).toFixed(2) +
 async function main() {
   const tmp = mkTmp(), overlay = path.join(tmp, 'overlay'); fs.mkdirSync(overlay);
   fs.mkdirSync(path.join(overlay, 'Logs'), { recursive: true });
+  // SIMSWITCH-2026-11-22: the live switches must not decide a simulation (Tank1 is on Hands off since 2026-11-15 = 0 kills in every run)
+  fs.mkdirSync(path.join(overlay, 'Scripts', 'data'), { recursive: true });
+  fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'run_state.json'), JSON.stringify({ default: true, parties: { [LEADER]: { on: true, at: new Date().toISOString(), by: 'sim' } }, chars: {}, handsOff: {} }));
   const port = 19700 + Math.floor(Math.random() * 300);
   const clock = new Clock({ virtual: true, start: Date.now() });
   const runner = new Runner({ port, clock, overlay, isolate: ['Logs'], allow: NAMES, logFile: path.join(tmp, 'brain_host.log'), root: ROOT.replace(/\//g, '\\'), geopath: true, script: SWARM });

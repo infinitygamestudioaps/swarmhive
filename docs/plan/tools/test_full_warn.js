@@ -24,7 +24,7 @@ check(/r\.why === 'warehouse full'\) whFullSet\(kind, true/.test(src) && /whFull
 check(/SayToParty\(m\.slice\(0, 250\)\)/.test(src.slice(src.indexOf('function fullTick'), src.indexOf('function whFullSet'))), 'a rise to nearly full / full is said in party chat');
 // server.js fullStatus (copied out, stubbed readJson)
 const sv = fs.readFileSync(path.join(ROOT, 'Dashboard', 'server.js'), 'utf8'), fs0 = sv.indexOf('function fullStatus('), fs1 = sv.indexOf('\n}\n', fs0) + 3;
-const WH = { clan: { full: true, at: '2026-10-14T14:57:00Z', by: 'Dagger1' }, private: { Tank1: { full: true, at: 'x', by: 'Tank1' }, Bishop1: { full: false } } };
+const WH = { clan: { full: true, at: '2026-10-14T14:57:00Z', by: 'Dagger1' }, private: { Tank1: { full: true, at: new Date().toISOString(), by: 'Tank1' }, Old: { full: true, at: '2026-10-14T14:57:00Z', by: 'Old' }, Bishop1: { full: false } } };
 const fullStatus = new Function('readJson', 'path', 'LOGS', sv.slice(fs0, fs1) + '\nreturn fullStatus;')(() => WH, path, 'L');
 const st = fullStatus([{ name: 'Dagger1', ageSec: 5, full: { level: 'full', why: 'x' } }, { name: 'Bishop1', ageSec: 5, full: { level: 'near', why: 'y' } }, { name: 'Old', ageSec: 900, full: { level: 'full' } }, { name: 'Ok', ageSec: 5 }]);
 check(st.bags.length === 2 && st.bags[0].name === 'Dagger1' && st.clan && st.clan.by === 'Dagger1' && st.private.length === 1 && st.private[0].name === 'Tank1', 'server.js fullStatus: fresh bags (full first), clan + own warehouses that are full', JSON.stringify(st));

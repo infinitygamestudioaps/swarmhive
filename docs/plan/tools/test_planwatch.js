@@ -17,7 +17,8 @@ t('the watchdog uses watchdogPick before leadLevel', /wpick = watchdogPick\(plan
 t('a running non-leveling plan step holds the supply run', hs(true, null) === true);
 t('a plan leveling step lets the supply run work', hs(true, { id: 's1' }) === false);
 t('no plan running = supply run as before', hs(false, null) === false);
-t('the supply watch checks planHoldsSupply', SRC.includes("planHoldsSupply(PLAN.running, PLAN.levelStep)) return;   // PLANWATCH"));
+// SUPWHY-2026-11-25: the hold now also says why (return wait('...')); still no supply run while the plan holds it
+t('the supply watch checks planHoldsSupply', /planHoldsSupply\(PLAN\.running, PLAN\.levelStep\)\) return wait\('the party plan holds supply runs in this step'\);\s*\/\/ PLANWATCH/.test(SRC));
 t('a failed .town hop never falls back to a refused gatekeeper (both route loops)', (SRC.match(/if \(townHopNoGk\(hop\)\) \{ r = false;/g) || []).length === 2);
 t('the min-gap refusal of .town says why', SRC.includes("gkFail = `.town used ${Math.round((now() - lastTownCmd) / 1000)} s ago (min gap)`"));
 { const a = SRC.indexOf('// NPCNAV-PURE'), b = SRC.indexOf('// NPCNAV-PURE-END');

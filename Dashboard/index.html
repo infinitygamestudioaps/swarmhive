@@ -673,6 +673,7 @@ html:not(.cc-ready) .ccsheetbtn { display: none; }
       </form>
     </div>
     <div id="brakeBar" class="brakebar" hidden></div>
+    <div id="deathStopBar" class="brakebar bad" role="alert" hidden></div><!-- DEATHSTOP 2026-11-22: died 3 times at the chosen spot, with Resolve -->
     <div id="fullBar" class="brakebar fullbar" hidden></div>
     <div id="msg"></div>
     <div id="liveBanner"></div>
@@ -2004,11 +2005,11 @@ const ssDungeonName = (n) => /necropolis|catacomb/i.test(String(n || ''));
 function ssGateParty(party, dungeon, t) {
   const S = SSD.data; if (!S) return null;
   const cur = ssgNow(S.state || {}, t || Date.now(), 18, 6 * 3600e3);
-  const mem = (S.chars || []).filter(c => c.party === party).map(c => ({ name: c.name, rec: { cycle: c.cycle, status: c.status, denied: c.denied }, base: /1st class transfer/.test(c.why || '') }));
+  const mem = (S.chars || []).filter(c => c.party === party).map(c => ({ name: c.name, rec: { cycle: c.cycle, status: c.status, tries: c.tries || 0, denied: c.denied }, base: /1st class transfer/.test(c.why || '') }));
   if (!mem.length) return null;
   // 7 SIGNS OPT-IN 2026-10-12 (= swarm.js ssoGate): a sign-up / priest read for characters that are not enrolled = closed + the hint
   const O = S.optin || {}, lc = (x) => String(x || '').toLowerCase(), enr = (n) => true || (O.chars || []).some(x => lc(x) === lc(n)) || (O.parties || []).some(x => lc(x) === lc(party));   // SSGATE2-2026-10-13: picking a catacomb = consent to its Dawn sign-up (swarm.js ssChosenDungeon)
-  let g = ssGateDecide(cur, mem, /necropolis/i.test(String(dungeon || '')) ? 'necropolis' : 'catacomb', { maxTries: 99, mode: String(O.gate || '').toLowerCase() === 'try' ? 'try' : 'strict' });   // SSGATE2: strict = the default
+  let g = ssGateDecide(cur, mem, /necropolis/i.test(String(dungeon || '')) ? 'necropolis' : 'catacomb', { maxTries: 3, mode: String(O.gate || '').toLowerCase() === 'try' ? 'try' : 'strict' });   // SSGATE2: strict = the default
   const hint = 'enroll on the 7 Signs tab for the automatic sign-up (or send !dawn)';
   if (g.state === 'signup') { const no = (g.need || []).filter(n => !enr(n)); if (no.length) g = { state: 'closed', ok: false, optin: true, why: 'competition period: ' + no.join(', ') + (no.length === 1 ? ' is' : ' are') + ' not signed up and not enrolled — ' + hint, until: 0, need: [], who: no, code: 'optin' }; }
   else if (g.state === 'check' && !mem.some(m => enr(m.name))) g = { state: 'closed', ok: false, optin: true, why: g.why + ' — nobody of the team is enrolled: ' + hint, until: 0, need: [], who: [], code: 'optin-check' };
@@ -4587,7 +4588,7 @@ function renderFull(F) {
   if (F.clan) lines.push(`<div class="bk-t">⚠ The CLAN warehouse is full <span class="bk-n">(since ${esc(hm(F.clan.at))}, ${esc(F.clan.by || '')})</span></div><div class="bk-w">Nothing more goes in until something comes out. <a href="#/storage">Storage → Clan warehouse</a>: tick junk → Take out and sell.</div>`);
   // WHFULLAGE-2026-11-04 (owner: "you write 'Own warehouse full: Crafter1' but you also say that you cant read it?"): the flag is the server's
   // "#130 Your warehouse is full." at a deposit - said as that, with its time; it clears only when the list is read or something comes out
-  if (priv.length) lines.push(`<div class="bk-t">⚠ Own warehouse full: <span class="bk-n">${who(priv)}</span></div><div class="bk-w">${priv.map(p => `${esc(p.name)}: the server said "Your warehouse is full" at a deposit ${esc(hm(p.at))}`).join(' · ')}. Not re-checked since - it clears when the bot reads the list or takes something out.</div>`);
+  if (priv.length) lines.push(`<div class="bk-t">⚠ Own warehouse full: <span class="bk-n">${who(priv)}</span></div><div class="bk-w">${priv.map(p => `${esc(p.name)}: the server said "Your warehouse is full" at a deposit ${esc(hm(p.at))}`).join(' · ')}. It clears when the bot stores or takes something out, or after 24 h.</div>`);
   if (full.length) lines.push(`<div class="bk-t">⚠ Bag FULL: <span class="bk-n">${who(full)}</span></div><div class="bk-w">The server refuses quests and trades for them. Sell (mark items on the Gear page) or store (Storage page).</div>`);
   if (near.length) lines.push(`<div class="bk-b">Bag nearly full: ${who(near)}</div>`);
   if (ore.length) lines.push(`<div class="bk-t">⚠ Out of Spirit Ore: <span class="bk-n">${who(ore.map(o => ({ name: o.name, why: o.skill + ' skipped' })))}</span></div><div class="bk-w">They keep healing with their other heals (no trip for it); the next supply run buys more.</div>`);   // ORE 2026-10-14
@@ -4613,6 +4614,7 @@ async function refresh() {
     // CURSED 2026-10-13: a cursed weapon holder (renamed Zariche / Akamanah by the server) gets its own red line instead of 'not reporting'
     try { const cu = STATE.cursed || [], skip = new Set(cu.map(x => x.holder).concat(cu.map(x => x.weapon), ['Zariche', 'Akamanah'])); renderBrake(STATE.brake, STATE.chars.filter(c => c.ageSec > 30 && !skip.has(c.name)).map(c => c.name), cu); } catch (e) { }
     try { renderFull(Object.assign({}, STATE.full, { mem: STATE.memAlert, gap: STATE.hiveGap })); } catch (e) { }   // FULLWARN 2026-10-14 (+ MEMPAGEFILE / ONLINEGAP 2026-11-10)
+    try { if (window.DeathStop) DeathStop.paint(STATE.deathStops); } catch (e) { }   // DEATHSTOP 2026-11-22
     fillTargets();
     try { if (window.RunSwitch) RunSwitch.paintHeader(); } catch (e) { }   // RUNSTATE: Start all / Stop all
     renderTab();
@@ -5441,6 +5443,8 @@ setInterval(() => { if (TAB === 'pc' && !document.hidden) loadSystem(); }, 15000
 <link rel="stylesheet" href="/hunttimer.css">
 <script src="/huntlogic.js"></script>
 <script src="/hunttimer.js"></script>
+<style>.ds-row { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; } .ds-row + .ds-row { margin-top: 8px; } .ds-txt { flex: 1 1 260px; min-width: 0; overflow-wrap: anywhere; } .ds-row button { min-height: 36px; }</style>
+<script src="/deathstop.js"></script>
 <!-- HEAL SCHEMES 2026-10-13 (public tester: "let me set my own heal / MP schemes"): "✚ Healing" on the character page + section "Healing" in the party
      settings popup = one sheet per character / class (Dashboard/healschemes.js, /api/healschemes, Scripts/data/heal_schemes.json; automatic until changed). -->
 <link rel="stylesheet" href="/healschemes.css">

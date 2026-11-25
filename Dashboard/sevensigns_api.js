@@ -96,6 +96,7 @@ function info(ctx, tNow) {
   const states = {}; (ctx.readStates() || []).forEach(s => { states[s.name] = s; });
   const member = (n, party) => {
     const s = states[n] || {}, r = (NAME_RE.test(n) && ctx.readJson(path.join(ctx.LOGS, `sevensigns_${n}.json`), null)) || {}, v = r.view || {};
+    if (/^(failed|notown)$/.test(r.status || '') && r.tries >= 3 && t - (r.at || 0) > 6 * 3600e3) r.tries = 1;   // DAWNWALK-2026-11-22: = swarm.js ssRead (tries again after 6 h)
     let stones = null;
     const inv = s.ov && Array.isArray(s.ov.inv) ? s.ov.inv : null;
     if (inv) { stones = { blue: 0, green: 0, red: 0, total: 0 }; inv.forEach(i => { const k = SEAL[Number(i.id)]; if (k) { stones[k] += Number(i.n) || 0; stones.total += Number(i.n) || 0; } }); }

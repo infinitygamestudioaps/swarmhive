@@ -157,7 +157,7 @@ async function runTrip(start, room, opt) {
   // ---- 6) pickRoom / zoneSpot for team levels 74-79 ---------------------------------------------------------------------------------------
   console.log('-- 6) the leveling pick');
   const PICK = cut('function pickRoom(dName, lvl) {', 'const onFloorZ = ');
-  const ZS = cut('function zoneSpot(z, level, why) {', '/** Why a zone/spot cannot be used now');
+  const ZS = cut('function zoneSpot(z, level, why, opt) {', '/** Why a zone/spot cannot be used now');
   const bad = {};
   const Dn = D0.map(d => d.key === 'forge' ? Object.assign({}, d, { entryNeeds: NZ.DUNGEON_NEEDS['forge of the gods'] }) : d);
   const env = {

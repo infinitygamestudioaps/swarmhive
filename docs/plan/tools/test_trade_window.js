@@ -106,7 +106,7 @@ check(/tradeWinHook\(\); TWIN\.cap = \[\];/.test(give) && /Options\.EnableJSOnIn
 check(/tradeWinDecide\(/.test(give) && /act === 'readd'/.test(give) && /act === 'cancel'/.test(give), 'giveItems waits for the window, re-adds once, cancels when nothing got in');
 check(/chk = d\.items\.filter/.test(give) && /return chk\.every/.test(give), 'success is judged only on the items that really were in the window');
 check(/NOT added to the trade window/.test(give) && /notAdded \}\)/.test(give), "items that never got in are reported as 'not added' (result notAdded / inWindow)");
-check(/'swarm\.trade\.added', \{[^}]*tok \}/.test(give) && /'swarm\.trade\.end', \{ giver: Me\.Name, tok/.test(give), "giver sends its trade token with 'added' and 'swarm.trade.end' at the end");
+check(/'swarm\.trade\.added', \{[^}]*tok \}/.test(give) && /const end = \{ giver: Me\.Name, tok, [^\n]*'swarm\.trade\.end', end\)/.test(give), "giver sends its trade token with 'added' and 'swarm.trade.end' at the end");
 check(/Options\.EnableJSOnIncomingPacket = twOpt/.test(give), 'giveItems switches the packet capture back as it found it');
 check(/App\.on\('swarm\.trade\.end'/.test(src) && /tradeState\.tok === String\(d\.tok\)/.test(src) && /done = 'giver-ended'/.test(src), "receiver: 'swarm.trade.end' ends the session of exactly that trade");
 check(/tradeEndedToks\[d\.tok\]\) \{ tradeLog\(`ignored added/.test(src), "receiver: a late 'added' of an ended trade starts nothing");

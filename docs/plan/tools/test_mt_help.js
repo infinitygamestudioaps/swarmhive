@@ -5,7 +5,7 @@ const src = fs.readFileSync(process.env.SWARM_JS || path.join(ROOT, 'Scripts_dev
 let pass = 0, fail = 0; const ok = (c, m) => { if (c) pass++; else { fail++; console.log('  FAIL ' + m); } };
 ok(src.includes("fid: L.hold > now() && typeof mtFightId === 'function' ? mtFightId() : 0"), 'the leader sends the monster he fights with the hold');
 ok(src.includes('memberRoute.fid = Number(d.fid) || 0;'), 'members store it');
-ok(src.includes("const hm = typeof mtHelpTarget === 'function' ? mtHelpTarget(memberRoute.fid) : null; if (hm) { if (now() - (m.helpAt || 0) > 1500) { m.helpAt = now(); engage(hm)"), 'a holding member engages it (throttled)');
+ok(src.includes("const hm = typeof mtHelpTarget === 'function' ? mtHelpTarget(memberRoute.fid) : null; if (hm) { if (!Me.IsAttacking && !Me.IsCasting && now() - (m.helpAt || 0) > 1500) { m.helpAt = now(); engage(hm)"), 'a holding member engages it (throttled)');
 const blk = src.slice(src.indexOf('function mtHelpTarget(fid) {'), src.indexOf('async function mtLeashFight('));
 let T = 1e9, env;
 const mk = () => new Function('env', 'with (env) {\n' + blk + '\nreturn mtHelpTarget; }')(env);

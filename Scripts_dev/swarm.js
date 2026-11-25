@@ -2437,11 +2437,36 @@ const raidBossOutsideRaid = (m) => !!(m && isRaidBossMob(m) && !isMissionBoss(m.
 // attacked them"): outside a raid / mission a monster whose title says Raid (boss OR minion) is never a target (hunt, assist, help, pull);
 // one that actually hits me is still fought back / escaped from like any attacker (the boss itself stays never-fought via raidBossOutsideRaid)
 const raidTitled = (m) => { let t = ''; try { t = String((m && m.Title) || ''); } catch (e) { } return /\braid\b/i.test(t); };
-const raidTitledOutsideRaid = (m) => !!(m && raidTitled(m) && !inRaid() && state.mode !== 'mission' && !isMissionBoss(m.Name));
+// RAIDNEVER-2026-11-22 (owner: "just dont attack ANY raidboss or minions while hunting, super easy. All raid monsters and minions has a special title"; Spoiler6's
+// duo made 185 attacks on Gustos / Kusion Suscepter): the title above NEVER matched here - the server overwrites it ("LvL: 44"; live 2026-11-22), only the
+// client's own data says "Raid Fighter". So the title comes from the datapack by monster id (Raid Boss / Raid Fighter / Lord + Follower of Destruction;
+// test_tester_1122b checks the list against npcs_h5.json). A same-named ordinary monster has another id. No self-defence / help either (ignoredMobHard).
+// RAIDNEVER-PURE-BEGIN
+const RAID_NPC_RANGES = '25001-25163,25166-25194,25198-25288,25290-25332,25352-25512,25514-25516,25523-25527,25536-25543,25545,25643-25652,25671-25689,25718-25727,25732,25735-25801,29056-29058,29060,29063-29064,29097-29098';
+const RAID_NPC_LIST = RAID_NPC_RANGES.split(',').map(r => r.split('-').map(Number)).map(r => [r[0], r[r.length - 1]]);
+function raidNpcId(id) { let n = Number(id) || 0; if (n > 1000000) n -= 1000000; return n > 0 && RAID_NPC_LIST.some(r => n >= r[0] && n <= r[1]); }
+/** o = { raid (boss / fighter), inRaid, mission, inst, quest, missionBoss, missionMinion } -> never attack it now? */
+function raidNeverNow(o) { return !!(o && o.raid && !o.inRaid && !o.mission && !o.inst && !o.quest && !o.missionBoss && !o.missionMinion); }
+// RAIDNEVER-PURE-END
+const raidNpcMob = (m) => { let id = 0; try { id = m.NpcId !== undefined && m.NpcId !== null ? m.NpcId : m.Id; } catch (e) { } return raidNpcId(num(id)); };
+function missionBossMinion(m) {
+  try { if (!missionBoss.name || now() >= missionBoss.until) return false;
+    const n = String(m.Name); return (minionNames(missionBoss.name) || []).includes(n) || ownMinionName(missionBoss.name, n); } catch (e) { return false; }
+}
+const raidTitledOutsideRaid = (m) => !!m && (raidNpcMob(m) || raidTitled(m)) && raidNeverNow({ raid: true, inRaid: inRaid(), mission: state.mode === 'mission', inst: !!(inst.on || inKamaInstance()),
+  quest: typeof questRun !== 'undefined' && !!questRun.active, missionBoss: isMissionBoss(m.Name), missionMinion: missionBossMinion(m) });
+/** a raid boss / minion we must not hit stands within r of (x, y): no area skills (they would hit it) */
+function raidNearNow(x, y, r) { try { return snapMobs().some(m => !m.IsDead && Math.hypot(num(m.X) - num(x), num(m.Y) - num(y)) <= r && Math.abs(num(m.Z) - num(Me.Z)) < 600 && raidTitledOutsideRaid(m)); } catch (e) { return false; } }
+const RAIDNEVER = { saidAt: 0, aoeR: 1200 };
+function raidNeverRefuse(m, what) {
+  if (!m || !raidTitledOutsideRaid(m)) return false;
+  if (now() - RAIDNEVER.saidAt > 120000) { RAIDNEVER.saidAt = now(); note(`raid monster: ${m.Name} is never attacked while hunting (${what} refused)`, true); }
+  return true;
+}
 const ignoredMob = (m) => !!(m && (ignoredMobHard(m) || inZoneHole(m.X, m.Y, m.Z, m.Name) || raidTitledOutsideRaid(m)));
 // never fought, not even when it hits me (Treasure Chest, a raid boss outside its raid); the spot editor's exclusions (inZoneHole) are only
 // "never a target": a monster from an excluded area that actually hits me is fought back (self-defence), user 2026-10-07
-const ignoredMobHard = (m) => !!(m && ((CONFIG.lead && CONFIG.lead.ignoreMobs && CONFIG.lead.ignoreMobs.test(String(m.Name || ''))) || raidBossOutsideRaid(m)));
+const ignoredMobHard = (m) => !!(m && ((CONFIG.lead && CONFIG.lead.ignoreMobs && CONFIG.lead.ignoreMobs.test(String(m.Name || ''))) || raidBossOutsideRaid(m) || raidTitledOutsideRaid(m)));   // RAIDNEVER
 // ZONE EDITOR (user 2026-10-07): exclusion polygons drawn in a hunting zone ("obstacles, cliffs") — monsters inside one are never fought
 // (no target, no self-defence, no help; L2Swarm's own target there is cancelled by the ignore loop). L2Swarm's own .zmap only gets the
 // outer polygon (its exclusion format could not be verified), so the exclusions are enforced here.
@@ -2496,6 +2521,7 @@ async function cast(skillId, delayAfterMs = 800) {
 async function castOn(creature, skillId, delayAfterMs = 800) {
   if (!creature || !skillId) return;
   if (!hiveSkillsOn()) { await sleep(Math.min(delayAfterMs, 1000)); return; }   // HIVESW-2026-10-15
+  if (raidNeverRefuse(mobById(creature.objId), 'a skill')) { await sleep(200); return; }   // RAIDNEVER
   { const m = mobById(creature.objId); if (m && !canSee(m)) { wallRefused('casting at', m); await sleep(200); return; } }   // WALLSIGHT-2026-10-24: never cast at a monster through a wall
   Send.Action(creature.objId);
   await sleep(350);
@@ -2515,6 +2541,11 @@ function findItem(itemId) {
 // (no action reaches that far; the check runs again when we are close), a coarse 2 s cache and at most SEE_BUDGET geodata checks per second.
 const SEE_FAR = 3000, SEE_BUDGET = 40;   // 40 x ~200 µs = 8 ms a second per character at worst (9 per worker: ~7 % of a worker)
 const SEE = { c: {}, cn: 0, refused: 0, saidAt: 0, sec: 0, n: 0, over: 0 };   // c: plain object, no Map (L2Swarm host: Map = the world map type)
+// SEEHIT3-2026-11-25: the monsters that hit ME, objId -> last hit (ms); pure check below (test_owner_1125.js)
+var HITME = {};
+/** did this monster hit me within the last 5 s? */
+function seeHitMe(hm, id, nowMs) { const t = hm && hm[id]; return !!t && nowMs - t < 5000; }
+setInterval(() => { try { const t = now(); Object.keys(HITME).forEach(k => { if (t - HITME[k] > 60000) delete HITME[k]; }); } catch (e) { } }, 30000);
 function canSee(c) {
   try {
     if (!c) return false;
@@ -2522,7 +2553,10 @@ function canSee(c) {
     const d = Math.hypot(x - Me.X, y - Me.Y);
     if (d <= 100 && Math.abs(z - Me.Z) < 250) return true;
     // SEEHIT-2026-10-29 (Vykaax, Cruma: the duo stood still while a monster hit them): a monster hitting me within reach is never behind a wall
-    try { if (d <= 300 && Math.abs(z - Me.Z) < 250 && c.objId !== undefined && num(c.objId) === num(lastAttackerOnMe.id) && !lastAttackerOnMe.for && now() - lastAttackerOnMe.at < 5000) return true; } catch (e) { }
+    // SEEHIT2-2026-11-22 (live: Spoiler11, Devil's Isle, 430 refusals while Fiend Archers shot him): an archer hits from up to ~1100 and the server lets nobody
+    // hit through a wall either, so one that hit ME in the last 5 s is in sight at any bow range (the 300 only covered melee)
+    try { if (d <= 1200 && Math.abs(z - Me.Z) < 400 && c.objId !== undefined && num(c.objId) === num(lastAttackerOnMe.id) && !lastAttackerOnMe.for && now() - lastAttackerOnMe.at < 5000) return true; } catch (e) { }
+    try { if (d <= 1200 && Math.abs(z - Me.Z) < 400 && seeHitMe(HITME, num(c.objId), now())) return true; } catch (e) { }   // SEEHIT3 (walls.md R11)
     if (typeof GeoSight !== 'function' || d > SEE_FAR) return true;
     const key = `${Math.round(Me.X / 128)},${Math.round(Me.Y / 128)},${Math.round(Me.Z / 128)}>${Math.round(x / 128)},${Math.round(y / 128)},${Math.round(z / 128)}`;
     const hit = SEE.c[key]; if (hit && now() - hit.at < 2000) return hit.v;
@@ -3458,6 +3492,7 @@ globalThis.OnAttack = (atkId, targetId) => {
     // a TEAMMATE hitting me = the destroyer drain duel: not an attack (2026-10-06 — it paused the duel and called the team to "help")
     try { if (PartyList.GetItemByObjectID && PartyList.GetItemByObjectID(num(atkId))) return; } catch (e) { }
     lastAttackerOnMe = { id: atkId, at: now() }; reportAttacked(atkId);
+    try { HITME[num(atkId)] = now(); } catch (e) { }                  // SEEHIT3-2026-11-25: every monster that hit ME (helping a teammate never overwrites it)
     // AUDIT-2026-11-17: a hands-off (hand-played) character is never made to attack by the script
     let hoA = false; try { hoA = handsOffMe(); } catch (e) { }
     if (!hoA && escort.active && escort.owner !== Me.Name && !escort.shared && !IsInCombat && !isMarkedForOther(mobById(atkId))) srvAttack(atkId);   // hjælper forsvarer sig selv
@@ -4297,6 +4332,62 @@ function healTargets() {
   // WALLSIGHT-2026-10-24: a teammate behind a wall is not healed through it (the follow brings us together)
   return out.filter(t => (t.me || (Math.hypot(t.x - Me.X, t.y - Me.Y) < HEAL.range && canSee({ x: t.x, y: t.y, z: (livePos[t.name] && livePos[t.name].Z !== undefined) ? livePos[t.name].Z : Me.Z }))) && !(livePos[t.name] && livePos[t.name].dlv && now() - livePos[t.name].at < 10000) && !(typeof aoeSkipHeal === 'function' && !t.me && aoeSkipHeal(t)));   // AOETEAM-2026-10-30: never after a puller out on his route
 }
+// HEALREACH-2026-11-25 (owner: "Looks like the healer is behind a wall. so healer needs to be closer to the figther"; live: Spoiler11 fell to 6 % at the
+// Devil's Isle water edge while Healer11 stood behind the rock and could not heal him - healTargets drops a teammate behind a wall and "the follow brings
+// us together" did not): a healer whose teammate is hurt (< HEALREACH.below) within HEALREACH.far but out of sight / out of heal range walks to him
+// (to within HEALREACH.near, the geodata walk goes round the wall), at most every HEALREACH.everyMs. Never in town / raid / instance / hands off / escape.
+// HEALREACH-PURE-BEGIN (no host calls: docs/plan/tools/test_owner_1125.js)
+const HEALREACH = { below: 70, far: 2500, near: 250, everyMs: 3000 };
+/** me = {x,y}, mates = [{ name, x, y, hp, seen }] (seen = canSee + within heal range) -> the most hurt one to walk to, or null */
+function healReachPick(me, mates, c) {
+  const C = c || HEALREACH;
+  const L = (mates || []).filter(m => m && Number(m.hp) > 0 && Number(m.hp) < C.below && !m.seen && Math.hypot(Number(m.x) - me.x, Number(m.y) - me.y) <= C.far);
+  return L.sort((a, b) => Number(a.hp) - Number(b.hp))[0] || null;
+}
+// HEALFOLLOW-2026-11-25 (owner: "Healer needs to follow the tanks ASS, problem is that the healer is to far behind and cant heal through a wall"): a healer
+// member stays right behind its leader - more than HEALFOLLOW.far away, or out of sight and more than HEALFOLLOW.sightGap away, for HEALFOLLOW.holdMs ->
+// it walks to within HEALFOLLOW.near of him, also in a fight and also in "Fight with L2Swarm" mode (the old back-to-the-middle walk: 800-1500, never in combat)
+const HEALFOLLOW = { far: 400, sightGap: 150, near: 120, holdMs: 3000, everyMs: 4000 };
+/** d = distance to my leader, seen = he is in sight, sinceMs = how long it has been so -> walk now? */
+function healFollowDue(d, seen, sinceMs, c) { const C = c || HEALFOLLOW; return (Number(d) > C.far || (!seen && Number(d) > C.sightGap)) && Number(sinceMs) >= C.holdMs; }
+// HEALREACH-PURE-END
+const HEALFOL = { busy: false, at: 0, since: 0 };
+setInterval(() => {
+  try {
+    if (HEALFOL.busy || !state.role || !IsCharacterReady() || Me.IsDead || !isHealerRole() || isLeader() || !CONFIG.leader) { HEALFOL.since = 0; return; }
+    if (handsOffMe() || currentTownKey() || inRaid() || inst.on || state.escaping || state.gkBusy || tradeState || rest.sitting || HEALRCH.busy) { HEALFOL.since = 0; return; }
+    const p = partyMember(CONFIG.leader); if (!p || p.IsDead) { HEALFOL.since = 0; return; }
+    const d = Math.hypot(num(p.X) - Me.X, num(p.Y) - Me.Y); if (d > 6000) { HEALFOL.since = 0; return; }   // far away = the leader's regroup, not this
+    const lz = (livePos[CONFIG.leader] && livePos[CONFIG.leader].Z !== undefined) ? livePos[CONFIG.leader].Z : num(p.Z) || Me.Z;
+    const seen = canSee({ x: num(p.X), y: num(p.Y), z: lz });
+    const off = d > HEALFOLLOW.far || (!seen && d > HEALFOLLOW.sightGap);
+    if (!off) { HEALFOL.since = 0; return; }
+    if (!HEALFOL.since) HEALFOL.since = now();
+    if (!healFollowDue(d, seen, now() - HEALFOL.since) || now() - HEALFOL.at < HEALFOLLOW.everyMs) return;
+    if (!takeControl('heal: follow ' + CONFIG.leader, PRIO.TEAM_SAFETY)) return;
+    HEALFOL.busy = true; HEALFOL.at = now();
+    note(`heal: ${Math.round(d)} from ${CONFIG.leader}${seen ? '' : ' and he is out of sight'} — walking up behind him (a healer stays close enough to heal)`);
+    walkTo(num(p.X), num(p.Y), lz, HEALFOLLOW.near, 10000).catch(e => logError('heal follow', e)).finally(() => { releaseControl('heal: follow ' + CONFIG.leader); HEALFOL.busy = false; HEALFOL.since = 0; HEALFOL.at = now(); });
+  } catch (e) { HEALFOL.busy = false; }
+}, 1000);
+const HEALRCH = { busy: false, at: 0 };
+setInterval(() => {
+  try {
+    if (HEALRCH.busy || now() - HEALRCH.at < HEALREACH.everyMs || !state.role || !IsCharacterReady() || Me.IsDead || !isHealerRole() || !hiveHealsOn()) return;
+    if (handsOffMe() || currentTownKey() || inRaid() || inst.on || state.escaping || state.gkBusy || tradeState || rest.sitting) return;
+    const mates = [];
+    partyMembersAlive().forEach(m => {
+      if (m.Name === Me.Name) return;
+      const lp = livePos[m.Name] || {}, z = lp.Z !== undefined ? lp.Z : Me.Z, d = Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y);
+      mates.push({ name: m.Name, x: num(m.X), y: num(m.Y), z, hp: num(m.HpPercent), seen: d < HEAL.range && canSee({ x: num(m.X), y: num(m.Y), z }) });
+    });
+    const t = healReachPick({ x: Me.X, y: Me.Y }, mates);
+    if (!t || !takeControl('heal: reach ' + t.name, PRIO.TEAM_SAFETY)) return;
+    HEALRCH.busy = true; HEALRCH.at = now();
+    note(`heal: ${t.name} is at ${Math.round(t.hp)} % and I cannot heal him from here (wall / out of range) — walking to him`);
+    walkTo(t.x, t.y, t.z, HEALREACH.near, 15000).catch(e => logError('heal reach', e)).finally(() => { releaseControl('heal: reach ' + t.name); HEALRCH.busy = false; HEALRCH.at = now(); });
+  } catch (e) { HEALRCH.busy = false; }
+}, 1000);
 let lastHealPot = 0;
 const cureTried = {};
 App.on('swarm.cured', (e) => { try { const d = e.data || {}; if (e.source.characterName !== Me.Name && teamOf(e.source.characterName) === teamOf(Me.Name) && d.target && d.cure) cureTried[d.target + d.cure] = now(); } catch (er) { } });
@@ -4549,7 +4640,7 @@ function srvAttackPre(o) {
   try { if (typeof SOLO !== 'undefined' && soloRecoverHold(now(), SOLO.recoverUntil, o === num(lastAttackerOnMe.id) && now() - lastAttackerOnMe.at < 8000)) return false; } catch (e) { }
   return true;
 }
-function srvAttack(id) { const o = num(id); if (!o) return; if (!srvAttackPre(o)) return; { const m = mobById(o); if (m && !canSee(m)) { wallRefused('attacking', m); if (roomTargetDecide({ visible: false, inPoly: huntPolyHas(m) }) === 'drop') roomTargetDrop(o, m); else wallApproach(o, m); return; } } if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return; srvAtkLast.id = o; srvAtkLast.at = now(); ownAtkAt = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.Attack(o); } catch (e) { } }
+function srvAttack(id) { const o = num(id); if (!o) return; if (!srvAttackPre(o)) return; { const m = mobById(o); if (raidNeverRefuse(m, 'attack')) return; if (m && !canSee(m)) { wallRefused('attacking', m); huntWallAside(o); if (roomTargetDecide({ visible: false, inPoly: huntPolyHas(m) }) === 'drop') roomTargetDrop(o, m); else wallApproach(o, m); return; } } if (srvAtkLast.id === o && now() - srvAtkLast.at < 600) return; srvAtkLast.id = o; srvAtkLast.at = now(); ownAtkAt = now(); try { if (!Target || num(Target.objId) !== o) Send.Action(o); } catch (e) { } try { Send.Attack(o); } catch (e) { } }
 
 function num(v) { return typeof v === 'bigint' ? Number(v) : (Number(v) || 0); }
 
@@ -5259,7 +5350,7 @@ function castValue(s, mobs, c) {
  *  Returns { skill, why } or { skill: null, wait (ms, when something becomes ready soon), approach (out of range), why }. */
 function castPick(cands, ctx) {
   const c = ctx || {}, t = Number(c.now) || 0, mobs = Math.max(1, Number(c.mobs) || 1), list = (cands || []).filter(Boolean);
-  const aoeOk = (s) => !castIsAoe(s) || (s.crMobs !== undefined ? s.crMobs >= (Number(s.crMobsMin) || 1) : mobs >= (Number(c.aoeMinMobs) || 3));   // CLASSROT: a guide row counts its own monsters (around me / the target)
+  const aoeOk = (s) => !castIsAoe(s) || (c.noAoe ? false : s.crMobs !== undefined ? s.crMobs >= (Number(s.crMobsMin) || 1) : mobs >= (Number(c.aoeMinMobs) || 3));   // CLASSROT: a guide row counts its own monsters (around me / the target)
   const blocked = (s) => !!(c.blocked && Number(c.blocked[s.id]) > t);
   const inRange = (s) => !(Number(c.dist) > (Number(s.range) || 0) + 60);
   const afford = (s) => !(Number(c.mp) < (Number(s.mp) || 0));
@@ -5784,6 +5875,7 @@ function casterTarget() {
   // CAST REACH: an 'invalid target' answer keeps that monster out for a while; the in-range alternative is held while the leader's target is out of reach
   const bad = (id) => Number(castBadTgt[num(id)]) > now();
   if (cur && bad(cur.id)) cur = null;
+  if (cur && cur.mob) { const cm = mobById(cur.id); if (cm && raidTitledOutsideRaid(cm)) cur = null; }   // RAIDNEVER
   let leader = assist ? leaderFightTarget() : null;
   // ASSIST-2026-10-15: the leader's announced target (swarm.ltgt) — the brain has no TargetObjId and an empty profile no FollowAtk; else the
   // nearest monster hitting a teammate. A monster hitting ME still comes first (assistChoose)
@@ -6314,7 +6406,7 @@ async function autoSkillTick() {
     castReach.losTid = 0;
   }
   const pick = castPick(cands, { mp: num(Me.MP), hpPct: hpNow, dist, mobs: mobsAtTarget,
-    aoeMinMobs: aoeMinNow(), worth, blocked: castBlocked, now: now(), chase, crOrder: !!plan.cr });   // pairs: memberPairTick moves
+    aoeMinMobs: aoeMinNow(), noAoe: raidNearNow(Me.X, Me.Y, RAIDNEVER.aoeR), worth, blocked: castBlocked, now: now(), chase, crOrder: !!plan.cr });   // pairs: memberPairTick moves
   if (pick.skill) {
     if (/^fallback/.test(pick.why)) { const fk = `${pick.skill.name}: ${pick.why.replace(/^fallback \(?|\)$/g, '') || 'no primary'}`; castStats.fb[fk] = (castStats.fb[fk] || 0) + 1; }   // CASTPRIO 2026-10-13: WHY a fallback (caster_stats.log)
     if (castReach.st.approached && castReach.st.tid === tid) { castStats.steps++; Object.assign(castReach.st, { approached: false, since: 0, step: null, stuck: 0 }); }   // stepped into range
@@ -7411,7 +7503,7 @@ function mobAggrRange(m) {
 /** Aggressive monsters (or any monster that is fighting one of us) and the points they threaten. */
 function dangerMobs() {
   const out = [];
-  try { snapMobs().forEach(m => { if (m.IsDead || ignoredMob(m) || Math.abs((m.Z || meSnap().Z) - meSnap().Z) > 500) return; const ttl = String(m.Title || ''), tagged = /^LvL:\s*\d+/i.test(ttl); const aggressive = tagged ? /\sA\s*$/.test(ttl) : aggroRange(m.Name) > 0;   // L2Toggle titles 'LvL: 17 A' = aggressive (the datapack range is set for passive mobs too)
+  try { snapMobs().forEach(m => { if (m.IsDead || (ignoredMob(m) && !raidTitledOutsideRaid(m)) /* RAIDNEVER: not a target, still a danger */ || Math.abs((m.Z || meSnap().Z) - meSnap().Z) > 500) return; const ttl = String(m.Title || ''), tagged = /^LvL:\s*\d+/i.test(ttl); const aggressive = tagged ? /\sA\s*$/.test(ttl) : aggroRange(m.Name) > 0;   // L2Toggle titles 'LvL: 17 A' = aggressive (the datapack range is set for passive mobs too)
         const ag = aggressive ? Math.min(aggroRange(m.Name) || 600, 1000) : 0; const busy = m.objId === lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 8000; if (ag > 0 || busy) out.push({ id: m.objId, x: m.X, y: m.Y, z: m.Z, r: (ag || 600) + 150, name: m.Name }); }); } catch (e) { }
   return out;
 }
@@ -8987,7 +9079,7 @@ function escAttackers() {
   const hitId = !lastAttackerOnMe.for && now() - lastAttackerOnMe.at < 8000 ? num(lastAttackerOnMe.id) : 0;
   try {
     snapMobs().forEach(m => {
-      if (m.IsDead || ignoredMob(m) || Math.abs((m.Z || me.Z) - me.Z) > 400) return;
+      if (m.IsDead || (ignoredMob(m) && !raidTitledOutsideRaid(m)) /* RAIDNEVER: never hit, but we escape from it */ || Math.abs((m.Z || me.Z) - me.Z) > 400) return;
       const d = Math.hypot(m.X - me.X, m.Y - me.Y); if (d > 1500) return;
       const id = num(m.objId), rec = ESC.cc[id];
       const flag = m.IsSleeping ? 'sleep' : m.IsParalyzed ? 'hold' : m.IsStunned ? 'stun' : '';
@@ -9088,6 +9180,31 @@ async function geoFlee(dangers, fl, timeoutMs, lim) {
   }
   return null;
 }
+// ESCDRY-2026-11-25 (owner: "Yes please" - escape never into water; live: Spoiler11 at 6 % HP, "escape: out of aggro range" ran him straight south into the
+// Devil's Isle water and he drowned on the way; the owner's map screenshot): every spot where the server says "unable to breathe" (#297) is kept for an
+// hour (shared by every character, Logs/drown_spots.json); the escape treats them as dangers, and its straight-line fallbacks ('out of aggro range' /
+// 'away') take the first of 8 directions whose line stays clear of them - none clear = no straight run (the town / scroll steps go on)
+// ESCDRY-PURE-BEGIN (no host calls: docs/plan/tools/test_owner_1125.js)
+const ESCDRY = { keepMs: 3600000, r: 350, max: 200 };
+/** does the line a->b pass within r of any spot? */
+function lineNearSpot(a, b, spots, r) {
+  const dx = b.x - a.x, dy = b.y - a.y, L2 = dx * dx + dy * dy;
+  return (spots || []).some(s => { const t = L2 ? Math.max(0, Math.min(1, ((s.x - a.x) * dx + (s.y - a.y) * dy) / L2)) : 0; return Math.hypot(a.x + t * dx - s.x, a.y + t * dy - s.y) < r; });
+}
+/** from me, preferred angle ang, length len: the first of 8 directions (preferred first, then +-45, +-90 ...) whose line stays clear of the spots -> {x,y} | null */
+function escDryPoint(me, ang, len, spots, r) {
+  for (const k of [0, 1, -1, 2, -2, 3, -3, 4]) { const a = ang + k * Math.PI / 4, p = { x: me.x + Math.cos(a) * len, y: me.y + Math.sin(a) * len }; if (!lineNearSpot(me, p, spots, r)) return p; }
+  return null;
+}
+// ESCDRY-PURE-END
+const DROWNF = () => `${SWARM_ROOT}\\Logs\\drown_spots.json`;
+function drownSpots() { try { const L = JSON.parse(String(File.ReadAllText(DROWNF())).replace(/^﻿/, '')); return (Array.isArray(L) ? L : []).filter(s => now() - num(s.at) < ESCDRY.keepMs); } catch (e) { return []; } }
+function drownSpotAdd(x, y, z) {
+  try {
+    if (drownSpots().some(s => Math.hypot(s.x - x, s.y - y) < 120 && now() - num(s.at) < 60000)) return;   // the same spot just now (one #297 per second)
+    sharedJsonUpdate(DROWNF(), (doc) => { const L = (Array.isArray(doc) ? doc : []).filter(s => now() - num(s.at) < ESCDRY.keepMs); L.push({ x: Math.round(x), y: Math.round(y), z: Math.round(z), at: now(), by: Me.Name }); return { doc: L.slice(-ESCDRY.max) }; });
+  } catch (e) { }
+}
 /** Where to run: { x, y, z, points, label, kind, dist, src } or null. Wall-aware first, simple fallbacks after. */
 async function escFleePlan(opts) {
   const me = meSnap(), atk = escAttackers();
@@ -9097,6 +9214,8 @@ async function escFleePlan(opts) {
   // path finder / fallbacks pick another direction; the plain 'away' fallback turns 90 degrees per failed try
   const avoid = (opts && Array.isArray(opts.avoid)) ? opts.avoid.filter(p => p && isFinite(p.x) && isFinite(p.y)) : [];
   avoid.forEach(p => dangers.push({ x: Math.round(p.x), y: Math.round(p.y), r: 700 }));
+  const dry = drownSpots().filter(s => Math.hypot(s.x - me.X, s.y - me.Y) < 6000 && Math.abs(num(s.z) - me.Z) < 600);   // ESCDRY: water I (or a teammate) drowned in
+  dry.forEach(s => dangers.push({ x: s.x, y: s.y, r: ESCDRY.r }));
   const clear = (x, y) => dangers.length ? Math.min(...dangers.map(d => Math.hypot(x - d.x, y - d.y) - d.r)) : 9999;
   const fl = escFloor(me);
   const mk = (src, kind, label, pts) => { const e = pts[pts.length - 1]; return { src, kind, label, x: Math.round(ptX(e)), y: Math.round(ptY(e)), z: Math.round(ptZ(e) || me.Z), points: pts.map(p => ({ x: Math.round(ptX(p)), y: Math.round(ptY(p)), z: Math.round(ptZ(p) || me.Z) })), dist: Math.hypot(ptX(e) - me.X, ptY(e) - me.Y) }; };
@@ -9127,12 +9246,18 @@ async function escFleePlan(opts) {
     }
   }
   // 4) out of every aggressive monster's aggro range (straight line), 5) away from the attackers
-  const sp = safeSpot();
-  if (sp) return mk('safeSpot()', 'free', 'out of aggro range', [{ x: sp.x, y: sp.y, z: me.Z }]);
+  // ESCDRY-2026-11-25: a straight line never through water we drowned in - the first of 8 directions clear of it, none = no straight run
+  const sp = safeSpot(), mp = { x: me.X, y: me.Y };
+  if (sp) {
+    if (!lineNearSpot(mp, sp, dry, ESCDRY.r)) return mk('safeSpot()', 'free', 'out of aggro range', [{ x: sp.x, y: sp.y, z: me.Z }]);
+    const p = escDryPoint(mp, Math.atan2(sp.y - me.Y, sp.x - me.X), Math.hypot(sp.x - me.X, sp.y - me.Y), dry, ESCDRY.r);
+    if (p) return mk('safeSpot()', 'free', 'out of aggro range (round the water)', [{ x: Math.round(p.x), y: Math.round(p.y), z: me.Z }]);
+  }
   if (atk.length) {
     let sx = 0, sy = 0; atk.forEach(a => { sx += a.x; sy += a.y; });
     const a = Math.atan2(me.Y - sy / atk.length, me.X - sx / atk.length) + (avoid.length ? (avoid.length % 2 ? 1 : -1) * Math.PI / 2 : 0);
-    return mk('away', 'away', avoid.length ? 'sideways out of the fight' : 'away from the monsters', [{ x: me.X + Math.cos(a) * 1200, y: me.Y + Math.sin(a) * 1200, z: me.Z }]);
+    const p = escDryPoint(mp, a, 1200, dry, ESCDRY.r);
+    if (p) return mk('away', 'away', avoid.length ? 'sideways out of the fight' : 'away from the monsters', [{ x: Math.round(p.x), y: Math.round(p.y), z: me.Z }]);
   }
   return null;
 }
@@ -10378,7 +10503,9 @@ async function routeHop(p, abort, onDetour) {
       // ROUTENEAR-2026-11-17 (Vykaax: "they don't follow the custom waypoints ... veer off course to find an alternate route"): on the same floor the path
       // finder's way is taken only when it stays close to the user's straight leg (<= 1.35x + 400; was 3x + 1500 = long detours away from the waypoints);
       // a big detour = straight to the user's point (a blocked straight walk still gets the geoRoute detour below)
-      if (r && r.ok && r.points && r.points.length > 1 && (otherFloor || num(r.lengthUnits) < dLeg * 1.35 + 400)) {
+      // ROUTENEAR2-2026-11-22 (owner OK; testers: teams jam at walls): a wall between here and the point = the way around it (as before 17 Nov), the short
+      // rule only where the point is in plain sight (there a long way comes from a learned wall, not a real one)
+      if (r && r.ok && r.points && r.points.length > 1 && (otherFloor || num(r.lengthUnits) < dLeg * 1.35 + 400 || (num(r.lengthUnits) < dLeg * 3 + 1500 && !canSee({ X: p.x, Y: p.y, Z: isFinite(p.z) ? p.z : Me.Z })))) {
         const way = r.points.slice(0, -1).map(q => ({ x: Math.round(q.x), y: Math.round(q.y), z: Math.round(q.z || p.z || Me.Z), ...((q.swim || q.water) ? { swim: true } : {}) })).filter(q => Math.hypot(q.x - p.x, q.y - p.y) > 200);
         for (const q of way) { if (abort && abort()) break; if (Math.hypot(q.x - Me.X, q.y - Me.Y) < 150) continue; if (!(await walkDirect(q.x, q.y, q.z, 150, hopMs(q), abort, 'route')) && Math.hypot(q.x - Me.X, q.y - Me.Y) > 300) break; }
       }
@@ -10452,16 +10579,18 @@ async function routeHop(p, abort, onDetour) {
 // PACE400-2026-11-12 (owner, after public testers "move 5 steps at a time before pausing for 5-10 seconds": "Stop only beyond 400"): the leader
 // pauses on a leg only while a member is more than 400 behind along the route (was 100: with 9 members somebody was always 100+ behind = stop-go).
 // Members still hold right behind him (MT.behind) and he still waits for everyone at every waypoint (mtNeverLeave).
-const MT = { v: 1, lowHp: 40, critHp: 20, fightMaxMs: 15000, packLeft: 5, packR: 300, fightMinMs: 3000, leash: 600, regroupR: 500, reachR: 200, zBand: 300, stuckMs: 8000, progress: 100, paceGap: 400, gateNear: 200, legPack: 3, legFightMaxMs: 60000, maxWaitMs: 60000, leaveMs: 90000, freshMs: 15000, minWalk: 1200, combatStuckMs: 25000,   // MTFIX-2026-10-21: in combat without progress this long = stuck (it was a pause for ever)
-  ladder: ['sidestep', 'back', 'replan', 'around'], ladderWet: ['back', 'replan', 'around'], stuckWetMs: 4000, breathMs: 60000, breathMargin: 4000, swimSpeed: 50, swimGateMs: 8000, pullNear: 1500, pullWaitMs: 180000, sideStep: 250, flatDz: 150, retryWaitMs: 30000, resumeMaxMs: 1800000, near: 1500,
-  limits: { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [80, 3000], mtStuckSec: [3, 60] } };   // = RSM_LIMITS (route rules)
+const MT = { v: 1, lowHp: 40, critHp: 20, fightMaxMs: 15000, packLeft: 5, packR: 300, fightMinMs: 3000, leash: 600, regroupR: 500, reachR: 200, zBand: 300, stuckMs: 8000, progress: 100, paceGap: 400, gateNear: 200, legPack: 3, legFightMaxMs: 60000, runGoAfterMs: 40000, runGoMs: 20000, runGoGapMs: 20000, maxWaitMs: 60000, leaveMs: 90000, freshMs: 15000, minWalk: 1200, combatStuckMs: 25000,   // MTFIX-2026-10-21: in combat without progress this long = stuck (it was a pause for ever)
+  ladder: ['sidestep', 'replan', 'back', 'around'],   // ROUTENEAR2-2026-11-22 (owner OK): the way around first again (back first cost ~60 s at every wall)
+ ladderWet: ['back', 'replan', 'around'], stuckWetMs: 4000, breathMs: 60000, breathMargin: 4000, swimSpeed: 50, swimGateMs: 8000, pullNear: 1500, pullWaitMs: 180000, sideStep: 250, flatDz: 150, retryWaitMs: 30000, resumeMaxMs: 1800000, near: 1500,
+  limits: { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [80, 3000], mtStuckSec: [3, 60], mtHitBackPct: [20, 95] } };   // = RSM_LIMITS (route rules)
 const MT_WORDS = { breath: 'out of breath soon: swimming back to dry ground', sidestep: 'trying a side-step', replan: 're-planning a way around', back: 'back to the last point, trying again', around: 'trying detours', wait: 'all tries used, retrying every 30 s', stuck: 'not moving', left: 'catching up by itself' };
 /** the move-together settings of a party from its route rules (rsmRules) -> { on, maxWaitMs, leaveMs, paceGap } */
 function mtCfg(rules) {
   const r = rules || {}, L = MT.limits;
   const sec = (k, d) => { const v = Number(r[k]); return isFinite(v) && v > 0 ? Math.max(L[k][0], Math.min(L[k][1], v)) * 1000 : d; };
   const gap = Number(r.mtPaceGap), pace = isFinite(gap) && gap > 0 ? Math.max(L.mtPaceGap[0], Math.min(L.mtPaceGap[1], gap)) : MT.paceGap;
-  return { on: r.moveTogether !== false, neverLeave: r.mtNeverLeave !== false, maxWaitMs: sec('mtMaxWaitSec', MT.maxWaitMs), leaveMs: sec('mtLeaveSec', MT.leaveMs), paceGap: pace, stuckMs: sec('mtStuckSec', MT.stuckMs) };
+  const hb = Number(r.mtHitBackPct), hitBack = isFinite(hb) && hb > 0 ? Math.max(L.mtHitBackPct[0], Math.min(L.mtHitBackPct[1], hb)) : MT.lowHp;   // HITBACK-2026-11-22
+  return { hitBack, on: r.moveTogether !== false, neverLeave: r.mtNeverLeave !== false, maxWaitMs: sec('mtMaxWaitSec', MT.maxWaitMs), leaveMs: sec('mtLeaveSec', MT.leaveMs), paceGap: pace, stuckMs: sec('mtStuckSec', MT.stuckMs) };
 }
 /** distance along the route up to each point */
 function mtCum(pts) { const c = [0]; for (let k = 1; k < (pts || []).length; k++) c.push(c[k - 1] + Math.hypot(pts[k].x - pts[k - 1].x, pts[k].y - pts[k - 1].y)); return c; }
@@ -10500,13 +10629,14 @@ function mtLadderNext(rec, o) {
  *  planning / a ladder step running: never "stuck") } -> { tr, stuck } */
 function mtStuckTick(tr, o) {
   const t = tr && tr.idx === o.idx ? Object.assign({}, tr) : { idx: o.idx, best: o.d, bestAt: o.now };
-  if (o.pause) { t.bestAt = o.now; t.best = Math.min(t.best, o.d); }
-  else if (o.d < t.best - MT.progress) { t.best = o.d; t.bestAt = o.now; }
+  if (!isFinite(t.progAt)) t.progAt = o.now;                          // MOVEPROG-2026-11-22: the last time it really came closer (or had a reason to stand)
+  if (o.pause) { t.bestAt = o.now; t.progAt = o.now; t.best = Math.min(t.best, o.d); }
+  else if (o.d < t.best - MT.progress) { t.best = o.d; t.bestAt = o.now; t.progAt = o.now; }
   // ROUTEMOVE-2026-11-17 (tester Vykaax: "party members get 'stuck' for no reason when there is nothing in the way, then they veer off course"): a
   // walker that really MOVES (o.pos, > MT.progress since the last moving sample) is not stuck, even on a leg that bends away from the straight line
   if (o.pos && isFinite(o.pos.x) && isFinite(o.pos.y)) {
     if (t.mx === undefined) { t.mx = o.pos.x; t.my = o.pos.y; }
-    else if (Math.hypot(o.pos.x - t.mx, o.pos.y - t.my) > MT.progress) { t.mx = o.pos.x; t.my = o.pos.y; if (!o.pause) t.bestAt = o.now; }
+    else if (Math.hypot(o.pos.x - t.mx, o.pos.y - t.my) > MT.progress) { t.mx = o.pos.x; t.my = o.pos.y; if (!o.pause && o.now - t.progAt < 30000) t.bestAt = o.now; }   // MOVEPROG-2026-11-22: running to and fro for 30 s without coming closer IS stuck (3 parties jammed at the Dragon Valley entrance)
   }
   return { tr: t, stuck: !o.pause && o.d > MT.reachR && o.now - t.bestAt >= (o.stuckMs || MT.stuckMs) };   // in water: o.stuckMs = MT.stuckWetMs
 }
@@ -10546,6 +10676,10 @@ function mtWhy(m, now) {
  *       members [{ name, online, alive, benched, left, reached, prog, d, stuck: { stage, since } | null, fight }] }
  * -> { act: 'fight' | 'go' | 'wait' | 'pace', waitFor [{ name, why }], leave [names], trail [names], line }
  */
+/** RUNGO: on a leg the leader has waited long enough for members that stand and fight: everyone runs to him now (not with a teammate very low) */
+function mtRunGo(o) {
+  return o.act === 'pace' && o.waiting > 0 && !o.crit && o.now - (o.legSince || o.now) >= MT.runGoAfterMs && o.now - (o.runUntil || 0) >= MT.runGoGapMs;
+}
 function mtDecide(o) {
   const now = o.now, cfg = o.cfg || mtCfg({}), trail0 = new Set(o.trail || []);
   const pt = `point ${(o.gate || 0) + 1}/${o.n || '?'}`;
@@ -10564,7 +10698,7 @@ function mtDecide(o) {
   const pack = (Number(o.attackers) || 0) >= MT.legPack;
   const legFight = o.phase !== 'gate' && !o.legFightDone && (low || pack);
   if (o.fight && (crit || legFight || (o.phase === 'gate' && !o.fightDone)))
-    return out('fight', [], [], null, crit ? `${pt} · someone is very low on HP — fighting here, then on` : legFight ? `${pt} · ${pack ? (Number(o.attackers) || 0) + ' monsters on us' : 'someone is below ' + MT.lowHp + ' % HP'} — fighting here, then on` : `${pt} · grouped up — killing everything that followed us, then on`);
+    return out('fight', [], [], null, crit ? `${pt} · someone is very low on HP — fighting here, then on` : legFight ? `${pt} · ${pack ? (Number(o.attackers) || 0) + ' monsters on us' : 'someone is below ' + (cfg.hitBack || MT.lowHp) + ' % HP'} — fighting here, then on` : `${pt} · grouped up — killing everything that followed us, then on`);
   if (o.phase === 'gate' && o.swimGate && now - (o.since || now) >= MT.swimGateMs) {   // a waypoint IN the water: never tread water long (breath) — the real wait is at the shore
     const sw = (o.members || []).filter(m => m.online && m.alive && !m.benched && !m.left && m.reached < o.gate).map(m => m.name);
     return out('go', [], [], [...new Set([...trail0].concat(sw))], `${pt} · in the water — swimming on to the shore, the team gathers there${sw.length ? ' (' + sw.join(', ') + ' right behind)' : ''}`);
@@ -10730,13 +10864,21 @@ function mtView(phase) {
     const away = !!(L.floor && !fresh && pos && P && isFinite(pos.z) && isFinite(P.z) && Math.abs(pos.z - P.z) > 800);   // a floor walk: still on the floor below / above (its floor teleport turn)
     if (!fresh && !away && pos && reached < g) { const r = mtStuckTick(L.trk[n], { now: t, idx: g, d, pause: !!(lp && lp.fight), stuckMs: L.cfg.stuckMs, pos: pos && isFinite(Number(pos.x)) ? { x: Number(pos.x), y: Number(pos.y) } : null }); L.trk[n] = r.tr; if (r.stuck) stuck = { stage: 'stuck', since: r.tr.bestAt }; }   // a window without reports (old script): judged from its position
     if (L.left.has(n) && online && reached >= g) {   /* 2026-10-14: stuck just before the gate is NOT caught up (11x leave/catch-up loop) */ L.left.delete(n); note(`route to ${L.label}: ${n} caught up with the team again (point ${Math.max(1, g)}/${pts.length})`, true); }
-    return { name: n, online, alive: !(lp && lp.IsDead), benched: benched(n), left: L.left.has(n), reached, prog: pos ? mtProg(pts, L.cum, reached, pos) : 0, d, stuck, fight: !!(lp && lp.hit), wet: !!(fresh && rep.wet), away, low: !!(lp && isFinite(num(lp.hp)) && num(lp.hp) > 0 && num(lp.hp) < MT.lowHp), crit: !!(lp && isFinite(num(lp.hp)) && num(lp.hp) > 0 && num(lp.hp) < MT.critHp) };
+    return { name: n, online, alive: !(lp && lp.IsDead), benched: benched(n), left: L.left.has(n), reached, prog: pos ? mtProg(pts, L.cum, reached, pos) : 0, d, stuck, fight: !!(lp && lp.hit), wet: !!(fresh && rep.wet), away, low: !!(lp && isFinite(num(lp.hp)) && num(lp.hp) > 0 && num(lp.hp) < ((L.cfg && L.cfg.hitBack) || MT.lowHp)), crit: !!(lp && isFinite(num(lp.hp)) && num(lp.hp) > 0 && num(lp.hp) < MT.critHp) };
   });
   const since = phase === 'gate' ? L.gateSince : (L.paceSince || t);
   const v = mtDecide({ now: t, phase, gate: g, n: pts.length, since, swimGate: !!(P && P.swim), leaderProg: mtProg(pts, L.cum, phase === 'gate' ? g : g - 1, me), cfg: L.cfg, trail: [...L.trail], fightDone: L.fightDoneGate === g, fight: rcTravelFighting(), members,
     attackers: phase === 'leg' ? mtTeamAttackers() : 0, legFightDone: L.legFightIdx === g && (L.legFightMs || 0) >= MT.legFightMaxMs });   // LEGFIGHT-2026-11-12
   L.trail = new Set(v.trail);
   if (phase === 'leg') L.paceSince = v.act === 'pace' ? (L.paceSince || t) : 0;
+  // RUNGO-2026-11-22 (live, Destroyer3, FoG Lower level: monsters respawn nonstop; the members assisted each other for minutes 500 behind the waiting leader)
+  if (phase === 'leg') {
+    if (L.legIdx !== g) { L.legIdx = g; L.legSince = t; L.runUntil = 0; }
+    if (mtRunGo({ now: t, act: v.act, legSince: L.legSince, runUntil: L.runUntil, crit: members.some(m => m.alive && m.crit), waiting: v.waitFor.length })) {
+      L.runUntil = t + MT.runGoMs; L.emit(false);
+      note(`route to ${L.label}: ${v.waitFor.map(w => w.name).join(', ')} held by monsters on the way to point ${g + 1}/${pts.length} — everyone runs on for ${MT.runGoMs / 1000} s without fighting`);
+    }
+  }
   if (v.leave.length) mtLeave(v.leave, members);
   try { mtRejoinRun(phase, members, t); } catch (e) { logError('move together rejoin', e); }   // ROUTEFLOOR-2026-11-02
   state.mt = { label: L.label, i: g, n: pts.length, phase, act: v.act, line: v.line, waiting: v.waitFor.slice(0, 8), left: [...L.left], trail: [...L.trail], at: t };
@@ -10796,11 +10938,27 @@ function mtBreak() {
  *  the monsters follow and are killed at the waypoint (mtDecide fights at the gate). */
 /** TOGETHER-2026-10-18: the team's current waypoint while I walk a team route as a member (null otherwise) */
 function mtTeamPoint() { try { if (isLeader() || !memberRoute.mt || !memberRoute.pts) return null; return memberRoute.pts[Math.min(memberRoute.pts.length - 1, Math.max(0, memberRoute.gate))] || null; } catch (e) { return null; } }
+/** LEGANCHOR-2026-11-22 (Vykaax: the leader stacked and killed on the way, "they stood and did nothing"; "even a melee party runs through mobs"): where the
+ *  team IS on a route walk. At a waypoint (phase 'gate') = the waypoint; on a LEG = the leader (me for the leader). A leg fight stops the team anywhere
+ *  between two waypoints (LEGFIGHT), but help / assist / self-defence / regroup measured from the NEXT waypoint: helping was refused and the members
+ *  were walked away from the leader every 3 s. null = no team walk / the leader's position is not known */
+function mtAnchor() {
+  try {
+    if (isLeader()) return (typeof MTL !== 'undefined' && MTL && MTL.pts) ? (MTL.ph === 'gate' ? (MTL.pts[MTL.gate] || null) : { x: num(Me.X), y: num(Me.Y), z: num(Me.Z) }) : null;
+    const g = mtTeamPoint(); if (!g || memberRoute.ph === 'gate') return g;
+    const lp = livePos[CONFIG.leader];
+    const q = typeof mtLeadPos === 'function' ? mtLeadPos() : null; if (q && isFinite(q.x)) return q;
+    return lp && lp.X != null && now() - (lp.at || 0) < 15000 ? { x: num(lp.X), y: num(lp.Y), z: num(lp.Z) } : null;
+  } catch (e) { return null; }
+}
 const MTRUN = { p: null, at: 0 };
+/** RUNGO: the leader told the team to run on now (I am a member of his walk, not very low) */
+function mtRunNow() { try { const m = memberRoute, hp = Number(Me.HpPercent); return !!(m.id && m.mt && !isLeader() && now() < (m.run || 0) && now() >= (m.hold || 0) && !(isFinite(hp) && hp > 0 && hp < MT.critHp)); } catch (e) { return false; } }
 function mtRunOn() {
   try {
     if (Me.IsDead) return false;
     const hp = Number(Me.HpPercent); if (isFinite(hp) && hp > 0 && hp < MT.critHp) return false;   // RUNON-4: only a real reading under 20 % fights
+    if (typeof mtRunNow === 'function' && mtRunNow()) return true;   // RUNGO-2026-11-22: the leader told us to run on
     // RUNON-5 (Tank1 died 2026-10-18 08:16 stuck at point 3 without fighting back): running on only while I really move - no progress for
     // 3 s = defend myself (the walker keeps trying meanwhile)
     { const t = now(), p = MTRUN.p; if (!p || Math.hypot(Me.X - p.x, Me.Y - p.y) > 60) { MTRUN.p = { x: Me.X, y: Me.Y }; MTRUN.at = t; } else if (t - MTRUN.at > 3000) return false; }
@@ -10835,7 +10993,7 @@ async function mtFight(abort, phase) {
   const soloKill = isLeader() && mtNoDealer();                       // ARCHERDUO-2026-10-22: only healers with me = I kill everything that hits us, the pack rule does not apply
   try { if (!(soloKill && Me.IsAttacking)) Send.StopMove(); } catch (e) { }   // never cancel my own shot
   note(`route to ${L.label}: fighting on the way at point ${L.gate + 1}/${L.pts.length} — the whole team stops, then on from this point`);
-  const gp = L.pts[Math.max(0, Math.min(L.pts.length - 1, L.gate))] || { x: Me.X, y: Me.Y, z: Me.Z };   // LEASH-2026-10-14
+  const gp = (leg ? null : L.pts[Math.max(0, Math.min(L.pts.length - 1, L.gate))]) || { x: Me.X, y: Me.Y, z: Me.Z };   // LEASH-2026-10-14; LEGANCHOR: a leg fight is where we stand
   while (rcTravelFighting() && now() - t0 < MT.fightMaxMs && !(abort && abort()) && !Me.IsDead) {
     L.hold = now() + 12000; L.emit(false);
     mtShow({ line: `point ${L.gate + 1}/${L.pts.length} · fighting on the way (${Math.round((now() - t0) / 1000)} s) — on from this point after it` });
@@ -10872,7 +11030,7 @@ async function mtLeadRouteWalk(pts, label, abort, startTown, start, boss, opt) {
   const L = MTL = { id, pts, cum: mtCum(pts), label, floor: opt && opt.dungeon ? { dungeon: opt.dungeon, floor: opt.floor } : null, cfg: mtCfg(routeRulesNow()), gate: Math.max(0, i + 1), trk: {}, trail: new Set(), left: new Set(), gateSince: now(), paceSince: 0, hold: 0, town: startTown || '', chkAt: 0, brk: '' };
   Object.keys(MTREP).forEach(k => delete MTREP[k]);
   routeRewalk.clear();                                               // REWALKFIX-2026-10-15: names from an earlier route never block this one
-  L.emit = (full) => { try { App.emit('swarm.routewalk', Object.assign({ id, gate: L.gate, mt: true, ph: L.ph || 'leg' /* BEHINDFIX-2026-11-10: 'gate' = I stand at the waypoint, members walk up to it */, hold: L.hold > now() ? L.hold : 0, fid: L.hold > now() && typeof mtFightId === 'function' ? mtFightId() : 0 }, full ? { points: pts, label, town: startTown || '', start: start || null, floor: L.floor || undefined } : {})); } catch (e) { } };
+  L.emit = (full) => { try { App.emit('swarm.routewalk', Object.assign({ id, gate: L.gate, mt: true, ph: L.ph || 'leg' /* BEHINDFIX-2026-11-10: 'gate' = I stand at the waypoint, members walk up to it */, hold: L.hold > now() ? L.hold : 0, run: (L.runUntil || 0) > now() && !(L.hold > now()) ? L.runUntil : 0 /* RUNGO */, fid: L.hold > now() && typeof mtFightId === 'function' ? mtFightId() : 0 }, full ? { points: pts, label, town: startTown || '', start: start || null, floor: L.floor || undefined } : {})); } catch (e) { } };
   L.emit(true);
   // KEEPHUNT-2026-10-21 rule 4: at the end of the route (last 2 points / within 1500 of the last point on its floor) a fight = arrived (no MTFIX run-on)
   const khEnd = (j) => { const e = pts[n - 1]; return khRouteEnd(j, n, Math.hypot(e.x - Me.X, e.y - Me.Y), (e.z === undefined || e.z === null) ? 0 : num(e.z) - Me.Z); };
@@ -11108,7 +11266,7 @@ App.on('swarm.routewalk', (event) => {
     if (d.mt && d.id && !d.points && memberRoute.leftId !== d.id && now() - (memberRoute.askAt || 0) > 10000) { memberRoute.askAt = now(); try { App.emit('swarm.mt.need', { id: d.id }); } catch (e) { } }
     return;
   }
-  if (d.mt) { memberRoute.mt = true; memberRoute.ph = d.ph === 'gate' ? 'gate' : 'leg'; memberRoute.behChk = 0; if (isFinite(d.gate)) memberRoute.gate = Number(d.gate); memberRoute.hold = Number(d.hold) || 0; memberRoute.fid = Number(d.fid) || 0; }   // the leader's current waypoint + a fight hold
+  if (d.mt) { memberRoute.mt = true; memberRoute.ph = d.ph === 'gate' ? 'gate' : 'leg'; memberRoute.behChk = 0; if (isFinite(d.gate)) memberRoute.gate = Number(d.gate); memberRoute.hold = Number(d.hold) || 0; memberRoute.run = Number(d.run) || 0; memberRoute.fid = Number(d.fid) || 0; }   // the leader's current waypoint + a fight hold
   memberRoute.until = now() + 120000;                                 // no word from the leader for 2 min: back to following
   try { Options.ActiveFollow = false; } catch (e) { }
 });
@@ -11166,7 +11324,7 @@ function mtMemberTick(m) {
   if (m.left && m.my >= m.gate) { m.left = false; note('route walk: caught up with the team — walking together again'); }
   // TOGETHER-2026-10-18 (owner: "Destroyer1 is not following ... the team sticks together"): during the team's fight hold a member that ended up more
   // than MT.regroupR from the team's waypoint (chased a monster) walks straight back to it - never holds position far from the group
-  if (now() < (m.hold || 0) && !Me.IsDead && !m.left) { const G = m.pts[Math.min(m.pts.length - 1, Math.max(0, m.gate))];
+  if (now() < (m.hold || 0) && !Me.IsDead && !m.left) { const G = mtAnchor();   // LEGANCHOR-2026-11-22: back to the TEAM (was the next waypoint: away from the leader, through the pack)
     if (G && Math.hypot(G.x - Me.X, G.y - Me.Y) > MT.regroupR && now() - (m.regroupAt || 0) > 3000) { m.regroupAt = now(); try { if (Target && (IsInCombat || Me.IsAttacking)) { if (IsInCombat) stopCombatG(); } Send.MoveBackwardToLocation(Math.round(G.x), Math.round(G.y), Math.round(G.z || Me.Z)); } catch (e) { } if (!m.regroupSaid || now() - m.regroupSaid > 30000) { m.regroupSaid = now(); note(`route walk: ${Math.round(Math.hypot(G.x - Me.X, G.y - Me.Y))} from the team - back to it`); } } }
   // SWIM (owner 2026-10-13, Tillion): in the water = the next point or the one I came from is a swim point (or the server says I drown); breath watched
   const prevP = m.pts[Math.max(0, m.my)], drown = now() - (state.drownAt || 0) < 5000;
@@ -11279,7 +11437,11 @@ function memberRouteStep() {
   // combat flag left ON with nothing hitting me for 6 s is no fight - it held me here forever (no step, no unstick ladder). Switch it off and walk on.
   if (!Me.IsDead && IsInCombat && !bfStanceLive() && routeStallFree(now() - (lastAttackerOnMe.at || 0), now() - (m.combatSince || (m.combatSince = now())))) { try { StopCombat(); } catch (e) { } m.combatSince = 0; note(`route to ${m.label}: L2Swarm combat was on with nothing hitting me — off, walking on`); }
   if (!IsInCombat) m.combatSince = 0;
-  if (Me.IsDead || IsInCombat || bfStanceLive()) return;               // fight first (self-defence), then on along the route
+  // LEGANCHOR-2026-11-22: being hit (bfStanceLive) must not stop the team's fight hold from helping the leader, nor freeze a healer / caster that never
+  // melees back (it stood, the leader paced for it for ever: "40 dmg per hit ... prevents them from moving")
+  const runNow = mtRunNow();
+  if (runNow && m.runDone !== m.run) { m.runDone = m.run; m.until = Math.max(m.until || 0, now() + 60000); try { stopCombatG(); } catch (e) { } try { Send.StopMove(); } catch (e) { } }   // RUNGO-2026-11-22
+  if (Me.IsDead || (!runNow && (IsInCombat || (bfStanceLive() && !(m.mt && (now() < (m.hold || 0) || isHealerRole() || noMelee())))))) return;   // fight first (self-defence), then on along the route
   const next = m.my + 1;
   if (next >= m.pts.length) { if (m.rewalks && !m.doneSent) { m.doneSent = true; App.emit('swarm.routerewalk', { done: true }); } setTask(`route to ${m.label}: at the end, waiting for the team`); return; }
   // LEFT BEHIND (2026-10-06 23:25: the server's party teleport did not take Destroyer2 along, he tried to walk from Oren to point 4): far from
@@ -11302,7 +11464,7 @@ function memberRouteStep() {
   }
   // MOVETOGETHER-2026-10-13: a fight on the way holds the whole team; never past the leader's current waypoint; stuck = the unstick ladder
   if (m.mt) {
-    if (now() < (m.hold || 0)) { const hm = typeof mtHelpTarget === 'function' ? mtHelpTarget(memberRoute.fid) : null; if (hm) { if (now() - (m.helpAt || 0) > 1500) { m.helpAt = now(); engage(hm).catch(e => logError('route fight help', e)); } setTask(`route to ${m.label}: helping the fight on the way (${hm.Name}) — on from point ${m.my + 2}/${m.pts.length} after it`); return; } setTask(`route to ${m.label}: the team stopped for a fight — on from point ${m.my + 2}/${m.pts.length} after it`); return; }
+    if (now() < (m.hold || 0)) { const hm = typeof mtHelpTarget === 'function' ? mtHelpTarget(memberRoute.fid) : null; if (hm) { if (!Me.IsAttacking && !Me.IsCasting && now() - (m.helpAt || 0) > 1500) { m.helpAt = now(); engage(hm).catch(e => logError('route fight help', e)); } setTask(`route to ${m.label}: helping the fight on the way (${hm.Name}) — on from point ${m.my + 2}/${m.pts.length} after it`); return; } setTask(`route to ${m.label}: the team stopped for a fight — on from point ${m.my + 2}/${m.pts.length} after it`); return; }
     if (m.turnBack) {                                                 // out of breath soon: back to the last dry waypoint, catch my breath, again
       const tb = m.turnBack, id = m.id; m.busy = true; mtMemberReport(m, true);
       setTask(`route to ${m.label}: ${MT_WORDS.breath} (point ${tb.idx + 1})`);
@@ -11323,9 +11485,10 @@ function memberRouteStep() {
     if (m.townExitKey !== `${m.id}:${next}`) { let tx = null; try { tx = mtTownExitPoint(m.pts[next]); } catch (e) { tx = null; } if (tx) {
       m.townExitKey = `${m.id}:${next}`; m.busy = true; const id = m.id;
       setTask(`route to ${m.label}: leaving town by the streets toward point ${next + 1}/${m.pts.length}`);
-      rgWalk(tx.TD, tx.pt, { team: false, label: 'town exit', abort: () => memberRoute.id !== id || Me.IsDead, maxReplans: 3, timeoutMs: 180000 })
+      memberRoute.id = null;   // TOWNEXIT2-2026-11-22: walkDirect refuses every step while a route id is set, so this walk never moved anyone (as mtOwnWay does)
+      rgWalk(tx.TD, tx.pt, { team: false, label: 'town exit', abort: () => memberRoute.id != null || !Array.isArray(memberRoute.pts) || Me.IsDead, maxReplans: 3, timeoutMs: 180000 })
         .catch(e => logError('route town exit', e))
-        .finally(() => { m.busy = false; m.stuckNow = false; m.fails = 0; m.ladder = null; m.tr = null; m.stuckSince = 0; mtMemberReport(m, true); });
+        .finally(() => { if (memberRoute.id == null && Array.isArray(m.pts)) memberRoute.id = id; m.busy = false; m.stuckNow = false; m.fails = 0; m.ladder = null; m.tr = null; m.stuckSince = 0; mtMemberReport(m, true); });
       return; } }
     if (m.stuckNow || m.fails >= 1) {
       const lad = m.ladder && m.ladder.idx === next ? m.ladder : (m.ladder = { idx: next, stage: 0, since: m.stuckSince || now(), at: 0, cur: 'stuck' });
@@ -16468,22 +16631,45 @@ async function boostAugRun(o) {
   finally { BOOST.on = false; BOOST.cur = null; }
   return 'augment: ' + BOOST.why;
 }
-function boostAttrValue(objId) { let v = -1; try { Inventory.forEach(i => { if (num(i.objId) === num(objId)) v = num(i.AttackElementVal); }); } catch (e) { } return v; }
+// BOOSTATTR-PURE-BEGIN (docs/plan/tools/test_tester_1122b.js)
+// BOOSTATTR-2026-11-22 (tester: "attribute does nothing"): stones 9546-9551, crystals 9552-9557, jewels 9558-9563, energies 9564-9569, each group in this
+// order; armor gets the OPPOSITE element as defence (Plugins/ElementalAttributes). The server's limits: stones 150 / 60, crystals and up 300 / 120.
+const BOOST_ELEM = ['Fire', 'Water', 'Earth', 'Wind', 'Unholy', 'Holy'], BOOST_OPP = { Fire: 'Water', Water: 'Fire', Wind: 'Earth', Earth: 'Wind', Holy: 'Unholy', Unholy: 'Holy' };
+function boostStoneInfo(stone) { const k = Number(stone) - 9546; return k >= 0 && k < 24 ? { el: BOOST_ELEM[k % 6], crystal: k >= 6 } : null; }
+/** row = { type, AttackElementVal, DefAttFire, ... } -> the value this stone raises on that item (-1 = cannot tell) */
+function boostAttrOf(row, stone) {
+  const s = boostStoneInfo(stone); if (!row || !s) return -1;
+  const v = /weapon/i.test(String(row.type || '')) ? row.AttackElementVal : /armor/i.test(String(row.type || '')) ? row['DefAtt' + BOOST_OPP[s.el]] : undefined;
+  return v === undefined || v === null || !isFinite(Number(v)) ? -1 : Number(v);
+}
+function boostAttrCap(row, stone, to) { const s = boostStoneInfo(stone), w = /weapon/i.test(String((row && row.type) || '')); return Math.min(Number(to) || 0, s && s.crystal ? (w ? 300 : 120) : (w ? 150 : 60)); }
+// BOOSTATTR-PURE-END
+/** the item's attribute values NOW (the brain asks the agent: the normal bag report does not carry them, so the value always read 0 and Stop at the
+ *  target never came) -> row | null (not in the bag) | false (the agent is too old to tell) */
+async function boostAttrRow(objId) {
+  if (typeof __itemAttr === 'function') { try { return await __itemAttr(num(objId)); } catch (e) { return false; } }
+  let r = null; try { Inventory.forEach(i => { if (num(i.objId) !== num(objId)) return; r = { type: String(i.Type || ''), AttackElementVal: num(i.AttackElementVal) }; BOOST_ELEM.forEach(el => { r['DefAtt' + el] = num(i['DefAtt' + el]); }); }); } catch (e) { } return r;
+}
 async function boostAttrRun(o) {
   if (BOOST.on) return 'already running - !boost stop first';
-  Object.assign(BOOST, { on: true, stop: false, at: now(), cur: { name: o.itemName || String(o.objId), lvl: boostAttrValue(o.objId), to: o.to, scroll: 'stone ' + o.stone }, tries: 0, ok: 0, fail: 0, broke: 0, why: '', rules: [], all: false, mode: 'attribute', active: 0 });
+  Object.assign(BOOST, { on: true, stop: false, at: now(), cur: { name: o.itemName || String(o.objId), lvl: 0, to: o.to, scroll: 'stone ' + o.stone }, tries: 0, ok: 0, fail: 0, broke: 0, why: '', rules: [], all: false, mode: 'attribute', active: 0 });
   const dMin = Math.max(0, num(o.dMin)), dMax = Math.max(dMin, num(o.dMax));
   boostLog(`attribute start: item ${o.objId}, stone ${o.stone}, to ${o.to}`);
   try {
     while (!BOOST.stop && !Me.IsDead) {
-      const v0 = boostAttrValue(o.objId); BOOST.cur.lvl = v0;
-      if (v0 < 0) { BOOST.why = 'the item is not in my bag'; break; }
-      if (v0 >= o.to) { BOOST.why = `attribute ${v0} reached the target ${o.to}`; break; }
+      const row = await boostAttrRow(o.objId);
+      if (row === false) { BOOST.why = 'the agent cannot read attribute values yet (restart this character) - nothing used'; break; }
+      if (!row) { BOOST.why = 'the item is not in my bag'; break; }
+      const v0 = boostAttrOf(row, o.stone), cap = boostAttrCap(row, o.stone, o.to); BOOST.cur.lvl = v0;
+      if (v0 < 0) { BOOST.why = 'not a weapon / armor, or not an attribute stone - nothing used'; break; }
+      if (v0 >= cap) { BOOST.why = `attribute ${v0} reached ${cap < o.to ? 'the limit of this stone (' + cap + ')' : 'the target ' + o.to}`; break; }
+      if (!BOOST.ok && BOOST.fail >= 10) { BOOST.why = '10 stones used without any change - stopped'; break; }
       const st = Inventory.GetItemByID(o.stone); if (!st) { BOOST.why = 'no attribute stone left'; break; }
       const c0 = bagCount(o.stone); BOOST.tries++;
-      Send.UseItem(num(st.objId)); await sleep(200); Send.ReqExEnchantItemAttribute(num(o.objId));
-      { const t0 = now(); while (now() - t0 < 4000 && bagCount(o.stone) === c0 && boostAttrValue(o.objId) === v0) await sleep(30); }
-      const v1 = boostAttrValue(o.objId);
+      Send.UseItem(num(st.objId)); await sleep(200); Send.ReqExEnchantItemAttribute(num(o.objId), true);   // the second argument as L2Swarm's own ElementalAttributes plugin sends it
+      let v1 = v0;
+      { const t0 = now(); while (now() - t0 < 5000 && bagCount(o.stone) === c0) await sleep(100);
+        for (let k = 0; k < 4 && v1 === v0; k++) { await sleep(250); const r1 = await boostAttrRow(o.objId); v1 = r1 ? boostAttrOf(r1, o.stone) : v0; } }
       if (v1 > v0) { BOOST.ok++; boostLog(`attribute ${v0} -> ${v1}: success`); }
       else if (bagCount(o.stone) < c0) { BOOST.fail++; boostLog(`attribute ${v0}: failed (stone used)`); }
       else { BOOST.why = `no answer${lastSysMsg && now() - lastSysMsg.at < 6000 ? ' - ' + String(lastSysMsg.text).slice(0, 80) : ''}`; boostLog(BOOST.why); break; }
@@ -17651,7 +17837,7 @@ App.on('swarm.trade.added', (event) => {
 // 'late receive' session kept re-confirming for up to 18 s into the NEXT giver's trade and locked it after his first item (#122)
 App.on('swarm.trade.end', (event) => {
   const d = (event && event.data) || {};
-  if (!d.tok) return;
+  if (!d.tok || (d.receiver && String(d.receiver) !== String(Me.Name))) return;
   const t = now(); tradeEndedToks[String(d.tok)] = t;
   Object.keys(tradeEndedToks).forEach(k => { if (t - tradeEndedToks[k] > 600000) delete tradeEndedToks[k]; });
   if (tradeState && tradeState.role === 'take' && tradeState.tok === String(d.tok) && !tradeState.done) {
@@ -17661,8 +17847,11 @@ App.on('swarm.trade.end', (event) => {
   // XFER-2026-11-10: the giver moved everything with L2Swarm's hidden TransferItems (no trade window, no token for my session): my waiting
   // session for THAT giver ends now; a session that did not start yet ends at once when it starts (XFER.doneFrom)
   if (d.xfer && d.ok && d.giver) {
-    XFER.doneFrom[String(d.giver)] = t;
-    if (tradeState && tradeState.role === 'take' && tradeState.other === String(d.giver) && !tradeState.started && !tradeState.done) { tradeState.done = 'xfer'; tradeLog(`take ${d.giver}: moved by TransferItems (hidden trade) — session over`); }
+    const mine = !!(tradeState && tradeState.role === 'take' && tradeState.other === String(d.giver));
+    // XFEREND-2026-11-22 (live, Destroyer3's first restock with TransferItems): the trade took 1 s, so its own events fell into the quiet time after the
+    // previous one and the receiver waited 30 s per member; the giver's end now always reaches it. Remembered only when my session with it is still to come
+    if (!mine && t - ((XFER.tookAt || {})[String(d.giver)] || 0) > 10000) XFER.doneFrom[String(d.giver)] = t;
+    if (mine && !tradeState.done) { tradeState.done = 'xfer'; tradeLog(`take ${d.giver}: moved by TransferItems (hidden trade) — session over`); }
   }
 });
 
@@ -17808,7 +17997,14 @@ async function xferGive(d, pm) {
       catch (e2) { XFER.badUntil = now() + 30 * 60000; tradeLog(`give ${d.receiver}: TransferItems refused (${why1} / ${String((e2 && e2.message) || e2).slice(0, 120)}) — normal trade window (paused 30 min)`); return null; }
     } else { if (!movedAny()) { XFER.badUntil = now() + 10 * 60000; tradeLog(`give ${d.receiver}: TransferItems refused (${why1}) — normal trade window (paused 10 min)`); return null; } }
   }
-  try { if (r && typeof r.then === 'function') r = await r; } catch (e) { r = false; }
+  try { if (r && typeof r.then === 'function') r = await r; }
+  catch (e) {
+    // XFERBRAIN-2026-11-22: in the brain every answer is a promise: a refusal (older agent / older L2Swarm: not defined) = the window at once, not 60 s
+    // of waiting; "timed out" is NOT a refusal (the trade may still run: the bag decides, never a double give)
+    const why = String((e && e.message) || e).slice(0, 120);
+    if (!/timed out/i.test(why) && !movedAny()) { XFER.badUntil = now() + 30 * 60000; tradeLog(`give ${d.receiver}: TransferItems refused (${why}) — normal trade window (paused 30 min)`); return null; }
+    r = false;
+  }
   // XFER2: the call returns when the trade STARTED (L2Swarm walks, opens, adds, both confirm) -> wait for the bag (max XFER.waitMs) before
   // anything goes through my own trade window (a second window on top of the host's trade = both cancelled)
   let mv = [];
@@ -17999,7 +18195,8 @@ async function giveItems(d) {
     if (!tradeState || !tradeState.done) { try { Send.TradeDone(0); } catch (e) { } }   // never leave a trade hanging (it blocks all NPCs)
     // TRADEWIN: capture off again (as I found it) + tell the receiver this trade is over (its session for this token ends at once)
     TWIN.cap = null; if (twOpt !== null) { try { Options.EnableJSOnIncomingPacket = twOpt; } catch (e) { } }
-    try { if (d.receiverAccountId) App.emitTo(d.receiverAccountId, 'swarm.trade.end', { giver: Me.Name, tok, ok: endOk, xfer: xferAll }); } catch (e) { }
+    // XFEREND-2026-11-22: team steps (the leader collects adena) pass no account id, so the receiver never heard the end: its known id, else to everyone
+    try { const end = { giver: Me.Name, tok, ok: endOk, xfer: xferAll, receiver: String(d.receiver) }, to = d.receiverAccountId || posAcct[String(d.receiver)]; if (to) App.emitTo(to, 'swarm.trade.end', end); else App.emit('swarm.trade.end', end); } catch (e) { }
     // AMMOGIVE: what is left of my ammo stack goes back on
     if (ammoBack) { try { let it = null; Inventory.forEach(i => { if (num(i.objId) === ammoBack) it = i; }); if (it && !it.IsEquiped && num(it.Count) > 0) { setTimeout(() => { try { Send.UseItem(ammoBack); } catch (e) { } }, 800); } } catch (e) { } }
     tradeQuiet();                                                     // TRADEEV: this session's late events must not end the next one
@@ -18051,6 +18248,7 @@ async function receiveItems(d) {
     const nItems = Array.isArray(d.items) ? d.items.length : Math.max(0, num(d.n));
     try { done = await waitTrade('done', T * 2 + tradeFillMs(nItems)); } finally { SCHED.clear(acceptLoop); }
     tradeLog(`take ${d.giver}: ${done || 'timeout'}`);
+    (XFER.tookAt = XFER.tookAt || {})[String(d.giver)] = now();   // XFEREND
     return tradeEnd({ ok: !!done, msg: done || 'timeout' });
   } finally {
     if (!tradeState || !tradeState.done) { try { Send.TradeDone(0); } catch (e) { } }   // never leave a trade hanging (it blocks all NPCs)
@@ -19411,7 +19609,7 @@ function mtFightId() { try { if (Target && !Target.IsDead && (Me.IsAttacking || 
 function mtHelpTarget(fid) {
   try {
     if (!fid || isHealerRole() || Me.IsDead) return null;
-    if (lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 6000 && num(lastAttackerOnMe.id) !== num(fid)) return null;   // my own attacker first (self-defence)
+    if (lastAttackerOnMe && lastAttackerOnMe.id && now() - lastAttackerOnMe.at < 6000 && !lastAttackerOnMe.for && num(lastAttackerOnMe.id) !== num(fid)) return null;   // my own attacker first (self-defence); LEGANCHOR: a monster I only helped against (.for) is not my attacker
     const m = mobById(fid); if (!m || m.IsDead || ignoredMob(m)) return null;
     if (Math.hypot(num(m.X) - Me.X, num(m.Y) - Me.Y) > MTHELP_RANGE || Math.abs(num(m.Z) - Me.Z) > 500 || !canSee(m)) return null;   // WALLSIGHT
     return m;
@@ -19435,7 +19633,14 @@ const huntUnreachN = {};                         // UNREACHLOOP-2026-11-12: objI
 // UNREACHLOOP-PURE-BEGIN
 /** n = how often this object was unreachable -> how long it is put aside (ms): 1st 2 min, 2nd 10 min, then 30 min */
 function huntUnreachAsideMs(n) { return n >= 3 ? 1800000 : n === 2 ? 600000 : 120000; }
+// WALLASIDE-2026-11-25 (owner: "Ja, lav det"; live: Spoiler11, Devil's Isle Pit Archer room, 326 refusals "a wall is between us" in 7 min, about one a second,
+// 4 kills - the Fiend Archers stand behind rocks and each was set aside only 10 s): a target behind a wall is set aside longer every time
+/** n = how often this object was refused for a wall -> how long it is put aside (ms): 1st 10 s, 2nd 2 min, then 10 min */
+function huntWallAsideMs(n) { return n >= 3 ? 600000 : n === 2 ? 120000 : 10000; }
 // UNREACHLOOP-PURE-END
+const huntWallN = {};                            // WALLASIDE-2026-11-25: objId -> how often it was refused for a wall
+/** WALLASIDE: put a target behind a wall aside (longer each time) */
+function huntWallAside(objId) { try { const id = num(objId); if (!id) return; huntWallN[id] = (huntWallN[id] || 0) + 1; huntBlack[id] = now() + huntWallAsideMs(huntWallN[id]); } catch (e) { } }
 const huntProgress = { target: 0, since: 0, startD: 0, misses: 0 };
 /** Kald hvert tik med det aktuelle mål. true = målet er opgivet (sortlistet). */
 function huntCheckReach(t) {
@@ -19487,8 +19692,9 @@ function targetGone(id) { try { if (!id) return true; const m = mobById(id); ret
 async function engage(t) {
   if (isHealerRole() || recHold()) return;                    // healers ONLY heal (user 2026-10-04 20:20): never attack, also not in self-defence
   if (!t || t.IsDead) return;                                 // allerede død: intet at angribe
+  if (raidNeverRefuse(t, 'attack')) { try { huntBlack[num(t.objId)] = now() + 60000; } catch (e) { } return; }   // RAIDNEVER
   if (hpZeroKnown(t)) { try { huntBlack[num(t.objId)] = now() + 15000; } catch (e) { } return; }   // ENGINE DATA #16: alive at 0 % HP -> aside 15 s (no re-pick loop)
-  if (!canSee(t)) { try { huntBlack[num(t.objId)] = now() + 10000; } catch (e) { } return wallRefused('attacking', t); }   // WALLSIGHT-2026-10-24: never through a wall
+  if (!canSee(t)) { huntWallAside(t.objId); return wallRefused('attacking', t); }   // WALLSIGHT-2026-10-24: never through a wall; WALLASIDE: longer each time
   engageState.id = num(t.objId); engageState.at = now();
   try { const E = engageState.ids, tn = now(); E[engageState.id] = tn; for (const k in E) if (tn - E[k] > 600000) delete E[k]; } catch (e) { }   // ENGINE DATA #16: every engaged monster (autoLvlKilled)
   intent('attack', `${t.Name}${t.HpPercent !== undefined ? ' (' + Math.round(num(t.HpPercent)) + '% HP)' : ''}`, { x: t.X, y: t.Y, z: t.Z });
@@ -20202,7 +20408,10 @@ async function missionTeamAction(action, data) {
     raidFightMark(data);                                               // RAID RESUME (audit #25): a restart comes back into this fight
     if (data && data.epic) return epicEngage(data);                     // EPIC (2026-10-10): the boss's guide tactic (no L2Swarm combat)
     const b = data.boss;
-    combatSquare(CONFIG.mission.engageRadius * zoneScale(), b.x, b.y, b.z);
+    // MEMBERSQUARE-2026-11-22 (Vykaax: "something setting followers to 7500 Square zone range?"): 2500 x 3 = 7500 was set as EVERY member's own L2Swarm combat
+    // zone at a raid engage and never put back. Members fight a raid by script: only the leader gets the zone; a member still on it is put back to the tight one
+    if (isLeader()) combatSquare(CONFIG.mission.engageRadius * zoneScale(), b.x, b.y, b.z);
+    else { const sr = Math.round(CONFIG.mission.engageRadius * zoneScale()); try { if (num(Options.CombatRange) === sr) combatSquare(STOPCALM.tightSquare, b.x, b.y, b.z); } catch (e) { } NNAV.zone = { x: Math.round(b.x), y: Math.round(b.y), z: Math.round(b.z), r: sr }; }
     if (!IsEnabled) EnableBot();
     startCombatG();
     let t = null;
@@ -23496,17 +23705,23 @@ function spotBlock(key, center, radius, noArea, opts) {
   return '';
 }
 
+/** SOLOTOP-2026-11-25: may a solo character of this level take a spot with this top level? (unknown top = yes; your dashboard choice is never filtered) */
+function soloTopFits(top, myLevel) { const t = Number(top); return !(t > 0) || t <= (Number(myLevel) || 0); }
 function pickSpot(level, solo) {
   // SOLO CHARACTER (user decision 2026-10-08, ingame issue #34: Dagger1 died 7x solo at lvl 3-24): a character with no teammates on the roster
   // picks spots for 3 levels BELOW his own (datapack spots: no +2 margin above that) — he stays solo
+  const realLevel = num(level);
   const soloLow = soloChar() && !autoLvl.forceSpot; if (soloLow) level = Math.max(1, num(level) - SOLO.levelsBelow);
+  // SOLOTOP-2026-11-25 (owner: "Ja, lav solo-reglen"; live: Nuker19, lvl 60 Spellsinger alone, got Fields of Massacre and then Valley of Saints, both
+  // Lv60-65, through the "closest route zone" fallback - 9 deaths): a solo character never takes a spot whose TOP level is above its own level
+  const soloTopOk = (top) => !soloLow || soloTopFits(top, realLevel);
   if (autoLvl.forceSpot && autoLvl.forceSpot.assist) { const a = assistSpot(autoLvl.forceSpot.assist); if (a) autoLvl.forceSpot = a; }
   if (autoLvl.forceSpot) return autoLvl.forceSpot;                       // !dungeon <name> / !assist <name>
   { const ms = manualSpot(level, solo); if (ms) return ms; }              // the party's hunting spot chosen on the dashboard (ROOM POLYS PATCH 2026-10-08)
   const team = CONFIG.leader, passed = [];
   const noAuto = (nm) => { try { return !!(CONFIG.lead.neverAuto && CONFIG.lead.neverAuto.test(String(nm || ''))); } catch (e) { return false; } };   // NEVERAUTO-2026-10-30
   // KEEPOUT-2026-10-22 (spot map "keep out" areas for chosen field areas / rooms): a zone whose note starts with KEEPOUT only carries exclusion polygons (inZoneHole) - never a hunting spot
-  const zones = customZones().filter(z => z.enabled !== false && !/^KEEPOUT\b/.test(String(z.note || '')) && !noAuto(z.name) && !noAuto(z.rooms) && zoneTeamOk(z, team) && (!z.kind || z.kind === 'any' || z.kind === teamKind()) && ssSpotOk(z));
+  const zones = customZones().filter(z => z.enabled !== false && !/^KEEPOUT\b/.test(String(z.note || '')) && !noAuto(z.name) && !noAuto(z.rooms) && zoneTeamOk(z, team) && (!z.kind || z.kind === 'any' || z.kind === teamKind()) && ssSpotOk(z) && soloTopOk(z.levelMax));   // SOLOTOP
   const tryZone = (z) => {
     const b = spotBlock(z.name, { x: z.x, y: z.y, z: z.z }, z.radius, true);   // skipped / occupied; the area (rooms, sub-areas, whole zone) is checked in zoneSpot
     if (b) { passed.push(`${z.name}: ${b}`); return null; }
@@ -23545,7 +23760,7 @@ function pickSpot(level, solo) {
   // 2b) a custom zone of ANOTHER party that fits this level (user-made spots, often split into sub-areas, beat far datapack spots:
   // 2026-10-08 17:31 Destroyer3 + Tank2 were sent to a 12-monster datapack spot at the Dwarven Eastern Mining Zone)
   if (passed.length) {
-    const others = customZones().filter(z => z.enabled !== false && !noAuto(z.name) && !noAuto(z.rooms) && !zoneTeamOk(z, team) && level >= z.levelMin && level <= z.levelMax
+    const others = customZones().filter(z => z.enabled !== false && !noAuto(z.name) && !noAuto(z.rooms) && !zoneTeamOk(z, team) && level >= z.levelMin && level <= z.levelMax && soloTopOk(z.levelMax)
       && (!z.kind || z.kind === 'any' || z.kind === teamKind()) && ssSpotOk(z) && !sameAsSkipped(z))
       .sort((a, b) => Math.hypot(a.x - Me.X, a.y - Me.Y) - Math.hypot(b.x - Me.X, b.y - Me.Y));
     for (const z of others) { const s = tryZone(z); if (s) { pickLog(`autolevel: lvl ${level}: our route zones are taken — using another party's zone: ${s.name}${passedTxt()}`); return s; } }
@@ -23564,7 +23779,7 @@ function pickSpot(level, solo) {
   // 3a) FIELD AREAS (2026-10-08 22:45): the best free fitting outdoor area (geodata polygon, + its fitting neighbours to rotate through) before the
   // datapack squares; first the normal level window, then +3
   for (const wide of [false, true]) {
-    try { const fa = fieldAreaAutoSpot(level, solo, wide, (c) => nearSkipped(c)); if (fa) { pickLog(`autolevel: lvl ${level}: field area ${fa.name} (lvl ${fa.levelMin}-${fa.levelMax}${fa.multi ? ', rotating through ' + fa.multi.ids.length : ''}${wide ? ', wider level window' : ''})${passedTxt()}`); return fa; } } catch (e) { logError('field areas pick', e); }
+    try { const fa = fieldAreaAutoSpot(level, solo, wide, (c) => nearSkipped(c)); if (fa && !soloTopOk(fa.levelMax)) pickLog(`autolevel: lvl ${realLevel}: field area ${fa.name} (lvl ${fa.levelMin}-${fa.levelMax}) is above me - alone I never take a spot above my own level`); else if (fa) { pickLog(`autolevel: lvl ${level}: field area ${fa.name} (lvl ${fa.levelMin}-${fa.levelMax}${fa.multi ? ', rotating through ' + fa.multi.ids.length : ''}${wide ? ', wider level window' : ''})${passedTxt()}`); return fa; } } catch (e) { logError('field areas pick', e); }
   }
   for (const [wide, minMobs] of [[false, solo ? 0 : 20], [true, solo ? 0 : 20], [true, 0]]) {
     let best = null, bestScore = -1e9;
@@ -23572,7 +23787,7 @@ function pickSpot(level, solo) {
     for (const s of huntingSpots()) {
       if (s.enabled === false) continue;                                  // switched off in the dashboard shape editor (2026-10-08 23:30)
       if (noAuto(s.name) || noAuto(s.dungeon) || noAuto((s.gk && s.gk.desc) || '')) continue;   // NEVERAUTO-2026-10-30
-      if (s.levelMin > level + up || s.levelMax < level - down || (solo && s.dungeon) || !spotReachable(s) || !ssSpotOk(s) || (leadMode() && CONFIG.lead.avoidLanding.test(String((s.gk && s.gk.desc) || '') + ' ' + s.name))) continue;
+      if (s.levelMin > level + up || s.levelMax < level - down || !soloTopOk(s.levelMax) || (solo && s.dungeon) || !spotReachable(s) || !ssSpotOk(s) || (leadMode() && CONFIG.lead.avoidLanding.test(String((s.gk && s.gk.desc) || '') + ' ' + s.name))) continue;
       // leveling = teleport to a field landing and walk from THERE; a spot without a "Town -> Field" gatekeeper link would mean walking
       // out of a town, which is never done (user rule 2026-10-05)
       if (leadMode() && !String((s.gk && s.gk.desc) || '').includes('->')) continue;
@@ -25329,6 +25544,7 @@ async function stashOpenList(npc, kind) {
 /** Deposit `rows` at `npc` in batches (re-opening the list before each batch; a refused batch is retried one item at a time). */
 async function stashDepositAt(npc, rows, kind) {
   const S = CONFIG.stash, rec = stashRec(), res = { done: [], refused: [], fee: 0, why: '', link: '', batches: 0 };
+  STASH.kind = kind;   // WHKIND-2026-11-22: the warehouse this deposit really goes to (fullSys: the server's #130 belongs to THIS one)
   rec.kinds = rec.kinds || {};
   let todo = stashOrder(rows, rec.kinds), singles = 0;
   for (let round = 0; round < S.maxRounds && todo.length; round++) {
@@ -25374,6 +25590,8 @@ async function stashDepositAt(npc, rows, kind) {
   rec.last = { at: new Date().toISOString(), n: res.done.length, fee: res.fee, keeper: npc.Name, kind, ok: !res.why || res.done.length > 0, why: res.why, refused: res.refused.slice(0, 20) };
   rec.totalDeposits = (rec.totalDeposits || 0) + res.done.length;
   stashRecSave(rec);
+  // WHKIND-2026-11-22: something went in = not full (every caller: the bank, item jobs, soul crystals; only stashRun cleared it before)
+  try { if (res.done.length && res.why !== 'warehouse full') whFullSet(kind, false, `${res.done.length} kinds went in`); } catch (e) { }
   return res;
 }
 /** Walk to the Giran warehouse (recorded route), deposit what the plan says, walk back. opts.force: ignore the bag threshold. */
@@ -25616,7 +25834,7 @@ function fullSave() { try { File.WriteAllText(FULLW_F(), JSON.stringify({ refuse
 function fullSys(id, text) {
   const k = fullSysKind(id, text); if (!k) return;
   if (k === 'bag') { fullLoad(); let c = 0; try { Inventory.forEach(() => { c++; }); } catch (e) { } FULLW.refused = { n: c, atMs: now(), at: new Date().toISOString(), text: String(text || '').slice(0, 120) }; fullSave(); fullTick(); }
-  else whFullSet(STASH.busy && stashDest() === 'clan' ? 'clan' : 'private', true, String(text || '').slice(0, 120));
+  else whFullSet(STASH.busy && STASH.kind === 'clan' ? 'clan' : 'private', true, String(text || '').slice(0, 120));   // WHKIND-2026-11-22: was stashDest() (the setting), so a clan deposit of the bank / an item job was booked as "own warehouse full" and never cleared
 }
 function fullPub() { return FULLW.lvl ? { level: FULLW.lvl, why: FULLW.why, at: new Date().toISOString() } : null; }
 function fullTick() {
@@ -26936,6 +27154,9 @@ async function whSell(parts) {
     if (o.done) { note('whsell: that order was already run (' + o.done + ')', true); return; }
     p = { items: o.items.map(i => ({ id: num(i.id), count: i.count === 'all' ? 'all' : Math.max(1, num(i.count)) })).filter(i => i.id > 0), err: '' };
     sell = o.sell !== false; WHS_BY.v = String(o.by || '');   // CWHCLEAN-2026-11-03: who ordered it (the ledger text)
+    // WHHOFF-2026-11-25 (live 2026-11-22: the clean-up sold 25 pieces from Crafter1 while he stood on Hands off): an order the dashboard's
+    // automatic clean-up / default sale wrote is refused while I am on Hands off - the owner's own Storage page orders still run
+    if (/^whauto/i.test(WHS_BY.v) && handsOffMe()) { note(`whsell: refused - the automatic ${WHS_BY.v === 'whauto-cleanup' ? 'clean-up' : 'default sale'} does not run while I am on Hands off`, true); return; }
     try { o.done = new Date().toISOString(); File.WriteAllText(SWARM_ROOT + '\\Logs\\whsell_order.json', JSON.stringify(o)); } catch (e) { }
   } else p = whParse(parts.slice(1).filter(a => !/^(clan|cwh)$/i.test(String(a))));
   if (p.err || (!p.items.length && !pendingOnly)) { note('whsell: ' + (p.err || 'no items') + ' — use "!whsell <id>[:count|:all],<id>[:count]"', true); return; }
@@ -26992,6 +27213,7 @@ setTimeout(function whsResumeCheck() {
     let r = null; try { r = JSON.parse(File.ReadAllText(WHS_RUN_F())); } catch (e) { return; }
     if (!r || !r.active || now() - (Date.parse(r.at || '') || 0) > 3 * 3600000) return;
     const items = Object.keys(r.todo || {}).map(k => ({ id: num(k), count: r.todo[k] }));
+    if (handsOffMe()) { note(`[whsell] an unfinished clan warehouse sale (${items.length} kind(s) left) was NOT resumed: I am on Hands off`, true); return; }   // WHHOFF-2026-11-25
     // NOAUTOSELL2-2026-10-27: a restart never continues a sale by itself unless selling is switched on (party Settings -> Supplies); otherwise it says
     // so and leaves it to your order ("!whsell pending" sells pieces already taken out, "!whsell order" runs the list again)
     if (!pautoOn('sell')) { note(`[whsell] an unfinished clan warehouse sale (${items.length} kind(s) left) was NOT resumed: selling is switched off — your "!whsell order" / "!whsell pending" continues it`, true); return; }
@@ -27002,11 +27224,19 @@ setTimeout(function whsResumeCheck() {
 /** WHSELL-YIELD 2026-10-14 (19:11: the owner's clan quest button took control while the sale walked to Helvetia; both kept walking = both failed,
  *  "two commands must never fight"): between every step the sale checks its control slot; taken by another order -> it pauses (no walking),
  *  waits until that order has ended (max 30 min) and takes the slot again. -> the new gen, or false (gave up) */
-async function whsYield(gen, ctlName) {
+// WHSTOP-2026-11-25 (live 2026-11-22 18:38: "!stop Crafter1" during the clean-up sale -> "[whsell] my turn again after another task -
+// continuing", the sale went on; owner: "fix these"): the owner's !stop (state.stopGen) ENDS the sale - never a pause; the record is closed so
+// no restart resumes it, and nothing walks afterwards. sg0 = state.stopGen when the sale started.
+/** pure: did a !stop come since the sale started? */
+function whsStopped(sg0, sgNow) { return (Number(sgNow) || 0) !== (Number(sg0) || 0); }
+const WHS_STOPWHY = 'ended by your !stop (the pieces already taken out stay in my bag: "!whsell pending" sells them)';
+async function whsYield(gen, ctlName, sg0) {
+  if (sg0 !== undefined && whsStopped(sg0, state.stopGen)) { note('[whsell] ' + WHS_STOPWHY, true); return false; }
   if (!interrupted(gen)) return gen;
   const by = control.owner || 'another task', t0 = now();
   note('[whsell] paused: "' + by + '" came first - I continue after it', true);
-  while (control.owner && control.owner !== ctlName && now() - t0 < 30 * 60000 && state.running && !Me.IsDead) { setTask('clan warehouse sale: paused for ' + control.owner); await sleep(2000); }
+  while (control.owner && control.owner !== ctlName && now() - t0 < 30 * 60000 && state.running && !Me.IsDead) { if (sg0 !== undefined && whsStopped(sg0, state.stopGen)) { note('[whsell] ' + WHS_STOPWHY, true); return false; } setTask('clan warehouse sale: paused for ' + control.owner); await sleep(2000); }
+  if (sg0 !== undefined && whsStopped(sg0, state.stopGen)) { note('[whsell] ' + WHS_STOPWHY, true); return false; }
   const g = takeControl(ctlName, PRIO.ORDER);
   if (g === false) { note('[whsell] could not get my turn back within 30 min - stopping (send it again)', true); return false; }
   note('[whsell] my turn again after "' + by + '" (' + Math.round((now() - t0) / 1000) + ' s) - continuing', true);
@@ -27020,11 +27250,14 @@ async function whSellLoop(items, pendingOnly) {
 }
 async function whSellLoopInner(items, pendingOnly) {
   const ctlName = '!whsell';
+  const sg0 = state.stopGen || 0;   // WHSTOP-2026-11-25
+  const stopWhy = () => whsStopped(sg0, state.stopGen) ? WHS_STOPWHY : '';
   let gen = takeControl(ctlName, PRIO.ORDER);
   // 2026-10-14 20:11 (the resume after the deploy met "fund other teams" (P2) and gave up): a more important task first = wait for my turn (max 30 min)
   if (gen === false) {
     const by = control.owner, t0 = now(); note(`[whsell] ${by} (P${control.level}) comes first — waiting for my turn`, true);
-    while (gen === false && now() - t0 < 30 * 60000 && state.running && !Me.IsDead) { setTask(`clan warehouse sale: waiting for ${control.owner || 'my turn'}`); await sleep(3000); gen = takeControl(ctlName, PRIO.ORDER); }
+    while (gen === false && now() - t0 < 30 * 60000 && state.running && !Me.IsDead && !stopWhy()) { setTask(`clan warehouse sale: waiting for ${control.owner || 'my turn'}`); await sleep(3000); gen = takeControl(ctlName, PRIO.ORDER); }
+    if (stopWhy()) { if (gen !== false) releaseControl(ctlName); whsRunWrite({ active: false, at: new Date().toISOString(), ended: WHS_STOPWHY }); note('[whsell] ' + WHS_STOPWHY, true); return; }
     if (gen === false) { note('[whsell] no turn within 30 min — send it again afterwards', true); return; }
   }
   let wasLvl = false, sold = 0, adena = 0, rounds = 0, why = '', madeRoom = false;
@@ -27044,6 +27277,7 @@ async function whSellLoopInner(items, pendingOnly) {
     for (let tr = 1; tr <= 4 && !/giran/i.test(String(currentTownKey() || '')); tr++) {
       setTask('clan warehouse sale: safe spot, out of combat, then .giran');
       if (Me.IsDead) { why = 'died before .giran'; return; }
+      if (stopWhy()) { why = stopWhy(); return; }   // WHSTOP-2026-11-25
       lastTownCmd = 0;
       if (await townCommand('clan warehouse: take out and sell', 'Giran')) { await sleep(2500); break; }
       if (tr === 4) { why = '.giran did not work (4 tries)'; return; }
@@ -27051,12 +27285,12 @@ async function whSellLoopInner(items, pendingOnly) {
     }
     SayToParty(`[whsell] ${Me.Name}: ${pendingOnly ? 'selling what is still in my bag from the clan warehouse' : 'taking ' + Object.keys(todo).length + ' kind(s) out of the clan warehouse'} — as much as I can carry, sell it, again`.slice(0, 250));
     // 1) anything an earlier take-out left in my bag goes first (room for the next round)
-    if ((gen = await whsYield(gen, ctlName)) === false) { why = 'paused too long'; return; }
+    if ((gen = await whsYield(gen, ctlName, sg0)) === false) { why = stopWhy() || 'paused too long'; return; }
     const pend = whsPendRead();
     if (pend.ids && Object.keys(pend.ids).length) { const r = await whsSell(whsOnlyFromIds(pend.ids), '!whsell (left from before)'); sold += r.n; adena += r.adena; note(`[whsell] left from before: sold ${r.n} kind(s) for ${r.adena} adena — ${r.msg}`.slice(0, 300), true); if (r.n) whsPendWrite({}); }
     if (pendingOnly) return;
     while (Object.keys(todo).length && rounds < 40 && state.running && !Me.IsDead) {
-      if ((gen = await whsYield(gen, ctlName)) === false) { why = 'paused too long'; break; }
+      if ((gen = await whsYield(gen, ctlName, sg0)) === false) { why = stopWhy() || 'paused too long'; break; }
       rounds++;
       await bagSync(); const bag0 = whBag();
       const list = Object.keys(todo).map(k => ({ id: num(k), count: todo[k] }));
@@ -27074,7 +27308,7 @@ async function whSellLoopInner(items, pendingOnly) {
       rows.forEach(x => { ids[String(x.id)] = (ids[String(x.id)] || 0) + x.count; });
       whsPendWrite({ at: new Date().toISOString(), ids });
       const only = {}; rows.forEach(x => { only[x.objId] = x.count; });
-      if ((gen = await whsYield(gen, ctlName)) === false) { why = 'paused too long (the pieces are in my bag: "!whsell pending" sells them)'; break; }
+      if ((gen = await whsYield(gen, ctlName, sg0)) === false) { why = stopWhy() || 'paused too long (the pieces are in my bag: "!whsell pending" sells them)'; break; }
       const s = await whsSell(Object.keys(only).length ? only : whsOnlyFromIds(ids), `!whsell round ${rounds}`);
       sold += s.n; adena += s.adena;
       if (s.n > 0) ledgerIn('npcsale', Me.Name, null, s.n, s.adena, WHS_BY.v === 'whauto-cleanup' ? `clan warehouse clean-up (round ${rounds})` : `clan warehouse marks sold at the grocer (round ${rounds})`);   // CRAFTRUN A: the bank books it; CWHCLEAN-2026-11-03: the clean-up is booked as such
@@ -27092,9 +27326,10 @@ async function whSellLoopInner(items, pendingOnly) {
     const msg = `done: sold ${sold} kind(s) for ${adena} adena in ${rounds} round(s)${why ? ' — ' + why : ''}`;
     try { SayToParty(`[whsell] ${Me.Name}: ${msg}`.slice(0, 250)); note(`[whsell] ${msg}`, true); intent('sell', 'clan warehouse take-out and sale'); intentDone('sell', sold > 0, msg); } catch (e) { }
     appendShared(SWARM_ROOT + '\\Logs\\whsell.log', `${new Date().toISOString()} [${Me.Name}] ${msg}\r\n`);
-    if (/giran/i.test(String(currentTownKey() || ''))) { try { await giranGo('start'); } catch (e) { } }
+    const byStop = !!stopWhy();   // WHSTOP-2026-11-25: after the owner's !stop nothing walks and no leveling starts
+    if (!byStop && /giran/i.test(String(currentTownKey() || ''))) { try { await giranGo('start'); } catch (e) { } }
     state.npcBusy = false; releaseControl(ctlName);
-    if (wasLvl && isLeader() && !leadPaused() && !autoLvl.active) leadLevel('after !whsell').catch(e => logError('whsell level', e));   // only now, after everything
+    if (!byStop && wasLvl && isLeader() && !leadPaused() && !autoLvl.active) leadLevel('after !whsell').catch(e => logError('whsell level', e));   // only now, after everything
   }
 }
 // ===== MARKET SCAN (owner 2026-10-14: "There are plenty of shops in Giran, can we see everything they are selling?" + "an option to purchase shots
@@ -27187,10 +27422,18 @@ function lowDropShots(low, drop) {
     return keep.length ? `${who ? who + ': ' : ''}${keep.join(', ')}` : ''; }).filter(Boolean);
 }
 function shotBuyable(line, cfg) {
-  const t = String(line || ''), m = t.match(/\((?:grade\s*)?([BAS])(?:[- ]grade)?\)/i) || t.match(/\b([BAS])[- ]grade\b/i);
+  // SHOTCRAFT-2026-11-22: S80 / S84 weapons use S shots; a mage's need is called "Spiritshot (S)" also when blessed ones are meant
+  const t = String(line || ''), m = t.match(/\((?:grade\s*)?([BAS])(?:8[04])?(?:[- ]grade)?\)/i) || t.match(/\b([BAS])(?:8[04])?[- ]grade\b/i);
   if (!m) return true;
-  const g = m[1].toUpperCase(), kind = /blessed/i.test(t) ? 'blessed' : /spiritshot/i.test(t) ? 'spiritshot' : 'soulshot';
-  return !!(cfg && cfg.on && cfg.max && cfg.max[kind] && Number(cfg.max[kind][g]) > 0);
+  const g = m[1].toUpperCase(), kinds = /blessed/i.test(t) ? ['blessed'] : /spiritshot/i.test(t) ? ['blessed', 'spiritshot'] : ['soulshot'];
+  return !!(cfg && cfg.on && cfg.max && kinds.some(k => cfg.max[k] && Number(cfg.max[k][g]) > 0));
+}
+/** SHOTCRAFT: does one of our crafters have the B / A / S shots of this "Name: Soulshot (S) 0" line? stocks = [{ itemId: count }]; a line without such a grade = false */
+function shotFromCrafter(line, stocks, min) {
+  const t = String(line || ''), m = t.match(/\((?:grade\s*)?([BAS])(?:8[04])?(?:[- ]grade)?\)/i) || t.match(/\b([BAS])(?:8[04])?[- ]grade\b/i);
+  if (!m) return false;
+  const g = m[1].toUpperCase(), kinds = /blessed/i.test(t) ? ['blessed'] : /spiritshot/i.test(t) ? ['blessed', 'spiritshot'] : ['soulshot'];
+  return (stocks || []).some(s => s && kinds.some(k => (Number(s[PSHOP_KINDS[k].ids[g]]) || 0) >= (Number(min) || 500)));
 }
 const PSHOP_GRADES = ['B', 'A', 'S'];
 const PSHOP_KINDS = { soulshot: { label: 'Soulshot', ids: { B: 1465, A: 1466, S: 1467 } }, blessed: { label: 'Blessed Spiritshot', ids: { B: 3950, A: 3951, S: 3952 } },
@@ -27516,6 +27759,11 @@ function craftCrafterFor(j, leader) {
   for (const n of names) { const c = craftCfgOf(j, n); if (c.on && n !== leader && (c.parties.includes(leader) || c.parties.includes('*'))) return n; }
   return '';
 }
+/** TWOCRAFTERS-2026-11-22: every crafter that supplies this party, by name ([0] = craftCrafterFor) */
+function craftCraftersFor(j, leader) {
+  const C = (j && j.crafters && typeof j.crafters === 'object') ? j.crafters : {};
+  return Object.keys(C).sort().filter(n => { const c = craftCfgOf(j, n); return c.on && n !== leader && (c.parties.includes(leader) || c.parties.includes('*')); });
+}
 /** the crafting day (resets 06:30 local, like the dailies) for a Date */
 function craftDay(d) { const t = new Date(d.getTime() - 6.5 * 3600000); return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`; }
 /** how much of this material the daily limit still allows (Infinity = no limit) */
@@ -27840,8 +28088,16 @@ function crunPartyNeeds() {
   return out;
 }
 /** the supply watch asks this first: true = the runner was called (no supply run) */
-function crunCallRunner(low) {
+function crunCallRunner(low, own) {
   if (typeof holdOn === 'function' && holdOn()) return false;   // HOLD-2026-11-04: no runner call while the party holds
+  // RUNNERLATE-2026-11-22 (Vykaax: "out of BSpS ... they don't go to town and the runner doesn't come"): own = the supply watch asks. Standing in a town the
+  // party supplies itself; out of shots for 40 min with the runner called = it did not come: the party's own supply run
+  if (own) {
+    try { if (currentTownKey()) return false; } catch (e) { }
+    let crit = false; try { crit = htSupplyCritical(low).length > 0; } catch (e) { }
+    CRUNS.outSince = crit ? (CRUNS.outSince || now()) : 0;
+    if (crit && now() - CRUNS.outSince > 40 * 60000) { CRUNS.outSince = now(); note('supply: the runner did not bring shots in 40 min - our own supply run', true); return false; }
+  }
   const S = crafterSet(), lp = livePos[S.runner];
   let full100 = false; try { let c = 0; Inventory.forEach(() => { c++; }); full100 = crunFull100({ count: c, limit: num(Me.InventoryLimit), refusedN: FULLW.refused ? num(FULLW.refused.n) : 0, load: num(Me.Load), maxLoad: num(Me.MaxLoad) }); } catch (e) { }
   const d = crunCallDecide({ runner: S.runner, runnerOn: S.runnerOn, runnerFresh: !!(lp && now() - lp.at < 60000), me: Me.Name, isCrafter: Me.Name === S.crafter, lastCallAt: CRUNS.lastCallAt, now: now(), low, full100 });
@@ -27865,6 +28121,7 @@ App.on('swarm.runner.here', (e) => {
   try {
     const d = e.data || {}; if (d.party !== CONFIG.leader || d.runner === Me.Name) return;
     if (d.meet && d.meet !== Me.Name && !(isLeader() && d.payer === Me.Name)) return;   // a far meeting: only the one member that walks over
+    if (!d.meet && isFinite(d.x) && Math.hypot(num(d.x) - Me.X, num(d.y) - Me.Y) > 4000) { note(`runner: ${d.runner} is ${Math.round(Math.hypot(num(d.x) - Me.X, num(d.y) - Me.Y))} away - not walking there (RUNNERREACH)`, true); return; }
     (async () => {
       if (d.meet === Me.Name && d.x) { note(`runner: walking to ${d.runner} at the landing`, true); try { await walkTo(d.x, d.y, d.z, 300, 240000); } catch (er) { } }
       const rows = crunHandRows(hovBag()).map(b => ({ objId: b.objId, id: b.id, name: b.name, count: b.count, stack: b.count > 1 }));
@@ -28019,6 +28276,10 @@ function crunRotateTick(S) {
   crunServe({ party: o.party, needs: o.needs || {}, out: false, rotate: true, x: o.x, y: o.y, z: o.z, at: now() }).catch(er => logError('runner rotation', er)).finally(() => { CRUNS.busy = false; });
   return true;
 }
+const RUNNER_REACH = 2500;   // RUNNERREACH-2026-11-22: the runner is "at the party" only this near to its leader
+/** RUNNERBANK-2026-11-22 (tester: the runner keeps everything): the bank, else the collector of the Storage / fund settings - items only, never adena
+ *  (the collector never sells them: no 'delivered' event) */
+function crunBankTo(S) { if (S && S.bank) return { name: S.bank, bank: true }; let n = ''; try { n = String(fundCollectorName() || ''); } catch (e) { } return { name: n, bank: false }; }
 async function crunServe(c) {
   const S = crafterSet(); CRUNS.cur = c.party;
   // RUNNERPAGE-2026-11-03: the current trip lives in Logs/runner_trip.json (a restart puts it back at the top of the queue) + its step for the page
@@ -28039,7 +28300,19 @@ async function crunServe(c) {
     say(`to ${c.party} (${m.why})`);
     App.emit('swarm.runner.coming', { runner: Me.Name, party: c.party, at: now() });   // RUNNERRAID: a raid party waits for me before its next boss
     const tp = await teleportNear(num(c.x), num(c.y), `runner to ${c.party}`).catch(() => false);
-    if (m.walkIn) { try { await walkTo(num(c.x), num(c.y), num(c.z), 600, 300000); } catch (e) { } }
+    // RUNNERREACH-2026-11-22 (tester: the runner stood on a mountain / in town and the whole party left its spot to reach it): walk to where the leader
+    // is NOW, and a walk that did not arrive is said, never announced as "I am here"
+    if (m.walkIn) {
+      const at = () => { const q = livePos[c.party]; return q && q.X != null && now() - (q.at || 0) < 30000 ? { x: num(q.X), y: num(q.Y), z: num(q.Z) } : { x: num(c.x), y: num(c.y), z: num(c.z) }; };
+      for (let tr = 0; tr < 2; tr++) { const q = at(); if (Math.hypot(q.x - Me.X, q.y - Me.Y) <= 700) break; try { await walkTo(q.x, q.y, q.z, 600, 300000); } catch (e) { } }
+      const q = at(), off = Math.round(Math.hypot(q.x - Me.X, q.y - Me.Y));
+      if (off > RUNNER_REACH || Me.IsDead) {
+        App.emit('swarm.runner.leftparty', { runner: Me.Name, party: c.party, at: now() });
+        say(`could not reach ${c.party} (${Me.IsDead ? 'died on the way' : off + ' away'}) - the party stays at its spot, its next call tries again`);
+        lastTownCmd = 0; await townCommand('runner: back to the crafter', 'Giran', { only: true }).catch(() => false);
+        return;
+      }
+    }
     // 3. the hand-overs: each member gets its shots, pays to me (the leader), hands me its loot
     const lp = livePos[c.party], pay = crunPay(Object.values(c.needs || {}).flat().map(r => ({ id: r.id, n: Math.min(num(r.n), itemCount(r.id)) })), S.prices);
     const payer = S.pays[c.party] === false ? '' : c.party;
@@ -28071,11 +28344,14 @@ async function crunServe(c) {
     // ROLEPACKAGE-2026-11-03: back at the bank the runner gives EVERYTHING outside its package (the party's loot and its own old bag alike)
     let NTp = new Set(); try { NTp = hovNotrade(); } catch (e) { }
     const rows = rolePackage((hovBag() || []).map(b => Object.assign({}, b, { notrade: NTp.has(num(b.id)) })), 'runner').give.map(b => ({ objId: b.objId, id: b.id, name: b.name, count: b.count, stack: true }));
-    const keepAdena = 10000000, give = Math.max(0, itemCount(57) - keepAdena);
-    if ((rows.length || give > 0) && S.bank && S.bank !== Me.Name) { const id = crunOrder(S.bank, rows, give, `the runner brings ${c.party}'s loot + payment`); const st = await crunWaitOrder(id, Me.Name, 600000);
-      if (rows.length && st && st.state === 'done') App.emit('swarm.runner.delivered', { bank: S.bank, party: c.party, ids: [...new Set(rows.map(r => num(r.id)))] }); }   // BANKSTORE-2026-11-03
+    const B = crunBankTo(S), keepAdena = 10000000, give = B.bank ? Math.max(0, itemCount(57) - keepAdena) : 0;
+    let delivered = !rows.length && !(give > 0) ? 'nothing to deliver' : !B.name || B.name === Me.Name ? 'NOT delivered: no bank and no collector set (Runner page -> Change bank)' : '';
+    if (!delivered) { const id = crunOrder(B.name, rows, give, `the runner brings ${c.party}'s loot${give ? ' + payment' : ''}`); const st = await crunWaitOrder(id, Me.Name, 600000);
+      delivered = st && st.state === 'done' ? `${rows.length} kinds + ${give} adena to ${B.name}` : `NOT delivered to ${B.name} (${st ? st.state : 'no answer'}) - it stays in my bag, the next delivery tries again`;
+      if (B.bank && rows.length && st && st.state === 'done') App.emit('swarm.runner.delivered', { bank: S.bank, party: c.party, ids: [...new Set(rows.map(r => num(r.id)))] }); }   // BANKSTORE-2026-11-03
+    crotMark(c.party);   // a call is a visit too (the Runner page showed "never" after calls)
     if (CRUNS.trip) Object.assign(CRUNS.trip, { kinds: rows.length, adena: give, shots: given.length, items: rows.slice(0, 40).map(r => ({ id: num(r.id), name: r.name, n: num(r.count) })) });
-    say(`done with ${c.party}: ${given.length} shot hand-overs, ${rows.length} kinds + ${give} adena to ${S.bank}`);
+    say(`done with ${c.party}: ${given.length} shot hand-overs, ${delivered}`);
   } finally { CRUNS.cur = null; crunTripEnd(); }
 }
 /** RUNNERSTAY-2026-11-13 (pure): the runner at the party after its own hand-outs -> 'stay' | 'go' | 'timeout'.
@@ -28166,19 +28442,19 @@ setInterval(() => {
   try {
     if (!state.role || !IsCharacterReady() || CRSW.busy) return;
     if (handsOffMe()) return;                                          // AUDIT-2026-11-17: no runner / bank sweep on a hands-off character
-    const S = crafterSet(); if (!S.bank) return;
+    const S = crafterSet(), BT = crunBankTo(S); if (!BT.name) return;   // RUNNERBANK-2026-11-22
     const inGiran = currentTownKey() === 'Giran', lvl = (typeof FULLW !== 'undefined' && FULLW.lvl) || '';
     const busy = !!tradeState || (typeof HOV !== 'undefined' && HOV.busy) || (typeof STASH !== 'undefined' && STASH.busy) || !!IsInCombat || Me.IsDead;
-    if (S.runnerOn && Me.Name === S.runner && S.bank !== Me.Name) {
+    if (S.runnerOn && Me.Name === S.runner && BT.name !== Me.Name) {
       let NT = new Set(); try { NT = hovNotrade(); } catch (e) { }
       const rows = rolePackage((hovBag() || []).map(b => Object.assign({}, b, { notrade: NT.has(num(b.id)) })), 'runner').give;   // ROLEPACKAGE
-      if (!crunSweepDue({ role: 'runner', inGiran, busy: busy || CRUNS.busy || !!CRUNS.cur || CRUNS.q.length > 0, lvl, kinds: rows.length, lastAt: CRSW.runnerAt, now: now() })) return;
+      if (!crunSweepDue({ role: 'runner', inGiran, busy: busy || CRUNS.busy || !!CRUNS.cur || (CRUNS.q.length > 0 && !lvl) /* RUNNERBANK: a nearly full bag is emptied before the next call */, lvl, kinds: rows.length, lastAt: CRSW.runnerAt, now: now() })) return;
       CRSW.runnerAt = now(); CRSW.busy = true; CRUNS.busy = true;
       (async () => {
         const items = rows.map(b => ({ objId: b.objId, id: b.id, name: b.name, count: b.count, stack: true }));
-        const id = crunOrder(S.bank, items, 0, `the runner empties its own bag (${items.length} kinds)`); const st = await crunWaitOrder(id, Me.Name, 600000);
-        if (st && st.state === 'done') App.emit('swarm.runner.delivered', { bank: S.bank, party: Me.Name, ids: [...new Set(items.map(r => num(r.id)))] });
-        note(`runner: my own bag to ${S.bank}: ${items.length} kinds (${st ? st.state : 'no answer'})`, true);
+        const id = crunOrder(BT.name, items, 0, `the runner empties its own bag (${items.length} kinds)`); const st = await crunWaitOrder(id, Me.Name, 600000);
+        if (BT.bank && st && st.state === 'done') App.emit('swarm.runner.delivered', { bank: S.bank, party: Me.Name, ids: [...new Set(items.map(r => num(r.id)))] });
+        note(`runner: my own bag to ${BT.name}: ${items.length} kinds (${st ? st.state : 'no answer'})`, true);
       })().catch(e => logError('runner own bag', e)).finally(() => { CRSW.busy = false; CRUNS.busy = false; });
       return;
     }
@@ -28330,12 +28606,15 @@ async function craftTick(manual, onlyKey) {
     intent('craft', `crafting ${craftName(rec.key)}: up to ${max} craft(s) of ${rec.count}`);
     setTask(`crafting ${craftName(rec.key)}`);
     standUp();
-    let made = 0, crafts = 0, why = '';
+    let made = 0, crafts = 0, why = '', aliveAt = 0;
+    // CRAFTALIVE-2026-11-22: a long batch (MP waits) wrote no status for over 10 min = "has not reported" and the supply runs skipped this crafter
+    const alive = () => { if (now() - aliveAt < 60000) return; aliveAt = now(); base.products = CRAFT_RECIPES.reduce((o, r) => { o[r.product] = itemCount(r.product); return o; }, {}); craftStatus(Object.assign({}, base, { state: 'crafting', why: `crafting ${craftName(rec.key)} (${crafts} of ${max})` })); };
     for (let i = 0; i < max; i++) {
+      alive();
       if (interrupted(g0) || Me.IsDead || IsInCombat) { why = 'interrupted (a more important task)'; break; }
       if (num(Me.MP) < rec.mp) {                                          // wait for MP (sitting regenerates faster), max 4 min
         try { if (!Me.IsSitting) RunCommand('/sit'); rest.sitting = true; } catch (e) { }   // SITFIX: Hive's own sit (the sit guard leaves it)
-        const t0 = now(); while (num(Me.MP) < Math.min(num(Me.MaxMP), rec.mp * 3) && now() - t0 < 240000 && !interrupted(g0) && !IsInCombat) await sleep(2000);
+        const t0 = now(); while (num(Me.MP) < Math.min(num(Me.MaxMP), rec.mp * 3) && now() - t0 < 240000 && !interrupted(g0) && !IsInCombat) { alive(); await sleep(2000); }
         standUp(); await sleep(1200);
         if (num(Me.MP) < rec.mp) { why = `not enough MP (${num(Me.MP)} of ${rec.mp})`; break; }
       }
@@ -28380,11 +28659,22 @@ function craftCommand(parts) {
   if (a === 'one') { const key = String(parts[2] || ''); if (!craftRecipe(key)) { note(`[craft] unknown shot "${key}" — use soulshot:D, spiritshot:C, blessed:B ...`, true); return; } craftTick(true, key).then(r => note(`[craft] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!craft one', e)); return; }
   craftTick(true).then(r => note(`[craft] ${r.msg}`.slice(0, 400), true)).catch(e => logError('!craft', e));
 }
+/** SHOTCRAFT: what the crafters of my party have in stock now (fresh status only): [{ itemId: count }] */
+function crafterStocks() {
+  const out = [];
+  try { craftCraftersFor(craftRules(), CONFIG.leader).forEach(n => { try { const st = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Logs\\crafter_${n}.json`)); if (st && st.products && now() - (num(st.atMs) || Date.parse(st.at) || 0) < 15 * 60000) out.push(st.products); } catch (e) { } }); } catch (e) { }
+  return out;
+}
 /** SUPPLY RUN step 1c (leader, in Giran): take the shots the team needs from our crafter first (HANDOVER: the crafter walks over and trades),
  *  then Helvetia and the player shops buy only the rest. total = leadSupply's { id: { id, name, members, mine } }. -> text for the report | '' */
 async function crafterSupplyStep(total, runId) {
-  const R = craftRules(), crafter = craftCrafterFor(R, Me.Name);
-  if (!crafter) return '';
+  // TWOCRAFTERS-2026-11-22 (tester: "only the first crafter is used"): every crafter that supplies this party, one after the other; what the first one
+  // handed over is in my bag, so the next one is asked only for the rest
+  const out = [];
+  for (const crafter of craftCraftersFor(craftRules(), Me.Name)) { const m = await crafterSupplyFrom(crafter, total, runId); if (m) out.push(m); if (!regroupAlive(runId)) break; }
+  return out.join('; ');
+}
+async function crafterSupplyFrom(crafter, total, runId) {
   let st = null; try { st = JSON.parse(File.ReadAllText(`${SWARM_ROOT}\\Logs\\crafter_${crafter}.json`)); } catch (e) { }
   const needs = Object.values(total).map(t => {
     const myWant = t.mine && t.mine.need > 0 ? t.mine.want : (t.mine ? Math.min(t.mine.have, t.mine.want) : 0);
@@ -29761,7 +30051,7 @@ function dawnLog(msg) { try { appendShared(`${__DIR__}\\Logs\\dawn.log`, `${new 
 function ssFile(n) { return `${__DIR__}\\Logs\\sevensigns_${n}.json`; }
 // SSTRIES-2026-10-13: failed Dawn sign-ups counted by the code BEFORE v1.6.0 recognised L2Toggle's priest page ('Participation in the Seven Signs')
 // closed the catacombs for the rest of the cycle (Dagger1/Destroyer3/Destroyer9: 'failed 3 times this cycle'; tester l3tal). Records without v:2 count 0 tries.
-function ssRead(n) { try { const r = JSON.parse(File.ReadAllText(ssFile(n))) || {}; if (r.v !== 2 && r.tries) { r.tries = 0; if (r.status === 'failed' || r.status === 'notown') r.status = ''; } return r; } catch (e) { return {}; } }
+function ssRead(n) { try { const r = JSON.parse(File.ReadAllText(ssFile(n))) || {}; if (r.v !== 2 && r.tries) { r.tries = 0; if (r.status === 'failed' || r.status === 'notown') r.status = ''; } if (/^(failed|notown)$/.test(r.status || '') && r.tries >= 3 && now() - (r.at || 0) > 6 * 3600000) r.tries = 1; return r; } catch (e) { return {}; } }   // DAWNWALK-2026-11-22: three failed tries close the catacombs for 6 h, not for the week
 function ssWrite(n, o) { try { File.WriteAllText(ssFile(n), JSON.stringify(o)); } catch (e) { } ssTeamCache.at = 0; }
 function ssState() { try { return JSON.parse(File.ReadAllText(SS_STATE_F)) || {}; } catch (e) { return {}; } }
 // SSOPTIN-2026-10-12 (user: "Priest of Dawn should not be a given; it must be something you sign up for ... such things must never override a
@@ -30095,6 +30385,18 @@ async function dawnPeriod(walk) {
   dawnLog(`period: ${r.period}${r.winner ? ' (last winner: ' + r.winner + ')' : ''}${r.mine ? ', the page says I am: ' + r.mine : ''}`);
   return r.period;
 }
+/** DAWNWALK-2026-11-22 (tester EEs: "needs sign-up" for a week; our own log: "not in sight (2089 from his spot)" 11 times with not one step moved): a
+ *  plain walkTo only — no streets, and without an errand the follow keepers pulled the member back to its leader. By the town's streets, as an errand. */
+async function dawnWalk(p) {
+  errandStart('dawn', 480000);
+  try {
+    const town = p.town || currentTownKey();
+    let a = null; try { a = dawnPriestList().find(n => n && (n.roles || []).includes('priest of dawn') && Math.hypot(n.x - p.x, n.y - p.y) < 300) || null; } catch (e) { }
+    if (a && town && (await townWalkToNpc(Object.assign({}, a, { place: { town } }), { solo: true, atlasFirst: true, abort: () => Me.IsDead }))) return true;
+    return await walkTo(p.x, p.y - 90, p.z, 120, 90000);
+  } catch (e) { logError('dawn walk', e); return false; }
+  finally { errandEnd('dawn'); followHold(180000); }
+}
 /** Sign ME up with the Lords of Dawn at the Priest of Dawn of this town, clicking BY TEXT. Never Dusk, never a fee/item (user 2026-10-08). */
 async function dawnSignUp() {
   const cyc = ssCycleOf('competition', now()), rec = ssRead(Me.Name);
@@ -30122,7 +30424,7 @@ async function dawnSignUp() {
       if (!p) { lastTownCmd = 0; await townCommand('seven signs', 'Giran'); await sleep(5000); p = dawnPriestSpot(4000); }
       if (!p) { if (tr >= 1) return fin('no Priest of Dawn in this town', 'notown'); continue; }
       followHold(180000); standUp();
-      await walkTo(p.x, p.y - 90, p.z, 120, 90000); npc = dawnPriestNear(1500);
+      await dawnWalk(p); npc = dawnPriestNear(1500);
       if (!npc && distTo(p.x, p.y) < 600) { sendAppearing('Priest of Dawn not in sight'); await sleep(2500); npc = dawnPriestNear(1500); }
       if (!npc) dawnLog(`try ${tr + 1}: the Priest of Dawn is not in sight (${Math.round(distTo(p.x, p.y))} from his spot) - again`);
     }
@@ -30336,7 +30638,7 @@ async function ssTeamSignup(why, force, opt) {
       const order = {}; need.forEach((n, i) => { order[n] = i; });
       const t0 = now(); App.emit('swarm.dawn', { order, manual });
       setTask(`seven signs: waiting for ${need.join(', ')} at the Priest of Dawn`);
-      while (now() - t0 < need.length * 20000 + 120000 && !Me.IsDead) {
+      while (now() - t0 < need.length * 20000 + 420000 && !Me.IsDead) {   // DAWNWALK-2026-11-22: was 2 min; four tries of one member take up to 6
         if (need.every(n => (ssRead(n).at || 0) > t0 || !(manual ? ssNeedsMan : ssNeeds)(n))) break;
         await sleep(3000);
       }
@@ -31151,6 +31453,9 @@ function faOff(a, L) { const s = (a && (a.suitsPartyLevel || a.levelRange)) || [
 // marked unreachable, is never offered (pick, rotation, zone pool), and a failed trip bans its landing + region pair (faLandingKey) for the
 // siblings too. field_areas.js --entries recomputed the entries 2026-10-09 (live menus first, every gatekeeper landing within 25k).
 const FA_WALK_MARGIN = 500;
+/** SOLOWALK-2026-11-25: the walk limit handed to spotLandingWhy (which takes FA_WALK_MARGIN off) - a solo character 4k to an automatic spot, else the normal one */
+const SOLOWALK = { max: 4000 };
+function soloWalkLimit(normal, solo, manual) { return solo && !manual ? Math.min(Number(normal) || 25000, SOLOWALK.max + FA_WALK_MARGIN) : normal; }
 /** '' = the area can be reached from its entry landing on foot within maxWalk, else why not */
 function faEntryWhy(a, maxWalk) {
   if (!a) return 'unknown area';
@@ -31853,8 +32158,10 @@ function manualSpotOnTravel(spot, ok) {
         manualSwSet('needs-ok', `needs your OK: too high level (landing level-${lv[1]}, team max ${lv[2]}, safe limit ${num(lv[2]) + CONFIG.danger.margin}) — choose it again with "Yes, override"; the automatic spot meanwhile`, { etaAt: 0, retryAt: 0 });
         return;
       }
-      manualSwSet(ss ? 'blocked' : 'fallback-auto', `could not get there${gkFail ? ' (' + String(gkFail).slice(0, 140) + ')' : ''} — the automatic spot meanwhile, trying again within 5 min`, { etaAt: 0, retryAt: now() + 300000 });
-      Object.assign(manualSw, { failSig: partySpotSig(partySpotEntry()), failUntil: now() + 300000, failWhy: manualSw.detail, failKind: ss ? 'blocked' : 'fallback-auto' });
+      // PLANREACH-2026-11-22: a plan step's place beyond the walk limit = the automatic spot for 12 h (it was refused again every 5 min for days)
+      const pe0 = partySpotEntry(), never = !!(pe0 && pe0.by === 'plan' && !pe0.stay && planSpotUnreachable(gkFail)), waitMs = never ? 12 * 3600000 : 300000;
+      manualSwSet(ss ? 'blocked' : 'fallback-auto', `could not get there${gkFail ? ' (' + String(gkFail).slice(0, 180) + ')' : ''} — ${never ? 'the automatic spot for this plan step' : 'the automatic spot meanwhile, trying again within 5 min'}`, { etaAt: 0, retryAt: now() + waitMs });
+      Object.assign(manualSw, { failSig: partySpotSig(partySpotEntry()), failUntil: now() + waitMs, failWhy: manualSw.detail, failKind: ss ? 'blocked' : 'fallback-auto' });
     }
   } catch (er) { }
 }
@@ -32286,6 +32593,9 @@ const memberRG = { id: 0, busy: false };
 function choiceOnlyHold(spot, e, nw, nowMs, forced) {
   if (!e || e.mode !== 'manual' || (spot && spot.manual) || forced) return null;   // forced = your !assist / !dungeon order (autoLvl.forceSpot) goes on
   const left = Math.max(0, Math.round(((Number(nw && nw.retryAt) || nowMs) - nowMs) / 1000));
+  // PLANREACH-2026-11-22 (tester: a level 12 party stood 5 days at plan step "Level in Kamael (Lv12-14)"): a plan step's place that no gatekeeper
+  // landing reaches can never be reached by trying again: the automatic spot levels on. A place you chose yourself / "stay" still waits (CHOICEONLY).
+  if (nw && e.by === 'plan' && !e.stay && planSpotUnreachable(nw.detail)) return null;
   if (nw && nw.kind === 'fallback-auto') return `your chosen spot was not reached (${String(nw.detail || '').slice(0, 120)}) - no automatic spot; trying your choice again${left ? ' in ' + left + ' s' : ' now'} (room by room)`;
   // STAYSTICK-2026-11-10 (public tester LuckyStrikz #4: "I told them to stay in that spot. However Hive still override my order"): a choice with
   // "stay" ticked never turns into an automatic spot by itself - whatever the reason (empty, occupied, a trip that failed, no reason known), the
@@ -32295,6 +32605,18 @@ function choiceOnlyHold(spot, e, nw, nowMs, forced) {
   }
   return null;
 }
+/** DEATHSTOP: h = { until, sig, seq, name } | null, o = { now, sig (the chosen spot now), seq (order counter now), ack (Resolve pressed) } -> the wait text | '' (over) */
+function deathStopHold(h, o) {
+  if (!h || o.ack || !(o.now < h.until) || o.sig !== h.sig || o.seq !== h.seq) return '';
+  return `waiting in town — 3 deaths in an hour at ${h.name} (${Math.max(1, Math.round((h.until - o.now) / 60000))} min left; Resolve on the dashboard, your order, Start or another spot ends it)`;
+}
+/** the saved record J (Logs/deathstop_<leader>.json) after a restart -> the hold to go on with | null */
+function deathStopResume(J, o) {
+  if (!J || J.ended || !J.hold || !(o.now < J.hold.until) || J.hold.sig !== o.sig) return null;
+  return Object.assign({}, J.hold, { seq: o.seq });                                  // the order counter starts again at a restart
+}
+/** PLANREACH: the failure text of a trip that can never work (the planned landing lies beyond the walk limit) */
+function planSpotUnreachable(text) { return /REFUSED: .* lands .*walk limit/i.test(String(text || '')); }
 // CHOICEONLY-PURE-END
 // ATROUTE-PURE-BEGIN
 /** ATROUTE-2026-11-12: does p stand at the route pts ([{x,y,z}] or [[x,y,z]]): within 800 flat and 400 height of one of its points? */
@@ -32917,8 +33239,8 @@ function rsmMemberLine(pub, t) { if (!pub) return ''; return `${pub.final ? 'rou
 // ROUTE RULES (owner 2026-10-13: "everything must be configurable manually; nothing automatic unless you ask for it — many people play their own
 // way"): per party (Scripts/data/route_rules.json parties.<leader>, edited on the dashboard route view -> Route rules) what a route may do.
 // MOVETOGETHER step 2 (2026-10-13): number rules (seconds / units) with their limits; a value outside is clamped
-const RSM_LIMITS = { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [80, 3000], mtStuckSec: [3, 60] };
-const RSM_RULES = { toiVortex: false, openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false, moveTogether: true, mtNeverLeave: true, mtMaxWaitSec: 60, mtLeaveSec: 90, mtPaceGap: 400 /* PACE400-2026-11-12 (owner) */, mtStuckSec: 8 };   // MOVETOGETHER-2026-10-13: walk together (default ON)   // owner 19:10: keys a route needs ON, fortress gates opt-in
+const RSM_LIMITS = { mtMaxWaitSec: [10, 600], mtLeaveSec: [20, 1800], mtPaceGap: [80, 3000], mtStuckSec: [3, 60], mtHitBackPct: [20, 95] };   // HITBACK-2026-11-22
+const RSM_RULES = { toiVortex: false, openDoors: true, waitTimedDoors: true, npcDoors: true, unlockDoors: true, keyDoors: true, buyKeys: true, swim: true, drops: true, heineWalkOut: true, tryFortressGates: false, moveTogether: true, mtNeverLeave: true, mtMaxWaitSec: 60, mtLeaveSec: 90, mtPaceGap: 400 /* PACE400-2026-11-12 (owner) */, mtStuckSec: 8, mtHitBackPct: 40 /* HITBACK-2026-11-22: the team fights on the way when someone is below this % */ };   // MOVETOGETHER-2026-10-13: walk together (default ON)   // owner 19:10: keys a route needs ON, fortress gates opt-in
 /** the rules of a party: built-in defaults < file defaults / rule defaults < the party's own */
 function rsmRules(file, party) {
   const o = Object.assign({}, RSM_RULES);
@@ -34754,7 +35076,9 @@ async function travelToSpot(spot) {
     if (willPort) {
       let land = spot.area && spot.area.landing;
       if (!land) { try { teleportTargets(''); const e = (teleportCache || []).find(x => String(x.desc || '').trim() === String(spot.gk.desc).trim()); if (e) land = { x: e.x, y: e.y, z: e.z }; } catch (e) { } }
-      const why = spotLandingWhy(spot, land, CONFIG.travel.maxWalk);
+      // SOLOWALK-2026-11-25 (owner: "Ja, lav 4 km-reglen"; Nuker19 was killed 4.3k into a 13.4k walk from the Seal of Shilen landing, 4 times that day):
+      // a solo character never walks more than 4k from its landing to an automatic spot (refused before the teleport = skipped, another spot picked)
+      const why = spotLandingWhy(spot, land, soloWalkLimit(CONFIG.travel.maxWalk, soloChar(), !!spot.manual));
       if (why) { gkFail = why; note(`travel: ${why} — not teleporting`, !autoLvl.solo); return false; }
     }
   }
@@ -34874,6 +35198,15 @@ async function travelToSpot(spot) {
       // starting combat when they arrive, instead they ... do a full charge all the way across the hunting zone"): the end of YOUR waypoints at the
       // edge of the zone = arrived (hunting starts there); the old rule only took 1500 from the centre / inside, else one long walk to the centre
       if (wpArrived({ x: num(Me.X), y: num(Me.Y) }, spot)) return true;
+      // WPLAST-2026-11-22 (Vykaax: "all the way through the zone before finally stopping instead of starting combat when they reached the last waypoint"):
+      // a fight near the end stops the route walk early; then only the LAST waypoint is walked on to (never the zone centre) when that one counts as arrived
+      { const lw = wp[wp.length - 1];
+        if (lw && wpArrived({ x: num(lw.x), y: num(lw.y) }, spot) && !abort()) {
+          state.walkOnly = true;
+          try { if (leadMode() && !autoLvl.solo && isLeader() && wp.length > 1) await leadRouteWalk(wp.slice(-2), spot.name, abort, '', null); else await routeHop(lw, abort); } catch (e) { logError('spot last waypoint', e); } finally { state.walkOnly = false; }
+          if (autoLvl.stop || Me.IsDead) return false;
+          if (wpArrived({ x: num(Me.X), y: num(Me.Y) }, spot) || Math.hypot(num(lw.x) - Me.X, num(lw.y) - Me.Y) < 600) return true;
+        } }
     } else if (wp.length) note(`autolevel: ${spot.name} has user waypoints, but I am not near the landing or the route (${Math.round(Me.X)},${Math.round(Me.Y)}) — walking the normal way`, true);
   }
   if (spot.floor && !onFloor(Me.Z)) { const g2 = control.gen; const fc = await zoneFloorContinue(spot, () => autoLvl.stop || Me.IsDead || interrupted(g2)); if (fc !== null) return fc; }   // TESTERFIX-2026-10-19: another floor = the dungeon route, never a straight walk
@@ -35150,20 +35483,7 @@ async function autoLevelLoop(solo) {
       if (autoLvl.spot && (solo || isLeader()) && now() - (autoLvl.khRbChkAt || 0) > 60000) { autoLvl.khRbChkAt = now(); try { const rb = await khSafeRebuffMaybe(solo); if (rb === 'giran') { lastPick = 0; autoLvl.spot = null; continue; } if (rb) continue; }   /* DPCOV-2026-10-21 */ catch (e) { logError('keephunt rebuff', e); } }
       if (Me.IsDead) {
         note('autolevel: dead', !solo);
-        if (soloChar()) { soloDeathLearn(); autoLvl.spot = null; try { writeClaim(null); } catch (e) { } }   // solo death: this area skipped by every solo character for 24 h (2026-10-09)
-        // DPCOV-2026-10-21 (Spoiler8 + Healer8 died 77 / 87 times on 2026-10-21 in Kamael Village outskirts areas 14/15 - aggressive level 12-14 packs,
-        // a lvl 12 duo, the Death Penalty growing to 11 - and the party kept picking the same area): a party leader dying 3 times within an hour at a spot
-        // the HIVE picked (never your dashboard choice) skips it for 6 h (persisted in Logs/spot_bad_<name>.json) and picks another one
-        else if (autoLvl.spot && !autoLvl.spot.manual) {
-          const k = spotKeyOf(autoLvl.spot), D = autoLvl.spotDeaths || (autoLvl.spotDeaths = {});
-          D[k] = (D[k] || []).filter(t => now() - t < 3600000).concat([now()]);
-          if (spotDeathsTooMany(D[k], now())) {
-            autoLvl.bad[k] = now() + 6 * 3600000; if (autoLvl.spot.name) autoLvl.bad[autoLvl.spot.name] = now() + 6 * 3600000; D[k] = [];
-            const m = `autolevel: ${D[k].length || 3} deaths within an hour at ${autoLvl.spot.name} — too dangerous for this party now: skipped for 6 h, picking an easier spot`;
-            note(m, !solo); try { intent('spot', m.replace(/^autolevel: /, '')); } catch (e) { } dungeonLog(m);
-            autoLvl.spot = null; try { writeClaim(null); } catch (e) { }
-          }
-        }
+        autoDeathCount(solo); deathKeepSave();   // AUTODEATH-2026-11-25: counted once per death (the 1 s watcher below counts the deaths this loop never sees); DEATHKEEP: saved
         await deathWait('autolevel');
         await sleep(20000);                       // rebuff-turen
         lastPick = 0;
@@ -35238,6 +35558,17 @@ async function autoLevelLoop(solo) {
           }
           note('autolevel: after the restart ' + (d.keep ? 'keeping ' : 'not keeping ') + rs.spot.name + ' (' + d.why + ')', !solo);
         }
+        { let sig = ''; try { sig = partySpotSig(partySpotEntry()); } catch (e) { }
+          deathStopBoot(sig);
+          const ack = DEATHSTOP.hold ? deathStopAck(DEATHSTOP.hold) : false;
+          const dh = deathStopHold(DEATHSTOP.hold, { now: now(), sig, seq: orderState.seq, ack });   // DEATHSTOP-2026-11-22
+          if (!dh) { if (DEATHSTOP.hold) { const why = ack ? 'you resolved it' : sig !== DEATHSTOP.hold.sig ? 'another spot was chosen' : now() >= DEATHSTOP.hold.until ? 'the hour is over' : 'your order';
+            note(`autolevel: the wait after 3 deaths at ${DEATHSTOP.hold.name} is over (${why})`, !solo); deathStopWrite(DEATHSTOP.hold, null, why); } DEATHSTOP.hold = null; }
+          else if (!autoLvl.forceSpot) {
+            if (!currentTownKey() && !Me.IsDead) { try { await leadGoGiran('3 deaths in an hour: waiting in town'); } catch (e) { logError('death stop', e); } }
+            setTask(`autolevel: ${dh}`); try { manualSwSet('blocked', dh, { retryAt: DEATHSTOP.hold.until, etaAt: 0 }); } catch (e) { }
+            lastPick = 0; await sleep(15000); continue;
+          } }
         { let hold = null; try { if (!resumedSpot) hold = choiceOnlyHold(spot, partySpotEntry(), manualSw.nullWhy, now(), !!autoLvl.forceSpot || (solo && !isLeader())); } catch (e) { }
           if (hold) { if (now() - (autoLvl.choiceSaid || 0) > 120000) { autoLvl.choiceSaid = now(); note(`autolevel: ${hold}`, !solo); try { if (!solo) SayToParty(`[lead] ${hold}`.slice(0, 250)); } catch (er) { } }
             try { const nw = manualSw.nullWhy; manualSwSet(nw && nw.kind ? nw.kind : 'fallback-auto', hold, { retryAt: (nw && nw.retryAt) || 0, etaAt: 0 }); } catch (er) { }
@@ -35267,6 +35598,7 @@ async function autoLevelLoop(solo) {
             if (rv) { await yieldClaim(rv, ' (same moment)'); await sleep(500 + Math.floor(Math.random() * 1500)); continue; }
           }
           note(`autolevel: spot ${spot.name} (lvl ${spot.levelMin}-${spot.levelMax})`, !solo);
+          autoLvl.lastSpot = spot; autoLvl.lastSpotAt = now(); autoLvl.travelSpotAt = now();   // DEATHSPOT2-2026-11-25: a death on the WAY to it counts for it too
           if (!(await travelToSpot(spot))) {
             // interrupted for a new dashboard choice: not the spot's fault, no ban — pick the chosen one at once (2026-10-08)
             if (manualSw.pending) { note(`autolevel: trip to ${spot.name} stopped — the hunting spot was changed on the dashboard`, !solo); writeClaim(null); autoLvl.spot = null; lastPick = 0; continue; }
@@ -35689,6 +36021,7 @@ async function autoLevelLoop(solo) {
       }
       if (autoLvl.spot && autoLvl.spot.multi && !autoLvl.forceSpot && multiTick(autoLvl.spot, solo) === 'move') { stopCombatG(); writeClaim(null); autoLvl.spot = null; lastPick = 0; continue; }
       setTask(`autolevel: ${autoLvl.spot ? autoLvl.spot.name : 'local'} · lvl ${Me.Level} · ${kills} kills`);
+      if (autoLvl.spot) { autoLvl.lastSpot = autoLvl.spot; autoLvl.lastSpotAt = now(); }   // DEATHSPOT-2026-11-25: the spot I really hunted (an escape clears autoLvl.spot every 2 s)
       await sleep(250);   // ORDERFLOOD-2026-10-24: never a round without a pause (lt = 0 + a hit returned at once: thousands of rounds a minute, 46k attack orders in 5 min)
       { const lt = lastTarget; await fastWait(1250, () => !!lt && targetGone(lt) || (!lt && now() - lastAttackerOnMe.at < 1500), 120); }   // FASTHUNT: the next monster the moment this one dies (was a fixed 1.5 s)
     }
@@ -35822,7 +36155,8 @@ function partyTactics(leader) {
   return c;
 }
 /** AOECFG: the party's area-spell threshold (0 = never -> a number no fight reaches) */
-function aoeMinNow() { try { const pm = plMine(); if (pm && pm.role === 'leveler' && pm.pair.aoe === true) return 2; } catch (e) { }   // POWERLEVEL: 'AOE pull' = area skills from 2 monsters
+function aoeMinNow() { if (raidNearNow(Me.X, Me.Y, RAIDNEVER.aoeR)) return 999;   // RAIDNEVER: an area skill would hit the raid boss / its minions
+  try { const pm = plMine(); if (pm && pm.role === 'leveler' && pm.pair.aoe === true) return 2; } catch (e) { }   // POWERLEVEL: 'AOE pull' = area skills from 2 monsters
   try { const v = partyTactics().aoeMin; return v === 0 ? 999 : v; } catch (e) { return CONFIG.autoSkills.aoeMinMobs; } }
 function raidPrimaryFirst() { try { return partyTactics().raidAoe !== 'value'; } catch (e) { return true; } }
 /** Extra hunting-area factor of my party (only while its tactics are auto/on). */
@@ -37024,7 +37358,7 @@ globalThis.OnSystemMessage = (id, text) => {
     // SWIM-2026-10-13: on a PLANNED swim (a route point marked swim: Tillion's beach behind ~5 km of sea) the breath simply ran out: keep swimming
     // to the shore (turning back would only lengthen the swim); the 2026-10-11 "back to dry land" reaction stays for every unplanned water
     if (now() < (state.swimPlanUntil || 0)) { if (now() - (state.swimDrownNote || 0) > 20000) { state.swimDrownNote = now(); note('swimming: out of breath on a planned swim — drowning damage until the shore, swimming on', true); } }
-    else { if (now() - (state.drownAt || 0) > 10000) state.drownSince = now(); state.drownAt = now(); }
+    else { if (now() - (state.drownAt || 0) > 10000) state.drownSince = now(); state.drownAt = now(); try { drownSpotAdd(Me.X, Me.Y, Me.Z); } catch (e) { } }   // ESCDRY: remembered
   } } catch (e) { }   // "#297 damage because you were unable to breathe" = I am under water (WATER, 2026-10-11)
   try { castSysPush(id); } catch (e) { }                     // CAST REACH: why a cast was refused (Cannot see target / out of range / MP ...)
   try { spoilSys(Number(id), text); } catch (e) { }          // SPOIL-2026-10-19: 612 landed / 357 already spoiled / 661 cannot / 343 not spoiled (SPOILSTAT: + #139 resisted, by its text)
@@ -39282,7 +39616,7 @@ setInterval(() => {
   if (raidOwnsTargeting({ inRaid: inRaid(), raidRunning: !!(raidSeq && raidSeq.running), tank: /^(sk|tank)$/.test(state.role || ''), dealer: MELEE_DD.test(state.role || '') || RAID_MELEE_EXTRA.test(state.role || '') || CASTER_ROLES.test(state.role || '') })) return;
   if (now() < (state.fleeUntil || 0)) return;     // retreating: run, do not fight back
   if (mtRunOn()) return;                           // RUNON-2026-10-18: on a team walk leg: keep running, the monster follows, killed at the waypoint
-  { const tp = mtTeamPoint(); if (tp && Math.hypot(tp.x - Me.X, tp.y - Me.Y) > MT.regroupR && num(Me.HpPercent) >= MT.critHp && now() - (MTRUN.at || 0) < 3000) return; }   // TOGETHER: back to the team first (mtMemberTick walks me), it follows me   // DEFENDSTILL-2026-10-23 (tester video: BowShooter2 stood still at Ant Nest, shot at by Mordeo from 1867 to 1029 HP, never fought back): only while I really move (MTRUN, updated by mtRunOn just above) — standing still for 3 s = defend myself
+  { const tp = mtAnchor(); if (tp && Math.hypot(tp.x - Me.X, tp.y - Me.Y) > MT.regroupR && num(Me.HpPercent) >= MT.critHp && now() - (MTRUN.at || 0) < 3000) return; }   // TOGETHER: back to the team first (mtMemberTick walks me), it follows me   // DEFENDSTILL-2026-10-23 (tester video: BowShooter2 stood still at Ant Nest, shot at by Mordeo from 1867 to 1029 HP, never fought back): only while I really move (MTRUN, updated by mtRunOn just above) — standing still for 3 s = defend myself
   // inside an instance members never start L2Swarm's own combat (it chases monsters around the room, user 2026-10-05 22:08): casters step
   // away, melee hit the team's target, the tank's Aggression loop takes the monster off them
   if (inst.on && !isLeader()) return;
@@ -39307,7 +39641,9 @@ setInterval(() => {
   const walkDef = walkFightWalking() && !inRaid();
   const hunting = !walkDef && (inRaid() || state.mode === 'autolevel' || state.mode === 'raidclear');
   selfDef.walk = walkDef;
-  if (hunting) { if (stalled) { srvAttack(mob.objId); selfDef.idleSince = 0; } }   // the hunt's combat owns the fight; only a stalled one gets a hit
+  // LEGANCHOR-2026-11-22: on a route walk no hunt combat runs - the leader waiting for his team (not in a team fight: PACKSTOP) hits back himself
+  const paceHit = typeof MTL !== 'undefined' && MTL && MTL.pts && !MTL.fighting;
+  if (hunting) { if (stalled || paceHit) { if (paceHit && casterOwnsAttacks()) { try { if (!Target || num(Target.objId) !== num(mob.objId)) Send.Action(mob.objId); } catch (e) { } } else srvAttack(mob.objId); selfDef.idleSince = 0; } }   // the hunt's combat owns the fight; only a stalled one gets a hit
   else if (!memberScriptFight(mob)) {
     // STOPCALM-2026-10-23: no hunt runs = fight back ONLY this monster (L2Swarm combat in a 1200 square picked every other monster too and a
     // stopped party kept pulling for 5-10 min); a party that is ON and the monster close by keeps the old square
@@ -39632,7 +39968,7 @@ async function memberReturnTrip(why) {
     Object.assign(backTrip, { on: false, failedAt: now(), why: String(w || 'failed').slice(0, 140), fails, fx: Math.round(to.x), fy: Math.round(to.y) }); backTripSave();
     note(`return trip: could not get back to ${CONFIG.leader} — ${backTrip.why}; the team regroups instead (next try in ${Math.round(returnBackoffMs(fails) / 60000)} min, failure ${fails})`, true); backTripEmit('failed'); return false; };
   try {
-    if (now() - lastAttackerOnMe.at < 6000) { const t0 = now(); while (now() - t0 < 60000 && now() - lastAttackerOnMe.at < 6000 && !Me.IsDead) await sleep(2000); }
+    await lbOutOfFight();   // LBFIGHT-2026-11-22
     if (currentTownKey() && needsBuff()) { backTrip.step = 'rebuff'; backTripEmit('travel'); try { if (await waitOutOfCombat(20000, 2000)) await buffSelf('return trip: rebuff before going back', true); } catch (e) { } }   // BUFFFIX-2026-10-21: never click the board in a fight
     // FOGENTRY-2026-11-12: the leader in a dungeon with a locked entry route (FoG) and I am outside it (or in its trap): that route alone, then
     // room by room to him. rescuePlan knows no walk from outside into FoG ("no way from here to Top level ..."): Spoiler1, Destroyer4, Destroyer5,
@@ -39787,6 +40123,28 @@ async function khSafeRebuffMaybe(solo) {
   if (Math.hypot(back.x - Me.X, back.y - Me.Y) > 300 && !Me.IsDead) { setTask('rebuff done: back to the hunting spot'); try { if (solo) await walkTo(back.x, back.y, back.z, 200, 90000); else await leadTeamWalk(back.x, back.y, back.z, 250, 120000); } catch (er) { } }
   return true;
 }
+/** left behind and under attack: ALONE (no teammate within 3000) only while it goes well - HP < 60 % or 20 s of fighting = out of the fight (useEscape:
+ *  run / crowd control / Scroll of Escape), because .townname is refused in combat. A healer / caster that never fights back: after 6 s.
+ *  2026-10-04 20:07 (Healer1, lvl 14 mystic, fought zombies alone for minutes); LBFIGHT-2026-11-22: the same rule on EVERY left-behind way */
+async function lbOutOfFight() {
+  // an archer that mostly misses hits every 10-15 s: the server's combat stance (15 s) never ends although the last hit is 6+ s old (Healer7, 15:34)
+  const hitNow = () => !lastAttackerOnMe.for && now() - lastAttackerOnMe.at < LB_HIT_MS;
+  if (!hitNow()) return;
+  const t0 = now(), passive = isHealerRole() || noMelee();
+  while (now() - t0 < 120000 && hitNow() && !Me.IsDead) {
+    const mateNear = teamNames().some(n => { const q = partyMember(n); return q && n !== Me.Name && !q.IsDead && Math.hypot(q.X - Me.X, q.Y - Me.Y) < 3000; });
+    if (!mateNear && lbEscapeNow({ hp: Number(Me.HpPercent), ms: now() - t0, passive })) { note(`left behind and fighting alone (HP ${Math.round(Me.HpPercent)}%) — running out of the fight, then .townname`, true);
+      // a healer / caster: straight to the escape (useEscape first waits up to 2 min for .townname to be allowed, under fire)
+      if (passive && !inRaid() && !inst.on && !ESC.on) await escapeFight('alone in a fight, left behind'); else await useEscape(0, 'alone in a fight, left behind');
+      return; }
+    await sleep(2000);
+  }
+}
+// LBFIGHT-PURE-BEGIN
+const LB_HIT_MS = 20000;   // a hit this recent = still under attack
+function lbRefusedByDamage(text, drownMs) { return drownMs < 20000 || /received \d+ damage|unable to breathe|cannot use .* combat/i.test(String(text || '')); }
+function lbEscapeNow(o) { return o.hp < 60 || o.ms > (o.passive ? 6000 : 20000); }
+// LBFIGHT-PURE-END
 App.on('swarm.khreturn', (e) => {
   const d = e.data || {};
   if (!d.to || d.to !== Me.Name || isLeader() || d.leader !== CONFIG.leader) return;
@@ -39843,8 +40201,10 @@ setInterval(() => {
   if (!rj.report) {
     (async () => {
       note(`left behind: ${rj.why}`, true);
-      if (now() - lastAttackerOnMe.at < 6000) { const t0 = now(); while (now() - t0 < 60000 && now() - lastAttackerOnMe.at < 6000 && !Me.IsDead) await sleep(2000); }
-      lastTownCmd = 0; await townCommand(`left behind: joining ${CONFIG.leader} in ${rj.town}`, rj.town);
+      await lbOutOfFight();   // LBFIGHT-2026-11-22 (live: Healer7, a healer, shot at by one archer, stood 15 min on Devil's Isle while Spoiler7 waited in Giran: this way only WAITED for the hits to stop, .giran is refused in combat)
+      lastTownCmd = 0; const tcOk = await townCommand(`left behind: joining ${CONFIG.leader} in ${rj.town}`, rj.town);
+      // LBFIGHT: refused because something still hurts me (an archer, or drowning: #297 hits nobody sees as an attack) = the escape now, not after 8 min of refusals
+      if (!tcOk && !Me.IsDead && !currentTownKey() && lbRefusedByDamage(lastSysMsg && now() - lastSysMsg.at < 15000 ? lastSysMsg.text : '', now() - (state.drownAt || 0)) && !ESC.on && !inRaid() && !inst.on) await escapeFight('left behind: .town refused under damage');
       try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { }
     })().catch(e => logError('left behind', e)).finally(() => { lb.busy = false; lb.since = 0; releaseControl('left behind: to Giran'); });
     return;
@@ -39853,14 +40213,7 @@ setInterval(() => {
     note(`left behind: ${rj.why}`, true);
     // finish the fight first — but ALONE (no teammate within 3000) only while it goes well: HP < 60 % or 20 s of fighting -> Scroll of
     // Escape (.town does not work in combat). 2026-10-04 20:07: Healer1 (lvl 14 mystic) fought zombies alone in Ruins for minutes.
-    if (now() - lastAttackerOnMe.at < 6000) {
-      const t0 = now();
-      while (now() - t0 < 120000 && now() - lastAttackerOnMe.at < 6000 && !Me.IsDead) {
-        const mateNear = teamNames().some(n => { const q = partyMember(n); return q && n !== Me.Name && !q.IsDead && Math.hypot(q.X - Me.X, q.Y - Me.Y) < 3000; });
-        if (!mateNear && (Me.HpPercent < 60 || now() - t0 > 20000)) { note(`left behind and fighting alone (HP ${Math.round(Me.HpPercent)}%) — running out of the fight, then .townname`, true); await useEscape(0, 'alone in a fight, left behind'); break; }
-        await sleep(2000);
-      }
-    }
+    await lbOutOfFight();
     if (currentTownKey() !== CONFIG.lead.hub) { lastTownCmd = 0; await townCommand('left behind: regroup in ' + CONFIG.lead.hub, CONFIG.lead.hub); }
     if (currentTownKey() === CONFIG.lead.hub) await giranGo('start');
     App.emit('swarm.leftbehind', { name: Me.Name, town: currentTownKey() });
@@ -39905,6 +40258,16 @@ function planCursor(plan, prog) {
   const open = (from) => { for (let i = Math.max(0, from); i < steps.length; i++) if (!done[steps[i].id]) return i; return steps.length; };
   if (P.stepId) { const i = steps.findIndex(s => s && s.id === P.stepId); if (i >= 0) return done[P.stepId] ? open(i + 1) : i; }
   return open(0);
+}
+/** PLANREOPEN-2026-11-22 (tester: an academy group whose members were replaced by low ones went on with the step "level until 40" at level 25): the
+ *  level steps (before the step that runs, index idx) the group does not fulfil any more. levels = the members' known levels; the group's level = the
+ *  one at least half of it is at or below (one late joiner never pulls everybody back). Skipped steps stay skipped. -> [ids] ([] = go on) */
+function planReopen(steps, done, idx, levels) {
+  const L = (levels || []).map(Number).filter(x => x > 0).sort((a, b) => a - b); if (!L.length) return [];
+  const lo = L[Math.floor((L.length - 1) / 2)], D = done && typeof done === 'object' ? done : {};
+  const lvl = (steps || []).slice(0, Math.max(0, idx)).filter(s => s && s.kind === 'level' && D[s.id] && !D[s.id].skipped && !D[s.id].failed && !/skipped/i.test(String(D[s.id].result || '')));
+  const first = lvl.findIndex(s => Number(s.to) > lo + 1);
+  return first < 0 ? [] : lvl.slice(first).map(s => s.id);
 }
 /** one step in a few words (party chat / notes; the dashboard has the long sentences) */
 function planStepSay(s) {
@@ -40076,6 +40439,23 @@ function planQuestRec(n, id) {
     return ((j && j.quests) || {})[id] || null;
   } catch (e) { return null; }
 }
+/** PLANREOPEN: an academy plan goes back to the first level step its group does not fulfil any more -> true (saved; the cursor points there) */
+function planReopenNow() {
+  try {
+    const plan = planMine(); if (!plan || !plan.steps.some(s => s.kind === 'academy')) return false;   // academy plans only
+    const prog = planProg(), idx = planCursor(plan, prog);
+    const levels = [num(Me.Level)];
+    for (const n of teamNames()) { const lp = livePos[n], p = partyMember(n); if (lp && lp.acPark) continue; const l = num(p && p.Level) || num(lp && lp.lvl); if (l > 0 && lp && now() - lp.at < 120000) levels.push(l); }
+    if (levels.length * 2 < teamNames().length + 1) return false;                             // most of the group is not here: cannot tell
+    const ids = planReopen(plan.steps, prog.done, idx, levels); if (!ids.length) return false;
+    ids.forEach(id => { delete prog.done[id]; });
+    const st = plan.steps.find(s => s.id === ids[0]);
+    Object.assign(prog, { stepId: ids[0], stepAt: '', started: '', base: {}, cls0: {}, tries: 0 });
+    planProgSave(prog);
+    note(`[plan] the group is lower again (levels ${levels.join(', ')}) — back to: ${planStepSay(st)}`, true);
+    return true;
+  } catch (e) { logError('plan reopen', e); return false; }
+}
 async function planStepLevel(step) {
   const to = num(step.to);
   if (lvlToMin() >= to) return { ok: true, result: `already level ${to}` };
@@ -40097,6 +40477,10 @@ async function planStepLevel(step) {
       await sleep(5000);
       if (autoLvl.active) { if (!ranSince) ranSince = now(); else if (now() - ranSince > 120000 && restarts) restarts = 0; } else ranSince = 0;
       const why = planInterrupted(); if (why) return { interrupted: why };
+      if (now() - (PLAN.reopenAt || 0) > 60000) {   // PLANREOPEN-2026-11-22
+        PLAN.reopenAt = now();
+        if (planReopenNow()) { autoLvl.stop = true; const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); return { interrupted: 'jump' }; }
+      }
       if (lvlToMin() >= to) {
         autoLvl.stop = true; { const t0 = now(); while (autoLvl.active && now() - t0 < 60000) await sleep(1000); }
         return { ok: true, result: `level ${to} reached` };
@@ -40391,6 +40775,17 @@ function pmoveTick() {
   }
 }
 setInterval(() => { try { pmoveTick(); } catch (e) { } }, 20000);
+// PMOVEBOOT-2026-11-22 (Vykaax: moved on the Teams page while the window was closed / restarting, still in the old in-game party): the party key this
+// character last ran with (Logs/partykey_<me>.txt); another key now = the same 10 min of leaving the old party as a move while it runs
+function pmoveBootTick() {
+  if (!state.role || !IsCharacterReady() || now() - scriptStartAt < 30000) return;
+  const f = `${SWARM_ROOT}\\Logs\\partykey_${Me.Name}.txt`, key = String(CONFIG.leader || ''); if (!key || key[0] === '(') return;
+  let old = ''; try { if (File.Exists(f)) old = String(File.ReadAllText(f)).replace(/^﻿/, '').trim(); } catch (e) { return; }
+  if (old === key) return;
+  if (old && !PMOVE.list.some(x => x.n === Me.Name)) { PMOVE.list.push({ n: Me.Name, was: old, party: key, until: now() + 600000 }); note(`party move: my party is ${key} now (was ${old})`, true); }
+  File.WriteAllText(f, key);
+}
+setInterval(() => { try { pmoveBootTick(); } catch (e) { } }, 30000);
 /** L2Swarm's own party / regroup lists (account XML, live Options): the moved character drops its old team, the old team drops it */
 function pmoveLists(m) {
   let drop = [];
@@ -41483,6 +41878,7 @@ async function planRun(why) {
       PLAN.jump = false;
       const plan = planMine();
       if (!plan || !plan.on) { const pg = planProg(); planProgSave(Object.assign(pg, { status: 'paused', why: plan ? 'the plan was switched off' : 'the plan was removed' })); break; }
+      planReopenNow();   // PLANREOPEN-2026-11-22: an academy group that is lower again starts at the right step
       const prog = planProg(), n = plan.steps.length, idx = planCursor(plan, prog);
       if (idx >= n) {
         planProgSave(Object.assign(prog, { status: 'done', why: '', idx: n, n, stepId: '', finishedAt: new Date(now()).toISOString() }));
@@ -43391,6 +43787,31 @@ function tightGroup() {
   try { const names = [Me.Name].concat(teamNames().filter(n => n !== Me.Name)); TIGHTST.on = !inRaid() && tightWant(names.map(n => n === Me.Name ? state.role : (((CONFIG.roster || {})[n]) || (livePos[n] || {}).role || ''))); } catch (e) { TIGHTST.on = false; }
   return TIGHTST.on;
 }
+// STANDGROUP-2026-11-25 (owner: "Gorruks team is a AOE group where they all stand in on place and AOE all the monsters aka why they have polearms";
+// live 2026-11-22 Dragon Valley leeches, 3 deaths in 3 min: the Titans stood 45-101 from Destroyer3 (p90 295+) against 32-58 in the Forge, ~10 % of
+// the fight orders went to monsters > 400 away, Destroyer3 himself ran 549-673 to "help"): an AOE group fights where it stands - the tight-ball help
+// rule (TIGHT.helpDist / tightHelpOk: only monsters within 600 of the leader) and the pull-back of a member fighting > 1350 from the leader hold
+// for it too. AOE group = the owner set up an AOE team for my leader (aoe_teams.json teams.<leader>, on or off) - ONLY that (owner 2026-11-25:
+// "Begræns AOE-reglen": a polearm alone no longer makes a group stand, so the testers' parties keep their normal help rule).
+// Never for healers, a puller out on an active AOE team route, raids or instances.
+// STANDGROUP-PURE-BEGIN (no host calls: docs/plan/tools/test_owner_1125.js)
+/** o = { aoeTeam, healer, puller, raid, inst } -> does the stand-together rule hold for me? (myPole is ignored since 2026-11-25) */
+function standGroupWant(o) { const x = o || {}; return !!x.aoeTeam && !x.healer && !x.puller && !x.raid && !x.inst; }
+/** an AOE group helps only against monsters within helpRange of its leader (tightHelpOk's cfg) */
+const STANDG_CFG = { helpRange: 400 };
+// STANDGROUP-PURE-END
+const STANDG = { at: 0, on: false };
+/** am I in an AOE group (cached 10 s)? */
+function standGroup() {
+  if (now() - STANDG.at < 10000) return STANDG.on;
+  STANDG.at = now();
+  try {
+    let team = false; try { const j = JSON.parse(String(File.ReadAllText(`${__SCRIPTS__}\\data\\aoe_teams.json`)).replace(/^﻿/, '')) || {}; team = !!((j.teams || {})[CONFIG.leader]); } catch (e) { }
+    let puller = false; try { const c = aoeCfg(); puller = !!c && aoeActive(c) && aoeIsPuller(c); } catch (e) { }
+    STANDG.on = standGroupWant({ aoeTeam: team, healer: HEALER_ROLES.test(String(state.role || '')) || isHealerRole(), puller, raid: inRaid(), inst: !!(inst && inst.on) });
+  } catch (e) { STANDG.on = false; }
+  return STANDG.on;
+}
 // BALLSTICK-2026-11-03 host side: the monsters hitting one of us (fresh) with their HP, and my members' last positions
 const BALLST = { waitSince: 0, saidAt: 0, waitMax: 60000 };
 function tightHitsNow() {
@@ -43476,7 +43897,8 @@ setInterval(() => {
   if (!leadMode() || !state.role || !IsCharacterReady() || Me.IsDead || isLeader() || stuckFollow.busy || benched() || swarmFightNow()) return;   // SWARMFIGHT: L2Swarm's Follow
   if (errandNow()) { stuckFollow.since = 0; return; }                   // ERRAND-2026-10-23: away on a sell / buy errand: no back-to-the-middle walk
   // TIGHTBALL-2026-11-03: a caster-ball member fighting > 1350 from its leader is pulled back to the ball even in combat
-  const tightFar = (() => { try { if (!tightGroup()) return false; const lp = partyMember(CONFIG.leader); return !!lp && !lp.IsDead && Math.hypot(lp.X - Me.X, lp.Y - Me.Y) > TIGHT.zone * 1.5; } catch (e) { return false; } })();
+  // STANDGROUP-2026-11-25: an AOE group member fighting far from the leader is pulled back too
+  const tightFar = (() => { try { if (!tightGroup() && !standGroup()) return false; const lp = partyMember(CONFIG.leader); return !!lp && !lp.IsDead && Math.hypot(lp.X - Me.X, lp.Y - Me.Y) > TIGHT.zone * 1.5; } catch (e) { return false; } })();
   if (state.gkBusy || state.escaping || tradeState || state.buffTurn || inRaid() || rest.sitting || ((IsInCombat || Me.IsInCombat) && !tightFar) || noNativeNav()) { stuckFollow.since = 0; return; }   // guard: the script follow (nnFollow) walks back
   // never during a route walk (2026-10-07 02:59: Saint1 + Chanter1 waiting at the end of the Timak route, 2387 from Tank1: this fired,
   // walkTo/freeFromTerrain refuse during a route walk (they returned at once = "stuck 6 min") and .town sent both to Giran)
@@ -43485,14 +43907,17 @@ setInterval(() => {
   if (!p || p.IsDead) return;
   const d = Math.hypot(p.X - Me.X, p.Y - Me.Y);
   const tight = tightGroup();                                            // TIGHTBALL-2026-11-03: a caster ball keeps within ~350 of its leader
-  if (d < (tight ? TIGHT.follow : smallTeam() ? 800 : 1500) || d > 12000) { stuckFollow.since = 0; return; }   // close enough (small team: 800), or far away (then the leader regroups in Giran)
-  // busy with a mob - in a tight ball only with one near the group (a mob far from the leader is no reason to stay out there)
-  if (Me.IsAttacking || (Target && Target.objId && !!mobById(Target.objId) && !Target.IsDead)) { if (!tight || d < TIGHT.zone) { stuckFollow.since = 0; return; } }
+  // STANDGROUP-2026-11-25: an AOE group member comes back from > 1350 (TIGHT.zone * 1.5), also out of a fight; never the 350 of a caster ball (the
+  // walk below goes to within 900 - from 350-900 it would not move and count as stuck in terrain, whose last resort is .town)
+  const stand = !tight && standGroup();
+  if (d < (tight ? TIGHT.follow : stand ? TIGHT.zone * 1.5 : smallTeam() ? 800 : 1500) || d > 12000) { stuckFollow.since = 0; return; }   // close enough (small team: 800), or far away (then the leader regroups in Giran)
+  // busy with a mob - in a tight ball / AOE group only with one near the group (a mob far from the leader is no reason to stay out there)
+  if (Me.IsAttacking || (Target && Target.objId && !!mobById(Target.objId) && !Target.IsDead)) { if (!(tight || stand) || d < TIGHT.zone) { stuckFollow.since = 0; return; } }
   if (Math.hypot(Me.X - stuckFollow.x, Me.Y - stuckFollow.y) > 100) { Object.assign(stuckFollow, { x: Me.X, y: Me.Y, since: now() }); return; }
   // user 2026-10-04: with the big combat circle (6000) members chase mobs far out; no mob for 15 s -> back to the middle (the leader)
-  if (now() - stuckFollow.since < (tight ? TIGHT.followWaitMs : smallTeam() ? 6000 : 15000)) return;
+  if (now() - stuckFollow.since < (tight ? TIGHT.followWaitMs : stand ? 6000 : smallTeam() ? 6000 : 15000)) return;
   if (!runAuto('back-to-the-middle walk')) return;                     // RUNSTATE
-  if (tight && (Me.IsAttacking || IsInCombat)) { try { stopCombatG(); } catch (e) { } }   // TIGHTBALL: drop the far fight, back to the ball
+  if ((tight || stand) && (Me.IsAttacking || IsInCombat)) { try { stopCombatG(); } catch (e) { } }   // TIGHTBALL / STANDGROUP: drop the far fight, back to the group
   if (!takeControl('follow: back to the leader', PRIO.TEAM_SAFETY)) return;
   stuckFollow.busy = true;
   note(`follow: no mobs here, ${Math.round(d)} from ${CONFIG.leader} — back to the middle of the hunt (walking to him)`);
@@ -43542,14 +43967,16 @@ App.on('swarm.attacked', (event) => {
   if (!isLeader() && myPair.on && pairActive() && !myPair.msg.names.includes(d.name) && !HEALER_ROLES.test((livePos[d.name] || {}).role || '')) return;
   if (mtRunOn()) return;                           // RUNON-2026-10-18: on a team walk leg nobody runs back to help: killed together at the waypoint
   const v = partyMember(d.name);
-  const tightH = tightGroup();                                             // TIGHTBALL-2026-11-03
+  const tightB = tightGroup(), standH = !tightB && standGroup();          // STANDGROUP-2026-11-25: an AOE group helps only near the group too
+  const tightH = tightB || standH;                                         // TIGHTBALL-2026-11-03
   if (!v || Math.hypot(v.X - Me.X, v.Y - Me.Y) > (tightH ? TIGHT.helpDist : CONFIG.hive.helpDist)) return;
   const mob = mobById(d.attacker);
   if (!mob || mob.IsDead || Math.abs((mob.Z || Me.Z) - Me.Z) > CONFIG.rest.zLimit) return;
   // TIGHTBALL: only monsters within 600 of the group (the leader) - never walking 1500 away for one member (it comes back to the ball instead)
-  if (tightH) { const lp = isLeader() ? { X: Me.X, Y: Me.Y } : partyMember(CONFIG.leader); if (lp && !tightHelpOk({ x: mob.X, y: mob.Y }, { x: lp.X, y: lp.Y })) return; }
+  // STANDGROUP: within STANDG_CFG.helpRange (400) - live 2026-11-22 Destroyer3 ran 549-673 to "help" at the leeches; in the Forge they stood < ~130 apart
+  if (tightH) { const lp = isLeader() ? { X: Me.X, Y: Me.Y } : partyMember(CONFIG.leader); if (lp && !tightHelpOk({ x: mob.X, y: mob.Y }, { x: lp.X, y: lp.Y }, standH ? STANDG_CFG : undefined)) return; }
   if (ignoredMob(mob)) return;
-  { const hp = isLeader() ? (MTL && MTL.pts && MTL.pts[MTL.gate]) : (memberRoute.mt && memberRoute.pts && memberRoute.pts[memberRoute.gate]);   // LEASH-2026-10-14: no chasing 2.3 km off a team walk
+  { const hp = mtAnchor();   // LEGANCHOR-2026-11-22 (was the next waypoint)   // LEASH-2026-10-14: no chasing 2.3 km off a team walk
     if (hp && Math.hypot(num(mob.X) - num(hp.x), num(mob.Y) - num(hp.y)) > MT.leash) return; }   // TOGETHER-2026-10-18: 600 (was 1500: Destroyer1 ran 1.1 km off the ToI route)
   if (isMarkedForOther(mob)) return;                                       // ejerens quest-mob: han dræber den selv
   if (Target && Target.objId === mob.objId && (IsInCombat || Me.IsAttacking)) { if (selfDef.started && lastAttackerOnMe.for) lastAttackerOnMe.at = now(); return; }   // still helping: keep the fight alive
@@ -43656,6 +44083,7 @@ function assistBlocked() {
     if (errandNow()) return 'errand';                                  // ERRAND-2026-10-23: a seller does not run back to assist
     if (rest.sitting || Me.IsSitting) return 'resting';
     if (spoilBusy()) return 'my Spoil / Sweeper cast';                // SPOILSTAT-2026-10-27: a re-target to the leader's next monster cut the spoiler's cast
+    if (typeof mtRunNow === 'function' && mtRunNow()) return 'team route walk: running on';   // RUNGO-2026-11-22
     if (memberRoute.id && !(assistSt.lt && now() - assistSt.lt.at < ASSIST.freshMs)) return 'team route walk';   // the leader's announced target = he fights: the walk holds (MOVETOGETHER), so the members join it
     if (resBusy || comeHere.busy || stuckFollow.busy || unstickRun.busy) return 'busy walking';
     if (now() < (state.fleeUntil || 0) || now() < (state.disengageUntil || 0)) return 'pulling back';
@@ -43720,7 +44148,7 @@ function assistMemberTick(force) {
   let attacker = 0; try { if (now() - lastAttackerOnMe.at < 3000 && !lastAttackerOnMe.for) { const m = mobById(lastAttackerOnMe.id); if (m && !m.IsDead) attacker = num(m.objId); } } catch (e) { }
   const caster = (() => { try { return casterOwnsAttacks(); } catch (e) { return false; } })();
   const selectOnly = !caster && (noMelee() || CASTER_ROLES.test(state.role || ''));   // a caster whose L2Swarm profile fights (Hive skills OFF): select only, never melee
-  { const tp = mtTeamPoint(); const lt = assistLeaderView(); const tm = lt && lt.id ? mobById(lt.id) : null;   // TOGETHER-2026-10-18: no assist run off the team route
+  { const tp = mtAnchor(); const lt = assistLeaderView(); const tm = lt && lt.id ? mobById(lt.id) : null;   // TOGETHER-2026-10-18: no assist run off the team route
     if (tp && tm && Math.hypot(num(tm.X) - num(tp.x), num(tm.Y) - num(tp.y)) > MT.leash) { assistEarly('target off the team route point (move-together leash)'); return; } }
   const d = assistDecide({ on: assistOn(), healer: isHealerRole() || HEALER_ROLES.test(state.role || '') || (noMelee() && !caster), blocked: assistBlocked(), attacker,
     lt: assistLeaderView(), mates: (ltFresh && assistSt.lt.id) ? [] : assistMateAttackers(), chase: ASSIST.chase, zl: assistZl(), nextRange: ASSIST.nextRange,
@@ -43864,6 +44292,9 @@ function resDecide(o) {
   const how = (man && man.how) || '';
   const dead = all.slice().sort((a, b) => resDeadRank(a) - resDeadRank(b) || String(a.name).localeCompare(String(b.name)));
   for (const d of dead) {
+    // RESLOOP-2026-11-22 (Vykaax: died, resurrected and died again endlessly): dead twice within 3 min at the same place with monsters still on the spot = wait
+    // (raids and your orders never wait)
+    if (!man && !o.raid && resNum(d.loopN) >= 2 && resNum(d.foes) > 0) { waits.push({ dead: d.name, why: `${d.name} died here ${d.loopN} times in 3 min and ${d.foes} monster(s) are still at the body — waiting until it is safe` }); continue; }
     if (d.claimedBy && !(man && man.by)) { waits.push({ dead: d.name, why: `${d.claimedBy} is already on the way to resurrect ${d.name}` }); continue; }
     const near = (o.alive || []).filter(c => c && c.name && c.name !== d.name && !used.has(c.name) && (!c.busy || (man && man.by === c.name)) && (!man || !man.by || c.name === man.by))
       .map(c => Object.assign({}, c, { d: dist(c, d), floor: floorOk(c, d) }));
@@ -44035,6 +44466,14 @@ function resBufferForget(name) {
   } catch (e) { }
 }
 /** everyone of my party: the dead (body position + object id) and the living with their res kit */
+// RESLOOP-PURE-BEGIN
+const RESLOOP = { windowMs: 180000, near: 800, foeR: 600 };
+/** deaths of one teammate [{ at, x, y }] within the window near this body */
+function resLoopCount(hist, t, pos) { return (hist || []).filter(h => t - h.at <= RESLOOP.windowMs && Math.hypot(h.x - pos.x, h.y - pos.y) <= RESLOOP.near).length; }
+// RESLOOP-PURE-END
+function resDeathNote(n, pos) { const D = RES.deaths || (RES.deaths = {}); D[n] = (D[n] || []).filter(h => now() - h.at <= RESLOOP.windowMs).concat([{ at: now(), x: pos.x, y: pos.y }]).slice(-10); }
+/** living monsters at the body that fight somebody (a target or hurt) */
+function resFoesAt(pos) { let n = 0; try { snapMobs().forEach(m => { if (m.IsDead || (ignoredMob(m) && !raidTitledOutsideRaid(m)) ||Math.hypot(m.X - pos.x, m.Y - pos.y) > RESLOOP.foeR) return; if (isFinite(pos.z) && pos.z !== null && Math.abs((m.Z || pos.z) - pos.z) > 400) return; if (num(m.TargetObjId) > 0 || mobAggrRange(m) > 0) n++; }); } catch (e) { } return n; }
 function resGather() {
   const dead = [], alive = [], rows = {};
   try { (partyRows(['Name', 'X', 'Y', 'Z', 'IsDead', 'objId']) || PartyList).forEach(p => { rows[String(p.Name)] = p; }); } catch (e) { }
@@ -44055,8 +44494,8 @@ function resGather() {
     if (isDead) {
       const c = RES.claims[n];
       const ds = RES.deadSince || (RES.deadSince = {});
-      if (!ds[n]) ds[n] = now();                                          // RESFIGHT2-2026-11-10: how long the body lies there (scroll fallback after RESX.skillWaitMs)
-      dead.push(Object.assign({ name: n, objId: num((r && r.objId) || (lp && lp.objId)), healer: HEALER_ROLES.test(role(n)) || !!(lp && lp.healer), tank: ROLE_RE.tank.test(role(n)),
+      if (!ds[n]) { ds[n] = now(); resDeathNote(n, pos); }                // RESFIGHT2-2026-11-10: how long the body lies there (scroll fallback after RESX.skillWaitMs)
+      dead.push(Object.assign({ name: n, loopN: resLoopCount(RES.deaths && RES.deaths[n], now(), pos), foes: resFoesAt(pos), objId: num((r && r.objId) || (lp && lp.objId)), healer: HEALER_ROLES.test(role(n)) || !!(lp && lp.healer), tank: ROLE_RE.tank.test(role(n)),
         dlv: !!(lp && lp.dlv), claimedBy: c && now() < c.until ? c.by : '', deadMs: now() - ds[n] }, pos));
       return;
     }
@@ -44184,6 +44623,10 @@ setInterval(() => {
   if (!g.dead.length) { RES.waits = []; if (RES.order) { note(`res order done: nobody of my party is dead`); RES.order = null; } return; }
   const man = RES.order ? { dead: RES.order.dead || null, by: RES.order.by || null, how: RES.order.how || '' } : null;
   if (man && man.dead && !g.dead.some(d => d.name === man.dead)) { RES.order = null; return; }
+  // RESPARK-2026-11-22 (owner OK): a party you parked / stopped resurrects nobody by itself (your !res order still does); a hand-played leader's team
+  // keeps its healers working
+  if (!man) { let pw = ''; try { pw = handsOffOf(String(CONFIG.leader)) ? '' : partyUserPaused(); } catch (e) { pw = ''; }
+    if (pw) { RES.waits = g.dead.map(x => ({ dead: x.name, why: `the party is stopped (${String(pw).slice(0, 60)}) — no automatic resurrection; Start, or !res ${x.name}` })); RES.waitsAt = now(); return; } }
   const d = resDecideNow(g, man);
   RES.waits = d.waits; RES.waitsAt = now();
   if (state.gkBusy || state.escaping || tradeState || (typeof DLV !== 'undefined' && DLV.on)) return;
@@ -45254,7 +45697,7 @@ const supplyLow = { what: '', at: 0 };
 // starting a supply run"): Einhasad's Holy Water (8874) and the Battle / Magic Symbols (8875 / 8876) are extras for a few 76+ skills, like Spirit
 // Ore - and no live shop list sells Holy Water, so the run bought nothing and the next one came 30 min later, forever. Like Spirit Ore (ORE
 // 2026-10-14) they NEVER START a supply run; a run that happens anyway still tops them up (supplyNeeds / leadSupply unchanged).
-const SUPPLY_NO_TRIGGER = [3031, 8874, 8875, 8876];
+const SUPPLY_NO_TRIGGER = [3031, 8874, 8875, 8876, 1345, 9632, 9637];   // AMMOSHARE-2026-11-22: Shining Arrow / Wooden + Shining Bolt (no NPC in Giran sells them)
 /** n = { id, have, need } from supplyNeeds -> true = this item running low may START an automatic supply run */
 function supplyTriggers(n) {
   if (!n || !(n.need > 0)) return false;
@@ -45270,7 +45713,7 @@ function supplyTriggers(n) {
 // SUPSTUCK-2026-11-13 (tester LuckyStrikz: "when the run low option is on, they go to town almost every 30mins to an hour"): an item that is still
 // as low AFTER a supply run that came for it (not sold / not affordable / its hand-over failed) no longer starts runs for 24 h (like the dyes'
 // "not sold" memory); it starts counting again once it is above its line. e = { lowSince, have0, until } | null.
-const SUPSTUCK = { skipMs: 24 * 3600000, settleMs: 10 * 60000 };
+const SUPSTUCK = { skipMs: 24 * 3600000, settleMs: 10 * 60000, craftSkipMs: 2 * 3600000 };
 function supplyStuckStep(e, have, lastRunAt, t) {
   const h = Number(have) || 0, run = Number(lastRunAt) || 0;
   if (e && Number(e.until) > t) return { e, skip: true, mark: false };
@@ -45293,7 +45736,9 @@ setInterval(() => {
     const low0 = supplyNeeds().filter(supplyTriggers);   // SUPHOLY-2026-11-12: one rule (Spirit Ore / Holy Water / symbols / recovery scrolls never start a run)
     const runAt = supplyRunAtParty(), t = now(), ids = {};
     const low = low0.filter(n => { const k = String(n.id); ids[k] = 1; const r = supplyStuckStep(supStuck[k], n.have, runAt, t); supStuck[k] = r.e;
-      if (r.mark) note(`supply watch: ${n.name} is still ${n.have} after the supply run — it does not start runs for 24 h (not sold / not affordable / hand-over failed)`);
+      // SUPSTUCK2-2026-11-22: shots our crafter makes = 2 h (he crafts on; 24 h kept the party without shots after he was refilled)
+      const own = r.mark && !!craftByProduct(n.id) && !!craftCrafterFor(craftRules(), CONFIG.leader); if (own) r.e.until = t + SUPSTUCK.craftSkipMs;
+      if (r.mark) note(`supply watch: ${n.name} is still ${n.have} after the supply run — it does not start runs for ${own ? '2 h (our crafter had none)' : '24 h (not sold / not affordable / hand-over failed)'}`);
       return !r.skip; });
     Object.keys(supStuck).forEach(k => { if (!ids[k]) delete supStuck[k]; });   // above its line again: counts from scratch
     supplyLow.what = low.map(n => `${n.name} ${n.have}`).join(', '); supplyLow.at = now();
@@ -46531,7 +46976,7 @@ setInterval(() => {
       return;
     }
     if (runHeld() && !handsOffOf(Me.Name)) {                                // HOFFRACE-2026-10-27: a hands-off hold is never "stopped on its own"
-      if (!RUNST.held) { RUNST.held = true; note(`run switch: ${Me.Name} is stopped on its own — standing still (no follow / assist) until Start`, true); try { Send.StopMove(); } catch (e) { } }
+      if (!RUNST.held) { RUNST.held = true; note(`run switch: ${Me.Name} ${typeof townRoleMe === 'function' && townRoleMe() ? 'stays in its town (Crafter page: town list / crafter mode) — no follow until it is taken off that list' : 'is stopped on its own — standing still (no follow / assist) until Start'}`, true); try { Send.StopMove(); } catch (e) { } }
       try { if (Options.ActiveFollow) Options.ActiveFollow = false; } catch (e) { }
       try { if (Options.FollowAtk) { RUNST.atkSaved = true; Options.FollowAtk = false; } } catch (e) { }
     } else if (RUNST.held) {
@@ -46560,6 +47005,10 @@ var HT_ACTIONS = ['town', 'resupply', 'keep'];
 var HT_ARRIVE_WAIT_MS = 45 * 60000;            // not arrived 45 min after the choice: the clock starts anyway
 var HT_SPLIT_MAX_MIN = 15;                     // a teammate far away longer than this: the normal Giran regroup runs again (nobody stranded)
 var HT_SHOT_CRIT = 30;                         // shots below this = "really out": the supply run may go (said in party chat)
+// SHOTHOUR-2026-11-25: under a hunt timer the shots count as "ran out" below one hour of the leader's own use (min HT_SHOT_CRIT, max 3000 = no endless trips)
+/** rates = { itemId: per hour }, sid = my shot id -> the "ran out" line */
+function shotHourCrit(rates, sid) { const r = Number((rates || {})[sid]) || 0; return Math.min(3000, Math.max(HT_SHOT_CRIT, Math.round(r))); }
+var SUPWHY = { at: {}, everyMs: 600000 };       // SUPWHY-2026-11-25: when the supply watch last said why it waits (per reason)
 /** what an active timer holds back (kind -> rule). Not listed = never held (survival, orders, rescue, escape ...) */
 var HT_HOLD = { 'supply run': 'supply', 'daily Kamaloka': 'trip', 'giran hub': 'trip', 'move on': 'trip', 'split regroup': 'split', 'warehouse stash': 'trip',
   'letters': 'trip', 'clan hand-over': 'trip', 'Seven Signs sign-up': 'trip', 'quest farm': 'trip', 'clan skill trip': 'trip', 'fund round': 'trip' };
@@ -47025,8 +47474,10 @@ setInterval(() => {
 function teamMinLevel() {
   // a member far below the rest (> 10 levels under the median, fx a new character added to a grown team, 2026-10-07 Destroyer9 lvl 1 in team 3
   // at 17 -> the whole team walked back to the lvl 1-5 spot) does not decide the spot; he should level with a team of his own level
+  // TEAMLEVEL-2026-11-22 (live: Inspector1, 64, still in Tank1's in-game party at 78: the picker sent her alone to a level 82-83 nest, 3 deaths): only MY team
+  // (swarm.config.json) decides; a stranger / a party I was moved out of never does
   const lv = [num(Me.Level)];
-  try { PartyList.forEach(p => { if (CONFIG.roster[p.Name] && num(p.Level) > 0 && p.Name !== Me.Name) lv.push(num(p.Level)); }); } catch (e) { }
+  try { PartyList.forEach(p => { if (CONFIG.roster[p.Name] && num(p.Level) > 0 && p.Name !== Me.Name && teamOf(p.Name) === teamOf(Me.Name)) lv.push(num(p.Level)); }); } catch (e) { }
   const sorted = lv.slice().sort((a, b) => a - b), median = sorted[Math.floor(sorted.length / 2)];
   const counted = sorted.filter(l => l >= median - 10);
   return counted.length ? counted[0] : num(Me.Level);
@@ -47166,7 +47617,7 @@ function supplyWants() {
   const sid = shotId(), k = shotKind();
   if (sid) out.push({ id: sid, name: `${k === 'mage' ? 'Spiritshot' : 'Soulshot'} (${weaponGrade()})`, want: k === 'mage' ? A.spiritshots : A.soulshots, below: Math.min(S.shotsBelow, k === 'mage' ? A.spiritshots : A.soulshots), alt: PSHOP_ALT[sid] || 0 });   // PSHOP: plain spiritshots of my grade count too
   // OWNTYPE (tester 2026-10-13): a worn bow needs arrows, a crossbow bolts, of the weapon's grade (Helvetia sells Wooden..Mithril)
-  { const am = myAmmo(); if (!am && typeof supplyAmmoMissLog === 'function') supplyAmmoMissLog(); if (am && OWNTYPE.helvetia.includes(am.id)) { const w = A.arrows; out.push({ id: am.id, name: am.name, want: w, below: Math.min(w, Math.max(S.arrowsBelow || 1500, Math.round(w * 0.3))) }); } }   // ARROWS: the party settings amount (0 = none); a refill below 30 % of it
+  { const am = myAmmo(); if (!am && typeof supplyAmmoMissLog === 'function') supplyAmmoMissLog(); if (am /* AMMOSHARE-2026-11-22: every arrow / bolt, also the ones no NPC sells (Shining): the leader hands out his own */) { const w = A.arrows; out.push({ id: am.id, name: am.name, want: w, below: Math.min(w, Math.max(S.arrowsBelow || 1500, Math.round(w * 0.3))) }); } }   // ARROWS: the party settings amount (0 = none); a refill below 30 % of it
   // solo (user 2026-10-07: "when you hunt alone you need healing potions and mana potions"): 100 Healing Potions, nobody heals him
   const solo = !teamNames().length;
   out.push({ id: 1061, name: 'Healing Potion', want: solo && A.src.healing === 'builtin' ? 100 : A.healing, below: Math.min(solo ? 30 : 10, A.healing) });   /* SUPPLYAMT: your amount wins, also solo */   // everyone, for the HP < 30 % emergency (Tank1 died alone with none)
@@ -47252,8 +47703,97 @@ function khRebuffMode(storeCovOn, dpDue) { return storeCovOn || dpDue ? 'giran' 
 /** the leader's death times at one hive-picked spot -> true at 3 deaths within 60 min */
 /** BAGSELL-2026-10-22: [{ name, bf }] -> the names whose bag is FULL (the sell trip is due when the party's selling switch is on) */
 function bagTripNames(reports) { return (reports || []).filter(r => r && r.bf === 'full').map(r => r.name); }
+var DEATHSTOP = { hold: null, boot: false };
 function spotDeathsTooMany(times, t) { return (times || []).filter(x => (Number(t) || 0) - Number(x) < 3600000).length >= 3; }
+// AUTODEATH-2026-11-25 (live: Nuker19, a lvl 60 Spellsinger alone, Hive picked Fields of Massacre (60-65): 7 deaths 10:19-11:17, each time revived and
+// teleported straight back; owner: "Ja, lav rettelsen til Nuker19"): a spot the HIVE picked = 2 deaths within 30 min -> skipped for 24 h (was 3 / 1 h -> 6 h)
+/** the death times at one hive-picked spot -> true at 2 deaths within 30 min */
+function autoSpotDeathsTooMany(times, t) { return (times || []).filter(x => (Number(t) || 0) - Number(x) < 1800000).length >= 2; }
+/** DEATHSPOT-2026-11-25: the spot a death counts for = the current one, else the last hunted one when it was hunted < 10 min ago */
+function deathSpotPick(spot, last, lastAt, t) { return spot || (last && (Number(t) || 0) - (Number(lastAt) || 0) < 600000 ? last : null); }
 // DPCOV-PURE-END
+/** AUTODEATH-2026-11-25: one death of the leader / a solo character while leveling - counted ONCE (the deaths in an escape with "leveling paused"
+ *  were never seen by the autolevel loop: it only looked while it ran, and the character was revived in town before it looked again)
+ *  solo: a solo character learns the area (24 h, every solo character); a hive-picked spot: 2 deaths / 30 min -> 24 h off;
+ *  a CHOSEN spot: DEATHSTOP (3 deaths / 1 h -> wait in town with the dashboard banner) */
+function autoDeathCount(solo) {
+  if (now() - (DEATHCNT.countedAt || 0) < 60000) return;   // this death is counted already (the loop and the watcher both see it)
+  DEATHCNT.countedAt = now();
+  // solo death: the field AREA here is skipped by every solo character for 24 h (2026-10-09). AUTODEATH: then the hive-picked spot rule below too -
+  // a ZONE spot (Nuker19's "Fields of Massacre (Lv60-65)") is no field area, soloDeathLearn found no key and the zone was never skipped
+  const soloNow = soloChar();
+  // DEATHSPOT-2026-11-25 (owner: "Aquiline keeps dying?" - 2 more deaths 12:49 + 12:57, none counted): an escape clears autoLvl.spot every 2 s
+  // ("leveling paused: ... first"), so a death in an escape had no spot. The spot counted = the current one, else the one hunted < 10 min ago.
+  const sp = deathSpotPick(autoLvl.spot, autoLvl.lastSpot, autoLvl.lastSpotAt, now());
+  if (soloNow) { soloDeathLearn(); if (!(sp && !sp.manual)) { autoLvl.spot = null; try { writeClaim(null); } catch (e) { } return; } }
+  // DPCOV-2026-10-21 (Spoiler8 + Healer8 died 77 / 87 times on 2026-10-21 in Kamael Village outskirts areas 14/15 - aggressive level 12-14 packs,
+  // a lvl 12 duo, the Death Penalty growing to 11 - and the party kept picking the same area): a spot the HIVE picked (never your dashboard choice)
+  // is skipped (persisted in Logs/spot_bad_<name>.json) and another one picked - AUTODEATH: 2 deaths within 30 min, 24 h
+  if (sp && !sp.manual) {
+    const k = spotKeyOf(sp), D = autoLvl.spotDeaths || (autoLvl.spotDeaths = {});
+    D[k] = (D[k] || []).filter(t => now() - t < 1800000).concat([now()]);
+    if (autoSpotDeathsTooMany(D[k], now())) {
+      const n = D[k].length, until = now() + 24 * 3600000;
+      autoLvl.bad[k] = until; if (sp.name) autoLvl.bad[sp.name] = until; D[k] = []; autoLvl.lastSpot = null;
+      const m = `autolevel: ${n} deaths within 30 min at ${sp.name} — too dangerous for ${solo ? 'me' : 'this party'} now: skipped for 24 h, picking an easier spot`;
+      note(m, true); try { intent('spot', m.replace(/^autolevel: /, '')); } catch (e) { } dungeonLog(m); try { if (!solo) SayToParty(('[lead] ' + m.replace(/^autolevel: /, '')).slice(0, 250)); } catch (e) { }
+      autoLvl.spot = null; try { writeClaim(null); } catch (e) { }
+    }
+    if (soloNow) { autoLvl.spot = null; try { writeClaim(null); } catch (e) { } }   // a solo character picks again after every death (as before)
+    return;
+  }
+  // DEATHSTOP-2026-11-22 (live: Spoiler6's duo, Cruma 2F, 3 x killed by the raid boss next to the plan's room; testers: "endless death chain", owner: "each
+  // death is a week of work"): the same 3 deaths an hour at a CHOSEN spot = the party waits in town (no other spot: CHOICEONLY) until your order / a new choice, max 1 h
+  if (sp && sp.manual) {
+    const k = 'manual:' + spotKeyOf(sp), D = autoLvl.spotDeaths || (autoLvl.spotDeaths = {});
+    D[k] = (D[k] || []).filter(t => now() - t < 3600000).concat([now()]);
+    if (spotDeathsTooMany(D[k], now())) {
+      let sig = ''; try { sig = partySpotSig(partySpotEntry()); } catch (e) { }
+      DEATHSTOP.hold = { until: now() + 3600000, sig, seq: orderState.seq, name: sp.name, at: now() };
+      deathStopWrite(DEATHSTOP.hold, D[k], '');                                // the dashboard banner (Dashboard/deathstop_api.js)
+      D[k] = [];
+      const m = `3 deaths within an hour at ${sp.name} — we wait in town (Resolve on the dashboard, your order, Start or another spot ends it; at the latest in 1 h)`;
+      note('autolevel: ' + m, !solo); try { intent('spot', m); } catch (e) { } dungeonLog(m); try { if (!solo) SayToParty(('[lead] ' + m).slice(0, 250)); } catch (e) { }
+      autoLvl.spot = null; try { writeClaim(null); } catch (e) { }
+    }
+  }
+}
+const DEATHCNT = { wasDead: false, countedAt: 0 };
+// DEATHKEEP-2026-11-25 (owner: "Spoiler11 keeps dying" - 4 deaths in his chosen Devil's Isle room 11:51-12:24, no death wait: the counts lived in
+// memory only and three deploys that day (11:29, 11:44, 12:05) restarted the script and wiped them): the death times per spot are saved to
+// Logs/spot_deaths_<name>.json after every death and read back at the start (only the last hour is kept)
+const DEATHKEEP_F = () => `${SWARM_ROOT}\\Logs\\spot_deaths_${Me.Name}.json`;
+/** pure: the saved death times -> only the ones younger than an hour, per spot key (empty keys dropped) */
+function deathKeepTrim(j, nowMs) { const out = {}; Object.keys(j && typeof j === 'object' ? j : {}).forEach(k => { const L = (Array.isArray(j[k]) ? j[k] : []).map(Number).filter(t => t > 0 && nowMs - t < 3600000); if (L.length) out[k] = L; }); return out; }
+function deathKeepSave() { try { File.WriteAllText(DEATHKEEP_F(), JSON.stringify(deathKeepTrim(autoLvl.spotDeaths || {}, now()))); } catch (e) { } }
+setTimeout(() => { try { if (!File.Exists(DEATHKEEP_F())) return; const j = deathKeepTrim(JSON.parse(String(File.ReadAllText(DEATHKEEP_F())).replace(/^﻿/, '')), now()); const D = autoLvl.spotDeaths || (autoLvl.spotDeaths = {}); Object.keys(j).forEach(k => { D[k] = [...new Set((D[k] || []).concat(j[k]))].sort((a, b) => a - b); }); } catch (e) { } }, 3000);
+// AUTODEATH watcher: every death of the leader / a solo character while a leveling session has a spot - also in an escape, a rest or a walk
+setInterval(() => {
+  try {
+    const d = !!Me.IsDead;
+    // DEATHSPOT2-2026-11-25 (Nuker19 died at 13:16 on the 13 km walk from the Seal of Shilen landing: not counted - the session was not "active" on the way):
+    // a spot picked or hunted < 10 min ago counts, also while travelling
+    if (d && !DEATHCNT.wasDead && deathSpotPick(autoLvl.spot, autoLvl.lastSpot, autoLvl.lastSpotAt, now()) && (autoLvl.active || autoLvl.solo || now() - (autoLvl.lastSpotAt || 0) < 600000) && (autoLvl.solo || isLeader() || soloChar())) { autoDeathCount(!!autoLvl.solo); deathKeepSave(); }   // DEATHKEEP: saved; DEATHSPOT: also with the spot an escape cleared
+    DEATHCNT.wasDead = d;
+  } catch (e) { }
+}, 1000);
+// DEATHSTOP banner (owner 2026-11-22: "Yes, but announce it with a banner that can be resolved manually"): the leader writes Logs/deathstop_<leader>.json,
+// the dashboard shows it on every page until Resolve (Dashboard/deathstop_api.js writes Logs/deathstop_ack_<leader>.json { of: <hold.at> }), Resolve ends the wait
+const deathStopFile = () => `${SWARM_ROOT}\\Logs\\deathstop_${Me.Name}.json`;
+function deathStopWrite(hold, deaths, ended) {
+  try {
+    let old = null; try { old = JSON.parse(String(File.ReadAllText(deathStopFile())).replace(/^﻿/, '')); } catch (e) { }
+    const same = old && old.hold && old.hold.at === hold.at;
+    File.WriteAllText(deathStopFile(), JSON.stringify({ leader: String(Me.Name), hold, deaths: deaths || (same && old.deaths) || [], ended: ended ? { at: now(), why: ended } : null }));
+  } catch (e) { logError('death stop', e); }
+}
+function deathStopAck(hold) { try { const f = `${SWARM_ROOT}\\Logs\\deathstop_ack_${Me.Name}.json`; return File.Exists(f) && num(JSON.parse(String(File.ReadAllText(f)).replace(/^﻿/, '')).of) === num(hold.at); } catch (e) { return false; } }
+/** once after a script restart: go on with the saved wait (never a new start at the deadly spot because of a restart) */
+function deathStopBoot(sig) {
+  if (DEATHSTOP.boot) return; DEATHSTOP.boot = true;
+  if (DEATHSTOP.hold) return;
+  try { if (File.Exists(deathStopFile())) DEATHSTOP.hold = deathStopResume(JSON.parse(String(File.ReadAllText(deathStopFile())).replace(/^﻿/, '')), { now: now(), sig, seq: orderState.seq }); } catch (e) { }
+}
 const dpRep = {};                                      // name -> { dp, scrolls, at } from swarm.pos
 App.on('swarm.pos', (event) => { const d = event.data || {}; if (d.name && d.dp !== undefined) dpRep[d.name] = { dp: num(d.dp), scrolls: num(d.dps), bf: String(d.bf || ''), at: now() }; });
 /** my team's fresh Death Penalty reports (me included) */
@@ -47539,40 +48079,90 @@ function storeSellers(re, range) {
   try { snapChars().forEach(c => { const t = String(c.Title || ''); if (!t || !re.test(t) || c.IsDead) return; const d = Math.hypot(num(c.X) - Me.X, num(c.Y) - Me.Y); if (d <= range) out.push({ objId: num(c.objId), Name: String(c.Name), title: t, X: num(c.X), Y: num(c.Y), Z: num(c.Z), d }); }); } catch (e) { }
   return out.sort((a, b) => a.d - b.d);
 }
+// PRICEREAD-PURE-BEGIN
+const STOREPAGE = {};
+/** the price on a buff store page ("Price: 1a", tags between, 10,000,000 / 10kk / 10m) -> adena | null = not readable (never 0) */
+function storePriceOf(html) {
+  const t = String(html || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ');
+  const m = t.match(/Price\s*:?\s*(\d[\d.,]*)\s*(kk|k|m|b)?/i);
+  if (!m) return null;
+  const unit = String(m[2] || '').toLowerCase(), mul = { k: 1e3, kk: 1e6, m: 1e6, b: 1e9 }[unit] || 1;
+  const raw = m[1].replace(/[.,]+$/, '');
+  const v = (unit ? Number(raw.replace(',', '.')) : Number(raw.replace(/[.,]/g, ''))) * mul;
+  return isFinite(v) && v >= 0 ? v : null;
+}
+// BUFFPAID-2026-11-25 (owner: "It also need to take into account when it buys buffs, some are NOT selling for 10 adena BUT 10 million ADENA! So we are
+// gettin ripped off"): the page price was only READ - what really left the bag was never measured (buff_store.log: every buy "10 a each" = the page
+// text). Now the adena is counted before the click and after the buff came: more than the max price (x the party size in Party mode) = a CHEATING
+// store: logged loudly (PAID), barred for every character for 30 days (Logs/buff_store_bad.json), said in party chat.
+/** paid = adena gone, maxPrice = per buff, n = characters it was bought for -> { bad, limit } */
+function storePaidCheck(paid, maxPrice, n) { const limit = Math.max(0, Number(maxPrice) || 0) * Math.max(1, Math.round(Number(n) || 1)); return { bad: (Number(paid) || 0) > limit, limit }; }
+/** bar list { <seller>: { at, paid, price } } -> is this seller barred now? (30 days) */
+function storeBarred(bad, name, nowMs) { const r = bad && bad[name]; return !!r && nowMs - (Date.parse(r.at || '') || 0) < 30 * 86400000; }
+// STORESOLO-2026-11-25 (Vykaax 2026-11-22 20:58: "When a solo character tries to get CoV from a player shop, it can't because it's trying to use the
+// 'party' button" - the chat said "You don't have a party"): without anybody else in my in-game party the store buys for ME (no mode = Player)
+/** mode asked ('Party' | null), others = members of my in-game party besides me -> the mode to use */
+function storeModeFor(mode, others) { return mode && /party/i.test(String(mode)) && !(Number(others) > 0) ? null : mode; }
+// PRICEREAD-PURE-END
+/** STORESOLO: how many others are in my in-game party right now */
+function storePartyOthers() { let n = 0; try { PartyList.forEach(p => { if (String(p.Name) !== String(Me.Name)) n++; }); } catch (e) { } return n; }
+const STOREBAD_F = () => `${SWARM_ROOT}\\Logs\\buff_store_bad.json`;
+function storeBadRead() { try { return JSON.parse(String(File.ReadAllText(STOREBAD_F())).replace(/^﻿/, '')) || {}; } catch (e) { return {}; } }
+function storeBadAdd(name, rec) { try { const b = storeBadRead(); b[name] = rec; File.WriteAllText(STOREBAD_F(), JSON.stringify(b, null, 1)); } catch (e) { logError('buff store bar', e); } }
 /** -> { ok, why } (never throws) */
 async function storeBuyBuff(skillId, mode, label, opt) {
   const O = Object.assign({}, STORE_COV, opt || {});   // SRVOPT-2026-10-21: the party's own store list passes its title words / max price
+  const others = storePartyOthers(); mode = storeModeFor(mode, others);   // STORESOLO-2026-11-25: no party = buy for me
   const left = storeBuffLeft(skillId);
   if (left > O.minLeftSec) return { ok: true, why: `still ${Math.round(left / 3600 * 10) / 10} h left — not bought` };
   const sellers = storeSellers(O.titleRe, O.range);
   if (!sellers.length) return { ok: false, why: 'no buff store selling it near me' };
   const code = (h, re) => { const m = String(h || '').match(re); return m ? m[1] : null; };
   const tried = [];
+  const barred = storeBadRead();   // BUFFPAID-2026-11-25
   for (const sl of sellers.slice(0, 6)) {   // STOREADD-2026-10-22: 6 (one buff per store: CoV in one, Dance of Berserker in another)
     const who = `${sl.Name} ("${sl.title}")`;
+    if (storeBarred(barred, sl.Name, Date.now())) { tried.push(`${who}: barred - it took ${barred[sl.Name].paid} a on ${String(barred[sl.Name].at).slice(0, 10)}`); continue; }
     const r = await DLG.open(sl, { base: 8000, tries: 2 });
     if (!r || !r.ok || !r.html) { tried.push(`${who}: no store page`); continue; }
     let h = String(r.html);
-    const price = num(String(code(h, /Price:\s*([\d,]+)/i) || '0').replace(/,/g, ''));
-    if (price > O.maxPrice) { tried.push(`${who}: asks ${price} a`); continue; }
+    // PRICEREAD-2026-11-22 (Vykaax: 10m paid with a 5000 limit; our own log: 993 buys, all "? a each", never one refusal): a price that cannot be read
+    // was taken as 0 = always cheap. Now: not readable = NOT bought, and the page is written to Logs/buff_store_pages.log (once per seller)
+    const price = storePriceOf(h);
+    if (price === null) {
+      if (!STOREPAGE[sl.Name]) { STOREPAGE[sl.Name] = 1; try { appendShared(`${SWARM_ROOT}\\Logs\\buff_store_pages.log`, `${new Date().toISOString()} [${Me.Name}] ${who}: price not readable\r\n${h.slice(0, 1800)}\r\n\r\n`); } catch (e) { } }
+      tried.push(`${who}: price not readable - not bought`); continue;
+    }
+    if (price > O.maxPrice) { tried.push(`${who}: asks ${price} a (max ${O.maxPrice})`); continue; }
     if (mode && !new RegExp('value="> ' + mode + '"', 'i').test(h)) {
       const c = code(h, new RegExp('value="(?:> )?' + mode + '" action="bypass -h ([0-9a-f]+)"', 'i'));
       if (!c) { tried.push(`${who}: no ${mode} button`); continue; }
       const h2 = await dlgPage({ cmd: c, text: mode }, 8000, sl.Name); if (!h2) { tried.push(`${who}: no answer to ${mode}`); continue; }
       h = String(h2);
     }
-    let clicked = false;
+    let clicked = false, adena0 = 0;
     for (let p = 0; p < 6 && !clicked; p++) {
       const c = code(h, new RegExp('action="bypass -h ([0-9a-f]+)"[^>]*back=icon\\.skill0*' + skillId + '\\b'));
-      if (c) { DLG.click({ cmd: c, text: label }, { base: 4000, refuse: false }).catch(() => { }); clicked = true; break; }
+      // PRICEREAD: the page that is clicked is checked again (Party mode / a later page may show another price); no price on it = the first page's price counts
+      { const p2 = storePriceOf(h); if (c && p2 !== null && p2 > O.maxPrice) { tried.push(`${who}: asks ${p2} a on the page with the buff (max ${O.maxPrice})`); break; } }
+      if (c) { adena0 = itemCount(57); DLG.click({ cmd: c, text: label }, { base: 4000, refuse: false }).catch(() => { }); clicked = true; break; }   // BUFFPAID: adena before the click
       const nx = code(h, /action="bypass -h ([0-9a-f]+)"[^>]*shortcut_next/);
       if (!nx) break;
       const h2 = await dlgPage({ cmd: nx, text: 'next page' }, 8000, sl.Name); if (!h2) break; h = String(h2);
     }
     if (!clicked) { tried.push(`${who}: ${label} not on its pages`); continue; }
     for (let i = 0; i < 12 && storeBuffLeft(skillId) <= left; i++) await sleep(500);
+    // BUFFPAID-2026-11-25: what really left the bag (the charge can come a moment after the buff: one more look 1.5 s later)
+    await sleep(1500);
+    const paid = Math.max(0, adena0 - itemCount(57)), forN = mode && /party/i.test(mode) ? 1 + others : 1, pc = storePaidCheck(paid, O.maxPrice, forN);
+    if (pc.bad) {
+      storeBadAdd(sl.Name, { at: new Date().toISOString(), paid, price, title: sl.title, by: Me.Name, buff: label });
+      const m = `PAID ${paid} a to ${who} for ${label} - the page said ${price} a, the limit is ${pc.limit} a. ${sl.Name} is barred for every character for 30 days`;
+      appendShared(STORE_LOG(), `${new Date().toISOString()} [${Me.Name}] ${label}: ${m}\r\n`); note(`[buff store] ${m}`, true); SayToParty(`[buff store] ${m}`.slice(0, 250));
+      return { ok: false, why: m };
+    }
     const now2 = storeBuffLeft(skillId);
-    if (now2 > left) { const m = `bought from ${who} for the ${mode ? mode.toLowerCase() : 'me'} (${price || '?'} a each, ${Math.round(now2 / 3600)} h)`; appendShared(STORE_LOG(), `${new Date().toISOString()} [${Me.Name}] ${label}: ${m}\r\n`); return { ok: true, why: m }; }
+    if (now2 > left) { const m = `bought from ${who} for the ${mode ? mode.toLowerCase() : 'me'} (${price || '?'} a each, paid ${paid} a, ${Math.round(now2 / 3600)} h)`; appendShared(STORE_LOG(), `${new Date().toISOString()} [${Me.Name}] ${label}: ${m}\r\n`); return { ok: true, why: m }; }
     tried.push(`${who}: clicked, but no ${label} on my buff bar`);
   }
   const why = tried.join('; ') || 'nothing worked';
@@ -47684,8 +48274,8 @@ async function leadSupply(why, opts) {
     const buys = Object.values(total).map(t => {
       const have = itemCount(t.id), myWant = t.mine && t.mine.need > 0 ? t.mine.want : (t.mine ? Math.min(t.mine.have, t.mine.want) : 0);
       return { id: t.id, name: t.name, count: Math.max(0, myWant + t.members - have), target: myWant + t.members };   // PSHOP: target = what I must hold after buying
-    }).filter(b => b.count > 0);
-    const summary = Object.values(total).filter(t => t.members > 0).map(t => `${t.name} ${t.members}`).join(', ');
+    }).filter(b => b.count > 0 && !(ammoIdSet(OWNTYPE.ammo).has(num(b.id)) && !OWNTYPE.helvetia.includes(num(b.id))));   // AMMOSHARE: ammo no NPC sells is handed out, never bought
+    const summary =Object.values(total).filter(t => t.members > 0).map(t => `${t.name} ${t.members}`).join(', ');
     SayToParty(`[supply] team needs: ${summary || 'nothing'}${buys.length ? ' — buying ' + buys.map(b => `${b.name} x${b.count}`).join(', ') : ''}`);
     // 2. buy at the Giran grocer (recorded route), then back to the start. No-grade equipment is sold there too (user 2026-10-06:
     // the tank was near a full inventory; D-grade stays — the trio can use it — and goes to a teammate in the unload below)
@@ -48239,6 +48829,8 @@ function cpDecide(tree, plans, me) {
   const e = cpEntry(plans, me && me.party, me && me.name);
   out.party = e.party;
   if (e.ambiguous) { out.status = CP_STATUS.ambiguous; out.why = `two parties (${e.party}) hold different class plans for ${me.name}`; out.text = 'ambiguous'; return out; }
+  // SUBPLAN-2026-11-22 (tester: an Inspector shows "class plan missing / invalid" for ever): a subclass-only class needs no main-class plan - no warning, no change
+  if (cur && cur.subclassOnly && !(e.entry && Array.isArray(e.entry.plan) && e.entry.plan.map(Number).indexOf(Number(cur.id)) >= 0)) { out.status = CP_STATUS.done; out.why = `${cur.name} is a subclass: no main-class plan needed`; out.text = 'done'; return out; }
   // the next profession level of my current class (for the "reached the level without a plan" note)
   if (cur && cur.children && cur.children.length) { const k = cpClass(tree, cur.children[0]); out.needLevel = k ? k.changeLevel : null; }
   if (!e.entry || !Array.isArray(e.entry.plan) || !e.entry.plan.length) { out.status = CP_STATUS.missing; out.why = 'no class plan'; out.text = 'missing'; return out; }
@@ -49248,13 +49840,22 @@ function shotsOutOffNote(crit) {
 // between bosses stays its own setting (party switch circuitResupply, RESUPOPT-2026-10-27, default ON; rcSupplyAsk asks it) (test_party_auto). supplyOffSay sits right after the watch below.
 // Leader: someone is running low -> supply run (goes to Giran, buys, hands out, comes back to leveling)
 setInterval(() => {
-  if (!leadMode() || !state.role || !isLeader() || !IsCharacterReady() || Me.IsDead || leadPaused()) return;
-  if (nonstopOn()) return;                                             // NONSTOP / HUNT HERE 24/7: never an automatic supply run (2026-10-12)
+  if (!leadMode() || !state.role || !isLeader() || !IsCharacterReady() || Me.IsDead) return;
+  // SUPWHY-2026-11-25 (owner: "Find ud af hvorfor indkøbsturene ikke startede selv" -> "Ja, lav begge"; Destroyer3's + Spoiler11's parties ran out of shots and
+  // no run started, the watch said nothing): someone is low and the watch does not start a run = it says why, at most every 10 min
+  let anyLow = false; try { anyLow = !!supplyLow.what || teamNames().some(n => { const lp = livePos[n]; return !!(lp && lp.low && now() - lp.at < 10000); }); } catch (e) { }
+  const wait = (why) => { try { if (anyLow && typeof SUPWHY !== 'undefined' && now() - (SUPWHY.at[why] || 0) > SUPWHY.everyMs) { SUPWHY.at[why] = now(); note(`supply watch: someone is low but no supply run yet — ${why}`, true); } } catch (e) { } };
+  if (leadPaused()) return wait('the party is paused (!stop / !park) — Start or !level ends it');
+  if (nonstopOn()) return wait('"Hunt here 24/7" is on for this spot: never an automatic supply run (your !supply still works)');   // NONSTOP / HUNT HERE 24/7: never an automatic supply run (2026-10-12)
   if (typeof crafterModeMe === 'function' && (crafterModeMe() || townRoleMe())) return;   // CRAFTRUN B: the clan crafter never goes on a supply run; TOWNROLE: nor a town-role character
   if (typeof runnerModeMe === 'function' && runnerModeMe()) return;     // RUNNERMODE-2026-11-03: neither does the runner (it takes from the crafter)
   const rcH = rcHolds();                                               // CIRCUIT 24/7 (2026-10-13): low supplies = the circuit's own resupply step between bosses
-  if (rcH && !supplyDue(lastSupplyAtGet(), now())) return;
-  if (!rcH && (leadRunBusy || regroupRun || (globalThis.__spotTripAt && now() - globalThis.__spotTripAt < 1800000) || inRaid() || state.mode === 'mission' || (typeof scoutCtl !== 'undefined' && scoutCtl.on) || outranked(PRIO.ORDER) || !supplyDue(lastSupplyAtGet(), now()))) return;   // never during a scout trip (2026-10-10)
+  if (rcH && !supplyDue(lastSupplyAtGet(), now())) return wait('the raid circuit resupplies between bosses (last run less than 30 min ago)');
+  if (!rcH) {
+    const tripAgo = globalThis.__spotTripAt ? now() - globalThis.__spotTripAt : 1e12;
+    const busyWhy = leadRunBusy ? 'another team task is running' : regroupRun ? 'a Giran regroup is running' : tripAgo < 1800000 ? `a trip to the hunting spot started ${Math.round(tripAgo / 60000)} min ago (waits 30 min)` : inRaid() ? 'in a raid' : state.mode === 'mission' ? 'on a mission' : (typeof scoutCtl !== 'undefined' && scoutCtl.on) ? 'a scout trip runs' : outranked(PRIO.ORDER) ? `"${typeof control !== 'undefined' ? control.owner : 'another order'}" comes first` : !supplyDue(lastSupplyAtGet(), now()) ? 'the last supply run was less than 30 min ago' : '';
+    if (busyWhy) return wait(busyWhy);   // never during a scout trip (2026-10-10)
+  }
   let low = [];
   if (supplyLow.what) low.push(`${Me.Name}: ${supplyLow.what}`);
   teamNames().forEach(n => { const lp = livePos[n]; if (lp && lp.low && now() - lp.at < 10000) low.push(`${n}: ${lp.low}`); });
@@ -49262,18 +49863,21 @@ setInterval(() => {
   // (solo, no receiver) sent him to Giran every 30 min and he never left); the fix = the supply run's warehouse STASH step (2026-10-09)
   if (num(Inventory.Count) > Math.min(CONFIG.lead.unload.above + 20, CONFIG.stash.on && CONFIG.stash.auto ? CONFIG.stash.above + 30 : 1e9) && now() - (globalThis.__invFullRunAt || 0) > 6 * 3600000) { globalThis.__invFullRunAt = now(); low.push(`${Me.Name}: inventory full (${num(Inventory.Count)} slots) — sell + stash + unload`); }   // the tank carries the loot
   // SHOTBUY-2026-10-23: shots no shop sells never cause a trip (said once per 30 min, hunting on)
-  try { if (typeof shotBuyable === 'function') { const pc = pshopCfg(pautoData(), CONFIG.leader), unb = htSupplyCritical(low).filter(c => !shotBuyable(c, pc)); if (unb.length) { shotWarn(unb); low = lowDropShots(low, unb); } } } catch (e) { }
+  try { if (typeof shotBuyable === 'function') { const pc = pshopCfg(pautoData(), CONFIG.leader), crSt = crafterStocks() /* SHOTCRAFT-2026-11-22 (Vykaax: out of BSpS, wiped, never resupplied): shots no shop sells still come from OUR crafter - but only when he HAS them (live 14:30: Destroyer3's team left the Forge for an empty crafter) */, unb = htSupplyCritical(low).filter(c => !shotBuyable(c, pc) && !shotFromCrafter(c, crSt)); if (unb.length) { shotWarn(unb); low = lowDropShots(low, unb); } } } catch (e) { }
   if (!low.length) return;
-  if (!runAuto('supply run')) return;                                  // RUNSTATE: the switch is OFF (your !supply still works)
+  if (!runAuto('supply run')) return wait('the party\'s run switch is off (your !supply still works)');   // RUNSTATE: the switch is OFF (your !supply still works)
   if (!rcH && !pautoOn('supplyWatch')) { supplyOffSay(low); return; }   // ONESWITCH-2026-10-27: supply runs off = nothing bought, also not for shots
-  if (htHolds('supply run', { low })) return;                          // HUNTTIMER-2026-10-15: a timed hunt holds it (unless shots really ran out)
+  // SHOTHOUR-2026-11-25 (owner: "Ja, lav begge"): under a hunt timer / long hunt the shots count as "ran out" below ONE HOUR of my use (not 30 - Destroyer3's
+  // team fought at 0 shots in Dragon Valley 80-82 before the run could start)
+  let shotCrit; try { if (typeof shotHourCrit === 'function' && typeof SUPUSE !== 'undefined' && SUPUSE.j) shotCrit = shotHourCrit(supUseRates(SUPUSE.j, now(), 12).perHour, shotId()); } catch (e) { shotCrit = undefined; }   // unknown = the old line (HT_SHOT_CRIT)
+  if (htHolds('supply run', { low, crit: shotCrit })) return;          // HUNTTIMER-2026-10-15: a timed hunt holds it (unless shots really ran out) - htHolds says why
   // SUPPLYDAILY: once-a-day mode - within 24 h of the last run only shots that really ran out (htSupplyCritical) still send the party to town
-  if (!rcH && typeof supplyModeOf === 'function' && supplyModeOf() === 'daily' && !supplyDueMode('daily', lastSupplyAtGet(), now())) { let crit = []; try { crit = htSupplyCritical(low); } catch (e) { } if (!crit.length) { if (now() - (SUPDAILY.said || 0) > 1800000) { SUPDAILY.said = now(); note(`supply watch: once-a-day mode - already supplied in the last 24 h, hunting on (${low.join(' | ').slice(0, 150)})`, true); } return; } }
-  if (typeof planHoldsSupply === 'function' && typeof PLAN !== 'undefined' && planHoldsSupply(PLAN.running, PLAN.levelStep)) return;   // PLANWATCH-2026-10-31
+  if (!rcH && typeof supplyModeOf === 'function' && supplyModeOf() === 'daily' && !supplyDueMode('daily', lastSupplyAtGet(), now())) { let crit = []; try { crit = htSupplyCritical(low, shotCrit); } catch (e) { } if (!crit.length) { if (now() - (SUPDAILY.said || 0) > 1800000) { SUPDAILY.said = now(); note(`supply watch: once-a-day mode - already supplied in the last 24 h, hunting on (${low.join(' | ').slice(0, 150)})`, true); } return; } }
+  if (typeof planHoldsSupply === 'function' && typeof PLAN !== 'undefined' && planHoldsSupply(PLAN.running, PLAN.levelStep)) return wait('the party plan holds supply runs in this step');   // PLANWATCH-2026-10-31
   if (rcH) { rcSupplyAsk(low); return; }                              // CIRCUIT 24/7: asked, never a supply run of its own
   // SHOTSOUT-2026-10-22 / SHOTSOUTOPT-2026-10-26: the shots-out run with the supply switch off (and its shotsOutRun switch) were REMOVED on
   // 2026-10-27 (ONESWITCH above). SHOTBUY-2026-10-23: shots no shop sells never cause a trip (filtered above).
-  if (typeof crunCallRunner === 'function') { try { if (crunCallRunner(low)) return; } catch (e) { } }   // CRAFTRUN D: the runner comes to us - no town trip
+  if (typeof crunCallRunner === 'function') { try { if (crunCallRunner(low, true)) return; } catch (e) { } }   // CRAFTRUN D: the runner comes to us - no town trip
   note(`supply watch: running low — ${low.join(' | ').slice(0, 200)} — starting a supply run`, true);
   leadSupply('automatic: ' + low.length + ' running low').catch(e => logError('auto supply run', e));
 }, 60000);

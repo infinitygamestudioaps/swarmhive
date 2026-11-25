@@ -98,7 +98,7 @@
   const STATUS = { signed: 'signed up', member: 'member (the priest says so)', failed: 'last try failed', notown: 'no Priest of Dawn in that town', firstclass: 'needs the 1st class transfer', fee: 'the priest asked for a fee — not paid', dusk: 'Dusk', none: 'not a member' };
   function statusText(m) {
     const bits = [];
-    if (m.status === 'failed' && m.tries >= 3) bits.push(`gave up after ${m.tries} failed tries this cycle — only Sign up now tries again`);
+    if (m.status === 'failed' && m.tries >= 3) bits.push(`${m.tries} failed tries — tries again 6 h after the last one (or press Sign up now)`);
     else if (m.status) bits.push((STATUS[m.status] || m.status) + (m.status === 'failed' ? ` (${m.tries}/3)` : ''));
     else if (!m.registered) bits.push('no try this cycle');
     bits.push(m.at ? 'checked ' + ago(m.at) : 'never checked');

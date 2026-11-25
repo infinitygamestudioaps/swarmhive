@@ -2,6 +2,48 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.14.8 (2026-11-25)
+
+- #swarmhive fixes since 1.14.7 (2026-11-18..25) - every line says if it is proven in game yet (please give your L2Swarm + SwarmHive version in every report)
+- Team walks (PROVEN: Forge of the Gods route 57 points in 2 min 19 s, was 8 points in 17.5 min): the leader no longer stops at every waypoint
+- members follow the leader's real route, a member that keeps moving is not 'stuck', the long way round only behind a real wall, a leg held by respawning monsters runs on after 40 s, the town exit walk really moves members
+- Hunting zones (not proven): after your waypoints only the LAST waypoint is walked on to (no charge across the zone)
+- a plan step no gatekeeper reaches goes to the automatic spot instead of waiting for days, ten datapack spots got their right landing
+- an academy plan goes back to the first level step its group no longer fulfils
+- Healers (PROVEN live): a healer stays right behind its leader - more than 400 away, or out of sight behind a wall, for 3 s = it walks up to him, also in a fight and in 'Fight with L2Swarm' mode
+- a hurt teammate behind a wall is walked to and healed from close by
+- Walls: a monster that hit you in the last 5 s is never 'behind a wall' (the server lets nothing hit through a wall) - before, helping a teammate switched that rule off and a character stood still while it was killed (not proven)
+- a target behind a wall is set aside longer each time (10 s, 2 min, 10 min)
+- Deaths (not proven yet): every death while leveling is counted, also in an escape or on the way to the spot, and the count survives a restart
+- a spot the Hive picked is skipped for 24 h after 2 deaths in 30 min
+- 3 deaths in an hour at a spot YOU chose = the party waits in town (max 1 h) with a red banner on the dashboard you can Resolve
+- dead twice in 3 min at the same place with monsters on the body = wait for help
+- a parked / stopped party resurrects nobody by itself
+- Solo characters (PROVEN: a 6.4k walk was refused before the teleport): never an automatic spot whose top level is above your own level, and never one more than 4k on foot from its landing
+- Escapes (not proven): a place where you started drowning is remembered for an hour by every character
+- an escape never runs a straight line through it
+- Raid bosses (not proven yet): while hunting no raid boss and no raid minion is ever attacked - no target, help, self-defence or area skill near one (found by monster id
+- the server overwrites the titles)
+- Shots: under a long hunt the supply run starts when your shots last less than one more hour, not only when they are gone (not proven)
+- when someone is low and no supply run starts, the notes say why
+- shots our crafter makes keep the party on the supply list and are tried again after 2 h
+- arrows / bolts no NPC sells are handed out from the leader's bag
+- Buff stores (PROVEN: a 1,000,000 store is refused, real payments measured): a price that cannot be read is never paid, 'Price: 1kk' = 1,000,000 = refused
+- every buy counts the adena really paid - a store that takes more than your max price is barred for 30 days and named in party chat (not seen yet: no store has cheated since)
+- a character without party members buys for itself, no more 'You don't have a party' (not proven)
+- Seven Signs (PROVEN: parties signed up with the Priest of Dawn by themselves): the Dawn sign-up walks by the streets
+- three failed tries close the catacombs for 6 h, not for the week
+- Warehouse (PROVEN for Hands off): the automatic clan warehouse clean-up never sells for a character on Hands off
+- !stop now ENDS a running clan warehouse sale (not proven)
+- 'warehouse full' belongs to the warehouse of that deposit
+- Logins: every login run (L2Swarm start, reconnect, dashboard Log in) logs in party by party, leader first, at least 5 s apart - the dashboard opened 4 at once (tested on a real login list, not seen at a start yet)
+- Updates (PROVEN: it waited 8 min for a character at 34 % HP): an update never restarts the scripts while someone fights below 70 % HP
+- AOE teams (only parties with an AOE team on the AOE page): they help only against monsters within 400 of the leader and a member far out comes back
+- Other (not proven): Boost reads attribute values from the agent
+- a Teams move removes your own Stop and survives a restart
+- a subclass-only class needs no main-class plan
+- the runner says 'here' only near the leader
+
 ## v1.14.7 (2026-11-17)
 
 - v1.14.7 (2026-11-17) - the map data files stay small (please give your L2Swarm + SwarmHive version in every report)

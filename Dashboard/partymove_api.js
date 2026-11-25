@@ -57,12 +57,17 @@ function planMove(cfg0, data0, name, to, newLeader, by) {
   }
   if (!to) copyParty(from, name);
   setParty(name, target); movePlan(name, from, target);
+  // MOVEHELD-2026-11-22 (Vykaax: moved characters never follow / accept their new party): an own Stop survived the move and kept the character still
+  const rs = data['run_state.json'], own = rs && rs.chars && rs.chars[name];
+  if (own && own.on === false) { delete rs.chars[name]; touched.add('run_state.json'); changes.push(`run_state.json: ${name}'s own Stop is removed (it would stand still in ${target})`); }
+  const cr = data['crafter.json'];
+  if (cr && Array.isArray(cr.townRole) && cr.townRole.includes(name)) changes.push(`NOTE: ${name} stays in its town (Crafter page: "Characters that stay in their town") - it will not follow ${target} until you take it off that list`);
   return { ok: true, from, to: target, rest: isLeader ? rest : [], newLeader: newLeader || '', changes, cfg, data, touched: [...touched] };
 }
 
 function readJ(f, d) { try { return JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, '')); } catch (e) { return d; } }
 function writeAtomic(f, text) { const tmp = f + '.partymove.tmp'; fs.writeFileSync(tmp, text); fs.renameSync(tmp, f); }
-function files(ctx) { const d = {}; PARTY_FILES.map(x => x[0]).concat(['class_plans.json']).forEach(f => { const j = readJ(path.join(ctx.DATA, f), null); if (j) d[f] = j; }); return d; }
+function files(ctx) { const d = {}; PARTY_FILES.map(x => x[0]).concat(['class_plans.json', 'crafter.json']).forEach(f => { const j = readJ(path.join(ctx.DATA, f), null); if (j) d[f] = j; }); return d; }
 function cfgFile(ctx) { return ctx.CONFIG_FILE || path.join(ctx.ROOT, 'swarm.config.json'); }
 function logLine(ctx, t) { try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\tpartymove\t${t}\r\n`); } catch (e) { } }
 

@@ -441,7 +441,7 @@ function grab(name) {
   has(/floor: 'outdoor', safeSpots/, 'escape: the safe spots of the hunted field area');
   const hasT = (t, what) => check(src.includes(t), 'source: ' + what);
   hasT('autoLvl.bad[spot.area.landingKey] = autoLvl.bad[spotKeyOf(spot)]', 'a failed field-area trip bans its landing + region pair (siblings)');
-  hasT('const why = spotLandingWhy(spot, land, CONFIG.travel.maxWalk);', 'travelToSpot checks the walk from the planned landing before any teleport');
+  hasT('const why = spotLandingWhy(spot, land, soloWalkLimit(CONFIG.travel.maxWalk, soloChar(), !!spot.manual));', 'travelToSpot checks the walk from the planned landing before any teleport (SOLOWALK-2026-11-25: 4k for a solo character, else the normal limit)');
   hasT('if (why) { gkFail = why; note(`travel: ${why} — not teleporting`', 'travelToSpot: a refused walk ends the trip before the regroup / teleport');
   hasT('maxWalk: CONFIG.travel.maxWalk, landingBad: (k) => spotBad(k)', 'fieldAreaAutoSpot passes maxWalk + the landing ban to faAutoPick');
   hasT('const sel = Object.assign({}, spot.multi); if (spot.manualStay) sel.stay = true;', 'multiTick: a stay choice keeps stay for its targets (older saved spots without multi.stay too)');

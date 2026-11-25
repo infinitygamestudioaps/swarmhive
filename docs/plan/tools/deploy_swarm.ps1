@@ -16,6 +16,7 @@ function Log($m) { $l = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $m"; Add-Cont
 if (-not (Test-Path $src)) { Log "ABORT: $src missing"; exit 1 }
 if ((Get-FileHash $src).Hash -eq (Get-FileHash $dst).Hash) { Log "SKIP: no changes"; exit 0 }
 
+$srcHash0 = (Get-FileHash $src).Hash   # DEPLOYNOPAUSE-2026-11-22: only the file that passed the gate is copied
 & node --check $src
 if ($LASTEXITCODE -ne 0) { Log "ABORT: syntax error in Scripts_dev\swarm.js"; exit 1 }
 
@@ -27,8 +28,14 @@ if ($LASTEXITCODE -ne 0) { Log "ABORT: syntax error in Scripts_dev\swarm.js"; ex
 # while the dashboard updated. The gate runs wherever docs\requirements exists (the owner's install: unchanged, the release is built only
 # after it passed there); a package install logs that it has no requirement files.
 if (Test-Path "$root\docs\requirements\index.json") {
-    $reqOut = & node "$root\docs\plan\tools\requirements_check.js" 2>&1
+    # DEPLOYNOPAUSE-2026-11-22: the gate takes 3 min; the same script + the same tests that passed within the last 15 min are not run again (a deploy that
+    # then waits for a quiet moment copies in a second - the idle deploy used to pause every party for the 3 min, 5 times in half an hour)
+    $gateF = "$root\Logs\gate_ok.json"; $gateKey = (Get-FileHash $src).Hash + '|' + ((Get-ChildItem "$root\docs\plan\tools\*.js", "$root\docs\requirements\*" | Sort-Object LastWriteTimeUtc | Select-Object -Last 1).LastWriteTimeUtc.Ticks)
+    $gateOk = $false
+    try { $g = Get-Content $gateF -Raw -ErrorAction Stop | ConvertFrom-Json; $gateOk = ($g.key -eq $gateKey -and ((Get-Date) - [datetime]$g.at).TotalMinutes -lt 15) } catch { }
+    if ($gateOk) { $reqOut = @('ALL REQUIREMENTS HOLD (checked a moment ago)'); $global:LASTEXITCODE = 0 } else { $reqOut = & node "$root\docs\plan\tools\requirements_check.js" 2>&1 }
     $reqOut | ForEach-Object { Write-Output "  $_" }
+    if ($LASTEXITCODE -eq 0 -and -not $gateOk) { try { @{ key = $gateKey; at = (Get-Date).ToString('s') } | ConvertTo-Json -Compress | Set-Content $gateF -Encoding UTF8 } catch { } }
     if ($LASTEXITCODE -ne 0) { Log ("ABORT: a requirement is broken (docs\requirements) - " + (($reqOut | Where-Object { $_ -match 'BROKEN|not in index|no tests|does not exist' }) -join ' | ')); exit 7 }
     Log "requirements OK"
 } else {
@@ -80,6 +87,7 @@ if (-not $Force) {
 # running party status, or an open trade. The state wins over any guess; -Force still deploys (logged).
 if (-not $Force) {
     $busy = @()
+    try { . "$PSScriptRoot\deploy_fight.ps1" } catch { }   # DEPLOYFIGHT-2026-11-25: DeployFightWhy
     foreach ($sf in @(Get-ChildItem "$root\Logs\swarm_state_*.json" -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-2) })) {
         try {
             $s = Get-Content $sf.FullName -Raw -ErrorAction Stop | ConvertFrom-Json
@@ -90,6 +98,7 @@ if (-not $Force) {
             # gather steps still block, like every other party status (regroup / supply / collect / fund).
             elseif ($s.partyStatus -and $s.partyStatus.what -and -not ("$($s.partyStatus.what)" -eq 'travel' -and "$($s.partyStatus.step)" -notmatch '^(regroup|gather)')) { $why = "party $($s.partyStatus.what) $($s.partyStatus.step)".Trim() }
             elseif ($s.trade -and $s.trade.stage -and "$($s.trade.stage)" -notmatch 'done|failed') { $why = "trade $($s.trade.stage)" }
+            elseif (Get-Command DeployFightWhy -ErrorAction SilentlyContinue) { $why = DeployFightWhy $s }   # DEPLOYFIGHT-2026-11-25: never mid-fight below 70 % HP
             if ($why) { $busy += "$($s.name): $why" }
         } catch { }
     }
@@ -125,6 +134,7 @@ $reloadMB = 1000000   # user 2026-10-07 19:55: "stop restarting all the time - w
 # every restart deploy logs ALL accounts in again (38 since 2026-10-07). User 2026-10-07: "if you constantly log in it will block at some
 # point" -> at most one restart deploy per hour; batch the edits (the -Force switch does not lift this).
 $restartGapMin = 60
+if ((Get-FileHash $src).Hash -ne $srcHash0) { Log "ABORT: Scripts_dev\swarm.js changed while the gate ran - run this again"; exit 8 }
 # DEPLOYBAK (owner 2026-11-06 "Do 4"): before every copy, the live swarm.js it replaces is kept in Scripts\backup\deployed\swarm_<time>.js
 # (the newest 30), so a "what changed since yesterday" question can be answered with an exact diff (11-06: 26 raid deaths, no old copy to compare).
 try {

@@ -118,11 +118,11 @@
       <div class="muted" style="font-size:12px">Augments the weapon; not one of the ticked bonuses = the bonus is removed (adena) and the next stone goes in, until a wanted one comes, max tries or no stones. Gems per try: C 20, B 30, A 20, S 25 (H5).</div>`;
   }
   function attrHtml() {
-    const c = cfgOf(S.name), a = c.attr || {}, E = equip().filter(b => /Weapon/i.test(String(b.type || ''))), ST = S.bag.filter(b => /(Stone|Crystal|Jewel|Energy) of /i.test(b.name) || /Attribute/i.test(b.name));
-    return delayRow(c) + `<div class="bs-grid"><label>Weapon<br><select id="bsAtItem">${E.map(b => `<option value="${b.objId}" ${a.objId === b.objId ? 'selected' : ''}>${h(itemLabel(b))}</option>`).join('') || '<option value="">(no weapon in the bag)</option>'}</select></label>
+    const c = cfgOf(S.name), a = c.attr || {}, E = equip().filter(b => /Weapon|Armor/i.test(String(b.type || ''))), ST = S.bag.filter(b => Number(b.id) >= 9546 && Number(b.id) <= 9569);   // BOOSTATTR-2026-11-22: by id ("Fire Stone" ... "Divine Energy"; the old name filter matched none), armor too
+    return delayRow(c) + `<div class="bs-grid"><label>Weapon or armor<br><select id="bsAtItem">${E.map(b => `<option value="${b.objId}" ${a.objId === b.objId ? 'selected' : ''}>${h(itemLabel(b))}</option>`).join('') || '<option value="">(no weapon or armor in the bag)</option>'}</select></label>
       <label>Attribute stone<br><select id="bsAtStone">${ST.map(b => `<option value="${b.id}" ${a.stone === b.id ? 'selected' : ''}>${h(b.name)} (${b.count})</option>`).join('') || '<option value="">(no attribute stone / crystal in the bag)</option>'}</select></label></div>
       <div class="bs-row"><label>Up to attribute value <input type="number" id="bsAtTo" min="1" max="450" value="${a.to || 150}"></label></div>${goBtn()}
-      <div class="muted" style="font-size:12px">Uses the stone on the weapon again and again until its attribute reaches the value, no stone is left or Stop. Stones go to 150, crystals to 300 (H5).</div>`;
+      <div class="muted" style="font-size:12px">Uses the stone on the item again and again until its attribute reaches the value, no stone is left or Stop. Weapon: stones to 150, crystals to 300. Armor: 60 and 120, as defence against the opposite element (Fire Stone = Water defence).</div>`;
   }
   // ---- BOOSTTALIS-2026-11-06: Buy talismans (Giran Accessory Merchant Sandra / Ellie, multisell 300900001, 12,000 adena each) ----
   const TALIS = [[10533, 'Blue Talisman - P. Atk.'], [10534, 'Blue Talisman - Shield Defense'], [10535, 'Yellow Talisman - P. Def.'], [10536, 'Yellow Talisman - M. Atk.'],

@@ -236,7 +236,8 @@ setTimeout(async () => {
   check(uniq.every(k => P.HT_HOLD[k]), 'every htHolds(kind) in swarm.js is a known kind: ' + uniq.join(', '));
   ['supply run', 'daily Kamaloka', 'giran hub', 'move on', 'split regroup', 'warehouse stash', 'letters', 'clan hand-over', 'Seven Signs sign-up', 'quest farm', 'clan skill trip', 'fund round']
     .forEach(k => check(holds.includes(k), `early-leave path held: ${k}`));
-  check(/if \(!runAuto\('supply run'\)\) return;[^\n]*\n(\s*if \(!rcH && !pautoOn\('supplyWatch'\)\)[^\n]*\n)?\s*if \(htHolds\('supply run', \{ low \}\)\) return;/.test(src), 'supply watch: the timer is asked with the low list before the supply run starts');
+  // SUPWHY/SHOTHOUR-2026-11-25: runAuto now says why; the timer also gets the one-hour shot line (crit) - same order, same low list
+  check(/if \(!runAuto\('supply run'\)\) return wait\([^\n]*\n(\s*if \(!rcH && !pautoOn\('supplyWatch'\)\)[^\n]*\n)?(\s*\/\/[^\n]*\n)*\s*let shotCrit;[^\n]*\n\s*if \(htHolds\('supply run', \{ low, crit: shotCrit \}\)\) return;/.test(src), 'supply watch: the timer is asked with the low list before the supply run starts');
   check(/if \(noTownTrip\(\) && !currentTownKey\(\)\) \{/.test(src), 'leadLevel: straight to the hunting (no Giran regroup) while a timer runs');
   check(/outMin > outMax \+ 3 && !htHolds\('move on'\)\)/.test(src), "'move on when outgrown' waits for the timer");
   check(/sup: SW\.med\.sup \|\| null/.test(src) && /huntTimer: \(isLeader\(\) \|\| soloChar\(\)\) \? \(\(\) => \{ try \{ return htPublic\(\); \}/.test(src), 'swarm_state: sup (bag + measured use) + huntTimer (leader)');

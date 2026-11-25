@@ -112,7 +112,7 @@ console.log('ROUTESTALL');
   ok(P(Object.assign({}, base, { phase: 'other', members: [m('stuck', 32 * 60000)] })).length === 0, 'other phases: nothing');
   ok(F(6000, 10000) === true && F(3000, 60000) === false && F(60000, 5000) === false, 'L2Swarm combat on, nothing hit me 6 s, flag on 10 s = switched off; a hit / a fresh flag = fight first');
   const mrs = between('function memberRouteStep() {', 'const next = m.my + 1;');
-  ok(mrs.indexOf('routeStallFree(') > 0 && mrs.indexOf('routeStallFree(') < mrs.indexOf('if (Me.IsDead || IsInCombat || bfStanceLive()) return;'), 'memberRouteStep: the stale combat flag is cleared before the "fight first" return');
+  ok(mrs.indexOf('routeStallFree(') > 0 && mrs.indexOf('if (Me.IsDead || (!runNow && (IsInCombat || (bfStanceLive() && !(m.mt &&') > 0 && mrs.indexOf('routeStallFree(') < mrs.indexOf('if (Me.IsDead || (!runNow && (IsInCombat || (bfStanceLive() && !(m.mt &&'), 'memberRouteStep: the stale combat flag is cleared before the "fight first" return');
   ok(/force: true \/\* ROUTESTALL/.test(SRC) && /if \(p && d\.force && Math\.hypot\(p\.X - Me\.X, p\.Y - Me\.Y\) < 1500/.test(SRC) && /if \(p && !d\.force && Math\.hypot\(p\.X - Me\.X, p\.Y - Me\.Y\) < 3000/.test(SRC), "the route's stuck call also brings members back from within 3000 (RedFour's members 1.6k away)");
 }
 

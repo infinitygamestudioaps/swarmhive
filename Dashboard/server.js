@@ -214,7 +214,8 @@ function fullStatus(chars) {
     .sort((a, b) => (a.level === 'full' ? 0 : 1) - (b.level === 'full' ? 0 : 1) || a.name.localeCompare(b.name));
   const w = readJson(path.join(LOGS, 'wh_full.json'), {}) || {};
   const clan = w.clan && w.clan.full ? w.clan : null;
-  const priv = Object.keys(w.private || {}).filter(n => w.private[n] && w.private[n].full).map(n => Object.assign({ name: n }, w.private[n]));
+  // WHKIND-2026-11-22: a record older than 24 h is no warning any more (wrong "own warehouse" flags of before were never cleared)
+  const priv = Object.keys(w.private || {}).filter(n => w.private[n] && w.private[n].full && Date.now() - (Date.parse(w.private[n].at || '') || 0) < 24 * 3600e3).map(n => Object.assign({ name: n }, w.private[n]));
   const ore = (chars || []).filter(c => c && c.oreOut && c.ageSec != null && c.ageSec < 300).map(c => ({ name: c.name, skill: c.oreOut.skill || '' }));   // ORE 2026-10-14
   const stuck = (chars || []).filter(c => c && c.immobile && c.ageSec != null && c.ageSec < 300).map(c => ({ name: c.name, mins: c.immobile.mins, fails: c.immobile.fails, at: c.immobile.at || '' }));   // IMMOBILE 2026-10-15
   // THREADFLOOD-2026-11-03 (owner: "Relog not, find issue"): 13 characters froze while L2Swarm's shared ThreadManager ran a crashing 'Script Path'
@@ -1103,7 +1104,7 @@ async function createCharacter({ login, password, startClass, sex, name }) {
     log.push(await newAccountConfig(login.toLowerCase(), password));
   }
   const charName = name || randomName();
-  try { log.push(await mcpCall('open_account', { config_path: file })); } catch (e) { log.push('open: ' + e.message); }
+  try { await loginSlot(); log.push(await mcpCall('open_account', { config_path: file })); } catch (e) { log.push('open: ' + e.message); }   // LOGINPARTY-2026-11-25: the login gap
   const [race, classId, st] = cls;
   // CREATEFIX-2026-10-26 (tester Vykaax: "Character creation is stuck?" - 'CharacterCreate sent' for 39 min): this old script never read the
   // server's answer, so a refused name / full account looped silently. Now the Add-account script: CharCreateOk / CharCreateFail (reason) are read,
@@ -2172,6 +2173,8 @@ function commandPlan(b, chars) {
     [...names].forEach(n => sends.push({ to: n, via: kind === 'bot' ? 'command' : raw.slice(1), text: raw, online: live(n) }));
     // CMDFIX2 botparty: @login on a character that reports in = probably already open; commandRun skips an open account (a 2nd open_account = duplicate session)
     if (raw === '@login') sends.forEach(s => { if (s.online) s.note = 'reports in right now - already open? (an open account is not opened twice)'; });
+    // LOGINPARTY-2026-11-25: party by party, the leader first (commandRun opens them one at a time, loginSlot() apart)
+    if (raw === '@login') { const ord = LOGINORD.partyOrder(sends, s => { const c = chars.find(x => x.name === s.to); return c ? partyOf(c) : ''; }, s => { const c = chars.find(x => x.name === s.to); return !!c && partyOf(c) === c.name; }); sends.length = 0; ord.forEach(s => sends.push(s)); }
     if (kind === 'bot' && BOT_VIA_FILE.has(w)) sends.forEach(s => { s.note = 'via the file channel: swarm.js only sends L2Swarm\'s sit/stand toggle when it changes something'; });
     if (w === '/config' && /^\/config\s+load/i.test(raw)) {
       const file = raw.split(/\s+/)[2]; const fp = path.join(SETTINGS, file);
@@ -2183,6 +2186,17 @@ function commandPlan(b, chars) {
   if (!sends.length) return { code: 400, error: 'nobody to send it to' };
   return { command: raw, kind, safety, spec: spec ? { id: spec.id, title: spec.title, handler: spec.handler || '' } : null, target: tg.label, sends };
 }
+// LOGINPARTY-2026-11-25 (owner: "Whole parties don't log in together yet ... fix these"; the dashboard's @login opened up to 4 accounts at the
+// same moment): every login the dashboard starts takes a turn here - never two closer than the login gap (Settings/login_gap.txt, else
+// swarm.config.json login.gapSeconds, else 8 s; never under 5 s = the owner's rule). Order: Dashboard/login_order.js.
+const LOGINORD = require('./login_order.js');
+const LOGINQ = { last: 0, chain: Promise.resolve() };
+function loginGapMs() {
+  let g = 0; try { g = parseInt(String(fs.readFileSync(path.join(ROOT, 'Settings', 'login_gap.txt'), 'utf8')).trim(), 10); } catch (e) { }
+  if (!(g >= 5)) { try { g = Number((((readJson(path.join(ROOT, 'swarm.config.json'), {}) || {}).login) || {}).gapSeconds); } catch (e) { g = 0; } }
+  return LOGINORD.gapMs(g);
+}
+function loginSlot() { const p = LOGINQ.chain.then(async () => { const w = LOGINQ.last + loginGapMs() - Date.now(); if (w > 0) await new Promise(r => setTimeout(r, w)); LOGINQ.last = Date.now(); }); LOGINQ.chain = p.catch(() => { }); return p; }
 async function pmap(list, n, fn) { const out = new Array(list.length); let i = 0; await Promise.all(Array.from({ length: Math.min(n, list.length) }, async () => { while (i < list.length) { const k = i++; out[k] = await fn(list[k], k); } })); return out; }
 
 // --- FILE COMMAND CHANNEL (2026-10-08: the MCP accept loop died at 19:49 and every MCP request hung; the dashboard could not order anything)
@@ -2379,7 +2393,7 @@ async function commandRun(b) {
     const fileId = 'c' + Date.now().toString(36) + (++cmdSeq).toString(36) + Math.random().toString(36).slice(2, 6);
     return { ...s, ok: true, channel: 'file', fileId, why };
   };
-  const sends = await pmap(p.sends, 4, async (s) => {
+  const sends = await pmap(p.sends, p.command === '@login' ? 1 : 4, async (s) => {   // LOGINPARTY-2026-11-25: logins one at a time, in party order
     if (s.queueOnly) return { ...s, ok: true, channel: 'queue' };          // ORDERQ: durable in the queue; no party-chat copy needed
     if (MCP_DOWN.until > Date.now()) return toFile(s, MCP_DOWN.why);
     if (p.kind === 'bot' && BOT_VIA_FILE.has(CMDS.firstWord(s.text))) return toFile(s, 'state-aware: L2Swarm\'s sit/stand is one toggle, swarm.js checks first');   // CMDFIX2 botparty
@@ -2395,6 +2409,7 @@ async function commandRun(b) {
         let open = null;
         try { const all = JSON.parse(await mcpCallT('get_accounts_status', {})); const list = Array.isArray(all) ? all : (all.accounts || []); open = list.find(a => a && a.config_path && path.resolve(String(a.config_path)).toLowerCase() === path.resolve(cfg).toLowerCase()) || null; } catch (e) { if (e && e.mcpDown) throw e; }
         if (open) return { ...s, ok: false, channel: 'mcp', skipped: true, error: `already open in L2Swarm (${open.is_logged_in ? 'logged in' : 'not in game yet - L2Swarm keeps reconnecting it'}) - not opened a 2nd time (two sessions of one login kick each other). Log out first to re-open it.` };
+        await loginSlot();   // LOGINPARTY-2026-11-25: never two logins closer than the login gap (owner: 5 s)
         out = await mcpCallT('open_account', { config_path: cfg });
       }
       const txt = String(out || ''); let j = null; try { j = JSON.parse(txt); } catch (e) { }
@@ -2687,6 +2702,8 @@ http.createServer(async (req, res) => {
     // HUNT TIMER 2026-10-15 (Dashboard/hunttimer_api.js): /huntlogic.js, /hunttimer.js|css (public) + GET/POST /api/hunttimer (key checked inside): how long a party hunts
     // at its chosen spot + what then (Scripts/data/hunt_timers.json, read by swarm.js HUNTTIMER every 5 s; the clock in Logs/hunt_timer_<leader>.json)
     if (await require('./hunttimer_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, allowed, json, send })) return;
+    // DEATHSTOP 2026-11-22 (Dashboard/deathstop_api.js): /deathstop.js (public) + GET/POST /api/deathstop (key checked inside): the "died 3 times" banner + Resolve
+    if (await require('./deathstop_api').handle(req, res, url, { LOGS, allowed, json, send })) return;
     // SPOIL 2026-10-19 (Dashboard/spoilpage_api.js): /spoilpage.js|css (public) + GET/POST /api/spoil, /api/spoil/area, /api/spoil/search (key checked inside):
     // which monsters the Bounty Hunters spoil, by their spoil drops (Scripts/data/spoil_rules.json, read by swarm.js SPOIL every 10 s)
     if (await require('./spoilpage_api').handle(req, res, url, { DIR: __dirname, DATA, LOGS, ROOT, readJson, readStates, teamMap, mainLeader: MAIN_LEADER, allowed, json, send, viewerPos, mcpCallChar })) return;
@@ -2898,7 +2915,7 @@ http.createServer(async (req, res) => {
       fs.writeFileSync(path.join(DATA, 'academy.json'), JSON.stringify(acad, null, 1));
       { const rx = readJson(path.join(DATA, 'roster_extra.json'), {}); rx[name] = { role: P.role, team: name, academy: true, login }; fs.writeFileSync(path.join(DATA, 'roster_extra.json'), JSON.stringify(rx, null, 1)); }
       try { fs.appendFileSync(path.join(LOGS, 'academy.log'), `${new Date().toISOString()} new account ${login} (${name || 'no name'}, ${P.label}) — config ${cfgPath}\r\n`); } catch (e) { }
-      let opened = null; try { opened = await mcpCall('open_account', { config_path: cfgPath }); } catch (e) { opened = String(e.message || e); }
+      let opened = null; try { await loginSlot(); opened = await mcpCall('open_account', { config_path: cfgPath }); } catch (e) { opened = String(e.message || e); }   // LOGINPARTY-2026-11-25: the login gap
       try { const a2 = readJson(path.join(DATA, 'academy.json'), { accounts: [] }); const me = a2.accounts.find(x => x.login === login); if (me) { me.status = 'logging in — creating ' + name; me.openedAt = new Date().toISOString(); } fs.writeFileSync(path.join(DATA, 'academy.json'), JSON.stringify(a2, null, 1)); } catch (e) { }
       return json(res, 200, { ok: true, login, config: cfgPath, opened: String(JSON.stringify(opened || '')).slice(0, 200), next: `${name} is created at the first login (Logs/academy.log), then levels solo 1-40 (${P.label}).` });
     }
@@ -3014,6 +3031,7 @@ http.createServer(async (req, res) => {
       const sevenSigns = { state: readJson(path.join(LOGS, 'sevensigns_state.json'), null), optin: readJson(path.join(DATA, 'seven_signs.json'), null), chars: chars.map(c => {   // optin: 7 SIGNS tab 2026-10-12
         const r = (/^[A-Za-z0-9]+$/.test(String(c.name || '')) && readJson(path.join(LOGS, `sevensigns_${c.name}.json`), null)) || {}; const v = r.view || {};
         return { name: c.name, party: (typeof c.party === 'string' && c.party) || (typeof c.leader === 'string' && c.leader) || c.name, level: +c.level || 0,
+          tries: /^(failed|notown)$/.test(r.status || '') && r.tries >= 3 && Date.now() - (r.at || 0) > 6 * 3600e3 ? 1 : (r.tries || 0),   // DAWNWALK-2026-11-22: = swarm.js ssRead (the page hid that the bot had given up)
           cycle: r.cycle || '', status: r.status || '', registered: v.registered !== undefined ? v.registered : (/^(signed|member)$/.test(r.status || '') ? 'dawn' : ''), signedAt: r.signedAt || 0, at: r.at || 0,
           denied: r.denied || null, allowed: v.ok === undefined ? null : !!v.ok, why: v.why || '', viewAt: v.at || 0, period: v.period || '', winner: v.winner || '', viewCycle: v.cycle || '', nextChange: v.nextChange || '' };
       }) };
@@ -3118,7 +3136,8 @@ http.createServer(async (req, res) => {
         full: fullStatus(chars),                                           // FULLWARN 2026-10-14: bags / warehouses full (banner)
         memAlert: require('./onlinegap').memAlert(path.join(LOGS, 'memwatch_alert.json'), Date.now()),   // MEMPAGEFILE-2026-11-10: pagefile / low-memory restart (banner)
         hiveGap: (() => { try { return OGAP.peek(); } catch (e) { return null; } })(),   // ONLINEGAP-2026-11-10: logged in but not reporting (banner)
-        cursed: cursedStatus(),                                          // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]
+        deathStops: (() => { try { return require('./deathstop_api').rows(LOGS, Date.now()); } catch (e) { return []; } })(),   // DEATHSTOP 2026-11-22 (banner with Resolve)
+        cursed: cursedStatus(),                                        // cursed weapon holders (2026-10-13): [{ holder, weapon, login }]
         run: require('./runstate_api').summary({ DATA, LOGS, ROOT, readJson, partyOf, teamMap, reloadCfg: () => SC.reload(), mainLeader: MAIN_LEADER }, chars),   // RUNSTATE 2026-10-13: the manual Start / Stop per party (Parties tab)
         plans: (() => { try { return require('./partyplan_api').summary({ DIR: __dirname, DATA, LOGS, ROOT, readJson }, chars); } catch (e) { return {}; } })(),   // PARTY PLAN 2026-10-13: 'step 3/9: ...' on the party card
       });
@@ -3495,6 +3514,7 @@ http.createServer(async (req, res) => {
           try { steps.push('close: ' + String(await mcpCallT('close_account', { config_path: cfg })).slice(0, 120)); } catch (e) { steps.push('close: ' + e.message); }
           await new Promise(r => setTimeout(r, 8000));
         }
+        await loginSlot();   // LOGINPARTY-2026-11-25
         const out = String(await mcpCallT('open_account', { config_path: cfg }));
         steps.push('open: ' + out.slice(0, 160));
         const bad = /error|fail|no account/i.test(out) && !/success/i.test(out);

@@ -64,6 +64,8 @@ function cpDecide(tree, plans, me) {
   const e = cpEntry(plans, me && me.party, me && me.name);
   out.party = e.party;
   if (e.ambiguous) { out.status = CP_STATUS.ambiguous; out.why = `two parties (${e.party}) hold different class plans for ${me.name}`; out.text = 'ambiguous'; return out; }
+  // SUBPLAN-2026-11-22 (tester: an Inspector shows "class plan missing / invalid" for ever): a subclass-only class needs no main-class plan - no warning, no change
+  if (cur && cur.subclassOnly && !(e.entry && Array.isArray(e.entry.plan) && e.entry.plan.map(Number).indexOf(Number(cur.id)) >= 0)) { out.status = CP_STATUS.done; out.why = `${cur.name} is a subclass: no main-class plan needed`; out.text = 'done'; return out; }
   // the next profession level of my current class (for the "reached the level without a plan" note)
   if (cur && cur.children && cur.children.length) { const k = cpClass(tree, cur.children[0]); out.needLevel = k ? k.changeLevel : null; }
   if (!e.entry || !Array.isArray(e.entry.plan) || !e.entry.plan.length) { out.status = CP_STATUS.missing; out.why = 'no class plan'; out.text = 'missing'; return out; }

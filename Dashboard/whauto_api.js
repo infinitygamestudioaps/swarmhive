@@ -125,6 +125,14 @@ function collectorFree(s, coll, nowMs) {
   if (!(x >= GIRAN.x0 && x <= GIRAN.x1 && y >= GIRAN.y0 && y <= GIRAN.y1)) return { ok: false, why: `${s.name} is not in Giran` };
   return { ok: true, why: '' };
 }
+// WHHOFF-2026-11-25 (live 2026-11-22 18:36: Crafter1 stood on Hands off, a fresh clan warehouse look made the clean-up send "!whsell order" by
+// itself and 25 pieces were sold; owner: "fix these"): Hands off (run_state.json handsOff.<name>.on) = no automatic clean-up and no automatic
+// default sale for that worker - only the owner's own orders from the Storage page reach him.
+/** pure: is the worker on Hands off? -> { ok: false, why } blocks, null lets it go on */
+function handsOffBlock(runState, name) {
+  const H = runState && typeof runState.handsOff === 'object' && runState.handsOff || {};
+  return name && H[name] && H[name].on ? { ok: false, why: `${name} is on Hands off - no automatic clean-up / sale (switch Hands off off, or sell from the Storage page)` } : null;
+}
 
 // ---- host ------------------------------------------------------------------------------------------------------------------------------------
 function readJ(f, def) { try { return JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, '')); } catch (e) { return def; } }
@@ -178,7 +186,7 @@ async function tick(ctx, force) {
     const C = collector(ctx), CL = worker(ctx);   // CRAFTRUN-2026-11-01: the worker (the crafter) takes out, sells and crystallizes - not only the clan leader
     let who;
     if (!CL) who = { ok: false, why: 'no clan warehouse worker known (crafter.json crafter / the clan leader)' };
-    else who = collectorFree(stateFor(ctx, CL), C.cfg, Date.now());
+    else who = handsOffBlock(readJ(path.join(ctx.DATA, 'run_state.json'), {}), CL) || collectorFree(stateFor(ctx, CL), C.cfg, Date.now());   // WHHOFF-2026-11-25
     // CWHCLEAN-2026-11-03: a full / nearly full clan warehouse is cleaned first - whatever the default-marks switch says
     if (D.cleanup && wh && who && who.ok) {
       const fullJ = (readJ(path.join(ctx.LOGS, 'wh_full.json'), {}) || {}).clan || null;
@@ -244,4 +252,4 @@ async function handle(req, res, url, ctx) {
   try { fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\twhauto\t${JSON.stringify(b).slice(0, 300)}\r\n`); } catch (e) { }
   ctx.json(res, 200, { ok: true, data: norm(a.data) }); return true;
 }
-module.exports = { handle, tick, norm, applyChange, decide, collectorFree, workerPick, cleanupDue, cleanupPick, GIRAN };
+module.exports = { handle, tick, norm, applyChange, decide, collectorFree, handsOffBlock, workerPick, cleanupDue, cleanupPick, GIRAN };

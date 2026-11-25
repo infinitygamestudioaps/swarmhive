@@ -169,7 +169,22 @@ function learnedAvoid(a, b, pad) {
     && Math.hypot(a.x - p.x, a.y - p.y) > (p.r || 250) + 64 && Math.hypot(b.x - p.x, b.y - p.y) > (p.r || 250) + 64)
     .map(p => ({ x: p.x, y: p.y, r: p.r || 250 }));
 }
+/** LEARNEDSOFT-2026-11-22 (owner + testers: Forge of the Gods "no path", "can't reach destinations"): a LEARNED wall (a spot where bots got stuck)
+ *  steers a route but never closes the only way: no path with the learned walls = searched once more without them (res.learnedIgnored = how many were
+ *  left out). opts.avoid (what THIS bot just ran into) and the geodata's own walls always stay walls. The time limit covers both searches. */
 function findPath(a, b, opts = {}) {
+  if (opts.noLearned) return findPathOnce(a, b, opts);
+  const learned = learnedAvoid(a, b, opts.pad || 6000).length;
+  if (!learned) return findPathOnce(a, b, opts);
+  const t0 = Date.now(), maxMs = opts.maxMs || 20000;
+  const r = findPathOnce(a, b, Object.assign({}, opts, { maxMs: Math.round(maxMs * 0.6) }));
+  if (r.ok) return r;
+  const left = maxMs - (Date.now() - t0);
+  if (left < 1000) return r;
+  const r2 = findPathOnce(a, b, Object.assign({}, opts, { noLearned: true, maxMs: left }));
+  return r2.ok ? Object.assign(r2, { learnedIgnored: learned, ms: Date.now() - t0 }) : r;
+}
+function findPathOnce(a, b, opts = {}) {
   const t0 = Date.now();
   // opts.avoid: [{x, y, r}] — spots a bot got stuck at (an obstacle the geodata does not show): cells inside are treated as walls
   const avoid = (opts.avoid || []).concat(opts.noLearned ? [] : learnedAvoid(a, b, opts.pad || 6000)).map(o => ({ gx: toGeoX(o.x), gy: toGeoY(o.y), r: Math.max(1, Math.round((o.r || 150) / 16)) }));

@@ -288,6 +288,9 @@ async function partG(SW) {
   { const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'stash_rules.json'), 'utf8')); live.collector = Object.assign({}, live.collector || {}, { name: '' }); fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'stash_rules.json'), JSON.stringify(live)); }
   // ... and the live crafter_rules.json made him the clan crafter (crafter mode = never levels): not in this sandbox
   { const live = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'crafter_rules.json'), 'utf8')); live.crafters = {}; fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'crafter_rules.json'), JSON.stringify(live)); }
+  // ... and the live crafter.json townRole (owner 2026-11-22: Crafter1 stays in Giran = never levels) made the leader stay in town after the restart
+  // (#17 failed with the unchanged swarm.js on 2026-11-25): not in this sandbox either
+  { let live = {}; try { live = JSON.parse(fs.readFileSync(path.join(ROOT, 'Scripts', 'data', 'crafter.json'), 'utf8').replace(/^﻿/, '')) || {}; } catch (e) { } live.townRole = []; fs.writeFileSync(path.join(overlay, 'Scripts', 'data', 'crafter.json'), JSON.stringify(live)); }
   const runner = new Runner({ port, clock, overlay, isolate: ['Logs'], script: SW, allow: ['Crafter1', 'Spoiler1', 'Healer1'], logFile: path.join(tmp, 'runner.log'), root: ROOT.replace(/\//g, '\\'), geopath: true });
   await runner.start(); T1.setCur(runner);
   const world = new World(clock); world.sockets = new Set();

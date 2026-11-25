@@ -41,7 +41,12 @@ check(/async function giranServices[\s\S]{0,2400}pautoOn\('vitality'\)/.test(SRC
 check(/async function giranServices[\s\S]{0,400}lastSupplyAtGet\(\)/.test(SRC), 'services skipped right after a supply run (it did them)');
 check(SRC.includes("khRebuffMode(buffDue && (pautoOn('storeCov') || pautoOn('storeMagnus')), dpDue || bagFull.length > 0) === 'giran'") && /khGiranRebuffTrip\(why, solo\)\) return 'giran'/.test(SRC), 'KEEPHUNT rebuff -> Giran trip when storeCov / DP due');
 check(/rb === 'giran'\) \{ lastPick = 0; autoLvl\.spot = null; continue; \}/.test(SRC), 'after the Giran trip the hunting loop picks its spot again (= travels straight back)');
-check(/else if \(autoLvl\.spot && !autoLvl\.spot\.manual\) \{[\s\S]{0,400}spotDeathsTooMany/.test(SRC), 'deadly-spot skip only for hive-picked spots (your dashboard choice is never skipped)');
+// AUTODEATH-2026-11-25 (owner OK: "Ja, lav rettelsen til Nuker19"): the hive-picked rule is stricter now - 2 deaths within 30 min -> 24 h (was 3 / 1 h -> 6 h)
+check(/if \(sp && !sp\.manual\) \{[\s\S]{0,400}autoSpotDeathsTooMany/.test(SRC), 'deadly-spot skip only for hive-picked spots (your dashboard choice is never skipped)');
+{ const P2 = new Function(cut('// DPCOV-PURE-BEGIN', '// DPCOV-PURE-END') + '\nreturn autoSpotDeathsTooMany;')(), t2 = Date.parse('2026-11-25T10:12:23Z');
+  check(P2([t2 - 9 * 60000, t2], t2) === true, 'AUTODEATH: 2 deaths within 30 min at a hive-picked spot -> too dangerous (Nuker19: 11:03 + 11:12)');
+  check(P2([t2 - 40 * 60000, t2], t2) === false && P2([t2], t2) === false, 'AUTODEATH: one death, or the first older than 30 min -> not yet');
+  check(/autoLvl\.bad\[k\] = until;/.test(SRC) && /until = now\(\) \+ 24 \* 3600000/.test(SRC), 'AUTODEATH: skipped for 24 h'); }
 const PA = path.join(ROOT, 'Scripts', 'data', 'party_auto.json');
 if (fs.existsSync(PA) && fs.existsSync(path.join(ROOT, 'swarm.config.json')) && /flyt/i.test(fs.readFileSync(path.join(ROOT, 'swarm.config.json'), 'utf8'))) {
   const j = JSON.parse(fs.readFileSync(PA, 'utf8').replace(/^﻿/, ''));

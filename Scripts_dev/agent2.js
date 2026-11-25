@@ -241,6 +241,9 @@ const FN = {
   GoToPoint: (x, y, z, ms) => (ms != null ? (z == null ? GoToPoint(x, y, undefined, ms) : GoToPoint(x, y, z, ms)) : z != null ? GoToPoint(x, y, z) : GoToPoint(x, y)),   // #3/#9: a JSON null z = no z
   InvSync: () => { invPush(true); return true; },   // #15: the bag as L2Swarm has it NOW goes out before this call's answer
   GoToNpc: (n) => GoToNpc(n),
+  TransferItems: (target, items) => TransferItems(target, items),   // XFERBRAIN-2026-11-22: host.js local.TransferItems (L2Swarm 3.11.3+)
+  // BOOSTATTR-2026-11-22: one item's attribute values on demand (not in ITEM_FIELDS: 8 more reads per item per report for every character)
+  ItemAttr: (id) => { const it = Inventory.GetItemByObjectID(num(id)); if (!it) return null; const r = { type: String(it.Type || ''), AttackElementVal: num(it.AttackElementVal) }; ['Fire', 'Water', 'Earth', 'Wind', 'Unholy', 'Holy'].forEach(e => { r['DefAtt' + e] = num(it['DefAtt' + e]); }); return r; },
   FindPath: (p) => FindPath(p), Select: (a, r) => (r == null ? Select(a) : Select(a, r)), Login: () => Login(), Logout: () => Logout(),
   Say: (t) => Say(t), Shout: (t) => Shout(t), Tell: (t, to) => Tell(t, to), SayToParty: (t) => SayToParty(t), SayToClan: (t) => SayToClan(t), SayToTrade: (t) => SayToTrade(t), SayToAlly: (t) => SayToAlly(t),
   BuyItem: (id, n) => BuyItem(id, n),
